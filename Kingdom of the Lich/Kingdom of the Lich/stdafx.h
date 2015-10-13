@@ -26,6 +26,7 @@
 #include <vector>
 
 //project headers
+#include "Player.h"
 
 
 #endif

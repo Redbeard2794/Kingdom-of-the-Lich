@@ -24,11 +24,19 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-
+#include <Xinput.h>
+#pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
+
+//handle input for keyboard/controller
+void handleInput()
+{
+
+}
+
 
 int main()
 {
@@ -47,8 +55,6 @@ int main()
 
 	//Player* p = new Player();
 
-
-
 	window.setFramerateLimit(60);
 
 	sf::Sprite startup;
@@ -62,6 +68,23 @@ int main()
 	//icon.loadFromFile("Assets/icon2.png");
 	//window.setIcon(32, 32, icon.getPixelsPtr());
 
+	XINPUT_STATE state;
+	memset(&state, 0, sizeof(XINPUT_STATE));
+	XINPUT_VIBRATION motor;
+	memset(&motor, 0, sizeof(XINPUT_VIBRATION));
+	bool useController;
+
+	std::cout << "Checking for controller." << std::endl;
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		std::cout << "	* Xbox controller connected successfully." << std::endl;
+		useController = true;
+	}
+	else
+	{
+		std::cout << "	* No controller detected." << std::endl;
+		useController = false;
+	}
 
 	// Start game loop 
 	while (window.isOpen())
@@ -77,6 +100,8 @@ int main()
 			// Escape key : exit 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
+
+
 
 
 		}
