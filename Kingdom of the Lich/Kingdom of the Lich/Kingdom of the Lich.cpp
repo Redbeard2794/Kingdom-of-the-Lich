@@ -26,6 +26,7 @@
 
 #include <Xinput.h>
 #pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
+#include <ctime>
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
@@ -80,6 +81,8 @@ int main()
 	memset(&motor, 0, sizeof(XINPUT_VIBRATION));
 	bool useController;
 
+	sf::Image screenShot;
+
 	std::cout << "Checking for controller." << std::endl;
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
@@ -108,7 +111,19 @@ int main()
 				window.close();
 
 
-
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
+			{
+				screenShot = window.capture();
+				//time_t t = time(0);   // get time now
+				//struct tm * now = localtime(&t);
+				//int year = now->tm_year;
+				//int month = now->tm_mon;
+				//int day = now->tm_mday;
+				//int hour = now->tm_hour;
+				//int minute = now->tm_min;
+				//sf::String dateInfo = year + "-" + month+day+hour+minute;
+				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
+			}
 
 		}
 
