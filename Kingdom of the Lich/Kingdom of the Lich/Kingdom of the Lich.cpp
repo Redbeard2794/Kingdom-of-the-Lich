@@ -32,7 +32,7 @@
 //////////////////////////////////////////////////////////// 
 
 //handle input for keyboard/controller
-void handleInput()
+void handleInput(bool controller)
 {
 
 }
@@ -57,6 +57,7 @@ int main()
 
 	window.setFramerateLimit(60);
 
+	//text by cooltext.com
 	sf::Sprite startup;
 	sf::Texture startupTexture;
 	startupTexture.loadFromFile("Assets/startScreenIcon.png");
@@ -64,9 +65,14 @@ int main()
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
 
-	//sf::Image icon;
-	//icon.loadFromFile("Assets/icon2.png");
-	//window.setIcon(32, 32, icon.getPixelsPtr());
+	//potions by http://opengameart.org/users/clint-bellanger
+
+	//use gems as currency?
+
+	//icon by http://opengameart.org/users/cron
+	sf::Image icon;
+	icon.loadFromFile("Assets/Icons/goldskull.png");
+	window.setIcon(32, 32, icon.getPixelsPtr());
 
 	XINPUT_STATE state;
 	memset(&state, 0, sizeof(XINPUT_STATE));
