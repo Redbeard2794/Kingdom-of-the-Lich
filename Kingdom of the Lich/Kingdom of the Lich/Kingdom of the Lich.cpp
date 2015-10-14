@@ -56,7 +56,8 @@ int main()
 	sf::Font font;
 	font.loadFromFile("C:\\Windows\\Fonts\\GARA.TTF");
 
-	Player* p = new Player();
+	//these will be chosen in the menus so the player will actually be created later 
+	Player* p = new Player("Elf", "Male", "Archer");
 
 	window.setFramerateLimit(60);
 

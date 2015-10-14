@@ -15,8 +15,13 @@ private:
 
 	sf::Vector2f direction;
 
+	//character info
+	sf::String race;
+	sf::String gender;
+	sf::String playerClass;
+
 public:
-	Player();
+	Player(sf::String r, sf::String g, sf::String c);
 	~Player();
 
 	void Update();
