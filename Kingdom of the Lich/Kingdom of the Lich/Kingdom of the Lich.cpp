@@ -46,6 +46,12 @@ int main()
 	//Set it to be size of window
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
+	//minimap
+	unsigned int size = 100;
+	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
+	minimap.setViewport(sf::FloatRect(1.f - (1.f*minimap.getSize().x) / window.getSize().x - 0.02f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.02f, (1.f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / window.getSize().y));
+	minimap.zoom(4.f);
+
 	//load a font
 	sf::Font font;
 	font.loadFromFile("C:\\Windows\\Fonts\\GARA.TTF");
@@ -67,6 +73,12 @@ int main()
 	tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
 	tempBground.setTexture(tempBgroundTexture);
 	tempBground.setPosition(sf::Vector2f(0, 0));
+
+	sf::Sprite tempBground2;
+	sf::Texture tempBgroundTexture2;
+	tempBgroundTexture2.loadFromFile("Assets/minmap.png");
+	tempBground2.setTexture(tempBgroundTexture2);
+	tempBground2.setPosition(sf::Vector2f(0, 0));
 
 	//potions by http://opengameart.org/users/clint-bellanger
 
@@ -209,12 +221,16 @@ int main()
 				{
 					p->Move(sf::Vector2f(1, 0));
 				}
-
-
-
-				window.draw(tempBground);
-				p->draw(*pWindow);
 			}
+
+			window.draw(tempBground);
+			p->draw(*pWindow);
+
+			//drawing the minimap
+			window.setView(minimap);
+			minimap.setCenter(p->getPosition());
+			window.draw(tempBground2);
+			p->draw(*pWindow);
 			break;
 
 		case CREDITS:
