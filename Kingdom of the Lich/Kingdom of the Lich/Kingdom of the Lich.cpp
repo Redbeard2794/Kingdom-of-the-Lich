@@ -32,12 +32,6 @@
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
 
-//handle input for keyboard/controller
-void handleInput(bool controller)
-{
-
-}
-
 
 int main()
 {
@@ -54,7 +48,7 @@ int main()
 	sf::Font font;
 	font.loadFromFile("C:\\Windows\\Fonts\\GARA.TTF");
 
-	//Player* p = new Player();
+	Player* p = new Player();
 
 	window.setFramerateLimit(60);
 
@@ -91,7 +85,7 @@ int main()
 	}
 	else
 	{
-		std::cout << "	* No controller detected." << std::endl;
+		std::cout << "	* No controller detected. You will need to use your keyboard to play." << std::endl;
 		useController = false;
 	}
 
@@ -111,18 +105,57 @@ int main()
 				window.close();
 
 
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
+			if (useController == true)//use controller
 			{
-				screenShot = window.capture();
-				//time_t t = time(0);   // get time now
-				//struct tm * now = localtime(&t);
-				//int year = now->tm_year;
-				//int month = now->tm_mon;
-				//int day = now->tm_mday;
-				//int hour = now->tm_hour;
-				//int minute = now->tm_min;
-				//sf::String dateInfo = year + "-" + month+day+hour+minute;
-				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
+				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+				{
+					p->Move(sf::Vector2f(0, -1));
+				}
+				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+				{
+					p->Move(sf::Vector2f(0, 1));
+				}
+				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+				{
+					p->Move(sf::Vector2f(-1, 0));
+				}
+				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+				{
+					p->Move(sf::Vector2f(1, 0));
+				}
+			}
+			else//use keyboard
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
+				{
+					p->Move(sf::Vector2f(0, -1));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
+				{
+					p->Move(sf::Vector2f(0, 1));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
+				{
+					p->Move(sf::Vector2f(-1, 0));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
+				{
+					p->Move(sf::Vector2f(1, 0));
+				}
+
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))//up
+				{
+					screenShot = window.capture();
+					//time_t t = time(0);   // get time now
+					//struct tm * now = localtime(&t);
+					//int year = now->tm_year;
+					//int month = now->tm_mon;
+					//int day = now->tm_mday;
+					//int hour = now->tm_hour;
+					//int minute = now->tm_min;
+					//sf::String dateInfo = year + "-" + month+day+hour+minute;
+					screenShot.saveToFile("Assets/ScreenShots/testImg.png");
+				}
 			}
 
 		}
@@ -130,16 +163,16 @@ int main()
 		
 
 		//update sf::View center position
-		//player_view.setCenter(p->getPosition());
+		player_view.setCenter(p->getPosition());
 
 		//set view of window to be player_view
-		//window.setView(player_view);
+		window.setView(player_view);
 
 
 		//prepare frame
 		window.clear();
 		//draw frame items
-		//p->draw(*pWindow);
+		p->draw(*pWindow);
 		window.draw(startup);
 
 								 // Finally, display rendered frame on screen 

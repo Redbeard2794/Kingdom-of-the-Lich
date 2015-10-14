@@ -23,7 +23,7 @@ public:
 
 	//void boundary();
 
-	void Move();
+	void Move(sf::Vector2f direction);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 	void Player::draw(sf::RenderTarget& window);
