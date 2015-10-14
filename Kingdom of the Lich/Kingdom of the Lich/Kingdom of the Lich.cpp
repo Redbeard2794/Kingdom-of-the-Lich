@@ -89,6 +89,17 @@ int main()
 		useController = false;
 	}
 
+	enum GameState
+	{
+		SPLASH,
+		MAINMENU,
+		CHOOSERACEGENDER,
+		CHOOSECLASS,
+		GAME
+	};
+	int gState = SPLASH;
+	std::cout << "Current game state: " << gState << std::endl;
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -105,6 +116,21 @@ int main()
 				window.close();
 
 
+
+
+		}
+
+		if (gState == SPLASH)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
+			{
+				gState = GAME;
+				std::cout << "Current game state: " << gState << std::endl;
+			}
+		}
+
+		else if (gState == GAME)
+		{
 			if (useController == true)//use controller
 			{
 				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
@@ -157,9 +183,7 @@ int main()
 					screenShot.saveToFile("Assets/ScreenShots/testImg.png");
 				}
 			}
-
 		}
-
 		
 
 		//update sf::View center position
