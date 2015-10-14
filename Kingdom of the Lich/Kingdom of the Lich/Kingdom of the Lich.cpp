@@ -26,6 +26,8 @@
 
 #include <Xinput.h>
 #pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
+
+
 #include <ctime>
 
 ////////////////////////////////////////////////////////////
@@ -59,6 +61,12 @@ int main()
 	startup.setTexture(startupTexture);
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
+
+	sf::Sprite tempBground;
+	sf::Texture tempBgroundTexture;
+	tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
+	tempBground.setTexture(tempBgroundTexture);
+	tempBground.setPosition(sf::Vector2f(0, 0));
 
 	//potions by http://opengameart.org/users/clint-bellanger
 
@@ -95,7 +103,8 @@ int main()
 		MAINMENU,
 		CHOOSERACEGENDER,
 		CHOOSECLASS,
-		GAME
+		GAME,
+		CREDITS
 	};
 	int gState = SPLASH;
 	std::cout << "Current game state: " << gState << std::endl;
@@ -115,22 +124,54 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
 
-
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
+			{
+				screenShot = window.capture();
+				//time_t t = time(0);   // get time now
+				//struct tm * now = localtime(&t);
+				//int year = now->tm_year;
+				//int month = now->tm_mon;
+				//int day = now->tm_mday;
+				//int hour = now->tm_hour;
+				//int minute = now->tm_min;
+				//sf::String dateInfo = year + "-" + month+day+hour+minute;
+				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
+			}
 
 
 		}
 
-		if (gState == SPLASH)
+		window.clear();
+		switch (gState)
 		{
+		case SPLASH:
+			window.draw(startup);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 			{
 				gState = GAME;
 				std::cout << "Current game state: " << gState << std::endl;
 			}
-		}
+			break;
 
-		else if (gState == GAME)
-		{
+		case MAINMENU:
+
+			break;
+
+		case CHOOSERACEGENDER:
+
+			break;
+
+		case CHOOSECLASS:
+
+			break;
+
+		case GAME:
+			//update sf::View center position
+			player_view.setCenter(p->getPosition());
+
+			//set view of window to be player_view
+			window.setView(player_view);
+
 			if (useController == true)//use controller
 			{
 				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
@@ -169,37 +210,24 @@ int main()
 					p->Move(sf::Vector2f(1, 0));
 				}
 
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))//up
-				{
-					screenShot = window.capture();
-					//time_t t = time(0);   // get time now
-					//struct tm * now = localtime(&t);
-					//int year = now->tm_year;
-					//int month = now->tm_mon;
-					//int day = now->tm_mday;
-					//int hour = now->tm_hour;
-					//int minute = now->tm_min;
-					//sf::String dateInfo = year + "-" + month+day+hour+minute;
-					screenShot.saveToFile("Assets/ScreenShots/testImg.png");
-				}
+
+
+				window.draw(tempBground);
+				p->draw(*pWindow);
 			}
+			break;
+
+		case CREDITS:
+
+			break;
 		}
+
+
+	
+
 		
 
-		//update sf::View center position
-		player_view.setCenter(p->getPosition());
-
-		//set view of window to be player_view
-		window.setView(player_view);
-
-
-		//prepare frame
-		window.clear();
-		//draw frame items
-		p->draw(*pWindow);
-		window.draw(startup);
-
-								 // Finally, display rendered frame on screen 
+		 // Finally, display rendered frame on screen 
 		window.display();
 	} //loop back for next frame
 

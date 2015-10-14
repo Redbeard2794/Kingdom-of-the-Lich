@@ -8,7 +8,7 @@ Player::Player()
 	else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
 	mSprite.setTexture(mTexture);
-	setPosition(200, 200);
+	setPosition(400, 400);
 }
 
 Player::~Player()
