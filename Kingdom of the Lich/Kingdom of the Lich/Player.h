@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include "Compass.h"
 
 class Player : public sf::Drawable, public sf::Transformable
 {
@@ -24,6 +25,8 @@ private:
 
 	sf::Sprite hudBackground;
 	sf::Texture hudBackgroundTexture;
+
+	Compass* compass;
 
 public:
 	Player(sf::String r, sf::String g, sf::String c);

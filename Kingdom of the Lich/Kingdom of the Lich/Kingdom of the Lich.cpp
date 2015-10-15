@@ -50,10 +50,10 @@ int main()
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
 	//minimap
-	unsigned int size = 100;//100
+	unsigned int size = 130;//100
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
 	//change the viewport to change the maps size
-	minimap.setViewport(sf::FloatRect(1.f - (1.f*minimap.getSize().x) / window.getSize().x - 0.02f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.02f, (1.f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
+	minimap.setViewport(sf::FloatRect(0.6f - (1.f*minimap.getSize().x) / window.getSize().x - 0.10f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f, (2.0f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
 	minimap.zoom(4.f);
 
 	//load a font
@@ -289,7 +289,7 @@ int main()
 			}
 
 			window.draw(tempBground);
-	
+			p->Update();
 			p->draw(*pWindow);
 
 			//drawing the minimap

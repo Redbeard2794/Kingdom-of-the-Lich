@@ -20,6 +20,8 @@ Player::Player(sf::String r, sf::String g, sf::String c)
 	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");
 	hudBackground.setTexture(hudBackgroundTexture);
 	hudBackground.setPosition(0, 600);
+
+	compass = new Compass();
 }
 
 Player::~Player()
@@ -29,7 +31,8 @@ Player::~Player()
 
 void Player::Update()
 {
-
+	hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
+	compass->UpdateNeedle(getPosition(), sf::Vector2f(100, 100));
 }
 
 void Player::Move(sf::Vector2f direction)
@@ -42,5 +45,6 @@ void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 void Player::draw(sf::RenderTarget& window)
 {
 	window.draw(hudBackground);
+	compass->draw(window);
 	window.draw(mSprite, getTransform());
 }
