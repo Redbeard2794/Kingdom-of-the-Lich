@@ -37,9 +37,9 @@ void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 
 	angle = acos(dirMove.x);// +dirMove.y*(180 / 3.14);//angle is in degrees
 	angle *= (180 / 3.14);
-	//if (getPosition().y < pPos.y)
-	needle.setRotation(angle);
-	//else setRotation(-angle);
+	if ((int)objectivePos.y < (int)playerPos.y)
+		needle.setRotation(angle);
+	else needle.setRotation(-angle);
 }
 
 void Compass::draw(sf::RenderTarget& window, sf::RenderStates state) const {}

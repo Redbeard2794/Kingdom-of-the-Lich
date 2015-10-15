@@ -32,7 +32,7 @@ Player::~Player()
 void Player::Update()
 {
 	hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
-	compass->UpdateNeedle(getPosition(), sf::Vector2f(100, 100));
+	compass->UpdateNeedle(getPosition(), sf::Vector2f(400, 200));
 }
 
 void Player::Move(sf::Vector2f direction)
