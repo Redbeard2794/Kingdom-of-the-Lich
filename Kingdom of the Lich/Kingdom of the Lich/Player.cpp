@@ -15,7 +15,11 @@ Player::Player(sf::String r, sf::String g, sf::String c)
 	playerClass = c;
 
 	std::cout << "Race: " + race.toAnsiString() << ", Gender: " + gender.toAnsiString() << ", Class: " + playerClass.toAnsiString() << std::endl;
+	isRunning = false;
 
+	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");
+	hudBackground.setTexture(hudBackgroundTexture);
+	hudBackground.setPosition(0, 600);
 }
 
 Player::~Player()
@@ -37,5 +41,6 @@ void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 
 void Player::draw(sf::RenderTarget& window)
 {
+	window.draw(hudBackground);
 	window.draw(mSprite, getTransform());
 }

@@ -26,7 +26,9 @@
 #include <vector>
 
 //project headers
+#include "STP/TMXLoader.hpp"
 #include "Player.h"
+#include "Quest.h"
 
 
 #endif

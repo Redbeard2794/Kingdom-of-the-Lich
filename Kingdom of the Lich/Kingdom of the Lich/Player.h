@@ -20,6 +20,11 @@ private:
 	sf::String gender;
 	sf::String playerClass;
 
+	bool isRunning;
+
+	sf::Sprite hudBackground;
+	sf::Texture hudBackgroundTexture;
+
 public:
 	Player(sf::String r, sf::String g, sf::String c);
 	~Player();
@@ -39,10 +44,12 @@ public:
 	sf::Sprite getSprite() { return mSprite; }
 	float getSpeed() { return speed; }
 	float getHealth() { return health; }
+	bool getIsRunning() { return isRunning; }
 	//end gets
 	//start sets
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
 	void setSpeed(float s) { speed = s; }
+	void setIsRunning(bool r) { isRunning = r; }
 	//end sets
 #pragma endregion
 

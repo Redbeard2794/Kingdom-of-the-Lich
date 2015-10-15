@@ -28,6 +28,7 @@
 #pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
 
 
+
 #include <ctime>
 
 ////////////////////////////////////////////////////////////
@@ -37,6 +38,8 @@
 
 int main()
 {
+	//tmx::TileMap map("Assets/Areas/tutorialArea.tmx");
+
 	// Create the main window 
 	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Kingdom of the Lich");
 	sf::RenderWindow *pWindow = &window;
@@ -47,9 +50,10 @@ int main()
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
 	//minimap
-	unsigned int size = 100;
+	unsigned int size = 100;//100
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
-	minimap.setViewport(sf::FloatRect(1.f - (1.f*minimap.getSize().x) / window.getSize().x - 0.02f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.02f, (1.f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / window.getSize().y));
+	//change the viewport to change the maps size
+	minimap.setViewport(sf::FloatRect(1.f - (1.f*minimap.getSize().x) / window.getSize().x - 0.02f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.02f, (1.f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
 	minimap.zoom(4.f);
 
 	//load a font
@@ -80,6 +84,9 @@ int main()
 	tempBgroundTexture2.loadFromFile("Assets/minmap.png");
 	tempBground2.setTexture(tempBgroundTexture2);
 	tempBground2.setPosition(sf::Vector2f(0, 0));
+
+
+
 
 	//potions by http://opengameart.org/users/clint-bellanger
 
@@ -117,6 +124,9 @@ int main()
 		CHOOSERACEGENDER,
 		CHOOSECLASS,
 		GAME,
+		COMBAT,
+		CONVERSATION,
+		INVENTORY,
 		CREDITS
 	};
 	int gState = SPLASH;
@@ -151,7 +161,7 @@ int main()
 				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
 			}
 
-
+			
 		}
 
 		window.clear();
@@ -159,10 +169,26 @@ int main()
 		{
 		case SPLASH:
 			window.draw(startup);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
+
+			if (useController == true)
 			{
-				gState = GAME;
-				std::cout << "Current game state: " << gState << std::endl;
+				if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				{
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+					{
+						gState = GAME;
+						std::cout << "Current game state: " << gState << std::endl;
+					}
+				}
+			}
+
+			else
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
+				{
+					gState = GAME;
+					std::cout << "Current game state: " << gState << std::endl;
+				}
 			}
 			break;
 
@@ -187,44 +213,83 @@ int main()
 
 			if (useController == true)//use controller
 			{
-				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+				if (XInputGetState(0, &state) == ERROR_SUCCESS)
 				{
-					p->Move(sf::Vector2f(0, -1));
-				}
-				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-				{
-					p->Move(sf::Vector2f(0, 1));
-				}
-				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
-				{
-					p->Move(sf::Vector2f(-1, 0));
-				}
-				if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
-				{
-					p->Move(sf::Vector2f(1, 0));
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
+						p->setIsRunning(true);
+					else p->setIsRunning(false);
+
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+					{
+						if (p->getIsRunning() == false)
+							p->Move(sf::Vector2f(0, -1));
+						else if (p->getIsRunning() == true)
+							p->Move(sf::Vector2f(0, -2.5f));
+					}
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+					{
+						if (p->getIsRunning() == false)
+							p->Move(sf::Vector2f(0, 1));
+						else if (p->getIsRunning() == true)
+							p->Move(sf::Vector2f(0, 2.5f));
+					}
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+					{
+						if (p->getIsRunning() == false)
+							p->Move(sf::Vector2f(1, 0));
+						else if (p->getIsRunning() == true)
+							p->Move(sf::Vector2f(2.5f, 0));
+					}
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+					{
+						if (p->getIsRunning() == false)
+							p->Move(sf::Vector2f(-1, 0));
+						else if (p->getIsRunning() == true)
+							p->Move(sf::Vector2f(-2.5f, 0));
+					}
 				}
 			}
 			else//use keyboard
 			{
+				//check if running
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				{
+					p->setIsRunning(true);
+				}
+				else { p->setIsRunning(false); }
+
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
 				{
-					p->Move(sf::Vector2f(0, -1));
+					if(p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, -1));
+					else if (p->getIsRunning() ==true)
+						p->Move(sf::Vector2f(0, -2.5f));
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
 				{
-					p->Move(sf::Vector2f(0, 1));
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, 1));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(0, 2.5f));
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
 				{
-					p->Move(sf::Vector2f(-1, 0));
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(-1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(-2.5f, 0));
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
 				{
-					p->Move(sf::Vector2f(1, 0));
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(2.5f, 0));
 				}
 			}
 
 			window.draw(tempBground);
+	
 			p->draw(*pWindow);
 
 			//drawing the minimap
@@ -232,6 +297,18 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(tempBground2);
 			p->draw(*pWindow);
+			break;
+
+		case COMBAT:
+
+			break;
+
+		case CONVERSATION:
+
+			break;
+
+		case INVENTORY:
+
 			break;
 
 		case CREDITS:
