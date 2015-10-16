@@ -106,6 +106,7 @@ int main()
 	float leftStickYaxis;
 
 	sf::Image screenShot;
+	bool aPressed = false;
 
 	std::cout << "Checking for controller." << std::endl;
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
@@ -224,54 +225,16 @@ int main()
 					//for thumbsticks
 					leftStickXaxis = state.Gamepad.sThumbLX;
 					leftStickYaxis = state.Gamepad.sThumbLY;
-					//std::cout << leftStickXaxis << std::endl;
+
 					//determine how far the controller is pushed
 					float magnitude = sqrt(leftStickXaxis*leftStickXaxis + leftStickYaxis*leftStickYaxis);
 
 					//determine the direction the controller is pushed
 					float normalizedLX = leftStickXaxis / magnitude;
 					float normalizedLY = leftStickYaxis / magnitude;
-
-
 					float normalizedMagnitude = 0;
 
-					//check if the controller is outside a circular dead zone
-					if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
-					{
-						//clip the magnitude at its expected maximum value
-						if (magnitude > 32767) magnitude = 32767;
-
-						//adjust magnitude relative to the end of the dead zone
-						magnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
-
-						//optionally normalize the magnitude with respect to its expected range
-						//giving a magnitude value of 0.0 to 1.0
-						normalizedMagnitude = magnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-
-						//std::cout << normalizedLX << std::endl;
-						//std::cout << normalizedLY << std::endl;
-
-						if (normalizedLX > 0.9f)
-						{
-							p->Move(sf::Vector2f(1, 0));
-						}
-						else if (normalizedLX < -0.9f)
-						{
-							p->Move(sf::Vector2f(-1, 0));
-						}
-						if (normalizedLY > 0.9f)
-						{
-							p->Move(sf::Vector2f(0, -1));
-						}
-						else if (normalizedLY < -0.9f)
-						{
-							p->Move(sf::Vector2f(0, 1));
-						}
-
-						//std::cout << normalizedMagnitude << std::endl;
-					}
-
-
+					//D-pad
 					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
 						p->setIsRunning(true);
 					else p->setIsRunning(false);
@@ -303,6 +266,59 @@ int main()
 							p->Move(sf::Vector2f(-1, 0));
 						else if (p->getIsRunning() == true)
 							p->Move(sf::Vector2f(-2.5f, 0));
+					}
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+					{
+						if (aPressed == false)
+						{
+							// Button A is pressed
+							std::cout << "A button pressed" << std::endl;
+							aPressed = true;
+						}
+					}
+					else aPressed = false;
+					//thumbsticks
+					//check if the controller is outside a circular dead zone
+					if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+					{
+						//clip the magnitude at its expected maximum value
+						if (magnitude > 32767) magnitude = 32767;
+
+						//adjust magnitude relative to the end of the dead zone
+						magnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+
+						//optionally normalize the magnitude with respect to its expected range
+						//giving a magnitude value of 0.0 to 1.0
+						normalizedMagnitude = magnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+
+						if (normalizedLX > 0.9f)
+						{
+							if (p->getIsRunning() == false)
+								p->Move(sf::Vector2f(1, 0));
+							else if (p->getIsRunning() == true)
+								p->Move(sf::Vector2f(2.5f, 0));
+						}
+						else if (normalizedLX < -0.9f)
+						{
+							if (p->getIsRunning() == false)
+								p->Move(sf::Vector2f(-1, 0));
+							else if (p->getIsRunning() == true)
+								p->Move(sf::Vector2f(-2.5f, 0));
+						}
+						if (normalizedLY > 0.9f)
+						{
+							if (p->getIsRunning() == false)
+								p->Move(sf::Vector2f(0, -1));
+							else if (p->getIsRunning() == true)
+								p->Move(sf::Vector2f(0, -2.5f));
+						}
+						else if (normalizedLY < -0.9f)
+						{
+							if (p->getIsRunning() == false)
+								p->Move(sf::Vector2f(0, 1));
+							else if (p->getIsRunning() == true)
+								p->Move(sf::Vector2f(0, 2.5f));
+						}
 					}
 				}
 			}
