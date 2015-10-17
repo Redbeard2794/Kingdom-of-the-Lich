@@ -107,6 +107,8 @@ int main()
 
 	sf::Image screenShot;
 	bool aPressed = false;
+	bool upPressed = false;
+	bool downPressed = false;
 
 	std::cout << "Checking for controller." << std::endl;
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
@@ -202,7 +204,64 @@ int main()
 
 		case MAINMENU:
 			mainMenu->Draw(window);
-			mainMenu->CheckMouse(sf::Mouse::getPosition(window));
+			if (useController == false)
+			{
+				mainMenu->CheckMouse(sf::Mouse::getPosition(window));
+				if (mainMenu->getSelectedOption() == 0)
+					gState = GAME;
+				else if (mainMenu->getSelectedOption() == 1)
+					std::cout << "Continue game not available yet" << std::endl;
+				else if (mainMenu->getSelectedOption() == 2)
+					std::cout << "Options not available yet" << std::endl;
+				else if (mainMenu->getSelectedOption() == 3)
+					gState = CREDITS;
+				else if (mainMenu->getSelectedOption() == 4)
+					window.close();
+			}
+			else if (useController == true)
+			{
+				if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				{
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+					{
+						if (upPressed == false)
+						{
+							mainMenu->MoveUp();
+							upPressed = true;
+						}
+					}
+					else upPressed = false;
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+					{
+						if (downPressed == false)
+						{
+							mainMenu->MoveDown();
+							downPressed = true;
+						}
+					}
+					else downPressed = false;
+
+					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+					{
+						if (aPressed == false)
+						{
+							// Button A is pressed
+							if (mainMenu->getSelectedOption() == 0)
+								gState = GAME;
+							else if (mainMenu->getSelectedOption() == 1)
+								std::cout << "Continue game not available yet" << std::endl;
+							else if (mainMenu->getSelectedOption() == 2)
+								std::cout << "Options not available yet" << std::endl;
+							else if (mainMenu->getSelectedOption() == 3)
+								gState = CREDITS;
+							else if (mainMenu->getSelectedOption() == 4)
+								window.close();
+							aPressed = true;
+						}
+					}
+					else aPressed = false;
+				}
+			}
 			break;
 
 		case CHOOSERACEGENDER:

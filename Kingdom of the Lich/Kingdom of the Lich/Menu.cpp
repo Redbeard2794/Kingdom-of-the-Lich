@@ -39,6 +39,9 @@ Menu::Menu(sf::Font f):font(f)
 	menuItems[4].setCharacterSize(50);
 	menuItems[4].setPosition(sf::Vector2f(350, 525));
 
+	currentSelectedOption = 0;
+	selectedOption = -1;
+
 }
 
 Menu::~Menu()
@@ -46,14 +49,30 @@ Menu::~Menu()
 
 }
 
-void Menu::MoveUp()
+void Menu::MoveDown()//for when the player is using a controller
 {
+	if (selectedOption == 4)
+		selectedOption = 0;
+	else selectedOption += 1;
 
+	for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+	{
+		menuItems[i].setColor(sf::Color::White);
+	}
+	menuItems[selectedOption].setColor(sf::Color::Blue);
 }
 
-void Menu::MoveDown()
+void Menu::MoveUp()//for when the player is using a controller
 {
+	if (selectedOption == 0)
+		selectedOption = 4;
+	else selectedOption -= 1;
 
+	for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+	{
+		menuItems[i].setColor(sf::Color::White);
+	}
+	menuItems[selectedOption].setColor(sf::Color::Blue);
 }
 
 void Menu::CheckMouse(sf::Vector2i mousePos)
@@ -63,6 +82,10 @@ void Menu::CheckMouse(sf::Vector2i mousePos)
 		if (menuItems[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x,mousePos.y)))
 		{
 			menuItems[i].setColor(sf::Color::Blue);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+			{
+				selectedOption = i;
+			}
 		}
 		else menuItems[i].setColor(sf::Color::White);
 	}
