@@ -30,6 +30,7 @@
 #include "Player.h"
 #include "Quest.h"
 #include "Compass.h"
+#include "Menu.h"
 
 
 #endif

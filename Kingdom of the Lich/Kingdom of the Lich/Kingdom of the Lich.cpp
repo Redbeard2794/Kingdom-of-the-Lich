@@ -58,7 +58,7 @@ int main()
 
 	//load a font
 	sf::Font font;
-	font.loadFromFile("C:\\Windows\\Fonts\\GARA.TTF");
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
 	//these will be chosen in the menus so the player will actually be created later 
 	Player* p = new Player("Elf", "Male", "Archer");
@@ -135,6 +135,7 @@ int main()
 	};
 	int gState = SPLASH;
 	std::cout << "Current game state: " << gState << std::endl;
+	Menu *mainMenu = new Menu(font);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -182,7 +183,7 @@ int main()
 					{
 						motor.wLeftMotorSpeed = 1000;
 						motor.wRightMotorSpeed = 1000;
-						gState = GAME;
+						gState = MAINMENU;
 						std::cout << "Current game state: " << gState << std::endl;
 						XInputSetState(0, &motor);
 					}
@@ -193,14 +194,15 @@ int main()
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 				{
-					gState = GAME;
+					gState = MAINMENU;
 					std::cout << "Current game state: " << gState << std::endl;
 				}
 			}
 			break;
 
 		case MAINMENU:
-
+			mainMenu->Draw(window);
+			mainMenu->CheckMouse(sf::Mouse::getPosition(window));
 			break;
 
 		case CHOOSERACEGENDER:
