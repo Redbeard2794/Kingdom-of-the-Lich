@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player(sf::String r, sf::String g, sf::String c)
+Player::Player()
 {
 	//load the correct texture or load the debug texture if something is wrong
 	if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
@@ -10,11 +10,6 @@ Player::Player(sf::String r, sf::String g, sf::String c)
 	mSprite.setTexture(mTexture);
 	setPosition(400, 400);
 
-	race = r;
-	gender = g;
-	playerClass = c;
-
-	std::cout << "Race: " + race.toAnsiString() << ", Gender: " + gender.toAnsiString() << ", Class: " + playerClass.toAnsiString() << std::endl;
 	isRunning = false;
 
 	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");

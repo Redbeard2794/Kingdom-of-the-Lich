@@ -17,9 +17,9 @@ private:
 	sf::Vector2f direction;
 
 	//character info
-	sf::String race;
-	sf::String gender;
-	sf::String playerClass;
+	int race;
+	int gender;
+	int playerClass;
 
 	bool isRunning;
 
@@ -27,9 +27,29 @@ private:
 	sf::Texture hudBackgroundTexture;
 
 	Compass* compass;
+	enum Race
+	{
+		HUMAN,
+		ELF,
+		BEASTMAN
+	};
+
+	enum Gender
+	{
+		MALE,
+		FEMALE
+	};
+
+	enum Class
+	{
+		ARCHER,
+		KNIGHT,
+		SPELLBLADE
+	};
+
 
 public:
-	Player(sf::String r, sf::String g, sf::String c);
+	Player();
 	~Player();
 
 	void Update();
@@ -48,11 +68,21 @@ public:
 	float getSpeed() { return speed; }
 	float getHealth() { return health; }
 	bool getIsRunning() { return isRunning; }
+
+	int getRace() { return race; }
+	int getGender() { return gender; }
+	int getClass() { return playerClass; }
+
 	//end gets
 	//start sets
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
 	void setSpeed(float s) { speed = s; }
 	void setIsRunning(bool r) { isRunning = r; }
+
+	void setRace(int r) { race = r; }
+	void setGender(int g) { gender = g; }
+	void setClass(int c) { playerClass = c; }
+
 	//end sets
 #pragma endregion
 

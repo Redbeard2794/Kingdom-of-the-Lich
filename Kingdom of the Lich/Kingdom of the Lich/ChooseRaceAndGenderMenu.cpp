@@ -58,12 +58,46 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f):font(f)
 	races[BEASTMAN].setColor(sf::Color::Black);
 	races[BEASTMAN].setPosition(sf::Vector2f(550, SCREENHEIGHT / 4));
 
+	//text for classes
+	classes[ARCHER].setFont(font);
+	classes[ARCHER].setString("Archer");
+	classes[ARCHER].setColor(sf::Color::Black);
+	classes[ARCHER].setPosition(sf::Vector2f(SCREENWIDTH / 5, SCREENHEIGHT / 4));
+
+	classes[KNIGHT].setFont(font);
+	classes[KNIGHT].setString("Knight");
+	classes[KNIGHT].setColor(sf::Color::Black);
+	classes[KNIGHT].setPosition(sf::Vector2f(SCREENWIDTH / 2, SCREENHEIGHT / 4));
+
+	classes[SPELLBLADE].setFont(font);
+	classes[SPELLBLADE].setString("Spellblade");
+	classes[SPELLBLADE].setColor(sf::Color::Black);
+	classes[SPELLBLADE].setPosition(sf::Vector2f(550, SCREENHEIGHT / 4));
+
 	mouseClicked = false;
+
+	currentState = CHOOSERACEGENDER;
 }
 
 ChooseRaceAndGenderMenu::~ChooseRaceAndGenderMenu()
 {
 
+}
+
+void ChooseRaceAndGenderMenu::Update(sf::Vector2i mousePos)
+{
+	switch (currentState)
+	{
+	case CHOOSERACEGENDER://player is selecting their race and gender
+		CheckMouseAgainstRaces(mousePos);
+		CheckMouseAgainstGenders(mousePos);
+		break;
+
+	case CHOOSECLASS://player is selecting their class
+		ChooseRace.setString("Choose your class.");
+		CheckMouseAgainstClasses(mousePos);
+		break;
+	}
 }
 
 void ChooseRaceAndGenderMenu::CheckMouseAgainstRaces(sf::Vector2i mousePos)
@@ -113,16 +147,48 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 		mouseClicked = false;
 }
 
+void ChooseRaceAndGenderMenu::CheckMouseAgainstClasses(sf::Vector2i mousePos)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (classes[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
+		{
+			classes[i].setColor(sf::Color::Blue);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && mouseClicked == false)
+			{
+				currentlySelectedClass = i;
+				mouseClicked = true;
+			}
+		}
+		else classes[i].setColor(sf::Color::Black);
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false)
+		mouseClicked = false;
+}
+
 void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 {
 	window.draw(table);
 	window.draw(parchment);
-	window.draw(ChooseRace);
-	window.draw(ChooseGender);
-	window.draw(maleButton);
-	window.draw(femaleButton);
-	for (int i = 0; i < 3; i++)
+	switch (currentState)
 	{
-		window.draw(races[i]);
+	case CHOOSERACEGENDER:
+		window.draw(ChooseRace);
+		window.draw(ChooseGender);
+		window.draw(maleButton);
+		window.draw(femaleButton);
+		for (int i = 0; i < 3; i++)
+		{
+			window.draw(races[i]);
+		}
+		break;
+
+	case CHOOSECLASS:
+		window.draw(ChooseRace);
+		for (int i = 0; i < 3; i++)
+		{
+			window.draw(classes[i]);
+		}
+		break;
 	}
 }

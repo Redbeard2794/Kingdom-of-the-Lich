@@ -61,7 +61,7 @@ int main()
 	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
 	//these will be chosen in the menus so the player will actually be created later 
-	Player* p = new Player("Elf", "Male", "Archer");
+	Player* p = new Player();
 
 	window.setFramerateLimit(60);
 
@@ -267,11 +267,19 @@ int main()
 
 		case CHOOSERACEGENDER:
 			raceAndGenderMenu->Draw(window);
-			raceAndGenderMenu->CheckMouseAgainstRaces(sf::Mouse::getPosition(window));
-			raceAndGenderMenu->CheckMouseAgainstGenders(sf::Mouse::getPosition(window));
+			raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 			{
-
+				if (raceAndGenderMenu->getCurrentState() == 0)
+					raceAndGenderMenu->setCurrentState(1);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			{
+				p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+				p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+				p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+				std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+				gState = GAME;
 			}
 			break;
 
