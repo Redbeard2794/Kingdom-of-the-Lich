@@ -31,6 +31,7 @@
 #include "Quest.h"
 #include "Compass.h"
 #include "Menu.h"
+#include "ChooseRaceAndGenderMenu.h"
 
 
 #endif

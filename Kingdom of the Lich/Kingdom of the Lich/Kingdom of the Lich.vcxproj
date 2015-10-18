@@ -149,6 +149,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -138,6 +138,7 @@ int main()
 	int gState = SPLASH;
 	std::cout << "Current game state: " << gState << std::endl;
 	Menu *mainMenu = new Menu(font);
+	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -207,15 +208,15 @@ int main()
 			if (useController == false)
 			{
 				mainMenu->CheckMouse(sf::Mouse::getPosition(window));
-				if (mainMenu->getSelectedOption() == 0)
-					gState = GAME;
-				else if (mainMenu->getSelectedOption() == 1)
+				if (mainMenu->getSelectedOption() == 0)//new game
+					gState = CHOOSERACEGENDER;
+				else if (mainMenu->getSelectedOption() == 1)//continue game
 					std::cout << "Continue game not available yet" << std::endl;
-				else if (mainMenu->getSelectedOption() == 2)
+				else if (mainMenu->getSelectedOption() == 2)//options
 					std::cout << "Options not available yet" << std::endl;
-				else if (mainMenu->getSelectedOption() == 3)
+				else if (mainMenu->getSelectedOption() == 3)//credits
 					gState = CREDITS;
-				else if (mainMenu->getSelectedOption() == 4)
+				else if (mainMenu->getSelectedOption() == 4)//quit
 					window.close();
 			}
 			else if (useController == true)
@@ -246,15 +247,15 @@ int main()
 						if (aPressed == false)
 						{
 							// Button A is pressed
-							if (mainMenu->getSelectedOption() == 0)
-								gState = GAME;
-							else if (mainMenu->getSelectedOption() == 1)
+							if (mainMenu->getSelectedOption() == 0)//new game
+								gState = CHOOSERACEGENDER;
+							else if (mainMenu->getSelectedOption() == 1)//continue game
 								std::cout << "Continue game not available yet" << std::endl;
-							else if (mainMenu->getSelectedOption() == 2)
+							else if (mainMenu->getSelectedOption() == 2)//options
 								std::cout << "Options not available yet" << std::endl;
-							else if (mainMenu->getSelectedOption() == 3)
+							else if (mainMenu->getSelectedOption() == 3)//credits
 								gState = CREDITS;
-							else if (mainMenu->getSelectedOption() == 4)
+							else if (mainMenu->getSelectedOption() == 4)//quit
 								window.close();
 							aPressed = true;
 						}
@@ -265,7 +266,13 @@ int main()
 			break;
 
 		case CHOOSERACEGENDER:
+			raceAndGenderMenu->Draw(window);
+			raceAndGenderMenu->CheckMouseAgainstRaces(sf::Mouse::getPosition(window));
+			raceAndGenderMenu->CheckMouseAgainstGenders(sf::Mouse::getPosition(window));
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+			{
 
+			}
 			break;
 
 		case CHOOSECLASS:
