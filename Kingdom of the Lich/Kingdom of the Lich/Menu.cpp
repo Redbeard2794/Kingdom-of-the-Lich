@@ -41,7 +41,7 @@ Menu::Menu(sf::Font f):font(f)
 
 	currentSelectedOption = 0;
 	selectedOption = -1;
-
+	canMove = true;
 }
 
 Menu::~Menu()
@@ -51,28 +51,34 @@ Menu::~Menu()
 
 void Menu::MoveDown()//for when the player is using a controller
 {
-	if (selectedOption == 4)
-		selectedOption = 0;
-	else selectedOption += 1;
-
-	for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+	if (canMove == true)
 	{
-		menuItems[i].setColor(sf::Color::White);
+		if (selectedOption == 4)
+			selectedOption = 0;
+		else selectedOption += 1;
+
+		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+		{
+			menuItems[i].setColor(sf::Color::White);
+		}
+		menuItems[selectedOption].setColor(sf::Color::Blue);
 	}
-	menuItems[selectedOption].setColor(sf::Color::Blue);
 }
 
 void Menu::MoveUp()//for when the player is using a controller
 {
-	if (selectedOption == 0)
-		selectedOption = 4;
-	else selectedOption -= 1;
-
-	for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+	if (canMove == true)
 	{
-		menuItems[i].setColor(sf::Color::White);
+		if (selectedOption == 0)
+			selectedOption = 4;
+		else selectedOption -= 1;
+
+		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+		{
+			menuItems[i].setColor(sf::Color::White);
+		}
+		menuItems[selectedOption].setColor(sf::Color::Blue);
 	}
-	menuItems[selectedOption].setColor(sf::Color::Blue);
 }
 
 void Menu::CheckMouse(sf::Vector2i mousePos)

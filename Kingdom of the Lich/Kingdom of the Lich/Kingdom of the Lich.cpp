@@ -24,8 +24,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include <Xinput.h>
-#pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
+//#include <Xinput.h>
+//#pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
 
 
 
@@ -97,31 +97,31 @@ int main()
 	icon.loadFromFile("Assets/Icons/goldskull.png");
 	window.setIcon(32, 32, icon.getPixelsPtr());
 
-	XINPUT_STATE state;
-	memset(&state, 0, sizeof(XINPUT_STATE));
-	XINPUT_VIBRATION motor;
-	memset(&motor, 0, sizeof(XINPUT_VIBRATION));
-	bool useController;
+	//XINPUT_STATE state;
+	//memset(&state, 0, sizeof(XINPUT_STATE));
+	//XINPUT_VIBRATION motor;
+	//memset(&motor, 0, sizeof(XINPUT_VIBRATION));
+	bool useController = false;
 	float leftStickXaxis;
 	float leftStickYaxis;
 
 	sf::Image screenShot;
-	bool aPressed = false;
-	bool upPressed = false;
-	bool downPressed = false;
+	//bool aPressed = false;
+	//bool upPressed = false;
+	//bool downPressed = false;
 
-	std::cout << "Checking for controller." << std::endl;
-	if (XInputGetState(0, &state) == ERROR_SUCCESS)
-	{
-		std::cout << "	* Xbox controller connected successfully." << std::endl;
-		useController = true;
-	}
-	else
-	{
-		std::cout << "	* No controller detected. You will need to use your keyboard to play." << std::endl;
-		useController = false;
-		window.setMouseCursorVisible(true);
-	}
+	//std::cout << "Checking for controller." << std::endl;
+	//if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	//{
+	//	std::cout << "	* Xbox controller connected successfully." << std::endl;
+	//	useController = true;
+	//}
+	//else
+	//{
+	//	std::cout << "	* No controller detected. You will need to use your keyboard to play." << std::endl;
+	//	useController = false;
+	//	window.setMouseCursorVisible(true);
+	//}
 
 	enum GameState
 	{
@@ -139,6 +139,9 @@ int main()
 	std::cout << "Current game state: " << gState << std::endl;
 	Menu *mainMenu = new Menu(font);
 	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font);
+	Gamepad* gamepad = new Gamepad();
+	useController = gamepad->CheckControllerConnection();
+
 
 	// Start game loop 
 	while (window.isOpen())
@@ -177,19 +180,14 @@ int main()
 		{
 		case SPLASH:
 			window.draw(startup);
+			gamepad->CheckAllButtons();
 
 			if (useController == true)
 			{
-				if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				if (gamepad->A() == true)
 				{
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-					{
-						motor.wLeftMotorSpeed = 1000;
-						motor.wRightMotorSpeed = 1000;
-						gState = MAINMENU;
-						std::cout << "Current game state: " << gState << std::endl;
-						XInputSetState(0, &motor);
-					}
+					gState = MAINMENU;
+					gamepad->Rumble(800, 0);
 				}
 			}
 
@@ -221,47 +219,73 @@ int main()
 			}
 			else if (useController == true)
 			{
-				if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				gamepad->CheckAllButtons();
+				//if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				//{
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+				//	{
+				//		if (upPressed == false)
+				//		{
+				//			mainMenu->MoveUp();
+				//			upPressed = true;
+				//		}
+				//	}
+				//	else upPressed = false;
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+				//	{
+				//		if (downPressed == false)
+				//		{
+				//			mainMenu->MoveDown();
+				//			downPressed = true;
+				//		}
+				//	}
+				//	else downPressed = false;
+				if (gamepad->DpadUp() == true && mainMenu->getCanMove() == true)
 				{
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
-					{
-						if (upPressed == false)
-						{
-							mainMenu->MoveUp();
-							upPressed = true;
-						}
-					}
-					else upPressed = false;
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-					{
-						if (downPressed == false)
-						{
-							mainMenu->MoveDown();
-							downPressed = true;
-						}
-					}
-					else downPressed = false;
-
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-					{
-						if (aPressed == false)
-						{
-							// Button A is pressed
-							if (mainMenu->getSelectedOption() == 0)//new game
-								gState = CHOOSERACEGENDER;
-							else if (mainMenu->getSelectedOption() == 1)//continue game
-								std::cout << "Continue game not available yet" << std::endl;
-							else if (mainMenu->getSelectedOption() == 2)//options
-								std::cout << "Options not available yet" << std::endl;
-							else if (mainMenu->getSelectedOption() == 3)//credits
-								gState = CREDITS;
-							else if (mainMenu->getSelectedOption() == 4)//quit
-								window.close();
-							aPressed = true;
-						}
-					}
-					else aPressed = false;
+					mainMenu->MoveUp();
+					mainMenu->setCanMove(false);
 				}
+				else mainMenu->setCanMove(true);
+				if (gamepad->DpadDown() == true && mainMenu->getCanMove() == true)
+				{
+					mainMenu->MoveDown();
+					mainMenu->setCanMove(false);
+				}
+				else mainMenu->setCanMove(true);
+
+				if (gamepad->A() == true)
+				{
+					if (mainMenu->getSelectedOption() == 0)//new game
+						gState = CHOOSERACEGENDER;
+					else if (mainMenu->getSelectedOption() == 1)//continue game
+						std::cout << "Continue game not available yet" << std::endl;
+					else if (mainMenu->getSelectedOption() == 2)//options
+						std::cout << "Options not available yet" << std::endl;
+					else if (mainMenu->getSelectedOption() == 3)//credits
+						gState = CREDITS;
+					else if (mainMenu->getSelectedOption() == 4)//quit
+						window.close();
+				}
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+				//	{
+				//		if (aPressed == false)
+				//		{
+				//			// Button A is pressed
+				//			if (mainMenu->getSelectedOption() == 0)//new game
+				//				gState = CHOOSERACEGENDER;
+				//			else if (mainMenu->getSelectedOption() == 1)//continue game
+				//				std::cout << "Continue game not available yet" << std::endl;
+				//			else if (mainMenu->getSelectedOption() == 2)//options
+				//				std::cout << "Options not available yet" << std::endl;
+				//			else if (mainMenu->getSelectedOption() == 3)//credits
+				//				gState = CREDITS;
+				//			else if (mainMenu->getSelectedOption() == 4)//quit
+				//				window.close();
+				//			aPressed = true;
+				//		}
+				//	}
+				//	else aPressed = false;
+				//}
 			}
 			break;
 
@@ -296,107 +320,107 @@ int main()
 
 			if (useController == true)//use controller
 			{
-				if (XInputGetState(0, &state) == ERROR_SUCCESS)
-				{
-					//for thumbsticks
-					leftStickXaxis = state.Gamepad.sThumbLX;
-					leftStickYaxis = state.Gamepad.sThumbLY;
+				//if (XInputGetState(0, &state) == ERROR_SUCCESS)
+				//{
+				//	//for thumbsticks
+				//	leftStickXaxis = state.Gamepad.sThumbLX;
+				//	leftStickYaxis = state.Gamepad.sThumbLY;
 
-					//determine how far the controller is pushed
-					float magnitude = sqrt(leftStickXaxis*leftStickXaxis + leftStickYaxis*leftStickYaxis);
+				//	//determine how far the controller is pushed
+				//	float magnitude = sqrt(leftStickXaxis*leftStickXaxis + leftStickYaxis*leftStickYaxis);
 
-					//determine the direction the controller is pushed
-					float normalizedLX = leftStickXaxis / magnitude;
-					float normalizedLY = leftStickYaxis / magnitude;
-					float normalizedMagnitude = 0;
+				//	//determine the direction the controller is pushed
+				//	float normalizedLX = leftStickXaxis / magnitude;
+				//	float normalizedLY = leftStickYaxis / magnitude;
+				//	float normalizedMagnitude = 0;
 
-					//D-pad
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
-						p->setIsRunning(true);
-					else p->setIsRunning(false);
+				//	//D-pad
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
+				//		p->setIsRunning(true);
+				//	else p->setIsRunning(false);
 
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
-					{
-						if (p->getIsRunning() == false)
-							p->Move(sf::Vector2f(0, -1));
-						else if (p->getIsRunning() == true)
-							p->Move(sf::Vector2f(0, -2.5f));
-					}
-					else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-					{
-						if (p->getIsRunning() == false)
-							p->Move(sf::Vector2f(0, 1));
-						else if (p->getIsRunning() == true)
-							p->Move(sf::Vector2f(0, 2.5f));
-					}
-					else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
-					{
-						if (p->getIsRunning() == false)
-							p->Move(sf::Vector2f(1, 0));
-						else if (p->getIsRunning() == true)
-							p->Move(sf::Vector2f(2.5f, 0));
-					}
-					else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
-					{
-						if (p->getIsRunning() == false)
-							p->Move(sf::Vector2f(-1, 0));
-						else if (p->getIsRunning() == true)
-							p->Move(sf::Vector2f(-2.5f, 0));
-					}
-					if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-					{
-						if (aPressed == false)
-						{
-							// Button A is pressed
-							std::cout << "A button pressed" << std::endl;
-							aPressed = true;
-						}
-					}
-					else aPressed = false;
-					//thumbsticks
-					//check if the controller is outside a circular dead zone
-					if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
-					{
-						//clip the magnitude at its expected maximum value
-						if (magnitude > 32767) magnitude = 32767;
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+				//	{
+				//		if (p->getIsRunning() == false)
+				//			p->Move(sf::Vector2f(0, -1));
+				//		else if (p->getIsRunning() == true)
+				//			p->Move(sf::Vector2f(0, -2.5f));
+				//	}
+				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+				//	{
+				//		if (p->getIsRunning() == false)
+				//			p->Move(sf::Vector2f(0, 1));
+				//		else if (p->getIsRunning() == true)
+				//			p->Move(sf::Vector2f(0, 2.5f));
+				//	}
+				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+				//	{
+				//		if (p->getIsRunning() == false)
+				//			p->Move(sf::Vector2f(1, 0));
+				//		else if (p->getIsRunning() == true)
+				//			p->Move(sf::Vector2f(2.5f, 0));
+				//	}
+				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+				//	{
+				//		if (p->getIsRunning() == false)
+				//			p->Move(sf::Vector2f(-1, 0));
+				//		else if (p->getIsRunning() == true)
+				//			p->Move(sf::Vector2f(-2.5f, 0));
+				//	}
+				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+				//	{
+				//		if (aPressed == false)
+				//		{
+				//			// Button A is pressed
+				//			std::cout << "A button pressed" << std::endl;
+				//			aPressed = true;
+				//		}
+				//	}
+				//	else aPressed = false;
+				//	//thumbsticks
+				//	//check if the controller is outside a circular dead zone
+				//	if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+				//	{
+				//		//clip the magnitude at its expected maximum value
+				//		if (magnitude > 32767) magnitude = 32767;
 
-						//adjust magnitude relative to the end of the dead zone
-						magnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+				//		//adjust magnitude relative to the end of the dead zone
+				//		magnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
 
-						//optionally normalize the magnitude with respect to its expected range
-						//giving a magnitude value of 0.0 to 1.0
-						normalizedMagnitude = magnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+				//		//optionally normalize the magnitude with respect to its expected range
+				//		//giving a magnitude value of 0.0 to 1.0
+				//		normalizedMagnitude = magnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 
-						if (normalizedLX > 0.9f)
-						{
-							if (p->getIsRunning() == false)
-								p->Move(sf::Vector2f(1, 0));
-							else if (p->getIsRunning() == true)
-								p->Move(sf::Vector2f(2.5f, 0));
-						}
-						else if (normalizedLX < -0.9f)
-						{
-							if (p->getIsRunning() == false)
-								p->Move(sf::Vector2f(-1, 0));
-							else if (p->getIsRunning() == true)
-								p->Move(sf::Vector2f(-2.5f, 0));
-						}
-						if (normalizedLY > 0.9f)
-						{
-							if (p->getIsRunning() == false)
-								p->Move(sf::Vector2f(0, -1));
-							else if (p->getIsRunning() == true)
-								p->Move(sf::Vector2f(0, -2.5f));
-						}
-						else if (normalizedLY < -0.9f)
-						{
-							if (p->getIsRunning() == false)
-								p->Move(sf::Vector2f(0, 1));
-							else if (p->getIsRunning() == true)
-								p->Move(sf::Vector2f(0, 2.5f));
-						}
-					}
-				}
+				//		if (normalizedLX > 0.9f)
+				//		{
+				//			if (p->getIsRunning() == false)
+				//				p->Move(sf::Vector2f(1, 0));
+				//			else if (p->getIsRunning() == true)
+				//				p->Move(sf::Vector2f(2.5f, 0));
+				//		}
+				//		else if (normalizedLX < -0.9f)
+				//		{
+				//			if (p->getIsRunning() == false)
+				//				p->Move(sf::Vector2f(-1, 0));
+				//			else if (p->getIsRunning() == true)
+				//				p->Move(sf::Vector2f(-2.5f, 0));
+				//		}
+				//		if (normalizedLY > 0.9f)
+				//		{
+				//			if (p->getIsRunning() == false)
+				//				p->Move(sf::Vector2f(0, -1));
+				//			else if (p->getIsRunning() == true)
+				//				p->Move(sf::Vector2f(0, -2.5f));
+				//		}
+				//		else if (normalizedLY < -0.9f)
+				//		{
+				//			if (p->getIsRunning() == false)
+				//				p->Move(sf::Vector2f(0, 1));
+				//			else if (p->getIsRunning() == true)
+				//				p->Move(sf::Vector2f(0, 2.5f));
+				//		}
+				//	}
+				//}
 			}
 			else//use keyboard
 			{

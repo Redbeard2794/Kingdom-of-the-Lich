@@ -32,6 +32,9 @@
 #include "Compass.h"
 #include "Menu.h"
 #include "ChooseRaceAndGenderMenu.h"
+#include "Gamepad.h"
+
+
 
 
 #endif

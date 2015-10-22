@@ -17,6 +17,8 @@ public:
 
 	//gets
 	int getSelectedOption() { return selectedOption; }
+	bool getCanMove() { return canMove; }
+	void setCanMove(bool cm) { canMove = cm; }
 	//end gets
 private:
 	sf::Sprite background;
@@ -25,6 +27,9 @@ private:
 	sf::Font font;
 	int currentSelectedOption;
 	int selectedOption;
+
+	bool canMove;
+
 };
 
 #endif

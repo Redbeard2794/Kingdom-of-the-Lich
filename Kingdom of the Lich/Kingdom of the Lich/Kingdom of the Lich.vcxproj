@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="Compass.h" />
+    <ClInclude Include="Gamepad.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="Compass.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
