@@ -85,7 +85,10 @@ int main()
 	tempBground2.setTexture(tempBgroundTexture2);
 	tempBground2.setPosition(sf::Vector2f(0, 0));
 
-
+	sf::Sprite cursor;
+	sf::Texture defaultCursor;
+	defaultCursor.loadFromFile("Assets/Icons/Cursors/defaultCursor.png");
+	cursor.setTexture(defaultCursor);
 
 
 	//potions by http://opengameart.org/users/clint-bellanger
@@ -122,7 +125,7 @@ int main()
 	//	useController = false;
 	//	window.setMouseCursorVisible(true);
 	//}
-
+	window.setMouseCursorVisible(false);
 	enum GameState
 	{
 		SPLASH,
@@ -205,6 +208,9 @@ int main()
 			mainMenu->Draw(window);
 			if (useController == false)
 			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
+				window.draw(cursor);
 				mainMenu->CheckMouse(sf::Mouse::getPosition(window));
 				if (mainMenu->getSelectedOption() == 0)//new game
 					gState = CHOOSERACEGENDER;
@@ -243,12 +249,14 @@ int main()
 				if (gamepad->DpadUp() == true && mainMenu->getCanMove() == true)
 				{
 					mainMenu->MoveUp();
+					std::cout << "Moving up" << std::endl;
 					mainMenu->setCanMove(false);
 				}
-				else mainMenu->setCanMove(true);
+				//else mainMenu->setCanMove(true);
 				if (gamepad->DpadDown() == true && mainMenu->getCanMove() == true)
 				{
 					mainMenu->MoveDown();
+					std::cout << "Moving down" << std::endl;
 					mainMenu->setCanMove(false);
 				}
 				else mainMenu->setCanMove(true);
@@ -291,19 +299,26 @@ int main()
 
 		case CHOOSERACEGENDER:
 			raceAndGenderMenu->Draw(window);
-			raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+
+			if (useController == false)
 			{
-				if (raceAndGenderMenu->getCurrentState() == 0)
-					raceAndGenderMenu->setCurrentState(1);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-			{
-				p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
-				p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
-				p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
-				std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
-				gState = GAME;
+				raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
+				window.draw(cursor);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				{
+					if (raceAndGenderMenu->getCurrentState() == 0)
+						raceAndGenderMenu->setCurrentState(1);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				{
+					p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+					p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+					p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+					std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+					gState = GAME;
+				}
 			}
 			break;
 
