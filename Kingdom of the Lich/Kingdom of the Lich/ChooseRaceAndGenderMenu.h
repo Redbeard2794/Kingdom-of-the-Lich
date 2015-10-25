@@ -20,6 +20,23 @@ public:
 	int getCurrentlySelectedGender() { return currentlySelectedGender; }
 	int getCurrentlySelectedClass() { return currentlySelectedClass; }
 
+	//for moving through the menu with a controller
+	//race
+	void moveRaceSelectionRight();
+	void moveRaceSelectionLeft();
+	//gender
+	void moveGenderSelectionRight();
+	void moveGenderSelectionLeft();
+	//class
+	void moveClassSelectionRight();
+	void moveClassSelectionLeft();
+
+	bool getCanMoveSelection() { return canMoveSelection; }
+	void setCanMoveSelection(bool cms) { canMoveSelection = cms; }
+
+	bool getCanSelect() { return canSelect; }
+	void setCanSelect(bool cs) { canSelect = cs; }
+
 private:
 	sf::Sprite table;
 	sf::Texture tableTexture;
@@ -62,7 +79,8 @@ private:
 
 	enum SelectionState
 	{
-		CHOOSERACEGENDER,
+		CHOOSERACE,
+		CHOOSEGENDER,
 		CHOOSECLASS
 	};
 
@@ -72,6 +90,8 @@ private:
 	
 	int currentState;
 
+	bool canMoveSelection;
+	bool canSelect;
 };
 
 #endif

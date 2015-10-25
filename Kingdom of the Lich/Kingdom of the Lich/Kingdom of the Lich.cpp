@@ -41,7 +41,7 @@ int main()
 	//tmx::TileMap map("Assets/Areas/tutorialArea.tmx");
 
 	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Kingdom of the Lich");
+	sf::RenderWindow window(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT, 32), "Kingdom of the Lich");
 	sf::RenderWindow *pWindow = &window;
 
 	//create sf::View
@@ -100,31 +100,12 @@ int main()
 	icon.loadFromFile("Assets/Icons/goldskull.png");
 	window.setIcon(32, 32, icon.getPixelsPtr());
 
-	//XINPUT_STATE state;
-	//memset(&state, 0, sizeof(XINPUT_STATE));
-	//XINPUT_VIBRATION motor;
-	//memset(&motor, 0, sizeof(XINPUT_VIBRATION));
 	bool useController = false;
 	float leftStickXaxis;
 	float leftStickYaxis;
 
 	sf::Image screenShot;
-	//bool aPressed = false;
-	//bool upPressed = false;
-	//bool downPressed = false;
 
-	//std::cout << "Checking for controller." << std::endl;
-	//if (XInputGetState(0, &state) == ERROR_SUCCESS)
-	//{
-	//	std::cout << "	* Xbox controller connected successfully." << std::endl;
-	//	useController = true;
-	//}
-	//else
-	//{
-	//	std::cout << "	* No controller detected. You will need to use your keyboard to play." << std::endl;
-	//	useController = false;
-	//	window.setMouseCursorVisible(true);
-	//}
 	window.setMouseCursorVisible(false);
 	enum GameState
 	{
@@ -140,11 +121,15 @@ int main()
 	};
 	int gState = SPLASH;
 	std::cout << "Current game state: " << gState << std::endl;
-	Menu *mainMenu = new Menu(font);
-	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font);
+
 	Gamepad* gamepad = new Gamepad();
 	useController = gamepad->CheckControllerConnection();
 
+	Menu *mainMenu = new Menu(font, useController);
+	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font);
+
+
+	bool spacePressed = false;
 
 	// Start game loop 
 	while (window.isOpen())
@@ -226,38 +211,23 @@ int main()
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
-				//if (XInputGetState(0, &state) == ERROR_SUCCESS)
-				//{
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
-				//	{
-				//		if (upPressed == false)
-				//		{
-				//			mainMenu->MoveUp();
-				//			upPressed = true;
-				//		}
-				//	}
-				//	else upPressed = false;
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-				//	{
-				//		if (downPressed == false)
-				//		{
-				//			mainMenu->MoveDown();
-				//			downPressed = true;
-				//		}
-				//	}
-				//	else downPressed = false;
-				if (gamepad->DpadUp() == true && mainMenu->getCanMove() == true)
+
+				if (gamepad->DpadUp() == true)
 				{
-					mainMenu->MoveUp();
-					std::cout << "Moving up" << std::endl;
-					mainMenu->setCanMove(false);
+					if (mainMenu->getCanMove() == true)
+					{
+						mainMenu->MoveUp();
+						mainMenu->setCanMove(false);
+					}
 				}
-				//else mainMenu->setCanMove(true);
-				if (gamepad->DpadDown() == true && mainMenu->getCanMove() == true)
+
+				else if (gamepad->DpadDown() == true)
 				{
-					mainMenu->MoveDown();
-					std::cout << "Moving down" << std::endl;
-					mainMenu->setCanMove(false);
+					if (mainMenu->getCanMove() == true)
+					{
+						mainMenu->MoveDown();
+						mainMenu->setCanMove(false);
+					}
 				}
 				else mainMenu->setCanMove(true);
 
@@ -274,26 +244,6 @@ int main()
 					else if (mainMenu->getSelectedOption() == 4)//quit
 						window.close();
 				}
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-				//	{
-				//		if (aPressed == false)
-				//		{
-				//			// Button A is pressed
-				//			if (mainMenu->getSelectedOption() == 0)//new game
-				//				gState = CHOOSERACEGENDER;
-				//			else if (mainMenu->getSelectedOption() == 1)//continue game
-				//				std::cout << "Continue game not available yet" << std::endl;
-				//			else if (mainMenu->getSelectedOption() == 2)//options
-				//				std::cout << "Options not available yet" << std::endl;
-				//			else if (mainMenu->getSelectedOption() == 3)//credits
-				//				gState = CREDITS;
-				//			else if (mainMenu->getSelectedOption() == 4)//quit
-				//				window.close();
-				//			aPressed = true;
-				//		}
-				//	}
-				//	else aPressed = false;
-				//}
 			}
 			break;
 
@@ -306,11 +256,22 @@ int main()
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 				cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
 				window.draw(cursor);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& spacePressed==false)
 				{
-					if (raceAndGenderMenu->getCurrentState() == 0)
+					
+					if (raceAndGenderMenu->getCurrentState() == 0&&spacePressed==false)
+					{
 						raceAndGenderMenu->setCurrentState(1);
+						spacePressed = true;
+					}
+					else if (raceAndGenderMenu->getCurrentState() == 1 && spacePressed == false)
+					{
+						raceAndGenderMenu->setCurrentState(2);
+						spacePressed = true;
+					}
+					
 				}
+				else spacePressed = false;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
@@ -319,6 +280,78 @@ int main()
 					std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
 					gState = GAME;
 				}
+			}
+
+			else if (useController == true)
+			{
+				gamepad->CheckAllButtons();
+
+				if (gamepad->DpadRight() == true)
+				{
+					if (raceAndGenderMenu->getCanMoveSelection() == true)
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0)
+							raceAndGenderMenu->moveRaceSelectionRight();
+						else if (raceAndGenderMenu->getCurrentState() == 1)
+							raceAndGenderMenu->moveGenderSelectionRight();
+						else if (raceAndGenderMenu->getCurrentState() == 2)
+							raceAndGenderMenu->moveClassSelectionRight();
+
+						raceAndGenderMenu->setCanMoveSelection(false);
+					}
+				}
+
+				else if (gamepad->DpadLeft() == true)
+				{
+					if (raceAndGenderMenu->getCanMoveSelection() == true)
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0)
+							raceAndGenderMenu->moveRaceSelectionLeft();
+						else if (raceAndGenderMenu->getCurrentState() == 1)
+							raceAndGenderMenu->moveGenderSelectionLeft();
+						else if (raceAndGenderMenu->getCurrentState() == 2)
+							raceAndGenderMenu->moveClassSelectionLeft();
+
+						raceAndGenderMenu->setCanMoveSelection(false);
+					}
+				}
+				else
+				{
+					raceAndGenderMenu->setCanMoveSelection(true);
+					raceAndGenderMenu->setCanSelect(true);
+				}
+
+
+				if (gamepad->A() == true)
+				{
+					if (raceAndGenderMenu->getCurrentState() == 0&&raceAndGenderMenu->getCanSelect()==true)
+						raceAndGenderMenu->setCanSelect(false);
+					else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
+						raceAndGenderMenu->setCanSelect(false);
+					else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
+					{
+						p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+						std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+						raceAndGenderMenu->setCanSelect(false);
+						gState = GAME;
+					}
+				}
+				if (gamepad->RB())
+				{
+					if (raceAndGenderMenu->getCurrentState() == 0)
+					{
+						p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+						raceAndGenderMenu->setCurrentState(1);
+					}
+					else if (raceAndGenderMenu->getCurrentState() == 1)
+					{
+						p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+						raceAndGenderMenu->setCurrentState(2);
+					}
+
+				}
+
+
 			}
 			break;
 

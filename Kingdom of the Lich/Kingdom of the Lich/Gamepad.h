@@ -32,6 +32,10 @@ public:
 	bool DpadRight() { return rightPressed; }
 	bool DpadLeft() { return leftPressed; }
 
+	void CheckRB();
+
+	bool RB() { return rbPressed; }
+
 private:
 	XINPUT_STATE state;
 	XINPUT_VIBRATION motor;

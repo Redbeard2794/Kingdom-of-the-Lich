@@ -49,6 +49,7 @@ void Gamepad::CheckAllButtons()
 	CheckDpadDown();
 	CheckDpadRight();
 	CheckDpadLeft();
+	CheckRB();
 }
 
 void Gamepad::CheckA()
@@ -176,6 +177,22 @@ void Gamepad::CheckDpadLeft()
 			}
 		}
 		else leftPressed = false;
+	}
+}
+
+void Gamepad::CheckRB()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+		{
+			if (rbPressed == false)
+			{
+				rbPressed = true;
+				std::cout << "RB" << std::endl;
+			}
+		}
+		else rbPressed = false;
 	}
 }
 

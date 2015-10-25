@@ -6,8 +6,11 @@
 class Menu
 {
 public:
-	Menu(sf::Font f);
+	Menu(sf::Font f, bool controller);
 	~Menu();
+
+	void LoadText();
+	void LoadTexturesAndSprites();
 
 	void MoveUp();
 	void MoveDown();
@@ -29,6 +32,28 @@ private:
 	int selectedOption;
 
 	bool canMove;
+
+	//controller hint stuff
+	sf::Sprite controllerSelectHintSprite;
+	sf::Texture controllerSelectHintTexture;
+
+	sf::Sprite controllerMoveHintSprite;
+	sf::Texture controllerMoveHintTexture;
+
+	sf::Text controllerMoveHintText;
+	sf::Text controllerSelectHintText;
+
+	//mouse hint stuff
+	sf::Sprite mouseMoveHintSprite;
+	sf::Texture mouseMoveHintTexture;
+
+	sf::Sprite mouseSelectHintSprite;
+	sf::Texture mouseSelectHintTexture;
+
+	sf::Text mouseMoveHintText;
+	sf::Text mouseSelectHintText;
+
+	bool showControllerHints;
 
 };
 
