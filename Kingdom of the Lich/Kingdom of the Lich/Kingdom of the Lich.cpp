@@ -130,6 +130,7 @@ int main()
 
 
 	bool spacePressed = false;
+	bool enterPressed = false;
 
 	// Start game loop 
 	while (window.isOpen())
@@ -181,7 +182,7 @@ int main()
 
 			else
 			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))//up
 				{
 					gState = MAINMENU;
 					std::cout << "Current game state: " << gState << std::endl;
@@ -252,106 +253,251 @@ int main()
 
 			if (useController == false)
 			{
-				raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
+				{
+					raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& enterPressed==false)//up
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0)
+						{
+							ConfirmationDialogBox::GetInstance()->setVisible(true);
+							ConfirmationDialogBox::GetInstance()->setDialogText("Are you sure you want to be this race?", 20);
+						}
+						else if (raceAndGenderMenu->getCurrentState() == 1)
+						{
+							ConfirmationDialogBox::GetInstance()->setVisible(true);
+							ConfirmationDialogBox::GetInstance()->setDialogText("Are you sure you want to be this gender?", 20);
+						}
+						enterPressed = true;
+					}
+				}
+				else if (ConfirmationDialogBox::GetInstance()->getVisible() == true)
+				{
+					enterPressed = false;
+					ConfirmationDialogBox::GetInstance()->CheckMouseToOptions(mousePos);
+
+					if (ConfirmationDialogBox::GetInstance()->getOptionConfirmed() == true)
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0)
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+								raceAndGenderMenu->setCurrentState(1);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(0);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+
+						}
+						else if (raceAndGenderMenu->getCurrentState() == 1)
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+								//raceAndGenderMenu->setCurrentState(2);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								gState = GAME;
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(1);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+						}
+						ConfirmationDialogBox::GetInstance()->setOptionConfirmed(false);
+					}
+					
+				}
+				
+				ConfirmationDialogBox::GetInstance()->Draw(window);
+
+
 				cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
 				window.draw(cursor);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& spacePressed==false)
-				{
-					
-					if (raceAndGenderMenu->getCurrentState() == 0&&spacePressed==false)
-					{
-						raceAndGenderMenu->setCurrentState(1);
-						spacePressed = true;
-					}
-					else if (raceAndGenderMenu->getCurrentState() == 1 && spacePressed == false)
-					{
-						raceAndGenderMenu->setCurrentState(2);
-						spacePressed = true;
-					}
-					
-				}
-				else spacePressed = false;
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-				{
-					p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
-					p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
-					p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
-					std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
-					gState = GAME;
-				}
+				//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& spacePressed==false)//???
+				//{
+				//	
+				//	if (raceAndGenderMenu->getCurrentState() == 0&&spacePressed==false)
+				//	{
+				//		raceAndGenderMenu->setCurrentState(1);
+				//		spacePressed = true;
+				//	}
+				//	else if (raceAndGenderMenu->getCurrentState() == 1 && spacePressed == false)
+				//	{
+				//		raceAndGenderMenu->setCurrentState(2);
+				//		spacePressed = true;
+				//	}
+				//	
+				//}
+				//else spacePressed = false;
+				//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				//{
+				//	p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+				//	p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+				//	p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+				//	std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+				//	gState = GAME;
+				//}
 			}
 
+			//if the player is using a controller
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
 
-				if (gamepad->DpadRight() == true)
+				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
 				{
-					if (raceAndGenderMenu->getCanMoveSelection() == true)
+					if (gamepad->DpadRight() == true)
+					{
+						if (raceAndGenderMenu->getCanMoveSelection() == true)
+						{
+							if (raceAndGenderMenu->getCurrentState() == 0)
+								raceAndGenderMenu->moveRaceSelectionRight();
+							else if (raceAndGenderMenu->getCurrentState() == 1)
+								raceAndGenderMenu->moveGenderSelectionRight();
+							else if (raceAndGenderMenu->getCurrentState() == 2)
+								raceAndGenderMenu->moveClassSelectionRight();
+
+							raceAndGenderMenu->setCanMoveSelection(false);
+						}
+					}
+
+					else if (gamepad->DpadLeft() == true)
+					{
+						if (raceAndGenderMenu->getCanMoveSelection() == true)
+						{
+							if (raceAndGenderMenu->getCurrentState() == 0)
+								raceAndGenderMenu->moveRaceSelectionLeft();
+							else if (raceAndGenderMenu->getCurrentState() == 1)
+								raceAndGenderMenu->moveGenderSelectionLeft();
+							else if (raceAndGenderMenu->getCurrentState() == 2)
+								raceAndGenderMenu->moveClassSelectionLeft();
+
+							raceAndGenderMenu->setCanMoveSelection(false);
+						}
+					}
+					else
+					{
+						raceAndGenderMenu->setCanMoveSelection(true);
+						raceAndGenderMenu->setCanSelect(true);
+					}
+
+
+					if (gamepad->A() == true)
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0 && raceAndGenderMenu->getCanSelect() == true)
+							raceAndGenderMenu->setCanSelect(false);
+						else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
+							raceAndGenderMenu->setCanSelect(false);
+						else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
+							raceAndGenderMenu->setCanSelect(false);
+					}
+					if (gamepad->RB())
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)
-							raceAndGenderMenu->moveRaceSelectionRight();
+						{
+							ConfirmationDialogBox::GetInstance()->setVisible(true);
+							ConfirmationDialogBox::GetInstance()->setDialogText("Are you sure you want to be this race?", 20);
+						}
 						else if (raceAndGenderMenu->getCurrentState() == 1)
-							raceAndGenderMenu->moveGenderSelectionRight();
+						{
+							ConfirmationDialogBox::GetInstance()->setVisible(true);
+							ConfirmationDialogBox::GetInstance()->setDialogText("Are you sure you want to be this gender?", 20);
+						}
 						else if (raceAndGenderMenu->getCurrentState() == 2)
-							raceAndGenderMenu->moveClassSelectionRight();
+						{
+							ConfirmationDialogBox::GetInstance()->setVisible(true);
+							ConfirmationDialogBox::GetInstance()->setDialogText("Are you sure you want to be this class?", 20);
+						}
 
-						raceAndGenderMenu->setCanMoveSelection(false);
 					}
+				
 				}
-
-				else if (gamepad->DpadLeft() == true)
+				else if (ConfirmationDialogBox::GetInstance()->getVisible() == true)
 				{
-					if (raceAndGenderMenu->getCanMoveSelection() == true)
+					if (gamepad->DpadUp() == true)
+					{
+						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
+						{
+							std::cout << "Moving up" << std::endl;
+							ConfirmationDialogBox::GetInstance()->MoveUp();
+							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+						}
+
+					}
+					
+					else if (gamepad->DpadDown() == true)
+					{
+						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
+						{
+							std::cout << "Moving down" << std::endl;
+							ConfirmationDialogBox::GetInstance()->MoveDown();
+							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+						}
+
+					}
+
+					else ConfirmationDialogBox::GetInstance()->setCanMoveSelection(true);
+
+					if (gamepad->A() == true)
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)
-							raceAndGenderMenu->moveRaceSelectionLeft();
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+								raceAndGenderMenu->setCurrentState(1);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(0);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+						}
+
 						else if (raceAndGenderMenu->getCurrentState() == 1)
-							raceAndGenderMenu->moveGenderSelectionLeft();
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
+								raceAndGenderMenu->setCurrentState(2);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								gState = GAME;
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(1);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+						}
+
 						else if (raceAndGenderMenu->getCurrentState() == 2)
-							raceAndGenderMenu->moveClassSelectionLeft();
-
-						raceAndGenderMenu->setCanMoveSelection(false);
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								gState = GAME;
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(2);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+						}
 					}
-				}
-				else
-				{
-					raceAndGenderMenu->setCanMoveSelection(true);
-					raceAndGenderMenu->setCanSelect(true);
-				}
-
-
-				if (gamepad->A() == true)
-				{
-					if (raceAndGenderMenu->getCurrentState() == 0&&raceAndGenderMenu->getCanSelect()==true)
-						raceAndGenderMenu->setCanSelect(false);
-					else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
-						raceAndGenderMenu->setCanSelect(false);
-					else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
-					{
-						p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
-						std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
-						raceAndGenderMenu->setCanSelect(false);
-						gState = GAME;
-					}
-				}
-				if (gamepad->RB())
-				{
-					if (raceAndGenderMenu->getCurrentState() == 0)
-					{
-						p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
-						raceAndGenderMenu->setCurrentState(1);
-					}
-					else if (raceAndGenderMenu->getCurrentState() == 1)
-					{
-						p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
-						raceAndGenderMenu->setCurrentState(2);
-					}
-
+					//ConfirmationDialogBox::GetInstance()->Draw(window);
 				}
 
 
+				ConfirmationDialogBox::GetInstance()->Draw(window);
 			}
 			break;
 
@@ -470,44 +616,46 @@ int main()
 				//	}
 				//}
 			}
-			else//use keyboard
-			{
-				//check if running
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				{
-					p->setIsRunning(true);
-				}
-				else { p->setIsRunning(false); }
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
-				{
-					if(p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, -1));
-					else if (p->getIsRunning() ==true)
-						p->Move(sf::Vector2f(0, -2.5f));
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, 1));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(0, 2.5f));
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(-1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(-2.5f, 0));
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(2.5f, 0));
-				}
+
+			//else//use keyboard
+			//{
+				//check if running
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			{
+				p->setIsRunning(true);
 			}
+			else { p->setIsRunning(false); }
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
+			{
+				if(p->getIsRunning() == false)
+					p->Move(sf::Vector2f(0, -1));
+				else if (p->getIsRunning() ==true)
+					p->Move(sf::Vector2f(0, -2.5f));
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
+			{
+				if (p->getIsRunning() == false)
+					p->Move(sf::Vector2f(0, 1));
+				else if (p->getIsRunning() == true)
+					p->Move(sf::Vector2f(0, 2.5f));
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
+			{
+				if (p->getIsRunning() == false)
+					p->Move(sf::Vector2f(-1, 0));
+				else if (p->getIsRunning() == true)
+					p->Move(sf::Vector2f(-2.5f, 0));
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
+			{
+				if (p->getIsRunning() == false)
+					p->Move(sf::Vector2f(1, 0));
+				else if (p->getIsRunning() == true)
+					p->Move(sf::Vector2f(2.5f, 0));
+			}
+			//}
 
 			window.draw(tempBground);
 			p->Update();

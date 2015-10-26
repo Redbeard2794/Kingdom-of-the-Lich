@@ -43,13 +43,14 @@ private:
 	sf::Sprite parchment;
 	sf::Texture parchmentTexture;
 
-	sf::Sprite maleButton;
 	sf::Texture maleButtonTexture;
-	sf::Sprite femaleButton;
 	sf::Texture femaleButtonTexture;
+
+	sf::Sprite genders[2];
 
 	sf::Text ChooseRace;
 	sf::Text ChooseGender;
+	sf::Text ChooseClass;
 
 	sf::Text races[3];
 	sf::Text classes[3];

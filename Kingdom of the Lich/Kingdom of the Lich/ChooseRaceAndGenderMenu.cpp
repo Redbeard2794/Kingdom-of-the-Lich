@@ -19,16 +19,22 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f):font(f)
 	//button to select male
 	if (maleButtonTexture.loadFromFile("Assets/MaleButtonBlue.png")) {}
 	else maleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	maleButton.setTexture(maleButtonTexture);
-	maleButton.setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
-	maleButton.setPosition(300, 250);//y=500
+	//maleButton.setTexture(maleButtonTexture);
+	//maleButton.setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
+	//maleButton.setPosition(300, 250);//y=500
+	genders[0].setTexture(maleButtonTexture);
+	genders[0].setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
+	genders[0].setPosition(300, 250);//y=500
 
 	//button to select female
 	if (femaleButtonTexture.loadFromFile("Assets/FemaleButtonPink.png")) {}
 	else femaleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	femaleButton.setTexture(femaleButtonTexture);
-	femaleButton.setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
-	femaleButton.setPosition(500, 250);
+	//femaleButton.setTexture(femaleButtonTexture);
+	//femaleButton.setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
+	//femaleButton.setPosition(500, 250);
+	genders[1].setTexture(femaleButtonTexture);
+	genders[1].setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
+	genders[1].setPosition(500, 250);
 
 	//Header for choosing race
 	ChooseRace.setFont(font);
@@ -41,6 +47,12 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f):font(f)
 	ChooseGender.setString("Choose your gender.");
 	ChooseGender.setColor(sf::Color::Black);
 	ChooseGender.setPosition(sf::Vector2f(275, 80));//425
+
+	//Header for choosing class
+	ChooseClass.setFont(font);
+	ChooseClass.setString("Choose your class.");
+	ChooseClass.setColor(sf::Color::Black);
+	ChooseClass.setPosition(sf::Vector2f(275, 80));
 
 	//text for races
 	races[HUMAN].setFont(font);
@@ -134,9 +146,9 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstRaces(sf::Vector2i mousePos)
 //check the mouse against the different options for choosing the gender of the character
 void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 {
-	if (maleButton.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
+	if (genders[0].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 	{
-		maleButton.setColor(sf::Color::Green);
+		genders[0].setColor(sf::Color::Green);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && mouseClicked == false)
 		{
 			currentlySelectedGender = MALE;
@@ -144,11 +156,11 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 			mouseClicked = true;
 		}
 	}
-	else maleButton.setColor(sf::Color::White);
+	else genders[0].setColor(sf::Color::White);
 
-	if (femaleButton.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
+	if (genders[1].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 	{
-		femaleButton.setColor(sf::Color::Green);
+		genders[1].setColor(sf::Color::Green);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && mouseClicked == false)
 		{
 			currentlySelectedGender = FEMALE;
@@ -156,7 +168,7 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 			mouseClicked = true;
 		}
 	}
-	else femaleButton.setColor(sf::Color::White);
+	else genders[1].setColor(sf::Color::White);
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false)
 		mouseClicked = false;
@@ -209,12 +221,21 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionRight()
 {
 	if (canMoveSelection == true)
 	{
-		if (currentlySelectedGender == MALE)
+		//if (currentlySelectedGender == MALE)
+		//{
+		//	currentlySelectedGender = FEMALE;
+		//}
+		//else if (currentlySelectedGender == FEMALE)
+		//	currentlySelectedGender = MALE;
+		if (currentlySelectedGender == 1)
+			currentlySelectedGender = 0;
+		else currentlySelectedGender += 1;
+
+		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
 		{
-			currentlySelectedGender = FEMALE;
+			genders[i].setColor(sf::Color::Green);
 		}
-		else if (currentlySelectedGender == FEMALE)
-			currentlySelectedGender = MALE;
+		genders[currentlySelectedGender].setColor(sf::Color::White);
 
 		std::cout << "Currently selected gender: " << currentlySelectedGender << std::endl;
 	}
@@ -225,12 +246,15 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionLeft()
 {
 	if (canMoveSelection == true)
 	{
-		if (currentlySelectedGender == FEMALE)
+		if (currentlySelectedGender == 0)
+			currentlySelectedGender = 1;
+		else currentlySelectedGender -= 1;
+
+		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
 		{
-			currentlySelectedGender = MALE;
+			genders[i].setColor(sf::Color::Green);
 		}
-		else if (currentlySelectedGender == MALE)
-			currentlySelectedGender = FEMALE;
+		genders[currentlySelectedGender].setColor(sf::Color::White);
 
 		std::cout << "Currently selected gender: " << currentlySelectedGender << std::endl;
 	}
@@ -283,12 +307,16 @@ void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 
 	case CHOOSEGENDER:
 		window.draw(ChooseGender);
-		window.draw(maleButton);
-		window.draw(femaleButton);
+		//window.draw(maleButton);
+		//window.draw(femaleButton);
+		for (int i = 0; i < 2; i++)
+		{
+			window.draw(genders[i]);
+		}
 		break;
 
 	case CHOOSECLASS:
-		window.draw(ChooseRace);
+		window.draw(ChooseClass);
 		classes[currentlySelectedClass].setColor(sf::Color::Red);
 		for (int i = 0; i < 3; i++)
 		{

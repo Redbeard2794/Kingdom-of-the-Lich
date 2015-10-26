@@ -33,6 +33,7 @@
 #include "Menu.h"
 #include "ChooseRaceAndGenderMenu.h"
 #include "Gamepad.h"
+#include "ConfirmationDialogBox.h"
 
 
 

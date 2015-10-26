@@ -6,16 +6,9 @@ Menu::Menu(sf::Font f, bool controller):font(f),showControllerHints(controller)
 	LoadText();
 	LoadTexturesAndSprites();
 
-
-
 	currentSelectedOption = 1;
-	selectedOption = -1;
+	selectedOption = 1;
 	canMove = true;
-
-
-
-
-
 }
 
 Menu::~Menu()
