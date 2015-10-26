@@ -350,30 +350,7 @@ int main()
 
 				cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
 				window.draw(cursor);
-				//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& spacePressed==false)//???
-				//{
-				//	
-				//	if (raceAndGenderMenu->getCurrentState() == 0&&spacePressed==false)
-				//	{
-				//		raceAndGenderMenu->setCurrentState(1);
-				//		spacePressed = true;
-				//	}
-				//	else if (raceAndGenderMenu->getCurrentState() == 1 && spacePressed == false)
-				//	{
-				//		raceAndGenderMenu->setCurrentState(2);
-				//		spacePressed = true;
-				//	}
-				//	
-				//}
-				//else spacePressed = false;
-				//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-				//{
-				//	p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
-				//	p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
-				//	p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
-				//	std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
-				//	gState = GAME;
-				//}
+
 			}
 
 			//if the player is using a controller
@@ -564,45 +541,42 @@ int main()
 				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
 				//		p->setIsRunning(true);
 				//	else p->setIsRunning(false);
+				gamepad->CheckAllButtons();
 
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
-				//	{
-				//		if (p->getIsRunning() == false)
-				//			p->Move(sf::Vector2f(0, -1));
-				//		else if (p->getIsRunning() == true)
-				//			p->Move(sf::Vector2f(0, -2.5f));
-				//	}
-				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-				//	{
-				//		if (p->getIsRunning() == false)
-				//			p->Move(sf::Vector2f(0, 1));
-				//		else if (p->getIsRunning() == true)
-				//			p->Move(sf::Vector2f(0, 2.5f));
-				//	}
-				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
-				//	{
-				//		if (p->getIsRunning() == false)
-				//			p->Move(sf::Vector2f(1, 0));
-				//		else if (p->getIsRunning() == true)
-				//			p->Move(sf::Vector2f(2.5f, 0));
-				//	}
-				//	else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
-				//	{
-				//		if (p->getIsRunning() == false)
-				//			p->Move(sf::Vector2f(-1, 0));
-				//		else if (p->getIsRunning() == true)
-				//			p->Move(sf::Vector2f(-2.5f, 0));
-				//	}
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-				//	{
-				//		if (aPressed == false)
-				//		{
-				//			// Button A is pressed
-				//			std::cout << "A button pressed" << std::endl;
-				//			aPressed = true;
-				//		}
-				//	}
-				//	else aPressed = false;
+				//is player running
+				if (gamepad->LB())
+					p->setIsRunning(true);
+				else p->setIsRunning(false);
+
+				if (gamepad->DpadUp())
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, -1));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(0, -2.5f));
+				}
+				else if (gamepad->DpadDown())
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, 1));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(0, 2.5f));
+				}
+				else if (gamepad->DpadRight())
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(2.5f, 0));
+				}
+				else if (gamepad->DpadLeft())
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(-1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(-2.5f, 0));
+				}
+
 				//	//thumbsticks
 				//	//check if the controller is outside a circular dead zone
 				//	if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
