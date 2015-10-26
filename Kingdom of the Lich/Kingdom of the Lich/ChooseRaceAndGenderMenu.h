@@ -4,7 +4,7 @@
 class ChooseRaceAndGenderMenu
 {
 public:
-	ChooseRaceAndGenderMenu(sf::Font f);
+	ChooseRaceAndGenderMenu(sf::Font f, bool controller);
 	~ChooseRaceAndGenderMenu();
 
 	void Update(sf::Vector2i mousePos);
@@ -93,6 +93,26 @@ private:
 
 	bool canMoveSelection;
 	bool canSelect;
+
+	//hints
+	//controller
+	sf::Sprite controllerMoveHint;
+	sf::Texture controllerMoveHintTexture;
+	sf::Text controllerMoveHintText;
+
+	sf::Sprite controllerSelectHint;
+	sf::Texture controllerSelectHintTexture;
+	sf::Text controllerSelectHintText;
+	//keyboard/mouse
+	sf::Sprite mouseMoveHint;
+	sf::Texture mouseMoveHintTexture;
+	sf::Text mouseMoveHintText;
+
+	sf::Sprite keyboardSelectHint;
+	sf::Texture keyboardSelectHintTexture;
+	sf::Text keyboardSelectHintText;
+
+	bool showControllerHints;
 };
 
 #endif

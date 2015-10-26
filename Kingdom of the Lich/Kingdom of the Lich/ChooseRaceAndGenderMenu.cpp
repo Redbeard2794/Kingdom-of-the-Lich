@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ChooseRaceAndGenderMenu.h"
 
-ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f):font(f)
+ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):font(f), showControllerHints(controller)
 {
 	//table
 	if (tableTexture.loadFromFile("Assets/table1.png")) {}
@@ -96,6 +96,56 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f):font(f)
 
 	canMoveSelection = true;
 	canSelect = true;
+
+	if (showControllerHints == true)
+	{
+		controllerMoveHintTexture.loadFromFile("Assets/ControllerHints/characterCreationMovementHint.png");
+		controllerMoveHint.setTexture(controllerMoveHintTexture);
+		controllerMoveHint.setOrigin(controllerMoveHintTexture.getSize().x / 2, controllerMoveHintTexture.getSize().y / 2);
+		controllerMoveHint.setPosition(SCREENWIDTH / 12, SCREENHEIGHT - 30);
+
+		controllerMoveHintText.setFont(font);
+		controllerMoveHintText.setString("Change selection");
+		controllerMoveHintText.setCharacterSize(15);
+		controllerMoveHintText.setPosition(SCREENWIDTH / 8, SCREENHEIGHT - 40);
+		controllerMoveHintText.setColor(sf::Color::White);
+
+		controllerSelectHintTexture.loadFromFile("Assets/ControllerHints/rbButtonHint.png");
+		controllerSelectHint.setTexture(controllerSelectHintTexture);
+		controllerSelectHint.setOrigin(controllerSelectHintTexture.getSize().x / 2, controllerSelectHintTexture.getSize().y / 2);
+		controllerSelectHint.setPosition(SCREENWIDTH - 75, SCREENHEIGHT - 30);
+
+		controllerSelectHintText.setFont(font);
+		controllerSelectHintText.setString("Confirm selection");
+		controllerSelectHintText.setCharacterSize(15);
+		controllerSelectHintText.setPosition(SCREENWIDTH - 225, SCREENHEIGHT - 40);
+		controllerSelectHintText.setColor(sf::Color::White);
+
+	}
+	else
+	{
+		mouseMoveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/mouseMoveAndLeftClick.png");
+		mouseMoveHint.setTexture(mouseMoveHintTexture);
+		mouseMoveHint.setOrigin(mouseMoveHintTexture.getSize().x / 2, mouseMoveHintTexture.getSize().y / 2);
+		mouseMoveHint.setPosition(SCREENWIDTH / 12, SCREENHEIGHT - 30);
+
+		mouseMoveHintText.setFont(font);
+		mouseMoveHintText.setString("Change selection");
+		mouseMoveHintText.setCharacterSize(15);
+		mouseMoveHintText.setPosition(SCREENWIDTH / 7, SCREENHEIGHT - 40);
+		mouseMoveHintText.setColor(sf::Color::White);
+
+		keyboardSelectHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/enterHint.png");
+		keyboardSelectHint.setTexture(keyboardSelectHintTexture);
+		keyboardSelectHint.setOrigin(keyboardSelectHintTexture.getSize().x / 2, keyboardSelectHintTexture.getSize().y / 2);
+		keyboardSelectHint.setPosition(SCREENWIDTH - 75, SCREENHEIGHT - 30);
+
+		keyboardSelectHintText.setFont(font);
+		keyboardSelectHintText.setString("Confirm selection");
+		keyboardSelectHintText.setCharacterSize(15);
+		keyboardSelectHintText.setPosition(SCREENWIDTH - 225, SCREENHEIGHT - 40);
+		keyboardSelectHintText.setColor(sf::Color::White);
+	}
 }
 
 ChooseRaceAndGenderMenu::~ChooseRaceAndGenderMenu()
@@ -287,6 +337,20 @@ void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 {
 	window.draw(table);
 	window.draw(parchment);
+	if (showControllerHints == true)
+	{
+		window.draw(controllerMoveHint);
+		window.draw(controllerMoveHintText);
+		window.draw(controllerSelectHint);
+		window.draw(controllerSelectHintText);
+	}
+	else
+	{
+		window.draw(mouseMoveHint);
+		window.draw(mouseMoveHintText);
+		window.draw(keyboardSelectHint);
+		window.draw(keyboardSelectHintText);
+	}
 	switch (currentState)
 	{
 	case CHOOSERACE:

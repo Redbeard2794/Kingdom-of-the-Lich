@@ -60,7 +60,7 @@ int main()
 	sf::Font font;
 	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
-	//these will be chosen in the menus so the player will actually be created later 
+	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player();
 
 	window.setFramerateLimit(60);
@@ -73,6 +73,7 @@ int main()
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
 
+	//only here temporarily
 	sf::Sprite tempBground;
 	sf::Texture tempBgroundTexture;
 	tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
@@ -85,6 +86,7 @@ int main()
 	tempBground2.setTexture(tempBgroundTexture2);
 	tempBground2.setPosition(sf::Vector2f(0, 0));
 
+	//curso
 	sf::Sprite cursor;
 	sf::Texture defaultCursor;
 	defaultCursor.loadFromFile("Assets/Icons/Cursors/defaultCursor.png");
@@ -95,12 +97,14 @@ int main()
 
 	//use gems as currency?
 
+	//Icon for window corner
 	//icon by http://opengameart.org/users/cron
 	sf::Image icon;
 	icon.loadFromFile("Assets/Icons/goldskull.png");
 	window.setIcon(32, 32, icon.getPixelsPtr());
 
 	bool useController = false;
+
 	float leftStickXaxis;
 	float leftStickYaxis;
 
@@ -126,8 +130,33 @@ int main()
 	useController = gamepad->CheckControllerConnection();
 
 	Menu *mainMenu = new Menu(font, useController);
-	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font);
+	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController);
 
+	sf::Sprite splashHintSprite;
+	sf::Texture splashHintTexture;
+	sf::Text splashHintText1;
+	splashHintText1.setFont(font);
+	splashHintText1.setString("Press");
+	//splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 3, SCREENHEIGHT - 75));
+
+	if (useController == true)
+	{
+		splashHintTexture.loadFromFile("Assets/ControllerHints/startButtonHint.png");
+		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 2-100, SCREENHEIGHT - 75));
+		ConfirmationDialogBox::GetInstance()->setShowControllerHints(true);
+	}
+	else if (useController == false)
+	{
+		splashHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/spaceButtonHint.png");
+		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 3, SCREENHEIGHT - 75));
+		ConfirmationDialogBox::GetInstance()->setShowControllerHints(false);
+	}
+
+	ConfirmationDialogBox::GetInstance()->setHints();
+
+	splashHintSprite.setTexture(splashHintTexture);
+	splashHintSprite.setOrigin(sf::Vector2f(splashHintTexture.getSize().x / 2, splashHintTexture.getSize().y / 2));
+	splashHintSprite.setPosition(sf::Vector2f(SCREENWIDTH / 2, SCREENHEIGHT - 50));
 
 	bool spacePressed = false;
 	bool enterPressed = false;
@@ -169,11 +198,13 @@ int main()
 		{
 		case SPLASH:
 			window.draw(startup);
+			window.draw(splashHintSprite);
+			window.draw(splashHintText1);
 			gamepad->CheckAllButtons();
-
+			
 			if (useController == true)
 			{
-				if (gamepad->A() == true)
+				if (gamepad->Start() == true)
 				{
 					gState = MAINMENU;
 					gamepad->Rumble(800, 0);
@@ -182,7 +213,7 @@ int main()
 
 			else
 			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))//up
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 				{
 					gState = MAINMENU;
 					std::cout << "Current game state: " << gState << std::endl;
@@ -388,15 +419,15 @@ int main()
 					}
 
 
-					if (gamepad->A() == true)
-					{
-						if (raceAndGenderMenu->getCurrentState() == 0 && raceAndGenderMenu->getCanSelect() == true)
-							raceAndGenderMenu->setCanSelect(false);
-						else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
-							raceAndGenderMenu->setCanSelect(false);
-						else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
-							raceAndGenderMenu->setCanSelect(false);
-					}
+					//if (gamepad->A() == true)
+					//{
+					//	if (raceAndGenderMenu->getCurrentState() == 0 && raceAndGenderMenu->getCanSelect() == true)
+					//		raceAndGenderMenu->setCanSelect(false);
+					//	else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
+					//		raceAndGenderMenu->setCanSelect(false);
+					//	else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
+					//		raceAndGenderMenu->setCanSelect(false);
+					//}
 					if (gamepad->RB())
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)
@@ -451,6 +482,7 @@ int main()
 							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
 								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}

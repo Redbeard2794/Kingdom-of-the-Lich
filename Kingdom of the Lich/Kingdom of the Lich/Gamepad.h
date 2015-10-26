@@ -33,8 +33,16 @@ public:
 	bool DpadLeft() { return leftPressed; }
 
 	void CheckRB();
+	void CheckLB();
 
 	bool RB() { return rbPressed; }
+	bool LB() { return lbPressed; }
+
+	void CheckStart();
+	void CheckBack();
+
+	bool Start() { return startPressed; }
+	bool Back() { return backPressed; }
 
 private:
 	XINPUT_STATE state;
@@ -53,6 +61,9 @@ private:
 	//shoulder buttons
 	bool lbPressed;
 	bool rbPressed;
+	//start and back/menu and view
+	bool startPressed;
+	bool backPressed;
 
 };
 

@@ -50,6 +50,8 @@ void Gamepad::CheckAllButtons()
 	CheckDpadRight();
 	CheckDpadLeft();
 	CheckRB();
+	CheckLB();
+	CheckStart();
 }
 
 void Gamepad::CheckA()
@@ -193,6 +195,38 @@ void Gamepad::CheckRB()
 			}
 		}
 		else rbPressed = false;
+	}
+}
+
+void Gamepad::CheckLB()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+		{
+			if (lbPressed == false)
+			{
+				lbPressed = true;
+				std::cout << "LB" << std::endl;
+			}
+		}
+		else lbPressed = false;
+	}
+}
+
+void Gamepad::CheckStart()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_START)
+		{
+			if (startPressed == false)
+			{
+				startPressed = true;
+				std::cout << "Start" << std::endl;
+			}
+		}
+		else startPressed = false;
 	}
 }
 

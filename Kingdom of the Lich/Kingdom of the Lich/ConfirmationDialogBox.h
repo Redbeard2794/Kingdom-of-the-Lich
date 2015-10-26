@@ -29,6 +29,23 @@ private:
 		NO
 	};
 
+	bool showControllerHints;
+	sf::Sprite controllerMoveHint;
+	sf::Texture controllerMoveHintTexture;
+	sf::Text controllerMoveHintText;
+
+	sf::Sprite controllerSelectHint;
+	sf::Texture controllerSelectHintTexture;
+	sf::Text controllerSelectHintText;
+
+	sf::Sprite mouseMoveHint;
+	sf::Texture mouseMoveHintTexture;
+	sf::Text mouseMoveHintText;
+
+	sf::Sprite mouseSelectHint;
+	sf::Texture mouseSelectHintTexture;
+	sf::Text mouseSelectHintText;
+
 	//constructor is private as it is a singleton
 	ConfirmationDialogBox()
 	{
@@ -63,6 +80,7 @@ private:
 		prevOption = currentOption;
 
 		mouseClicked = false;
+
 	}
 
 public:
@@ -92,6 +110,10 @@ public:
 	bool getCanMoveSelection() { return canMoveSelection; }
 
 	int getCurrentOption() { return currentOption; }
+
+	void setShowControllerHints(bool sch) { showControllerHints = sch; }
+
+	void setHints();
 
 	void Draw(sf::RenderTarget& window);
 };
