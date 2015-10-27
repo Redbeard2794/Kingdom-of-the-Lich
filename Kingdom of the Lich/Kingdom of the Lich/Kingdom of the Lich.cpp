@@ -161,6 +161,17 @@ int main()
 	bool spacePressed = false;
 	bool enterPressed = false;
 
+	//for testing inventory
+	Inventory* testInv = new Inventory();
+	testInv->CheckQuantity("Health Potion");
+	testInv->AddItemToInventory("Health Potion", 2);
+	testInv->CheckQuantity("Health Potion");
+	testInv->CheckQuantity("Ink Bottle");
+	testInv->RemoveItemFromInventory("Ink Bottle", 1);
+	testInv->CheckQuantity("Ink Bottle");
+
+	testInv->PrintAllInventory();
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -683,7 +694,7 @@ int main()
 			break;
 
 		case INVENTORY:
-
+			testInv->Draw(window);
 			break;
 
 		case CREDITS:
