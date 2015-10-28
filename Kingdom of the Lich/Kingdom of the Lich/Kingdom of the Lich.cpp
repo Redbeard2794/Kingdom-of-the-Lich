@@ -164,13 +164,16 @@ int main()
 	//for testing inventory
 	Inventory* testInv = new Inventory();
 	testInv->CheckQuantity("Health Potion");
-	testInv->AddItemToInventory("Health Potion", 2);
+	testInv->AddItemToInventory("Health Potion", 99);
+	testInv->CheckQuantity("Health Potion");
+	testInv->AddItemToInventory("Health Potion", 1);
 	testInv->CheckQuantity("Health Potion");
 	testInv->CheckQuantity("Ink Bottle");
 	testInv->RemoveItemFromInventory("Ink Bottle", 1);
 	testInv->CheckQuantity("Ink Bottle");
 
 	testInv->PrintAllInventory();
+	testInv->UseItem("Health Potion");
 
 	// Start game loop 
 	while (window.isOpen())

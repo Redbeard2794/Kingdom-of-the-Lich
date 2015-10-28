@@ -17,6 +17,17 @@ Inventory::Inventory()
 	backgroundTexture.loadFromFile("Assets/BackPackInterior.png");
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(15, 5);
+	backgroundSprite.setColor(sf::Color(255, 255, 255, 127));
+
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+
+	headerText.setString("Inventory");
+	headerText.setStyle(sf::Text::Underlined);
+	headerText.setCharacterSize(60);
+	headerText.setFont(font);
+	headerText.setPosition(SCREENWIDTH / 3, -12);
+	headerText.setColor(sf::Color::Cyan);
+
 }
 
 /*Destructor*/
@@ -59,7 +70,7 @@ int Inventory::CheckQuantity(std::string itemToCheck)
 			return it->second;
 		}
 	}
-	std::cout << "Could not find that item in the player inventory" << std::endl;
+	std::cout << "Could not find that item in the player inventory." << std::endl;
 	return 0;
 }
 
@@ -75,8 +86,12 @@ void Inventory::AddItemToInventory(std::string itemToAddTo, int quantityToAdd)
 	{
 		if (it->first == itemToAddTo)
 		{
-			std::cout << "Adding " << quantityToAdd << " to " << itemToAddTo << std::endl;
-			inventoryItems[itemToAddTo] = it->second + quantityToAdd;
+			if (it->second < 99)
+			{
+				std::cout << "Adding " << quantityToAdd << " to " << itemToAddTo << std::endl;
+				inventoryItems[itemToAddTo] = it->second + quantityToAdd;
+			}
+			else std::cout << "Could not add " << quantityToAdd << " " << itemToAddTo << " as it is at max capacity." << std::endl;
 		}
 	}
 }
@@ -98,12 +113,25 @@ void Inventory::RemoveItemFromInventory(std::string itemToRemoveFrom, int quanti
 				std::cout << "Removing " << quantityToRemove << " from " << itemToRemoveFrom << std::endl;
 				inventoryItems[itemToRemoveFrom] = it->second - quantityToRemove;
 			}
-			else std::cout << "Could not remove item as there is already 0 of this item" << std::endl;
+			else std::cout << "Could not remove item as there is already 0 of this item." << std::endl;
 		}
+	}
+}
+
+/*
+Use an item from the inventory
+parameter is the itme to use
+*/
+void Inventory::UseItem(std::string itemToUse)
+{
+	if (itemToUse == "Health Potion")
+	{
+		std::cout << "Using a health potion now" << std::endl;
 	}
 }
 
 void Inventory::Draw(sf::RenderTarget& window)
 {
 	window.draw(backgroundSprite);
+	window.draw(headerText);
 }

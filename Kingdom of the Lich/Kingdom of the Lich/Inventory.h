@@ -9,7 +9,10 @@ private:
 	sf::Sprite backgroundSprite;
 	sf::Texture backgroundTexture;
 
+	sf::Text headerText;
+	sf::Font font;
 
+	//std::vector<Item> drawableItems;
 
 public:
 	/*Constructor*/
@@ -41,6 +44,12 @@ public:
 	parameter 2 is the amount of that item that you want to remove
 	*/
 	void RemoveItemFromInventory(std::string itemToRemoveFrom, int quantityToRemove);
+
+	/*
+	Use an item from the inventory
+	parameter is the itme to use
+	*/
+	void UseItem(std::string itemToUse);
 
 	void Draw(sf::RenderTarget& window);
 };
