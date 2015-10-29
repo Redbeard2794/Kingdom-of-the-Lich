@@ -126,7 +126,23 @@ void Inventory::UseItem(std::string itemToUse)
 {
 	if (itemToUse == "Health Potion")
 	{
-		std::cout << "Using a health potion now" << std::endl;
+		if (inventoryItems["Health Potion"] > 0)
+		{
+			std::cout << "Using a health potion now" << std::endl;
+			RemoveItemFromInventory("Health Potion", 1);
+			std::cout << "Healing the player" << std::endl;
+			//player would be healed from here in the future
+		}
+		else std::cout << "you do not have any Health Potions" << std::endl;
+	}
+
+	else if (itemToUse == "Loaf of Bread")
+	{
+		if (inventoryItems["Loaf of Bread"] > 0)
+		{
+
+		}
+		else std::cout << "you do not have any Loaves of Bread" << std::endl;
 	}
 }
 

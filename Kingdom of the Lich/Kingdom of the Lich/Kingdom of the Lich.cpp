@@ -38,10 +38,15 @@
 
 int main()
 {
-	//tmx::TileMap map("Assets/Areas/tutorialArea.tmx");
+	//https://github.com/edoren/STP
+	tmx::TileMap map("Assets/tutorialLevel.tmx");
+
+	map.ShowObjects(); // Display all the layer objects.
+
+	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
 	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT, 32), "Kingdom of the Lich");
+	sf::RenderWindow window(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT, 32), "Kingdom of the Lich");// , sf::Style::Titlebar);
 	sf::RenderWindow *pWindow = &window;
 
 	//create sf::View
@@ -74,19 +79,19 @@ int main()
 	startup.setPosition(85, 260);
 
 	//only here temporarily
-	sf::Sprite tempBground;
-	sf::Texture tempBgroundTexture;
-	tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
-	tempBground.setTexture(tempBgroundTexture);
-	tempBground.setPosition(sf::Vector2f(0, 0));
+	//sf::Sprite tempBground;
+	//sf::Texture tempBgroundTexture;
+	//tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
+	//tempBground.setTexture(tempBgroundTexture);
+	//tempBground.setPosition(sf::Vector2f(0, 0));
 
-	sf::Sprite tempBground2;
-	sf::Texture tempBgroundTexture2;
-	tempBgroundTexture2.loadFromFile("Assets/minmap.png");
-	tempBground2.setTexture(tempBgroundTexture2);
-	tempBground2.setPosition(sf::Vector2f(0, 0));
+	//sf::Sprite tempBground2;
+	//sf::Texture tempBgroundTexture2;
+	//tempBgroundTexture2.loadFromFile("Assets/minmap.png");
+	//tempBground2.setTexture(tempBgroundTexture2);
+	//tempBground2.setPosition(sf::Vector2f(0, 0));
 
-	//curso
+	//cursor
 	sf::Sprite cursor;
 	sf::Texture defaultCursor;
 	defaultCursor.loadFromFile("Assets/Icons/Cursors/defaultCursor.png");
@@ -164,12 +169,12 @@ int main()
 	//for testing inventory
 	Inventory* testInv = new Inventory();
 	testInv->CheckQuantity("Health Potion");
-	testInv->AddItemToInventory("Health Potion", 99);
+	//testInv->AddItemToInventory("Health Potion", 99);
 	testInv->CheckQuantity("Health Potion");
-	testInv->AddItemToInventory("Health Potion", 1);
+	//testInv->AddItemToInventory("Health Potion", 1);
 	testInv->CheckQuantity("Health Potion");
 	testInv->CheckQuantity("Ink Bottle");
-	testInv->RemoveItemFromInventory("Ink Bottle", 1);
+	//testInv->RemoveItemFromInventory("Ink Bottle", 1);
 	testInv->CheckQuantity("Ink Bottle");
 
 	testInv->PrintAllInventory();
@@ -638,53 +643,54 @@ int main()
 			}
 
 
-			//else//use keyboard
-			//{
-				//check if running
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			else//use keyboard
 			{
-				p->setIsRunning(true);
-			}
-			else { p->setIsRunning(false); }
+					//check if running
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				{
+					p->setIsRunning(true);
+				}
+				else { p->setIsRunning(false); }
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
-			{
-				if(p->getIsRunning() == false)
-					p->Move(sf::Vector2f(0, -1));
-				else if (p->getIsRunning() ==true)
-					p->Move(sf::Vector2f(0, -2.5f));
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
+				{
+					if(p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, -1));
+					else if (p->getIsRunning() ==true)
+						p->Move(sf::Vector2f(0, -2.5f));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(0, 1));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(0, 2.5f));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(-1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(-2.5f, 0));
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
+				{
+					if (p->getIsRunning() == false)
+						p->Move(sf::Vector2f(1, 0));
+					else if (p->getIsRunning() == true)
+						p->Move(sf::Vector2f(2.5f, 0));
+				}
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
-			{
-				if (p->getIsRunning() == false)
-					p->Move(sf::Vector2f(0, 1));
-				else if (p->getIsRunning() == true)
-					p->Move(sf::Vector2f(0, 2.5f));
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
-			{
-				if (p->getIsRunning() == false)
-					p->Move(sf::Vector2f(-1, 0));
-				else if (p->getIsRunning() == true)
-					p->Move(sf::Vector2f(-2.5f, 0));
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
-			{
-				if (p->getIsRunning() == false)
-					p->Move(sf::Vector2f(1, 0));
-				else if (p->getIsRunning() == true)
-					p->Move(sf::Vector2f(2.5f, 0));
-			}
-			//}
 
-			window.draw(tempBground);
+			//window.draw(tempBground);
+			window.draw(map);
 			p->Update();
 			p->draw(*pWindow);
 
 			//drawing the minimap
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
-			window.draw(tempBground2);
+			window.draw(map);
 			p->draw(*pWindow);
 			break;
 
