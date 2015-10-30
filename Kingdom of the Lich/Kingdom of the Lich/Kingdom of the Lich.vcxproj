@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SFML_SDK)\lib;C:\STP-master\doc\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>STP-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>STP-d.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

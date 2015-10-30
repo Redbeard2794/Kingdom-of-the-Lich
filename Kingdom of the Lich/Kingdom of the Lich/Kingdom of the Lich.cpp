@@ -39,7 +39,7 @@
 int main()
 {
 	//https://github.com/edoren/STP
-	tmx::TileMap map("Assets/tutorialLevel.tmx");
+	tmx::TileMap map("Assets/tutorialArea.tmx");
 
 	map.ShowObjects(); // Display all the layer objects.
 
