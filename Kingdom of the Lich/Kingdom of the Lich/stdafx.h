@@ -35,6 +35,7 @@
 #include "Gamepad.h"
 #include "ConfirmationDialogBox.h"
 #include "Inventory.h"
+#include "Chest.h"
 
 
 

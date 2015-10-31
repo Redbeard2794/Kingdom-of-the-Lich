@@ -151,6 +151,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="ConfirmationDialogBox.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="ConfirmationDialogBox.cpp" />

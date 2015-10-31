@@ -4,15 +4,27 @@
 /*Constructor*/
 Inventory::Inventory()
 {
-	inventoryItems["Health Potion"] = 0;
-	inventoryItems["Bottle of Ale"] = 0;
-	inventoryItems["Loaf of Bread"] = 0;
-	inventoryItems["Apple"] = 0;
-	inventoryItems["Gems"] = 13;//Currency
-	inventoryItems["Baracks Key"] = 0;
-	inventoryItems["Parchment"] = 0;
-	inventoryItems["Ink Bottle"] = 0;
-	inventoryItems["Quill"] = 0;
+	i_healthPotion.key = "Health Potion";
+	i_ale.key = "Bottle of Ale";
+	i_bread.key = "Loaf of Bread";
+	i_apple.key = "Apple";
+	i_gems.key = "Gems";
+	i_baracksKey.key = "Baracks Key";
+	i_parchment.key = "Parchment";
+	i_inkBottle.key = "Ink Bottle";
+	i_quill.key = "Quill";
+
+	itemKeys.push_back(i_healthPotion.key);
+	itemKeys.push_back(i_ale.key);
+	itemKeys.push_back(i_bread.key);
+	itemKeys.push_back(i_apple.key);
+	itemKeys.push_back(i_gems.key);
+	itemKeys.push_back(i_baracksKey.key);
+	itemKeys.push_back(i_parchment.key);
+	itemKeys.push_back(i_inkBottle.key);
+	itemKeys.push_back(i_quill.key);
+
+	InitialiseInventoryItems();
 
 	backgroundTexture.loadFromFile("Assets/BackPackInterior.png");
 	backgroundSprite.setTexture(backgroundTexture);
@@ -34,6 +46,15 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 
+}
+
+/*Initialise all item in inventory to have '0' quantity*/
+void Inventory::InitialiseInventoryItems()
+{
+	for (int i = 0; i < itemKeys.size(); i++)
+	{
+		inventoryItems[itemKeys.at(i)] = 0;
+	}
 }
 
 /*Prints out the contents of the inventory(all items+quantities)
@@ -146,6 +167,7 @@ void Inventory::UseItem(std::string itemToUse)
 	}
 }
 
+/*Draw items that have a quantity > 0*/
 void Inventory::Draw(sf::RenderTarget& window)
 {
 	window.draw(backgroundSprite);

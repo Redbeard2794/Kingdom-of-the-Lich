@@ -78,19 +78,6 @@ int main()
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
 
-	//only here temporarily
-	//sf::Sprite tempBground;
-	//sf::Texture tempBgroundTexture;
-	//tempBgroundTexture.loadFromFile("Assets/testingBackground.png");
-	//tempBground.setTexture(tempBgroundTexture);
-	//tempBground.setPosition(sf::Vector2f(0, 0));
-
-	//sf::Sprite tempBground2;
-	//sf::Texture tempBgroundTexture2;
-	//tempBgroundTexture2.loadFromFile("Assets/minmap.png");
-	//tempBground2.setTexture(tempBgroundTexture2);
-	//tempBground2.setPosition(sf::Vector2f(0, 0));
-
 	//cursor
 	sf::Sprite cursor;
 	sf::Texture defaultCursor;
@@ -142,7 +129,6 @@ int main()
 	sf::Text splashHintText1;
 	splashHintText1.setFont(font);
 	splashHintText1.setString("Press");
-	//splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 3, SCREENHEIGHT - 75));
 
 	if (useController == true)
 	{
@@ -166,19 +152,13 @@ int main()
 	bool spacePressed = false;
 	bool enterPressed = false;
 
+
+
 	//for testing inventory
 	Inventory* testInv = new Inventory();
-	testInv->CheckQuantity("Health Potion");
-	//testInv->AddItemToInventory("Health Potion", 99);
-	testInv->CheckQuantity("Health Potion");
-	//testInv->AddItemToInventory("Health Potion", 1);
-	testInv->CheckQuantity("Health Potion");
-	testInv->CheckQuantity("Ink Bottle");
-	//testInv->RemoveItemFromInventory("Ink Bottle", 1);
-	testInv->CheckQuantity("Ink Bottle");
-
 	testInv->PrintAllInventory();
-	testInv->UseItem("Health Potion");
+
+	Chest* testChest = new Chest(testInv->i_healthPotion.key);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -685,12 +665,14 @@ int main()
 			//window.draw(tempBground);
 			window.draw(map);
 			p->Update();
+			testChest->draw(*pWindow);
 			p->draw(*pWindow);
 
 			//drawing the minimap
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
 			window.draw(map);
+			testChest->draw(*pWindow);
 			p->draw(*pWindow);
 			break;
 

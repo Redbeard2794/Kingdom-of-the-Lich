@@ -12,15 +12,28 @@ private:
 	sf::Text headerText;
 	sf::Font font;
 
+	std::vector<std::string> itemKeys;
+
 	//std::vector<Item> drawableItems;
 
 public:
+	//these need to be visible in other classes....Is there a better way of doing this?
+	struct items
+	{
+		std::string key;
+	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
+
 	/*Constructor*/
 	Inventory();
+
 	/*Destructor*/
 	~Inventory();
 
-	/*Prints out the contents of the inventory(all items+quantities)
+	/*Initialise all item in inventory to have '0' quantity*/
+	void InitialiseInventoryItems();
+
+	/*
+	Prints out the contents of the inventory(all items+quantities)
 	For debugging mostly.
 	*/
 	void PrintAllInventory();
@@ -51,7 +64,9 @@ public:
 	*/
 	void UseItem(std::string itemToUse);
 
+	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);
+
 };
 
 #endif
