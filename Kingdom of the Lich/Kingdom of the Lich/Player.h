@@ -47,6 +47,16 @@ private:
 		SPELLBLADE
 	};
 
+	enum Directions
+	{
+		NORTH,//0
+		SOUTH,//1
+		EAST,//2
+		WEST,//3
+		NOTMOVING//4
+	};
+	int currentDirection;
+	int lockedDirection;
 
 public:
 	Player();
@@ -56,7 +66,9 @@ public:
 
 	//void boundary();
 
-	void Move(sf::Vector2f direction);
+	void Move(int newDir);
+
+	bool CollisionWithChest(sf::Sprite chestSprite);//, Inventory* inv);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 	void Player::draw(sf::RenderTarget& window);
@@ -72,7 +84,7 @@ public:
 	int getRace() { return race; }
 	int getGender() { return gender; }
 	int getClass() { return playerClass; }
-
+	int getCurrentDirection() { return currentDirection; }
 	//end gets
 	//start sets
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
@@ -83,6 +95,7 @@ public:
 	void setGender(int g) { gender = g; }
 	void setClass(int c) { playerClass = c; }
 
+	void setCurrentDirection(int currDir) { currentDirection = currDir; }
 	//end sets
 #pragma endregion
 

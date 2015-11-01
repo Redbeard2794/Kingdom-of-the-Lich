@@ -68,7 +68,7 @@ int main()
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player();
 
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(60);//is this causing the flickering in the mini map
 
 	//text by cooltext.com
 	sf::Sprite startup;
@@ -158,7 +158,9 @@ int main()
 	Inventory* testInv = new Inventory();
 	testInv->PrintAllInventory();
 
-	Chest* testChest = new Chest(testInv->i_healthPotion.key);
+	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
+	//testChest->OpenChest(testInv);
+	//testInv->CheckQuantity(testInv->i_healthPotion.key);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -548,33 +550,14 @@ int main()
 				else p->setIsRunning(false);
 
 				if (gamepad->DpadUp())
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, -1));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(0, -2.5f));
-				}
+					p->Move(0);
 				else if (gamepad->DpadDown())
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, 1));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(0, 2.5f));
-				}
+					p->Move(1);
 				else if (gamepad->DpadRight())
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(2.5f, 0));
-				}
+					p->Move(2);
 				else if (gamepad->DpadLeft())
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(-1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(-2.5f, 0));
-				}
+					p->Move(3);
+				else p->setCurrentDirection(4);
 
 				//	//thumbsticks
 				//	//check if the controller is outside a circular dead zone
@@ -620,6 +603,11 @@ int main()
 				//		}
 				//	}
 				//}
+				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)// , testInv);
+				{
+					if (testChest->getOpened() == false)
+						testChest->OpenChest(testInv);
+				}
 			}
 
 
@@ -627,44 +615,32 @@ int main()
 			{
 					//check if running
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				{
 					p->setIsRunning(true);
-				}
 				else { p->setIsRunning(false); }
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
-				{
-					if(p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, -1));
-					else if (p->getIsRunning() ==true)
-						p->Move(sf::Vector2f(0, -2.5f));
-				}
+					p->Move(0);
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(0, 1));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(0, 2.5f));
-				}
+					p->Move(1);
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
-				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(-1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(-2.5f, 0));
-				}
+					p->Move(3);
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
+					p->Move(2);
+				else p->setCurrentDirection(4);
+
+
+				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
-					if (p->getIsRunning() == false)
-						p->Move(sf::Vector2f(1, 0));
-					else if (p->getIsRunning() == true)
-						p->Move(sf::Vector2f(2.5f, 0));
+					if (testChest->getOpened() == false)
+						testChest->OpenChest(testInv);
 				}
+
 			}
 
 			//window.draw(tempBground);
 			window.draw(map);
 			p->Update();
+
 			testChest->draw(*pWindow);
 			p->draw(*pWindow);
 

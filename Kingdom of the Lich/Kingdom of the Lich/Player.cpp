@@ -17,6 +17,8 @@ Player::Player()
 	hudBackground.setPosition(0, 600);
 
 	compass = new Compass();
+	currentDirection = NOTMOVING;
+	lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything yet
 }
 
 Player::~Player()
@@ -30,9 +32,49 @@ void Player::Update()
 	compass->UpdateNeedle(getPosition(), sf::Vector2f(400, 200));
 }
 
-void Player::Move(sf::Vector2f direction)
+void Player::Move(int newDir)
 {
-	setPosition(getPosition() + direction);
+	currentDirection = newDir;
+
+	if (currentDirection == NORTH && lockedDirection!= currentDirection)
+	{
+		if(isRunning == false)
+			setPosition(getPosition().x, getPosition().y -1);
+		else setPosition(getPosition().x, getPosition().y - 2);
+	}
+	else if (currentDirection == SOUTH && lockedDirection != currentDirection)
+	{
+		if (isRunning == false)
+			setPosition(getPosition().x, getPosition().y + 1);
+		else setPosition(getPosition().x, getPosition().y + 2);
+	}
+	else if (currentDirection == EAST && lockedDirection != currentDirection)
+	{
+		if (isRunning == false)
+			setPosition(getPosition().x + 1, getPosition().y);
+		else setPosition(getPosition().x + 2, getPosition().y);
+	}
+	else if (currentDirection == WEST && lockedDirection != currentDirection)
+	{
+		if (isRunning == false)
+			setPosition(getPosition().x - 1, getPosition().y);
+		else setPosition(getPosition().x - 2, getPosition().y);
+	}
+}
+
+bool Player::CollisionWithChest(sf::Sprite chestSprite)//, Inventory* inv)
+{
+	if (chestSprite.getGlobalBounds().contains(getPosition()))
+	{
+		if (currentDirection != NOTMOVING)
+			lockedDirection = currentDirection;
+		return true;
+	}
+	else
+	{
+		lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything if they are not colliding
+		return false;
+	}
 }
 
 void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
