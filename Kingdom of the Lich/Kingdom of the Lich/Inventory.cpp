@@ -2,7 +2,7 @@
 #include "Inventory.h"
 
 /*Constructor*/
-Inventory::Inventory()
+Inventory::Inventory(sf::Font f) : font(f)
 {
 	i_healthPotion.key = "Health Potion";
 	i_ale.key = "Bottle of Ale";
@@ -40,6 +40,46 @@ Inventory::Inventory()
 	headerText.setPosition(SCREENWIDTH / 3, -12);
 	headerText.setColor(sf::Color::Cyan);
 
+	//load item textures
+	healthPotTexture.loadFromFile("Assets/Icons/Items/healthPotionIcon.png");
+	aleBottleTexture.loadFromFile("Assets/Icons/Items/ale.png");
+	loafOfBreadTexture.loadFromFile("Assets/Icons/Items/loafOfBread.png");
+	baracksKeyTexture.loadFromFile("Assets/Icons/Items/key.png");
+	parchmentTexture.loadFromFile("Assets/Icons/Items/parchmentIcon.png");
+	inkBottleTexture.loadFromFile("Assets/Icons/Items/inkBottle.png");
+
+	//set up item sprites and text
+	healthPotSprite.setTexture(healthPotTexture);
+	healthPotSprite.setOrigin(healthPotTexture.getSize().x / 2, healthPotTexture.getSize().y / 2);
+	healthPotSprite.setPosition(90, 100);
+	healthText.setString("Health Potion x");
+	healthText.setFont(font);
+	healthText.setPosition(90, 100 + healthPotTexture.getSize().y / 2);
+	healthText.setCharacterSize(15);
+
+	aleBottleSprite.setTexture(aleBottleTexture);
+	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
+	aleBottleSprite.setScale(2, 1.7f);
+	aleBottleSprite.setPosition(90, 200);
+
+	loafOfBreadSprite.setTexture(loafOfBreadTexture);
+	loafOfBreadSprite.setOrigin(loafOfBreadTexture.getSize().x / 2, loafOfBreadTexture.getSize().y / 2);
+	loafOfBreadSprite.setScale(2, 1.7f);
+	loafOfBreadSprite.setPosition(90, 300);
+
+	baracksKeySprite.setTexture(baracksKeyTexture);
+	baracksKeySprite.setOrigin(baracksKeyTexture.getSize().x / 2, baracksKeyTexture.getSize().y / 2);
+	baracksKeySprite.setRotation(-30);
+	baracksKeySprite.setPosition(90, 400);
+
+	parchmentSprite.setTexture(parchmentTexture);
+	parchmentSprite.setOrigin(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2);
+	parchmentSprite.setPosition(90, 500);
+
+	inkBottleSprite.setTexture(inkBottleTexture);
+	inkBottleSprite.setOrigin(inkBottleTexture.getSize().x / 2, inkBottleTexture.getSize().y / 2);
+	inkBottleSprite.setScale(1.2f, 1.2f);
+	inkBottleSprite.setPosition(290, 100);
 }
 
 /*Destructor*/
@@ -172,4 +212,15 @@ void Inventory::Draw(sf::RenderTarget& window)
 {
 	window.draw(backgroundSprite);
 	window.draw(headerText);
+
+	//draw items
+	window.draw(healthPotSprite);
+	healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key)));
+	window.draw(healthText);
+
+	window.draw(aleBottleSprite);
+	window.draw(loafOfBreadSprite);
+	window.draw(baracksKeySprite);
+	window.draw(parchmentSprite);
+	window.draw(inkBottleSprite);
 }

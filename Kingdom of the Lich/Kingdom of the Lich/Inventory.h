@@ -14,7 +14,29 @@ private:
 
 	std::vector<std::string> itemKeys;
 
-	//std::vector<Item> drawableItems;
+	sf::Texture healthPotTexture;
+	sf::Sprite healthPotSprite;
+	sf::Text healthText;
+
+	sf::Texture aleBottleTexture;
+	sf::Sprite aleBottleSprite;
+	sf::Text aleText;
+
+	sf::Texture loafOfBreadTexture;
+	sf::Sprite loafOfBreadSprite;
+	sf::Text breadText;
+
+	sf::Texture baracksKeyTexture;
+	sf::Sprite baracksKeySprite;
+	sf::Text baracksKeyText;
+
+	sf::Texture parchmentTexture;
+	sf::Sprite parchmentSprite;
+	sf::Text parchmentText;
+
+	sf::Texture inkBottleTexture;
+	sf::Sprite inkBottleSprite;
+	sf::Text inkBottleText;
 
 public:
 	//these need to be visible in other classes....Is there a better way of doing this?
@@ -24,7 +46,7 @@ public:
 	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
 
 	/*Constructor*/
-	Inventory();
+	Inventory(sf::Font f);
 
 	/*Destructor*/
 	~Inventory();

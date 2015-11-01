@@ -155,7 +155,7 @@ int main()
 
 
 	//for testing inventory
-	Inventory* testInv = new Inventory();
+	Inventory* testInv = new Inventory(font);
 	testInv->PrintAllInventory();
 
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
