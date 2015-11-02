@@ -51,6 +51,7 @@ int main()
 
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
+	//player_view.zoom(1.5f);
 	//Set it to be size of window
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
@@ -59,7 +60,7 @@ int main()
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
 	//change the viewport to change the maps size
 	minimap.setViewport(sf::FloatRect(0.6f - (1.f*minimap.getSize().x) / window.getSize().x - 0.10f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f, (2.0f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
-	minimap.zoom(4.f);
+	minimap.zoom(3.f);//4
 
 	//load a font
 	sf::Font font;
@@ -559,6 +560,10 @@ int main()
 					p->Move(3);
 				else p->setCurrentDirection(4);
 
+				//access inventory
+				if (gamepad->B())
+					gState = INVENTORY;
+
 				//	//thumbsticks
 				//	//check if the controller is outside a circular dead zone
 				//	if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
@@ -628,6 +633,9 @@ int main()
 					p->Move(2);
 				else p->setCurrentDirection(4);
 
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+					gState = INVENTORY;
+
 
 				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
@@ -661,6 +669,7 @@ int main()
 			break;
 
 		case INVENTORY:
+			window.setView(window.getDefaultView());
 			testInv->Draw(window);
 			break;
 

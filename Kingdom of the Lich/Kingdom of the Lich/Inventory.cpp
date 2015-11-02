@@ -54,32 +54,52 @@ Inventory::Inventory(sf::Font f) : font(f)
 	healthPotSprite.setPosition(90, 100);
 	healthText.setString("Health Potion x");
 	healthText.setFont(font);
-	healthText.setPosition(90, 100 + healthPotTexture.getSize().y / 2);
+	healthText.setPosition(120, 70 + healthPotTexture.getSize().y / 2);
 	healthText.setCharacterSize(15);
 
 	aleBottleSprite.setTexture(aleBottleTexture);
 	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
 	aleBottleSprite.setScale(2, 1.7f);
 	aleBottleSprite.setPosition(90, 200);
+	aleText.setString("Bottle of Ale x");
+	aleText.setFont(font);
+	aleText.setPosition(120, 170 + aleBottleTexture.getSize().y / 2);
+	aleText.setCharacterSize(15);
 
 	loafOfBreadSprite.setTexture(loafOfBreadTexture);
 	loafOfBreadSprite.setOrigin(loafOfBreadTexture.getSize().x / 2, loafOfBreadTexture.getSize().y / 2);
 	loafOfBreadSprite.setScale(2, 1.7f);
 	loafOfBreadSprite.setPosition(90, 300);
+	breadText.setString("Loaf of Bread x");
+	breadText.setFont(font);
+	breadText.setPosition(120, 270 + loafOfBreadTexture.getSize().y / 2);
+	breadText.setCharacterSize(15);
 
 	baracksKeySprite.setTexture(baracksKeyTexture);
 	baracksKeySprite.setOrigin(baracksKeyTexture.getSize().x / 2, baracksKeyTexture.getSize().y / 2);
 	baracksKeySprite.setRotation(-30);
 	baracksKeySprite.setPosition(90, 400);
+	baracksKeyText.setString("Baracks key x");
+	baracksKeyText.setFont(font);
+	baracksKeyText.setPosition(120, 370 + baracksKeyTexture.getSize().y / 2);
+	baracksKeyText.setCharacterSize(15);
 
 	parchmentSprite.setTexture(parchmentTexture);
 	parchmentSprite.setOrigin(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2);
 	parchmentSprite.setPosition(90, 500);
+	parchmentText.setString("Parchment x");
+	parchmentText.setFont(font);
+	parchmentText.setPosition(120, 470 + parchmentTexture.getSize().y / 2);
+	parchmentText.setCharacterSize(15);
 
 	inkBottleSprite.setTexture(inkBottleTexture);
 	inkBottleSprite.setOrigin(inkBottleTexture.getSize().x / 2, inkBottleTexture.getSize().y / 2);
 	inkBottleSprite.setScale(1.2f, 1.2f);
 	inkBottleSprite.setPosition(290, 100);
+	inkBottleText.setString("Ink Bottle x");
+	inkBottleText.setFont(font);
+	inkBottleText.setPosition(330, 70 + inkBottleTexture.getSize().y / 2);
+	inkBottleText.setCharacterSize(15);
 }
 
 /*Destructor*/
@@ -118,20 +138,22 @@ void Inventory::PrintAllInventory()
 Checks the quantity of an item
 parameter is the item name
 */
-int Inventory::CheckQuantity(std::string itemToCheck)
+int Inventory::CheckQuantity(std::string itemToCheck, bool output)
 {
 	std::map<std::string, int>::iterator it;
-
-	std::cout << "Checking the player's inventory for the quantity of: " << itemToCheck << std::endl;
+	if(output == true)
+		std::cout << "Checking the player's inventory for the quantity of: " << itemToCheck << std::endl;
 	for (it = inventoryItems.begin(); it != inventoryItems.end(); ++it)
 	{
 		if (it->first == itemToCheck)
 		{
-			std::cout << it->second << std::endl;
+			if (output == true)
+				std::cout << it->second << std::endl;
 			return it->second;
 		}
 	}
-	std::cout << "Could not find that item in the player inventory." << std::endl;
+	if (output == true)
+		std::cout << "Could not find that item in the player inventory." << std::endl;
 	return 0;
 }
 
@@ -215,12 +237,26 @@ void Inventory::Draw(sf::RenderTarget& window)
 
 	//draw items
 	window.draw(healthPotSprite);
-	healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key)));
+	healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
 	window.draw(healthText);
 
 	window.draw(aleBottleSprite);
+	aleText.setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
+	window.draw(aleText);
+
 	window.draw(loafOfBreadSprite);
+	breadText.setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
+	window.draw(breadText);
+
 	window.draw(baracksKeySprite);
+	baracksKeyText.setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
+	window.draw(baracksKeyText);
+
 	window.draw(parchmentSprite);
+	parchmentText.setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
+	window.draw(parchmentText);
+
 	window.draw(inkBottleSprite);
+	inkBottleText.setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
+	window.draw(inkBottleText);
 }

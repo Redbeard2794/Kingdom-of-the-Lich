@@ -52,6 +52,7 @@ void Gamepad::CheckAllButtons()
 	CheckRB();
 	CheckLB();
 	CheckStart();
+	CheckBack();
 }
 
 void Gamepad::CheckA()
@@ -227,6 +228,22 @@ void Gamepad::CheckStart()
 			}
 		}
 		else startPressed = false;
+	}
+}
+
+void Gamepad::CheckBack()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_BACK)
+		{
+			if (backPressed == false)
+			{
+				backPressed = true;
+				std::cout << "Back" << std::endl;
+			}
+		}
+		else backPressed = false;
 	}
 }
 

@@ -64,7 +64,7 @@ public:
 	Checks the quantity of an item
 	parameter is the item name
 	*/
-	int CheckQuantity(std::string itemToCheck);
+	int CheckQuantity(std::string itemToCheck, bool output);
 
 	/*
 	Adds an item to the inventory
