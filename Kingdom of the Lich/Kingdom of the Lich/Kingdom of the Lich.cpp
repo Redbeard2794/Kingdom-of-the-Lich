@@ -120,7 +120,7 @@ int main()
 	std::cout << "Current game state: " << gState << std::endl;
 
 	Gamepad* gamepad = new Gamepad();
-	useController = gamepad->CheckControllerConnection();
+	useController = gamepad->CheckControllerConnection(true);
 
 	Menu *mainMenu = new Menu(font, useController);
 	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController);
@@ -202,10 +202,14 @@ int main()
 			window.draw(startup);
 			window.draw(splashHintSprite);
 			window.draw(splashHintText1);
+
+
 			gamepad->CheckAllButtons();
 			
 			if (useController == true)
 			{
+				if (gamepad->CheckControllerConnection(false) == false)
+					useController = false;
 				if (gamepad->Start() == true)
 				{
 					gState = MAINMENU;
@@ -215,6 +219,8 @@ int main()
 
 			else
 			{
+				if (gamepad->CheckControllerConnection(false) == true)
+					useController = true;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 				{
 					gState = MAINMENU;
@@ -227,6 +233,8 @@ int main()
 			mainMenu->Draw(window);
 			if (useController == false)
 			{
+				//if (gamepad->CheckControllerConnection(false) == true)
+				//	useController = true;
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 				cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
 				window.draw(cursor);
@@ -234,9 +242,13 @@ int main()
 				if (mainMenu->getSelectedOption() == 0)//new game
 					gState = CHOOSERACEGENDER;
 				else if (mainMenu->getSelectedOption() == 1)//continue game
-					std::cout << "Continue game not available yet" << std::endl;
+				{
+					//std::cout << "Continue game not available yet" << std::endl;
+				}
 				else if (mainMenu->getSelectedOption() == 2)//options
-					std::cout << "Options not available yet" << std::endl;
+				{
+					//std::cout << "Options not available yet" << std::endl;
+				}
 				else if (mainMenu->getSelectedOption() == 3)//credits
 					gState = CREDITS;
 				else if (mainMenu->getSelectedOption() == 4)//quit
@@ -245,6 +257,8 @@ int main()
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
+				//if (gamepad->CheckControllerConnection(false) == false)
+				//	useController = false;
 
 				if (gamepad->DpadUp() == true)
 				{
@@ -334,6 +348,7 @@ int main()
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
 								//raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								p->setTextures();
 								gState = GAME;
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -480,6 +495,7 @@ int main()
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								gState = GAME;
+								p->setTextures();
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -671,6 +687,16 @@ int main()
 		case INVENTORY:
 			window.setView(window.getDefaultView());
 			testInv->Draw(window);
+			if (useController == true)
+			{
+				gamepad->CheckAllButtons();
+				if (gamepad->Back())
+					gState = GAME;
+			}
+			else if (useController == false)
+			{
+
+			}
 			break;
 
 		case CREDITS:

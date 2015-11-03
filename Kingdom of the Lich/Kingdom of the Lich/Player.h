@@ -65,6 +65,7 @@ public:
 	void Update();
 
 	//void boundary();
+	void setTextures();
 
 	void Move(int newDir);
 

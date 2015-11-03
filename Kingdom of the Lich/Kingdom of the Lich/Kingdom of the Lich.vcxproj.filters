@@ -54,6 +54,9 @@
     <ClInclude Include="Chest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuestController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

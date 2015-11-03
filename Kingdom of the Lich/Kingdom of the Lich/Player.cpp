@@ -32,6 +32,19 @@ void Player::Update()
 	compass->UpdateNeedle(getPosition(), sf::Vector2f(400, 200));
 }
 
+void Player::setTextures()
+{
+	if (race == HUMAN)
+		mTexture.loadFromFile("Assets/Icons/humanSkull.png");
+	else if(race == ELF)
+		mTexture.loadFromFile("Assets/Icons/elfSkull.png");
+	else if(race == BEASTMAN)
+		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
+
+	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
+	mSprite.setTexture(mTexture);
+}
+
 void Player::Move(int newDir)
 {
 	currentDirection = newDir;

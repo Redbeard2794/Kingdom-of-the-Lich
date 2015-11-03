@@ -36,6 +36,7 @@
 #include "ConfirmationDialogBox.h"
 #include "Inventory.h"
 #include "Chest.h"
+#include "QuestController.h"
 
 
 

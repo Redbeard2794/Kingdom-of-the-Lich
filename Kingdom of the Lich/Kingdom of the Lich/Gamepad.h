@@ -8,38 +8,45 @@ public:
 	Gamepad();
 	~Gamepad();
 
-	bool CheckControllerConnection();
+	/*Check whether the controller is connected*/
+	bool CheckControllerConnection(bool showOutput);
+
+	/*Cause the motors to rumble*/
 	void Rumble(int leftMotorRumble, int rightMotorRumble);
+
+	/*Call all checks for the different button presses*/
 	void CheckAllButtons();
 
+	/*methods to check button presses*/
 	void CheckA();
 	void CheckB();
 	void CheckX();
 	void CheckY();
-
-	bool A() { return aPressed; }
-	bool B() { return bPressed; }
-	bool X() { return xPressed; }
-	bool Y() { return yPressed; }
 
 	void CheckDpadUp();
 	void CheckDpadDown();
 	void CheckDpadRight();
 	void CheckDpadLeft();
 
+	void CheckRB();
+	void CheckLB();
+
+	void CheckStart();
+	void CheckBack();
+
+	/*retrieve the pressed state of each button*/
+	bool A() { return aPressed; }
+	bool B() { return bPressed; }
+	bool X() { return xPressed; }
+	bool Y() { return yPressed; }
+
 	bool DpadUp() { return upPressed; }
 	bool DpadDown() { return downPressed; }
 	bool DpadRight() { return rightPressed; }
 	bool DpadLeft() { return leftPressed; }
 
-	void CheckRB();
-	void CheckLB();
-
 	bool RB() { return rbPressed; }
 	bool LB() { return lbPressed; }
-
-	void CheckStart();
-	void CheckBack();
 
 	bool Start() { return startPressed; }
 	bool Back() { return backPressed; }

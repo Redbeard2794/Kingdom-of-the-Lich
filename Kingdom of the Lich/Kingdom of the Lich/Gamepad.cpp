@@ -17,17 +17,20 @@ Gamepad::~Gamepad()
 
 }
 
-bool Gamepad::CheckControllerConnection()
+bool Gamepad::CheckControllerConnection(bool showOutput)
 {
-	std::cout << "Gamepad is Checking for Xbox controller." << std::endl;
+	if(showOutput == true)
+		std::cout << "Gamepad is Checking for Xbox controller." << std::endl;
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
-		std::cout << "	* Xbox controller connected successfully." << std::endl;
+		if (showOutput == true)
+			std::cout << "	* Xbox controller connected successfully." << std::endl;
 		return true;
 	}
 	else
 	{
-		std::cout << "	* No Xbox controller detected. You will need to use your keyboard and mouse to play." << std::endl;
+		if (showOutput == true)
+			std::cout << "	* No Xbox controller detected. You will need to use your keyboard and mouse to play." << std::endl;
 		return false;
 	}
 }
