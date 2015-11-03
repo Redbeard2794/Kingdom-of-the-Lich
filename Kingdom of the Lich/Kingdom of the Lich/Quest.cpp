@@ -5,7 +5,7 @@ Quest::Quest(int id, std::string qName, sf::Vector2f startPos, std::string giver
 	: questId(id), questName(qName), questStartingPosition(startPos), questGiverName(giverName), questObjective(objective),
 	objectiveLocation(objectivePos), isCombatBased(combat),questGemReward(gems), xpReward(xp)
 {
-
+	completed = false;
 }
 
 Quest::~Quest()

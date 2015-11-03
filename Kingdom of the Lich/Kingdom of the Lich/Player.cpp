@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player()
+Player::Player(sf::Font f) : font(f)
 {
 	//load the correct texture or load the debug texture if something is wrong
 	if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
@@ -15,6 +15,11 @@ Player::Player()
 	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");
 	hudBackground.setTexture(hudBackgroundTexture);
 	hudBackground.setPosition(0, 600);
+	currentQuestText.setFont(font);
+	currentQuestText.setColor(sf::Color::Black);
+	currentQuestText.setString("Current Quest: ");
+	currentQuestText.setPosition(500, 550);
+	currentQuestText.setCharacterSize(15);
 
 	compass = new Compass();
 	currentDirection = NOTMOVING;
@@ -26,10 +31,12 @@ Player::~Player()
 
 }
 
-void Player::Update()
+void Player::Update(sf::Vector2f objectivePos, std::string currentQuestName)
 {
 	hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
-	compass->UpdateNeedle(getPosition(), sf::Vector2f(400, 200));
+	currentQuestText.setPosition(sf::Vector2f(getPosition().x + 140, getPosition().y + 200));
+	currentQuestText.setString("Current Quest: " + currentQuestName);
+	compass->UpdateNeedle(getPosition(), objectivePos);
 }
 
 void Player::setTextures()
@@ -95,6 +102,7 @@ void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 void Player::draw(sf::RenderTarget& window)
 {
 	window.draw(hudBackground);
+	window.draw(currentQuestText);
 	compass->draw(window);
 	window.draw(mSprite, getTransform());
 }

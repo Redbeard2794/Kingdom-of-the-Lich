@@ -25,7 +25,7 @@
   <image source="Tiles/forgeTiles.png" width="200" height="50"/>
  </tileset>
  <tileset firstgid="18" name="houseTiles" tilewidth="50" tileheight="50" tilecount="4">
-  <image source="Tiles/houseTiles.png" width="200" height="50"/>
+  <image source="Tiles/fixedRoofHouseTiles.png" width="200" height="50"/>
  </tileset>
  <layer name="Tile Layer 1" width="40" height="40">
   <data>

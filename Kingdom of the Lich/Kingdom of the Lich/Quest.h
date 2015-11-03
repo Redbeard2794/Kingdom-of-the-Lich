@@ -18,6 +18,7 @@ public:
 	int getQuestGemReward() { return questGemReward; }
 	//Item getRewardItem(){return rewardItem;}
 	int getXpReward() { return xpReward; }
+	bool getIsCompleted() { return completed; }
 	//end gets
 
 	//start sets
@@ -31,6 +32,7 @@ public:
 	void setQuestGemReward(int qgr) { questGemReward = qgr; }
 	//void setRewardItem(Item i){rewardItem = i;}
 	void setXpReward(int xpr) { xpReward = xpr; }
+	void setIsCompleted(bool c) { completed = c; }
 	//end sets
 
 private:
@@ -53,6 +55,8 @@ private:
 	//Item rewardItem;//the item to be awarded
 
 	int xpReward;//amount of xp to be awarded.(if no xp is to be awarded then pass 0)
+
+	bool completed;//is the quest completed?
 
 };
 

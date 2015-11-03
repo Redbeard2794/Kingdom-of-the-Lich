@@ -4,20 +4,20 @@
 ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):font(f), showControllerHints(controller)
 {
 	//table
-	if (tableTexture.loadFromFile("Assets/table1.png")) {}
+	if (tableTexture.loadFromFile("Assets/CharacterCreation/table1.png")) {}
 	else tableTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	table.setTexture(tableTexture);
 	table.setPosition(0, 5);
 
 	//parchment on table
-	if (parchmentTexture.loadFromFile("Assets/parchment.png")) {}
+	if (parchmentTexture.loadFromFile("Assets/CharacterCreation/parchment.png")) {}
 	else parchmentTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	parchment.setTexture(parchmentTexture);
 	parchment.setOrigin(sf::Vector2f(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2));
 	parchment.setPosition(SCREENWIDTH/2, SCREENHEIGHT/2);
 
 	//button to select male
-	if (maleButtonTexture.loadFromFile("Assets/MaleButtonBlue.png")) {}
+	if (maleButtonTexture.loadFromFile("Assets/CharacterCreation/MaleButtonBlue.png")) {}
 	else maleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	//maleButton.setTexture(maleButtonTexture);
 	//maleButton.setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
@@ -27,7 +27,7 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	genders[0].setPosition(300, 250);//y=500
 
 	//button to select female
-	if (femaleButtonTexture.loadFromFile("Assets/FemaleButtonPink.png")) {}
+	if (femaleButtonTexture.loadFromFile("Assets/CharacterCreation/FemaleButtonPink.png")) {}
 	else femaleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	//femaleButton.setTexture(femaleButtonTexture);
 	//femaleButton.setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));

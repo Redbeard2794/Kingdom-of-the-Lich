@@ -23,8 +23,10 @@ private:
 
 	bool isRunning;
 
+	sf::Font font;
 	sf::Sprite hudBackground;
 	sf::Texture hudBackgroundTexture;
+	sf::Text currentQuestText;
 
 	Compass* compass;
 	enum Race
@@ -59,10 +61,10 @@ private:
 	int lockedDirection;
 
 public:
-	Player();
+	Player(sf::Font f);
 	~Player();
 
-	void Update();
+	void Update(sf::Vector2f objectivePos, std::string currentQuestName);
 
 	//void boundary();
 	void setTextures();

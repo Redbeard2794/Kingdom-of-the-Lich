@@ -4,12 +4,12 @@
 Compass::Compass()
 {
 	//load the correct texture or load the debug texture if something is wrong
-	if (bodyTexture.loadFromFile("Assets/Compass.png")) {}
+	if (bodyTexture.loadFromFile("Assets/Compass/Compass.png")) {}
 	else bodyTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	compassBody.setOrigin(sf::Vector2f(bodyTexture.getSize().x / 2, bodyTexture.getSize().y / 2));
 	compassBody.setTexture(bodyTexture);
 
-	if (needleTexture.loadFromFile("Assets/CompassNeedle.png")) {}
+	if (needleTexture.loadFromFile("Assets/Compass/CompassNeedle.png")) {}
 	else needleTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	needle.setOrigin(sf::Vector2f(needleTexture.getSize().x, needleTexture.getSize().y / 2));
 	needle.setTexture(needleTexture);

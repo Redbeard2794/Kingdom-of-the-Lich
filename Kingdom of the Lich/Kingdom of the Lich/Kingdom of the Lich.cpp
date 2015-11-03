@@ -67,17 +67,18 @@ int main()
 	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
 	//Player is created here(race,gender and maybe class will be set later)
-	Player* p = new Player();
+	Player* p = new Player(font);
 
 	window.setFramerateLimit(60);//is this causing the flickering in the mini map
 
 	//text by cooltext.com
 	sf::Sprite startup;
 	sf::Texture startupTexture;
-	startupTexture.loadFromFile("Assets/startScreenIcon.png");
+	startupTexture.loadFromFile("Assets/Splash Screen/startScreenIcon.png");
 	startup.setTexture(startupTexture);
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
+	sf::Clock* splashClock = new sf::Clock();
 
 	//cursor
 	sf::Sprite cursor;
@@ -160,9 +161,8 @@ int main()
 	testInv->PrintAllInventory();
 
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
-	//testChest->OpenChest(testInv);
-	//testInv->CheckQuantity(testInv->i_healthPotion.key);
 
+	Quest* testQuest = new Quest(1, "Open Chest", p->getPosition(), "Tutorial", "Learn to retrieve items from chests", testChest->getSprite().getPosition(), false, 5, 5);
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -202,7 +202,19 @@ int main()
 			window.draw(startup);
 			window.draw(splashHintSprite);
 			window.draw(splashHintText1);
-
+			if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 2)
+			{
+				startup.setColor(sf::Color::Blue);
+				splashHintSprite.setColor(sf::Color::Transparent);
+				splashHintText1.setColor(sf::Color::Transparent);
+			}
+			else if (splashClock->getElapsedTime().asSeconds() > 2)
+			{
+				startup.setColor(sf::Color::White);
+				splashHintSprite.setColor(sf::Color::White);
+				splashHintText1.setColor(sf::Color::White);
+				splashClock->restart();
+			}
 
 			gamepad->CheckAllButtons();
 			
@@ -233,8 +245,6 @@ int main()
 			mainMenu->Draw(window);
 			if (useController == false)
 			{
-				//if (gamepad->CheckControllerConnection(false) == true)
-				//	useController = true;
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 				cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
 				window.draw(cursor);
@@ -257,8 +267,6 @@ int main()
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
-				//if (gamepad->CheckControllerConnection(false) == false)
-				//	useController = false;
 
 				if (gamepad->DpadUp() == true)
 				{
@@ -627,7 +635,11 @@ int main()
 				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)// , testInv);
 				{
 					if (testChest->getOpened() == false)
+					{
 						testChest->OpenChest(testInv);
+						testQuest->setIsCompleted(true);
+						std::cout << "You completed your first quest!" << std::endl;
+					}
 				}
 			}
 
@@ -656,14 +668,20 @@ int main()
 				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
 					if (testChest->getOpened() == false)
+					{
 						testChest->OpenChest(testInv);
+						testQuest->setIsCompleted(true);
+						std::cout << "You completed your first quest!" << std::endl;
+					}
 				}
 
 			}
 
 			//window.draw(tempBground);
 			window.draw(map);
-			p->Update();
+			if(testQuest->getIsCompleted() == false)
+				p->Update(testQuest->getObjectiveLocation(), testQuest->getQuestName());
+			else p->Update(testQuest->getObjectiveLocation(), "");
 
 			testChest->draw(*pWindow);
 			p->draw(*pWindow);
@@ -695,7 +713,8 @@ int main()
 			}
 			else if (useController == false)
 			{
-
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+					gState = GAME;
 			}
 			break;
 
