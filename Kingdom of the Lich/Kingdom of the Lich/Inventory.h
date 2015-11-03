@@ -38,6 +38,18 @@ private:
 	sf::Sprite inkBottleSprite;
 	sf::Text inkBottleText;
 
+	sf::Texture gemTexture;
+	sf::Sprite gemSprite;
+	sf::Text gemText;
+
+	sf::Texture appleTexture;
+	sf::Sprite appleSprite;
+	sf::Text appleText;
+
+	sf::Texture quillTexture;
+	sf::Sprite quillSprite;
+	sf::Text quillText;
+
 public:
 	//these need to be visible in other classes....Is there a better way of doing this?
 	struct items

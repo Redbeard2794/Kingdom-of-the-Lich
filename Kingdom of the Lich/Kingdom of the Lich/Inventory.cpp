@@ -47,6 +47,9 @@ Inventory::Inventory(sf::Font f) : font(f)
 	baracksKeyTexture.loadFromFile("Assets/Icons/Items/key.png");
 	parchmentTexture.loadFromFile("Assets/Icons/Items/parchmentIcon.png");
 	inkBottleTexture.loadFromFile("Assets/Icons/Items/inkBottle.png");
+	gemTexture.loadFromFile("Assets/Icons/Items/gemsIcon.png");
+	appleTexture.loadFromFile("Assets/Icons/Items/apple.png");
+	quillTexture.loadFromFile("Assets/Icons/Items/quill.png");
 
 	//set up item sprites and text
 	healthPotSprite.setTexture(healthPotTexture);
@@ -100,6 +103,33 @@ Inventory::Inventory(sf::Font f) : font(f)
 	inkBottleText.setFont(font);
 	inkBottleText.setPosition(330, 70 + inkBottleTexture.getSize().y / 2);
 	inkBottleText.setCharacterSize(15);
+
+	gemSprite.setTexture(gemTexture);
+	gemSprite.setOrigin(gemTexture.getSize().x / 2, gemTexture.getSize().y / 2);
+	gemSprite.setScale(1.5f, 1.5f);
+	gemSprite.setPosition(290, 200);
+	gemText.setString("Gems x");
+	gemText.setFont(font);
+	gemText.setPosition(330, 170 + gemTexture.getSize().y / 2);
+	gemText.setCharacterSize(15);
+
+	appleSprite.setTexture(appleTexture);
+	appleSprite.setOrigin(appleTexture.getSize().x / 2, appleTexture.getSize().y / 2);
+	//appleSprite.setScale(1.5f, 1.5f);
+	appleSprite.setPosition(290, 300);
+	appleText.setString("Apple x");
+	appleText.setFont(font);
+	appleText.setPosition(330, 270 + appleTexture.getSize().y / 2);
+	appleText.setCharacterSize(15);
+
+	quillSprite.setTexture(quillTexture);
+	quillSprite.setOrigin(quillTexture.getSize().x / 2, quillTexture.getSize().y / 2);
+	//quillSprite.setScale(1.5f, 1.5f);
+	quillSprite.setPosition(290, 400);
+	quillText.setString("Quill x");
+	quillText.setFont(font);
+	quillText.setPosition(330, 370 + quillTexture.getSize().y / 2);
+	quillText.setCharacterSize(15);
 }
 
 /*Destructor*/
@@ -259,4 +289,16 @@ void Inventory::Draw(sf::RenderTarget& window)
 	window.draw(inkBottleSprite);
 	inkBottleText.setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
 	window.draw(inkBottleText);
+
+	window.draw(gemSprite);
+	gemText.setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
+	window.draw(gemText);
+
+	window.draw(appleSprite);
+	appleText.setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
+	window.draw(appleText);
+
+	window.draw(quillSprite);
+	quillText.setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
+	window.draw(quillText);
 }
