@@ -91,7 +91,7 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	currentState = CHOOSERACE;
 
 	currentlySelectedRace = 0;
-	currentlySelectedGender = 0;
+	currentlySelectedGender = MALE;
 	currentlySelectedClass = 0;
 
 	canMoveSelection = true;
@@ -283,11 +283,14 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionRight()
 
 		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
 		{
-			genders[i].setColor(sf::Color::Green);
+			genders[i].setColor(sf::Color::White);
 		}
-		genders[currentlySelectedGender].setColor(sf::Color::White);
+		genders[currentlySelectedGender].setColor(sf::Color::Green);
 
-		std::cout << "Currently selected gender: " << currentlySelectedGender << std::endl;
+		if(currentlySelectedGender == MALE)
+			std::cout << "Currently selected gender is MALE" << std::endl;
+		else if(currentlySelectedGender == FEMALE)
+			std::cout << "Currently selected gender is FEMALE" << std::endl;
 	}
 }
 
@@ -302,11 +305,14 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionLeft()
 
 		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
 		{
-			genders[i].setColor(sf::Color::Green);
+			genders[i].setColor(sf::Color::White);
 		}
-		genders[currentlySelectedGender].setColor(sf::Color::White);
+		genders[currentlySelectedGender].setColor(sf::Color::Green);
 
-		std::cout << "Currently selected gender: " << currentlySelectedGender << std::endl;
+		if (currentlySelectedGender == MALE)
+			std::cout << "Currently selected gender is MALE" << std::endl;
+		else if (currentlySelectedGender == FEMALE)
+			std::cout << "Currently selected gender is FEMALE" << std::endl;
 	}
 }
 
