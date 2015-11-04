@@ -4,10 +4,10 @@
 class QuestStage
 {
 private:
-	std::string objective;
-	int stageNumber;
-	sf::Vector2f objectiveLocation;
-	bool completed;
+	std::string objective;//this stages objective
+	int stageNumber;//the identifying number for this stages
+	sf::Vector2f objectiveLocation;//where the objective is
+	bool completed;//is this stage completed?
 
 public:
 	QuestStage(std::string obj, int num, sf::Vector2f pos);
@@ -27,12 +27,16 @@ public:
 	False means not completed and True means completed*/
 	bool getCompletionStatus();
 
+	/*Set the objective for this stage*/
 	void setObjective(std::string obj);
 
+	/*Set this stage's identifying number*/
 	void setStageNumber(int n);
 
+	/*Set the location of the objective*/
 	void setObjectiveLocation(sf::Vector2f pos);
 
+	/*Set this stages completion status*/
 	void setCompletionStatus(bool c);
 };
 

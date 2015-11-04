@@ -36,4 +36,28 @@ bool QuestStage::getCompletionStatus()
 	return completed;
 }
 
+/*Set the objective for this stage*/
+void QuestStage::setObjective(std::string obj)
+{
+	objective = obj;
+}
+
+/*Set this stage's identifying number*/
+void QuestStage::setStageNumber(int n)
+{
+	stageNumber = n;
+}
+
+/*Set the location of the objective*/
+void QuestStage::setObjectiveLocation(sf::Vector2f pos)
+{
+	objectiveLocation = pos;
+}
+
+/*Set this stages completion status*/
+void QuestStage::setCompletionStatus(bool c)
+{
+	completed = c;
+}
+
 

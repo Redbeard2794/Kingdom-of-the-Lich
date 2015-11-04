@@ -159,8 +159,8 @@ int main()
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	//testing quest
-	Quest* testQuest = new Quest(1, "Retrieve items from chest", CommanderIronArm->getPosition(), "Commander Iron-Arm", "Talk to Commander Iron-Arm", testChest->getSprite().getPosition(), false, 5, 5);
-
+	//Quest* testQuest = new Quest(1, "Retrieve items from chest", CommanderIronArm->getPosition(), "Commander Iron-Arm", "Talk to Commander Iron-Arm", testChest->getSprite().getPosition(), false, 5, 5);
+	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", CommanderIronArm->getPosition(), 1, 5, 5);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -636,7 +636,7 @@ int main()
 					if (testChest->getOpened() == false)
 					{
 						testChest->OpenChest(testInv);
-						testQuest->setIsCompleted(true);
+						//testQuest->setIsCompleted(true);
 						std::cout << "You completed your first quest!" << std::endl;
 					}
 				}
@@ -669,7 +669,7 @@ int main()
 					if (testChest->getOpened() == false)
 					{
 						testChest->OpenChest(testInv);
-						testQuest->setIsCompleted(true);
+						//testQuest->setIsCompleted(true);
 						std::cout << "You completed your first quest!" << std::endl;
 					}
 				}
@@ -677,10 +677,14 @@ int main()
 			}
 
 			window.draw(map);
-			if(testQuest->getIsCompleted() == false)
-				p->Update(testQuest->getQuestStartingPosition(), testQuest->getQuestName());
-			else p->Update(testQuest->getObjectiveLocation(), "");
-
+			if (testQuest->getCompletionStatus() == false)
+				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
+			//else p->Update(testQuest->getObjectiveLocation(), "");
+			if (gamepad->X())
+			{
+				testQuest->getCurrentStage()->setCompletionStatus(true);
+				testQuest->setCurrentStageIndex(1);
+			}
 			testChest->draw(*pWindow);
 
 			CommanderIronArm->Update();

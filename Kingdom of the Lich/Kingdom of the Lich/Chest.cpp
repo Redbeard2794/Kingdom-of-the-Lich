@@ -6,7 +6,7 @@ Chest::Chest(std::string itemKey, int quantity) : keyForStoredItem(itemKey), qua
 	texture.loadFromFile("Assets/Chests/plainChest.png");
 	sprite.setTexture(texture);
 	sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
-	sprite.setPosition(sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));
+	sprite.setPosition(sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));//setPosition rather than sprite.setPosition?
 	opened = false;
 }
 
