@@ -37,6 +37,7 @@
 #include "Inventory.h"
 #include "Chest.h"
 #include "QuestController.h"
+#include "Npc.h"
 
 
 

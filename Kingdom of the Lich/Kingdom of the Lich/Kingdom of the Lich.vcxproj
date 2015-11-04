@@ -159,6 +159,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Npc.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestController.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="stdafx.cpp">

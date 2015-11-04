@@ -33,5 +33,5 @@ void Chest::draw(sf::RenderTarget& window)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 	}
-	window.draw(sprite);
+	window.draw(sprite, getTransform());
 }

@@ -44,6 +44,13 @@ private:
 
 	std::string questGiverName;//who gives the quest
 
+	struct Objective
+	{
+		std::string objectiveDescription;
+		sf::Vector2f objectiveLocation;
+		bool completed;
+	};
+
 	std::string questObjective;//what the player needs to do
 
 	sf::Vector2f objectiveLocation;//the location where the objective will be carried out

@@ -11,3 +11,7 @@ gems by: http://opengameart.org/users/winternaut
 quill (temporary): https://forums.dragcave.net/index.php?showtopic=121440
 
 apple (temporary): http://pixeljoint.com/2010/08/19/3241/Sprite_Something_-_iPad.htm
+
+possible UI buttons?: http://opengameart.org/content/ui-button
+
+Npc sprite(temporary): http://opengameart.org/users/xarius

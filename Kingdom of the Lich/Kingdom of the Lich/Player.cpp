@@ -17,9 +17,9 @@ Player::Player(sf::Font f) : font(f)
 	hudBackground.setPosition(0, 600);
 	currentQuestText.setFont(font);
 	currentQuestText.setColor(sf::Color::Black);
-	currentQuestText.setString("Current Quest: ");
+	currentQuestText.setString("Current Quest Name: ");
 	currentQuestText.setPosition(500, 550);
-	currentQuestText.setCharacterSize(15);
+	currentQuestText.setCharacterSize(12);
 
 	compass = new Compass();
 	currentDirection = NOTMOVING;
@@ -35,7 +35,7 @@ void Player::Update(sf::Vector2f objectivePos, std::string currentQuestName)
 {
 	hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
 	currentQuestText.setPosition(sf::Vector2f(getPosition().x + 140, getPosition().y + 200));
-	currentQuestText.setString("Current Quest: " + currentQuestName);
+	currentQuestText.setString("Current Quest Name: " + currentQuestName);
 	compass->UpdateNeedle(getPosition(), objectivePos);
 }
 

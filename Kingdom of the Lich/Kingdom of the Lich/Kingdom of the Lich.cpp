@@ -24,11 +24,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-//#include <Xinput.h>
-//#pragma comment(lib, "XInput9_1_0.lib")   // Library. If your compiler doesn't support this type of lib include change to the corresponding one
-
-
-
 #include <ctime>
 
 ////////////////////////////////////////////////////////////
@@ -40,8 +35,10 @@ int main()
 {
 	//https://github.com/edoren/STP
 	tmx::TileMap map("Assets/tutorialArea.tmx");
+	tmx::TileMap lowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
 	map.ShowObjects(); // Display all the layer objects.
+	lowPolyMap.ShowObjects();
 
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
@@ -88,8 +85,6 @@ int main()
 
 
 	//potions by http://opengameart.org/users/clint-bellanger
-
-	//use gems as currency?
 
 	//Icon for window corner
 	//icon by http://opengameart.org/users/cron
@@ -159,10 +154,14 @@ int main()
 	//for testing inventory
 	Inventory* testInv = new Inventory(font);
 	testInv->PrintAllInventory();
-
+	//testing npc
+	Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
+	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
+	//testing quest
+	Quest* testQuest = new Quest(1, "Retrieve items from chest", CommanderIronArm->getPosition(), "Commander Iron-Arm", "Talk to Commander Iron-Arm", testChest->getSprite().getPosition(), false, 5, 5);
 
-	Quest* testQuest = new Quest(1, "Open Chest", p->getPosition(), "Tutorial", "Learn to retrieve items from chests", testChest->getSprite().getPosition(), false, 5, 5);
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -677,20 +676,24 @@ int main()
 
 			}
 
-			//window.draw(tempBground);
 			window.draw(map);
 			if(testQuest->getIsCompleted() == false)
-				p->Update(testQuest->getObjectiveLocation(), testQuest->getQuestName());
+				p->Update(testQuest->getQuestStartingPosition(), testQuest->getQuestName());
 			else p->Update(testQuest->getObjectiveLocation(), "");
 
 			testChest->draw(*pWindow);
+
+			CommanderIronArm->Update();
+			CommanderIronArm->draw(window);
 			p->draw(*pWindow);
+
 
 			//drawing the minimap
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
-			window.draw(map);
+			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
+			CommanderIronArm->draw(window);
 			p->draw(*pWindow);
 			break;
 

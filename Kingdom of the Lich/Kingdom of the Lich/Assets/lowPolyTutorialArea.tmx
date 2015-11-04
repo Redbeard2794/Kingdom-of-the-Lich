@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="50" tileheight="50" nextobjectid="1">
+ <tileset firstgid="1" name="lowPolyBasicTiles" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/LowPolyTiles/lowPolyBasicTiles.png" width="200" height="50"/>
+ </tileset>
+ <tileset firstgid="5" name="lowPolyWallTiles" tilewidth="50" tileheight="50" tilecount="2">
+  <image source="Tiles/LowPolyTiles/lowPolyWallTiles.png" width="100" height="50"/>
+ </tileset>
+ <tileset firstgid="7" name="smallTowerTiles" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/smallTowerTiles.png" width="200" height="50"/>
+ </tileset>
+ <tileset firstgid="11" name="forgeTiles" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/forgeTiles.png" width="200" height="50"/>
+ </tileset>
+ <tileset firstgid="15" name="anvilTile" tilewidth="50" tileheight="50" tilecount="1">
+  <image source="Tiles/anvilTile.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="16" name="lowPolyHouseTiles" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/LowPolyTiles/lowPolyHouseTiles.png" width="200" height="50"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztmMsKAyEMRZ2pfb/b///XZlGhhAlmxmtMBxcHRCX34CJIhhDC0Ok4YU8ciJ0xKTfndyKOE/sP4glea3I5W2H/RbzBa2225s5YAaQfmu7X1i/OzJPuS/slfpHVjSDQfmi8+/06/pNfOmvtJ/XnJX4bBs/i5xrGjP9cv7tzP+/vdyYujv1uxPW7Tv82tN/S/sJrp3+bFz+pJ5SC9rPo1R79pOyaflP1cudWfrm6Gkr9EA5ov9pOa/Wz9FqbXws3bbZ2joRm7vzKer6mnV91OpZ8AJ0dD0U=
+  </data>
+ </layer>
+</map>
