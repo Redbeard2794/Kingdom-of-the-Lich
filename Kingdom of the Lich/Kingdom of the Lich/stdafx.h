@@ -29,6 +29,7 @@
 #include "STP/TMXLoader.hpp"
 #include "Player.h"
 #include "Quest.h"
+#include "QuestStage.h"
 #include "Compass.h"
 #include "Menu.h"
 #include "ChooseRaceAndGenderMenu.h"

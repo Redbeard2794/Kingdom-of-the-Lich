@@ -50,6 +50,7 @@ private:
 		sf::Vector2f objectiveLocation;
 		bool completed;
 	};
+	std::vector<Objective> objectives;
 
 	std::string questObjective;//what the player needs to do
 

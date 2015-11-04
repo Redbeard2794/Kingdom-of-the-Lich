@@ -21,6 +21,9 @@ public:
 	//inherited draw functions(from sf::Drawable and sf::Transformable
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 	void draw(sf::RenderTarget& window);
+
+	//gets and sets
+	sf::Sprite getSprite() { return m_sprite; }
 };
 
 #endif
