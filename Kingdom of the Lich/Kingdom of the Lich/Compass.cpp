@@ -23,7 +23,7 @@ Compass::~Compass()
 
 void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 {
-	setPosition(playerPos.x+350, playerPos.y+250);
+	setPosition(750, 550);
 	needle.setPosition(getPosition());
 	//update the orientation of the needle
 

@@ -8,17 +8,17 @@ Player::Player(sf::Font f) : font(f)
 	else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
 	mSprite.setTexture(mTexture);
-	setPosition(400, 400);
+	setPosition(500, 400);
 
 	isRunning = false;
 
 	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");
 	hudBackground.setTexture(hudBackgroundTexture);
-	hudBackground.setPosition(0, 600);
+	hudBackground.setPosition(0, 500);
 	currentQuestText.setFont(font);
 	currentQuestText.setColor(sf::Color::Black);
 	currentQuestText.setString("Current Quest Name: ");
-	currentQuestText.setPosition(500, 550);
+	currentQuestText.setPosition(540, 500);
 	currentQuestText.setCharacterSize(12);
 
 	compass = new Compass();
@@ -33,8 +33,8 @@ Player::~Player()
 
 void Player::Update(sf::Vector2f objectivePos, std::string currentQuestName)
 {
-	hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
-	currentQuestText.setPosition(sf::Vector2f(getPosition().x + 140, getPosition().y + 200));
+	//hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
+	//currentQuestText.setPosition(sf::Vector2f(getPosition().x + 140, getPosition().y + 200));
 	currentQuestText.setString("Current Quest Name: " + currentQuestName);
 	compass->UpdateNeedle(getPosition(), objectivePos);
 }
@@ -103,8 +103,8 @@ bool Player::CollisionWithNpc(Npc* npc)
 	{
 		if (currentDirection != NOTMOVING)
 			lockedDirection = currentDirection;
-		std::cout << lockedDirection << std::endl;
-		std::cout << currentDirection << std::endl;
+		//std::cout << lockedDirection << std::endl;
+		//std::cout << currentDirection << std::endl;
 		return true;
 	}
 	else
@@ -118,8 +118,13 @@ void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 
 void Player::draw(sf::RenderTarget& window)
 {
+	//compass->draw(window);
+	window.draw(mSprite, getTransform());
+}
+
+void Player::DrawHud(sf::RenderTarget& window)
+{
 	window.draw(hudBackground);
 	window.draw(currentQuestText);
 	compass->draw(window);
-	window.draw(mSprite, getTransform());
 }

@@ -1,17 +1,5 @@
 #include "stdafx.h"
 #include "Quest.h"
-//
-//Quest::Quest(int id, std::string qName, sf::Vector2f startPos, std::string giverName, std::string objective, sf::Vector2f objectivePos, bool combat, int gems, int xp)
-//	: questId(id), questName(qName), questStartingPosition(startPos), questGiverName(giverName), questObjective(objective),
-//	objectiveLocation(objectivePos), isCombatBased(combat),questGemReward(gems), xpReward(xp)
-//{
-//	completed = false;
-//}
-//
-//Quest::~Quest()
-//{
-//
-//}
 
 Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vector2f startPos, int id, int gReward, int xReward)
 	: numberOfStages(numStages), questName(qName), questGiverName(qGiverName),
@@ -26,9 +14,9 @@ Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vecto
 	/*In future the quest and quest stages info will be loaded from some sort of file(eg: xml).
 	For now we are going to deal with just one quest
 	*/
-	QuestStage* stageZero = new QuestStage("Talk to Commander Iron-Arm", 0, sf::Vector2f(1000, 1000));
+	QuestStage* stageZero = new QuestStage("Talk to the commander", 0, sf::Vector2f(1000, 1000));
 	stages.push_back(stageZero);
-	QuestStage* stageOne = new QuestStage("Retreive items from chest", 1, sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));
+	QuestStage* stageOne = new QuestStage("Retrieve items from chest", 1, sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));
 	stages.push_back(stageOne);
 }
 

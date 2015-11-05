@@ -152,7 +152,7 @@ int main()
 
 
 	//for testing inventory
-	Inventory* testInv = new Inventory(font);
+	Inventory* testInv = new Inventory(font, useController);
 	testInv->PrintAllInventory();
 	//testing npc
 	Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
@@ -161,6 +161,35 @@ int main()
 	//testing quest
 	//Quest* testQuest = new Quest(1, "Retrieve items from chest", CommanderIronArm->getPosition(), "Commander Iron-Arm", "Talk to Commander Iron-Arm", testChest->getSprite().getPosition(), false, 5, 5);
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", CommanderIronArm->getPosition(), 1, 5, 5);
+
+	sf::Texture moveHintTexture;
+	sf::Sprite moveHintSprite;
+	if (useController == true)
+		moveHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
+	else moveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/useWASDToMoveHint.png");
+	moveHintSprite.setTexture(moveHintTexture);
+	moveHintSprite.setOrigin(moveHintTexture.getSize().x / 2, moveHintTexture.getSize().y / 2);
+	moveHintSprite.setPosition(SCREENWIDTH/2, SCREENHEIGHT/2);
+
+
+	//quest stuff is temporary until I figure out what I am doing with the quest controller
+	sf::Text objective;
+	objective.setFont(font);
+	objective.setString("Go and talk to Commander Iron-Arm. Use your compass to find him.");
+	objective.setPosition(sf::Vector2f(SCREENWIDTH / 18, SCREENHEIGHT / 2));
+	objective.setColor(sf::Color::Black);
+	objective.setCharacterSize(22);
+	objective.setStyle(sf::Text::Bold);
+
+	sf::Text questCompletePopup;
+	questCompletePopup.setFont(font);
+	questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'B' now.");
+	questCompletePopup.setPosition(sf::Vector2f(SCREENWIDTH / 18, SCREENHEIGHT / 2));
+	questCompletePopup.setColor(sf::Color::Black);
+	questCompletePopup.setCharacterSize(20);
+	questCompletePopup.setStyle(sf::Text::Bold);
+
+	bool showQuestComplete = false;
 
 	// Start game loop 
 	while (window.isOpen())
@@ -357,6 +386,7 @@ int main()
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								p->setTextures();
 								gState = GAME;
+								splashClock->restart();
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -503,6 +533,7 @@ int main()
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								gState = GAME;
 								p->setTextures();
+								splashClock->restart();
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -651,6 +682,7 @@ int main()
 							testQuest->getCurrentStage()->setCompletionStatus(true);
 							testQuest->setCompletionStatus(true);
 							std::cout << "You completed your first quest!" << std::endl;
+							splashClock->restart();
 						}
 						else std::cout << "You may not open this chest right now." << std::endl;
 					}
@@ -700,6 +732,7 @@ int main()
 							testQuest->getCurrentStage()->setCompletionStatus(true);
 							testQuest->setCompletionStatus(true);
 							std::cout << "You completed your first quest!" << std::endl;
+							splashClock->restart();
 						}
 						else std::cout << "You may not open this chest right now." << std::endl;
 					}
@@ -710,7 +743,10 @@ int main()
 			window.draw(map);
 			if (testQuest->getCompletionStatus() == false)
 				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
-			else p->Update(sf::Vector2f(0,0), "No more quests available");
+			else
+			{
+				p->Update(sf::Vector2f(0, 0), "No more quests available");
+			}
 
 			testChest->draw(*pWindow);
 
@@ -719,6 +755,44 @@ int main()
 			p->draw(*pWindow);
 
 
+
+			window.setView(window.getDefaultView());
+			p->DrawHud(window);
+			if (splashClock->getElapsedTime().asSeconds() > 0.5 && splashClock->getElapsedTime().asSeconds() < 1)
+				moveHintSprite.setColor(sf::Color(255, 255, 255, 200));
+			else if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 1.5)
+				moveHintSprite.setColor(sf::Color(255, 255, 255, 150));
+			else if (splashClock->getElapsedTime().asSeconds() > 1.5 && splashClock->getElapsedTime().asSeconds() < 2)
+				moveHintSprite.setColor(sf::Color(255, 255, 255, 100));
+			else if (splashClock->getElapsedTime().asSeconds() > 2 && splashClock->getElapsedTime().asSeconds() < 2.5)
+				moveHintSprite.setColor(sf::Color(255, 255, 255, 50));
+			else if (splashClock->getElapsedTime().asSeconds() > 2.5 && splashClock->getElapsedTime().asSeconds() < 3)
+				moveHintSprite.setColor(sf::Color(255, 255, 255, 0));
+
+			if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
+				objective.setColor(sf::Color(0, 0, 0, 200));
+			else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
+				objective.setColor(sf::Color(0, 0, 0, 100));
+			else if (splashClock->getElapsedTime().asSeconds() > 6 && splashClock->getElapsedTime().asSeconds() < 7.5)
+				objective.setColor(sf::Color(0, 0, 0, 0));
+
+			if (splashClock->getElapsedTime().asSeconds() < 3 && testQuest->getCompletionStatus() == false)
+				window.draw(moveHintSprite);
+			else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 8 && testQuest->getCompletionStatus() == false)
+				window.draw(objective);
+
+			if (testQuest->getCompletionStatus() == true)
+			{
+				window.draw(questCompletePopup);
+
+				if (splashClock->getElapsedTime().asSeconds() > 1.5 && splashClock->getElapsedTime().asSeconds() < 3)
+					questCompletePopup.setColor(sf::Color(0, 0, 0, 200));
+				else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
+					questCompletePopup.setColor(sf::Color(0, 0, 0, 100));
+				else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
+					questCompletePopup.setColor(sf::Color(0, 0, 0, 0));
+			}
+
 			//drawing the minimap
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
@@ -726,6 +800,8 @@ int main()
 			testChest->draw(*pWindow);
 			window.draw(*CommanderIronArm);
 			p->draw(*pWindow);
+
+
 			break;
 
 		case COMBAT:
@@ -747,7 +823,7 @@ int main()
 			}
 			else if (useController == false)
 			{
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 					gState = GAME;
 			}
 			break;

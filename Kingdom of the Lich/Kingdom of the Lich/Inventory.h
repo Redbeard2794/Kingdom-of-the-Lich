@@ -11,9 +11,10 @@ private:
 
 	sf::Text headerText;
 	sf::Font font;
-
+	//all the item keys
 	std::vector<std::string> itemKeys;
 
+	//item icon stuff
 	sf::Texture healthPotTexture;
 	sf::Sprite healthPotSprite;
 	sf::Text healthText;
@@ -50,6 +51,10 @@ private:
 	sf::Sprite quillSprite;
 	sf::Text quillText;
 
+	//hint stuff
+	bool showControllerHints;
+	sf::Sprite exitHintSprite;
+	sf::Texture exitHintTexture;
 public:
 	//these need to be visible in other classes....Is there a better way of doing this?
 	struct items
@@ -58,7 +63,7 @@ public:
 	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
 
 	/*Constructor*/
-	Inventory(sf::Font f);
+	Inventory(sf::Font f, bool controller);
 
 	/*Destructor*/
 	~Inventory();

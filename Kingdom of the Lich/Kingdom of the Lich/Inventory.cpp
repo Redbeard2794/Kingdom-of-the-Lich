@@ -2,7 +2,7 @@
 #include "Inventory.h"
 
 /*Constructor*/
-Inventory::Inventory(sf::Font f) : font(f)
+Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints(controller)
 {
 	i_healthPotion.key = "Health Potion";
 	i_ale.key = "Bottle of Ale";
@@ -130,6 +130,15 @@ Inventory::Inventory(sf::Font f) : font(f)
 	quillText.setFont(font);
 	quillText.setPosition(330, 370 + quillTexture.getSize().y / 2);
 	quillText.setCharacterSize(15);
+
+	//hints
+	if (showControllerHints == true)
+		exitHintTexture.loadFromFile("Assets/ControllerHints/pressBackToReturnToGameHint.png");
+	else if (showControllerHints == false)
+		exitHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/PressEnterToReturnToGameHint.png");
+	exitHintSprite.setTexture(exitHintTexture);
+	exitHintSprite.setOrigin(exitHintTexture.getSize().x / 2, exitHintTexture.getSize().y / 2);
+	exitHintSprite.setPosition(600, 575);
 }
 
 /*Destructor*/
@@ -138,7 +147,7 @@ Inventory::~Inventory()
 
 }
 
-/*Initialise all item in inventory to have '0' quantity*/
+/*Initialise all items in inventory to have '0' quantity*/
 void Inventory::InitialiseInventoryItems()
 {
 	for (int i = 0; i < itemKeys.size(); i++)
@@ -301,4 +310,6 @@ void Inventory::Draw(sf::RenderTarget& window)
 	window.draw(quillSprite);
 	quillText.setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
 	window.draw(quillText);
+
+	window.draw(exitHintSprite);
 }

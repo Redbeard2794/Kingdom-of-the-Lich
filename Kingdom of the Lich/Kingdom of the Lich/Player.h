@@ -75,6 +75,9 @@ public:
 	bool CollisionWithNpc(Npc* npc);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
+
+	void DrawHud(sf::RenderTarget& window);
+
 	void Player::draw(sf::RenderTarget& window);
 
 #pragma region Properties
