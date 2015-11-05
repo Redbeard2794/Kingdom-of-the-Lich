@@ -1,7 +1,7 @@
 #ifndef NPC_H
 #define NPC_H
 
-class Npc : public sf::Drawable, public sf::Transformable
+class Npc : public sf::Sprite
 {
 private:
 	std::string name;
@@ -17,10 +17,6 @@ public:
 	~Npc();
 
 	void Update();
-
-	//inherited draw functions(from sf::Drawable and sf::Transformable
-	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
-	void draw(sf::RenderTarget& window);
 
 	//gets and sets
 	sf::Sprite getSprite() { return m_sprite; }

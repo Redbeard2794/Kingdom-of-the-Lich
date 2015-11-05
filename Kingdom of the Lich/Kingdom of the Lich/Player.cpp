@@ -97,6 +97,23 @@ bool Player::CollisionWithChest(sf::Sprite chestSprite)//, Inventory* inv)
 	}
 }
 
+bool Player::CollisionWithNpc(Npc* npc)
+{
+	if (npc->getGlobalBounds().contains(getPosition()))
+	{
+		if (currentDirection != NOTMOVING)
+			lockedDirection = currentDirection;
+		std::cout << lockedDirection << std::endl;
+		std::cout << currentDirection << std::endl;
+		return true;
+	}
+	else
+	{
+		lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything if they are not colliding
+		return false;
+	}
+}
+
 void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 
 void Player::draw(sf::RenderTarget& window)

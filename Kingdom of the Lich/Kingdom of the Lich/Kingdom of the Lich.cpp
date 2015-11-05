@@ -631,14 +631,30 @@ int main()
 				//		}
 				//	}
 				//}
+				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)// , testInv);
+				{
+					if (testQuest->getCurrentStageIndex() == 0)
+					{
+						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'A' button" << std::endl;
+						testQuest->getCurrentStage()->setCompletionStatus(true);
+						testQuest->setCurrentStageIndex(1);
+					}
+				}
+
 				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)// , testInv);
 				{
 					if (testChest->getOpened() == false)
 					{
-						testChest->OpenChest(testInv);
-						//testQuest->setIsCompleted(true);
-						std::cout << "You completed your first quest!" << std::endl;
+						if (testQuest->getCurrentStageIndex() == 1)
+						{
+							testChest->OpenChest(testInv);
+							testQuest->getCurrentStage()->setCompletionStatus(true);
+							testQuest->setCompletionStatus(true);
+							std::cout << "You completed your first quest!" << std::endl;
+						}
+						else std::cout << "You may not open this chest right now." << std::endl;
 					}
+					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 				}
 			}
 
@@ -664,31 +680,42 @@ int main()
 					gState = INVENTORY;
 
 
+				if (p->CollisionWithNpc(CommanderIronArm) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
+				{
+					if (testQuest->getCurrentStageIndex() == 0)
+					{
+						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'A' button" << std::endl;
+						testQuest->getCurrentStage()->setCompletionStatus(true);
+						testQuest->setCurrentStageIndex(1);
+					}
+				}
+
 				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
 					if (testChest->getOpened() == false)
 					{
-						testChest->OpenChest(testInv);
-						//testQuest->setIsCompleted(true);
-						std::cout << "You completed your first quest!" << std::endl;
+						if (testQuest->getCurrentStageIndex() == 1)
+						{
+							testChest->OpenChest(testInv);
+							testQuest->getCurrentStage()->setCompletionStatus(true);
+							testQuest->setCompletionStatus(true);
+							std::cout << "You completed your first quest!" << std::endl;
+						}
+						else std::cout << "You may not open this chest right now." << std::endl;
 					}
+					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 				}
-
 			}
 
 			window.draw(map);
 			if (testQuest->getCompletionStatus() == false)
 				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
-			//else p->Update(testQuest->getObjectiveLocation(), "");
-			if (gamepad->X())
-			{
-				testQuest->getCurrentStage()->setCompletionStatus(true);
-				testQuest->setCurrentStageIndex(1);
-			}
+			else p->Update(sf::Vector2f(0,0), "No more quests available");
+
 			testChest->draw(*pWindow);
 
 			CommanderIronArm->Update();
-			CommanderIronArm->draw(window);
+			window.draw(*CommanderIronArm);
 			p->draw(*pWindow);
 
 
@@ -697,7 +724,7 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
-			CommanderIronArm->draw(window);
+			window.draw(*CommanderIronArm);
 			p->draw(*pWindow);
 			break;
 

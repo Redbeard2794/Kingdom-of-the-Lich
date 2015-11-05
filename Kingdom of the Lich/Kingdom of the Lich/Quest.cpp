@@ -34,7 +34,7 @@ Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vecto
 
 Quest::~Quest()
 {
-
+	//blank for now
 }
 
 /*Get a pointer to the current stage*/

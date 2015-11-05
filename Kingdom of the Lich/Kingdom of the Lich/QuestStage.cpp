@@ -8,7 +8,7 @@ QuestStage::QuestStage(std::string obj, int num, sf::Vector2f pos) : objective(o
 
 QuestStage::~QuestStage()
 {
-
+	//blank for now
 }
 
 /*Gets the objective assigned to this stage*/

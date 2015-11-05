@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Compass.h"
-
+#include "Npc.h"
 class Player : public sf::Drawable, public sf::Transformable
 {
 private:
@@ -72,6 +72,7 @@ public:
 	void Move(int newDir);
 
 	bool CollisionWithChest(sf::Sprite chestSprite);//, Inventory* inv);
+	bool CollisionWithNpc(Npc* npc);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 	void Player::draw(sf::RenderTarget& window);
