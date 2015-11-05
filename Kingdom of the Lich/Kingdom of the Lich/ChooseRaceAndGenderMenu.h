@@ -4,14 +4,25 @@
 class ChooseRaceAndGenderMenu
 {
 public:
+	//Constructor(params are font and whether to show controller hints or keyboard hints)
 	ChooseRaceAndGenderMenu(sf::Font f, bool controller);
+
+	//destructor
 	~ChooseRaceAndGenderMenu();
 
+	//update the state of the menu(choosing race, gender and class)
 	void Update(sf::Vector2i mousePos);
+
+	//check the mouse against the different options for choosing the race of the character
 	void CheckMouseAgainstRaces(sf::Vector2i mousePos);
+
+	//check the mouse against the different options for choosing the gender of the character
 	void CheckMouseAgainstGenders(sf::Vector2i mousePos);
+
+	//check the mouse against the different options for choosing the class of the character
 	void CheckMouseAgainstClasses(sf::Vector2i mousePos);
 
+	//draw the menu
 	void Draw(sf::RenderWindow &window);
 
 	void setCurrentState(int s) { currentState = s; }
@@ -38,11 +49,13 @@ public:
 	void setCanSelect(bool cs) { canSelect = cs; }
 
 private:
+	//background textures and sprites
 	sf::Sprite table;
 	sf::Texture tableTexture;
 	sf::Sprite parchment;
 	sf::Texture parchmentTexture;
 
+	//menu textures,sprites and text
 	sf::Texture maleButtonTexture;
 	sf::Texture femaleButtonTexture;
 
@@ -58,6 +71,7 @@ private:
 	sf::Font font;
 	bool mouseClicked;
 
+	//possible races
 	enum Race
 	{
 		HUMAN,
@@ -65,12 +79,14 @@ private:
 		BEASTMAN
 	};
 
+	//possible genders
 	enum Gender
 	{
 		MALE,
 		FEMALE
 	};
 
+	//possible classes
 	enum Class
 	{
 		ARCHER,
@@ -78,6 +94,7 @@ private:
 		SPELLBLADE
 	};
 
+	//current thing that we are choosing
 	enum SelectionState
 	{
 		CHOOSERACE,
@@ -85,12 +102,14 @@ private:
 		CHOOSECLASS
 	};
 
+	//current selections
 	int currentlySelectedRace;
 	int currentlySelectedGender;
 	int currentlySelectedClass;
-	
+	//current state
 	int currentState;
 
+	//can we move 
 	bool canMoveSelection;
 	bool canSelect;
 
@@ -112,6 +131,7 @@ private:
 	sf::Texture keyboardSelectHintTexture;
 	sf::Text keyboardSelectHintText;
 
+	//which set of hints should be shown
 	bool showControllerHints;
 };
 

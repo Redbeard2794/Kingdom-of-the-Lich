@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
+//constructor(param is a font)
 Player::Player(sf::Font f) : font(f)
 {
 	//load the correct texture or load the debug texture if something is wrong
@@ -26,6 +27,7 @@ Player::Player(sf::Font f) : font(f)
 	lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything yet
 }
 
+//destructor
 Player::~Player()
 {
 
@@ -33,12 +35,13 @@ Player::~Player()
 
 void Player::Update(sf::Vector2f objectivePos, std::string currentQuestName)
 {
-	//hudBackground.setPosition(sf::Vector2f(getPosition().x - 400, getPosition().y + 200));
-	//currentQuestText.setPosition(sf::Vector2f(getPosition().x + 140, getPosition().y + 200));
+	//update the text for the current quest
 	currentQuestText.setString("Current Quest Name: " + currentQuestName);
+	//update the direction the compass needle is pointing
 	compass->UpdateNeedle(getPosition(), objectivePos);
 }
 
+//Set the player's texture based on their chosen race
 void Player::setTextures()
 {
 	if (race == HUMAN)
@@ -55,7 +58,8 @@ void Player::setTextures()
 void Player::Move(int newDir)
 {
 	currentDirection = newDir;
-
+	/*Move the player in the direction they are travelling in
+	Don't allow them to move if that direction is locked due to collision with another object*/
 	if (currentDirection == NORTH && lockedDirection!= currentDirection)
 	{
 		if(isRunning == false)
@@ -82,8 +86,10 @@ void Player::Move(int newDir)
 	}
 }
 
-bool Player::CollisionWithChest(sf::Sprite chestSprite)//, Inventory* inv)
+/*Check to see if the player is colliding with a chest*/
+bool Player::CollisionWithChest(sf::Sprite chestSprite)
 {
+	/*If the player is colliding with a chest then lock the direction they are travelling in currently so that they can't move further*/
 	if (chestSprite.getGlobalBounds().contains(getPosition()))
 	{
 		if (currentDirection != NOTMOVING)
@@ -97,14 +103,15 @@ bool Player::CollisionWithChest(sf::Sprite chestSprite)//, Inventory* inv)
 	}
 }
 
+/*Check to see if the player is colliding with an npc*/
 bool Player::CollisionWithNpc(Npc* npc)
 {
-	if (npc->getGlobalBounds().contains(getPosition()))
+	/*If the player is colliding with an npc then lock the direction they are travelling in currently so that they can't move further*/
+	sf::Vector2f pos = getPosition();
+	if (npc->getGlobalBounds().contains(pos))
 	{
 		if (currentDirection != NOTMOVING)
 			lockedDirection = currentDirection;
-		//std::cout << lockedDirection << std::endl;
-		//std::cout << currentDirection << std::endl;
 		return true;
 	}
 	else
@@ -116,12 +123,13 @@ bool Player::CollisionWithNpc(Npc* npc)
 
 void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 
+/*Draw the player*/
 void Player::draw(sf::RenderTarget& window)
 {
-	//compass->draw(window);
 	window.draw(mSprite, getTransform());
 }
 
+/*Draw the hud*/
 void Player::DrawHud(sf::RenderTarget& window)
 {
 	window.draw(hudBackground);

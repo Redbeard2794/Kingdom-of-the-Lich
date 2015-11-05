@@ -21,7 +21,7 @@ public:
 	/*Destructor*/
 	~Chest();
 
-	/**/
+	/*Add the items contained in the chest to the inventory and open the chest*/
 	void OpenChest(Inventory* inv);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;

@@ -69,12 +69,15 @@ int main()
 	window.setFramerateLimit(60);//is this causing the flickering in the mini map
 
 	//text by cooltext.com
+	//splash screen
 	sf::Sprite startup;
 	sf::Texture startupTexture;
 	startupTexture.loadFromFile("Assets/Splash Screen/startScreenIcon.png");
 	startup.setTexture(startupTexture);
 	startup.setScale(sf::Vector2f(.5f, .5f));
 	startup.setPosition(85, 260);
+
+	//clock for fading stuff in and out and changing colours
 	sf::Clock* splashClock = new sf::Clock();
 
 	//cursor
@@ -92,6 +95,7 @@ int main()
 	icon.loadFromFile("Assets/Icons/goldskull.png");
 	window.setIcon(32, 32, icon.getPixelsPtr());
 
+	//are we using a controller
 	bool useController = false;
 
 	float leftStickXaxis;
@@ -100,6 +104,8 @@ int main()
 	sf::Image screenShot;
 
 	window.setMouseCursorVisible(false);
+
+	//game state
 	enum GameState
 	{
 		SPLASH,
@@ -112,7 +118,7 @@ int main()
 		INVENTORY,
 		CREDITS
 	};
-	int gState = SPLASH;
+	int gState = SPLASH;//current state
 	std::cout << "Current game state: " << gState << std::endl;
 
 	Gamepad* gamepad = new Gamepad();
@@ -121,19 +127,20 @@ int main()
 	Menu *mainMenu = new Menu(font, useController);
 	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController);
 
+	//hints for the splash screen
 	sf::Sprite splashHintSprite;
 	sf::Texture splashHintTexture;
 	sf::Text splashHintText1;
 	splashHintText1.setFont(font);
 	splashHintText1.setString("Press");
 
-	if (useController == true)
+	if (useController == true)//controller hints
 	{
 		splashHintTexture.loadFromFile("Assets/ControllerHints/startButtonHint.png");
 		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 2-100, SCREENHEIGHT - 75));
 		ConfirmationDialogBox::GetInstance()->setShowControllerHints(true);
 	}
-	else if (useController == false)
+	else if (useController == false)//keyboard and mouse hints
 	{
 		splashHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/spaceButtonHint.png");
 		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 3, SCREENHEIGHT - 75));
@@ -159,9 +166,9 @@ int main()
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	//testing quest
-	//Quest* testQuest = new Quest(1, "Retrieve items from chest", CommanderIronArm->getPosition(), "Commander Iron-Arm", "Talk to Commander Iron-Arm", testChest->getSprite().getPosition(), false, 5, 5);
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", CommanderIronArm->getPosition(), 1, 5, 5);
 
+	//hint for showing the player how to walk around
 	sf::Texture moveHintTexture;
 	sf::Sprite moveHintSprite;
 	if (useController == true)
@@ -230,6 +237,8 @@ int main()
 			window.draw(startup);
 			window.draw(splashHintSprite);
 			window.draw(splashHintText1);
+
+			//change the colour of the splash image based on time
 			if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 2)
 			{
 				startup.setColor(sf::Color::Blue);
@@ -243,11 +252,11 @@ int main()
 				splashHintText1.setColor(sf::Color::White);
 				splashClock->restart();
 			}
-
-			gamepad->CheckAllButtons();
 			
+			//if the player is using a controller
 			if (useController == true)
 			{
+				gamepad->CheckAllButtons();
 				if (gamepad->CheckControllerConnection(false) == false)
 					useController = false;
 				if (gamepad->Start() == true)
@@ -256,7 +265,7 @@ int main()
 					gamepad->Rumble(800, 0);
 				}
 			}
-
+			//if the player is using keyboard/mouse
 			else
 			{
 				if (gamepad->CheckControllerConnection(false) == true)
@@ -271,12 +280,18 @@ int main()
 
 		case MAINMENU:
 			mainMenu->Draw(window);
+
+			//if the player is using keyboard and mouse
 			if (useController == false)
 			{
+				//show the cursor
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 				cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
 				window.draw(cursor);
+
 				mainMenu->CheckMouse(sf::Mouse::getPosition(window));
+
+				//which option is the player choosing
 				if (mainMenu->getSelectedOption() == 0)//new game
 					gState = CHOOSERACEGENDER;
 				else if (mainMenu->getSelectedOption() == 1)//continue game
@@ -292,6 +307,8 @@ int main()
 				else if (mainMenu->getSelectedOption() == 4)//quit
 					window.close();
 			}
+
+			//if the player is using a controller
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
@@ -334,9 +351,10 @@ int main()
 		case CHOOSERACEGENDER:
 			raceAndGenderMenu->Draw(window);
 
-			if (useController == false)
+			if (useController == false)//using keyboard and mouse
 			{
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				//set up the dialog box based on menu state and allow player to choose
 				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
 				{
 					raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
@@ -362,24 +380,24 @@ int main()
 
 					if (ConfirmationDialogBox::GetInstance()->getOptionConfirmed() == true)
 					{
-						if (raceAndGenderMenu->getCurrentState() == 0)
+						if (raceAndGenderMenu->getCurrentState() == 0)//choose race
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
 							{
 								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}
 
 						}
-						else if (raceAndGenderMenu->getCurrentState() == 1)
+						else if (raceAndGenderMenu->getCurrentState() == 1)//choose gender
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
 							{
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
 								//raceAndGenderMenu->setCurrentState(2);
@@ -388,7 +406,7 @@ int main()
 								gState = GAME;
 								splashClock->restart();
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
@@ -411,7 +429,7 @@ int main()
 			else if (useController == true)
 			{
 				gamepad->CheckAllButtons();
-
+				//set up the dialog box based on menu state and allow player to choose
 				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
 				{
 					if (gamepad->DpadRight() == true)
@@ -448,17 +466,7 @@ int main()
 						raceAndGenderMenu->setCanMoveSelection(true);
 						raceAndGenderMenu->setCanSelect(true);
 					}
-
-
-					//if (gamepad->A() == true)
-					//{
-					//	if (raceAndGenderMenu->getCurrentState() == 0 && raceAndGenderMenu->getCanSelect() == true)
-					//		raceAndGenderMenu->setCanSelect(false);
-					//	else if (raceAndGenderMenu->getCurrentState() == 1 && raceAndGenderMenu->getCanSelect() == true)
-					//		raceAndGenderMenu->setCanSelect(false);
-					//	else if (raceAndGenderMenu->getCurrentState() == 2 && raceAndGenderMenu->getCanSelect() == true)
-					//		raceAndGenderMenu->setCanSelect(false);
-					//}
+					//confirm the players choice and present the dialog box
 					if (gamepad->RB())
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)
@@ -482,11 +490,11 @@ int main()
 				}
 				else if (ConfirmationDialogBox::GetInstance()->getVisible() == true)
 				{
+					//move up and down through yes and no in the dialog box
 					if (gamepad->DpadUp() == true)
 					{
 						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
 						{
-							std::cout << "Moving up" << std::endl;
 							ConfirmationDialogBox::GetInstance()->MoveUp();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
 						}
@@ -497,7 +505,6 @@ int main()
 					{
 						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
 						{
-							std::cout << "Moving down" << std::endl;
 							ConfirmationDialogBox::GetInstance()->MoveDown();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
 						}
@@ -508,7 +515,7 @@ int main()
 
 					if (gamepad->A() == true)
 					{
-						if (raceAndGenderMenu->getCurrentState() == 0)
+						if (raceAndGenderMenu->getCurrentState() == 0)//choosing race
 						{
 							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
@@ -524,7 +531,7 @@ int main()
 							}
 						}
 
-						else if (raceAndGenderMenu->getCurrentState() == 1)
+						else if (raceAndGenderMenu->getCurrentState() == 1)//choosing gender
 						{
 							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
@@ -542,7 +549,7 @@ int main()
 							}
 						}
 
-						else if (raceAndGenderMenu->getCurrentState() == 2)
+						else if (raceAndGenderMenu->getCurrentState() == 2)//choosing class(not functional :( )
 						{
 							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
@@ -558,9 +565,7 @@ int main()
 							}
 						}
 					}
-					//ConfirmationDialogBox::GetInstance()->Draw(window);
 				}
-
 
 				ConfirmationDialogBox::GetInstance()->Draw(window);
 			}
@@ -662,7 +667,9 @@ int main()
 				//		}
 				//	}
 				//}
-				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)// , testInv);
+
+				//check for collision between player and commander and update quest
+				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)
 				{
 					if (testQuest->getCurrentStageIndex() == 0)
 					{
@@ -671,8 +678,8 @@ int main()
 						testQuest->setCurrentStageIndex(1);
 					}
 				}
-
-				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)// , testInv);
+				//check for collision between player and chest and update quest
+				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)
 				{
 					if (testChest->getOpened() == false)
 					{
@@ -711,7 +718,7 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
 					gState = INVENTORY;
 
-
+				//check for collision between player and commander and update quest
 				if (p->CollisionWithNpc(CommanderIronArm) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
 					if (testQuest->getCurrentStageIndex() == 0)
@@ -721,7 +728,7 @@ int main()
 						testQuest->setCurrentStageIndex(1);
 					}
 				}
-
+				//check for collision between player and chest and update quest
 				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
 					if (testChest->getOpened() == false)
@@ -741,12 +748,10 @@ int main()
 			}
 
 			window.draw(map);
+			//update the player
 			if (testQuest->getCompletionStatus() == false)
 				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
-			else
-			{
-				p->Update(sf::Vector2f(0, 0), "No more quests available");
-			}
+			else p->Update(sf::Vector2f(0, 0), "No more quests available");
 
 			testChest->draw(*pWindow);
 
@@ -755,7 +760,7 @@ int main()
 			p->draw(*pWindow);
 
 
-
+			//draw hints based on time(fade in/out)
 			window.setView(window.getDefaultView());
 			p->DrawHud(window);
 			if (splashClock->getElapsedTime().asSeconds() > 0.5 && splashClock->getElapsedTime().asSeconds() < 1)
@@ -826,6 +831,7 @@ int main()
 				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 					gState = GAME;
 			}
+			questCompletePopup.setColor(sf::Color(0, 0, 0, 0));
 			break;
 
 		case CREDITS:

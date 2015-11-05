@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChooseRaceAndGenderMenu.h"
 
+//Constructor(params are font and whether to show controller hints or keyboard hints)
 ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):font(f), showControllerHints(controller)
 {
 	//table
@@ -19,9 +20,6 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	//button to select male
 	if (maleButtonTexture.loadFromFile("Assets/CharacterCreation/MaleButtonBlue.png")) {}
 	else maleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	//maleButton.setTexture(maleButtonTexture);
-	//maleButton.setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
-	//maleButton.setPosition(300, 250);//y=500
 	genders[0].setTexture(maleButtonTexture);
 	genders[0].setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
 	genders[0].setPosition(300, 250);//y=500
@@ -29,9 +27,6 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	//button to select female
 	if (femaleButtonTexture.loadFromFile("Assets/CharacterCreation/FemaleButtonPink.png")) {}
 	else femaleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	//femaleButton.setTexture(femaleButtonTexture);
-	//femaleButton.setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
-	//femaleButton.setPosition(500, 250);
 	genders[1].setTexture(femaleButtonTexture);
 	genders[1].setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
 	genders[1].setPosition(500, 250);
@@ -97,7 +92,8 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	canMoveSelection = true;
 	canSelect = true;
 
-	if (showControllerHints == true)
+	//for deciding which hints to be shown
+	if (showControllerHints == true)//controller hints 
 	{
 		controllerMoveHintTexture.loadFromFile("Assets/ControllerHints/characterCreationMovementHint.png");
 		controllerMoveHint.setTexture(controllerMoveHintTexture);
@@ -122,7 +118,7 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 		controllerSelectHintText.setColor(sf::Color::White);
 
 	}
-	else
+	else//keyboard and mouse hints
 	{
 		mouseMoveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/mouseMoveAndLeftClick.png");
 		mouseMoveHint.setTexture(mouseMoveHintTexture);
@@ -148,19 +144,19 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	}
 }
 
+//destructor
 ChooseRaceAndGenderMenu::~ChooseRaceAndGenderMenu()
 {
 
 }
 
-//update the state of the menu(choosing race+gender, choosing class)
+//update the state of the menu(choosing race, gender and class)
 void ChooseRaceAndGenderMenu::Update(sf::Vector2i mousePos)
 {
 	switch (currentState)
 	{
 	case CHOOSERACE://player is selecting their race and gender
 		CheckMouseAgainstRaces(mousePos);
-		//CheckMouseAgainstGenders(mousePos);
 		break;
 
 	case CHOOSEGENDER:
@@ -178,9 +174,9 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstRaces(sf::Vector2i mousePos)
 {
 	for (int i = 0; i < 3; i++)
 	{
+		//check if the mouse is within the options bounding box
 		if (races[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 		{
-			//races[i].setColor(sf::Color::Blue);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)&& mouseClicked==false)
 			{
 				currentlySelectedRace = i;
@@ -196,6 +192,7 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstRaces(sf::Vector2i mousePos)
 //check the mouse against the different options for choosing the gender of the character
 void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 {
+	//check if the mouse is within the options bounding box
 	if (genders[0].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 	{
 		genders[0].setColor(sf::Color::Green);
@@ -208,6 +205,7 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstGenders(sf::Vector2i mousePos)
 	}
 	else genders[0].setColor(sf::Color::White);
 
+	//check if the mouse is within the options bounding box
 	if (genders[1].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 	{
 		genders[1].setColor(sf::Color::Green);
@@ -229,9 +227,9 @@ void ChooseRaceAndGenderMenu::CheckMouseAgainstClasses(sf::Vector2i mousePos)
 {
 	for (int i = 0; i < 3; i++)
 	{
+		//check if the mouse is within the options bounding box
 		if (classes[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y)))
 		{
-			//classes[i].setColor(sf::Color::Blue);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && mouseClicked == false)
 			{
 				currentlySelectedClass = i;
@@ -271,12 +269,6 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionRight()
 {
 	if (canMoveSelection == true)
 	{
-		//if (currentlySelectedGender == MALE)
-		//{
-		//	currentlySelectedGender = FEMALE;
-		//}
-		//else if (currentlySelectedGender == FEMALE)
-		//	currentlySelectedGender = MALE;
 		if (currentlySelectedGender == 1)
 			currentlySelectedGender = 0;
 		else currentlySelectedGender += 1;
@@ -341,16 +333,17 @@ void ChooseRaceAndGenderMenu::moveClassSelectionLeft()
 //draw the menu
 void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 {
+	//draw the background stuff
 	window.draw(table);
 	window.draw(parchment);
-	if (showControllerHints == true)
+	if (showControllerHints == true)//controller hints
 	{
 		window.draw(controllerMoveHint);
 		window.draw(controllerMoveHintText);
 		window.draw(controllerSelectHint);
 		window.draw(controllerSelectHintText);
 	}
-	else
+	else//keyboard and mouse hints
 	{
 		window.draw(mouseMoveHint);
 		window.draw(mouseMoveHintText);
@@ -377,8 +370,6 @@ void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 
 	case CHOOSEGENDER:
 		window.draw(ChooseGender);
-		//window.draw(maleButton);
-		//window.draw(femaleButton);
 		for (int i = 0; i < 2; i++)
 		{
 			window.draw(genders[i]);

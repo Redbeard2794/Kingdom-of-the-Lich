@@ -7,7 +7,6 @@ private:
 	std::string name;
 	int id;
 	sf::Texture m_texture;
-	sf::Sprite m_sprite;
 
 	bool hasQuest;
 
@@ -17,9 +16,6 @@ public:
 	~Npc();
 
 	void Update();
-
-	//gets and sets
-	sf::Sprite getSprite() { return m_sprite; }
 };
 
 #endif

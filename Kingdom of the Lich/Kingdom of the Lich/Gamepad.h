@@ -5,7 +5,9 @@
 class Gamepad
 {
 public:
+	//constructor
 	Gamepad();
+	//destructor
 	~Gamepad();
 
 	/*Check whether the controller is connected*/

@@ -20,6 +20,7 @@ ConfirmationDialogBox::~ConfirmationDialogBox()
 	instanceFlag = false;
 }
 
+//Set the text being displayed on the box
 void ConfirmationDialogBox::setDialogText(sf::String dialog, int textSize)
 {
 	dialogText.setString(dialog);
@@ -34,11 +35,11 @@ void ConfirmationDialogBox::Update()
 	}
 }
 
+//for moving through options with a controller
 void ConfirmationDialogBox::MoveUp()
 {
 	if (canMoveSelection == true)
 	{
-		std::cout << "I'm where I should be" << std::endl;
 		if (currentOption == 0)
 			currentOption = 1;
 		else currentOption -= 1;
@@ -51,6 +52,7 @@ void ConfirmationDialogBox::MoveUp()
 	}
 }
 
+//for moving through options with a controller
 void ConfirmationDialogBox::MoveDown()
 {
 	if (canMoveSelection == true)
@@ -87,18 +89,22 @@ void ConfirmationDialogBox::CheckMouseToOptions(sf::Vector2i mousePos)
 		mouseClicked = false;
 }
 
+//set position of yes option
 void ConfirmationDialogBox::setConfirmPosition(sf::Vector2f conPos)
 {
 	confirmationOptions[0]->setPosition(conPos);
 }
 
+//set position of no option
 void ConfirmationDialogBox::setNegativePosition(sf::Vector2f negPos)
 {
 	confirmationOptions[1]->setPosition(negPos);
 }
 
+//set up the hints for controller or mouse/keyboard
 void ConfirmationDialogBox::setHints()
 {
+	//controller hints
 	if (showControllerHints == true)
 	{
 		controllerMoveHintTexture.loadFromFile("Assets/ControllerHints/mainMenuMovementHint.png");
@@ -124,6 +130,7 @@ void ConfirmationDialogBox::setHints()
 		controllerSelectHintText.setColor(sf::Color::Black);
 
 	}
+	//mouse and keyboard hints
 	else if (showControllerHints == false)
 	{
 		mouseMoveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/mouseBaseHint.png");
@@ -154,8 +161,11 @@ void ConfirmationDialogBox::Draw(sf::RenderTarget & window)
 {
 	if (visible == true)
 	{
+		//draw the background
 		window.draw(backgroundSprite);
+		//draw the text on the dialog box
 		window.draw(dialogText);
+		//draw controller hints
 		if (showControllerHints == true)
 		{
 			window.draw(controllerMoveHint);
@@ -163,6 +173,7 @@ void ConfirmationDialogBox::Draw(sf::RenderTarget & window)
 			window.draw(controllerSelectHint);
 			window.draw(controllerSelectHintText);
 		}
+		//draw keyboard and mouse hints
 		else
 		{
 			window.draw(mouseMoveHint);
@@ -171,6 +182,7 @@ void ConfirmationDialogBox::Draw(sf::RenderTarget & window)
 			window.draw(mouseSelectHintText);
 		}
 
+		//draw yes/no
 		for (int i = 0; i < 2; i++)
 		{
 			window.draw(*confirmationOptions[i]);

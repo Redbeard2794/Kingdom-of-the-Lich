@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Compass.h"
 
+//constructor
 Compass::Compass()
 {
 	//load the correct texture or load the debug texture if something is wrong
@@ -16,18 +17,20 @@ Compass::Compass()
 	needle.setPosition(sf::Vector2f(getPosition().x,getPosition().y-25));
 }
 
+//destructor
 Compass::~Compass()
 {
 
 }
 
+//update the direction the compass needle is pointing in
 void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 {
 	setPosition(750, 550);
 	needle.setPosition(getPosition());
-	//update the orientation of the needle
 
-	sf::Vector2f dirMove = sf::Vector2f(playerPos - objectivePos);
+	//update the orientation of the needle
+	sf::Vector2f dirMove = sf::Vector2f(playerPos - objectivePos);//vector between player and objective
 	float length = sqrtf((dirMove.x * dirMove.x) + (dirMove.y * dirMove.y));
 
 	dirMove.x /= length;
@@ -35,8 +38,9 @@ void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 
 	float angle;
 
-	angle = acos(dirMove.x);// +dirMove.y*(180 / 3.14);//angle is in degrees
+	angle = acos(dirMove.x);
 	angle *= (180 / 3.14);
+
 	if ((int)objectivePos.y < (int)playerPos.y)
 		needle.setRotation(angle);
 	else needle.setRotation(-angle);
@@ -44,6 +48,7 @@ void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 
 void Compass::draw(sf::RenderTarget& window, sf::RenderStates state) const {}
 
+//draw the compass and needle
 void Compass::draw(sf::RenderTarget& window)
 {
 	window.draw(compassBody, getTransform());

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Menu.h"
 
+//constructor(params are font and whether to show controller hints or keyboard hints)
 Menu::Menu(sf::Font f, bool controller):font(f),showControllerHints(controller)
 {
 	LoadText();
@@ -15,11 +16,13 @@ Menu::Menu(sf::Font f, bool controller):font(f),showControllerHints(controller)
 	canMove = true;
 }
 
+//destructor
 Menu::~Menu()
 {
 
 }
 
+//load all text items(menu options)
 void Menu::LoadText()
 {
 	menuItems[0].setFont(font);
@@ -53,6 +56,7 @@ void Menu::LoadText()
 	menuItems[4].setPosition(sf::Vector2f(350, 525));
 }
 
+//load all sprites and textures needed for the menu
 void Menu::LoadTexturesAndSprites()
 {
 	//load the correct texture or load the debug texture if something is wrong
@@ -61,7 +65,7 @@ void Menu::LoadTexturesAndSprites()
 	background.setTexture(backgroundTexture);
 	background.setPosition(0, 0);
 
-	if (showControllerHints == true)
+	if (showControllerHints == true)//show controller hints
 	{
 		if (controllerMoveHintTexture.loadFromFile("Assets/ControllerHints/mainMenuMovementHint.png")) {}
 		else controllerMoveHintTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
@@ -93,7 +97,7 @@ void Menu::LoadTexturesAndSprites()
 		controllerSelectHintText.setPosition(SCREENWIDTH - 190, SCREENHEIGHT - 40);
 	}
 
-	else if (showControllerHints == false)
+	else if (showControllerHints == false)//show keyboard and mouse hints
 	{
 		if (mouseMoveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/mouseBaseHint.png")) {}
 		else mouseMoveHintTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
@@ -125,6 +129,7 @@ void Menu::LoadTexturesAndSprites()
 	}
 }
 
+//for moving up in the menu with a controller
 void Menu::MoveDown()//for when the player is using a controller
 {
 	if (canMove == true)
@@ -141,6 +146,7 @@ void Menu::MoveDown()//for when the player is using a controller
 	}
 }
 
+//for moving down in the menu with a controller
 void Menu::MoveUp()//for when the player is using a controller
 {
 	if (canMove == true)
@@ -157,6 +163,7 @@ void Menu::MoveUp()//for when the player is using a controller
 	}
 }
 
+//check the mouse against the menu items
 void Menu::CheckMouse(sf::Vector2i mousePos)
 {
 	for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
@@ -177,14 +184,14 @@ void Menu::Draw(sf::RenderWindow &window)
 {
 
 	window.draw(background);
-	if (showControllerHints == true)
+	if (showControllerHints == true)//controller hints
 	{
 		window.draw(controllerMoveHintSprite);
 		window.draw(controllerSelectHintSprite);
 		window.draw(controllerMoveHintText);
 		window.draw(controllerSelectHintText);
 	}
-	else if (showControllerHints == false)
+	else if (showControllerHints == false)//keyboard and mouse hints
 	{
 		window.draw(mouseMoveHintSprite);
 		window.draw(mouseSelectHintSprite);

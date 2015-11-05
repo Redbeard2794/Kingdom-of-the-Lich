@@ -92,18 +92,23 @@ public:
 	//for moving through options with a controller
 	void MoveUp();
 	void MoveDown();
+
 	//for selecting different options with the mouse
 	void CheckMouseToOptions(sf::Vector2i mousePos);
 
+	//Set the text being displayed on the box
 	void setDialogText(sf::String dialog, int textSize);
 
+	//get or set whether the dialog box is visible or not
 	void setVisible(bool v) { visible = v; }
 	bool getVisible() { return visible; }
 
 	void setOptionConfirmed(bool oc) { optionConfirmed = oc; }
 	bool getOptionConfirmed() { return optionConfirmed; }
 
+	//set position of yes option
 	void setConfirmPosition(sf::Vector2f conPos);
+	//set position of no option
 	void setNegativePosition(sf::Vector2f negPos);
 
 	void setCanMoveSelection(bool cms) { canMoveSelection = cms; }
@@ -113,6 +118,7 @@ public:
 
 	void setShowControllerHints(bool sch) { showControllerHints = sch; }
 
+	//set up the hints for controller or mouse/keyboard
 	void setHints();
 
 	void Draw(sf::RenderTarget& window);

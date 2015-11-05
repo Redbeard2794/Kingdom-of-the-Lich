@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Gamepad.h"
 
+//constructor
 Gamepad::Gamepad()
 {
 	memset(&state, 0, sizeof(XINPUT_STATE));
@@ -12,11 +13,13 @@ Gamepad::Gamepad()
 	yPressed = false;
 }
 
+//destructor
 Gamepad::~Gamepad()
 {
 
 }
 
+/*Check whether the controller is connected*/
 bool Gamepad::CheckControllerConnection(bool showOutput)
 {
 	if(showOutput == true)
@@ -35,6 +38,7 @@ bool Gamepad::CheckControllerConnection(bool showOutput)
 	}
 }
 
+/*Cause the motors to rumble*/
 void Gamepad::Rumble(int leftMotorRumble, int rightMotorRumble)
 {
 	motor.wLeftMotorSpeed = leftMotorRumble;
@@ -42,6 +46,7 @@ void Gamepad::Rumble(int leftMotorRumble, int rightMotorRumble)
 	XInputSetState(0, &motor);
 }
 
+/*Call all checks for the different button presses*/
 void Gamepad::CheckAllButtons()
 {
 	CheckA();

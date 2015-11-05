@@ -4,6 +4,7 @@
 class Inventory
 {
 private:
+	//map containg items with their quantity
 	std::map<std::string, int> inventoryItems;
 	//background stuff for UI
 	sf::Sprite backgroundSprite;

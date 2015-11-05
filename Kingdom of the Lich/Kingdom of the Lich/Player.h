@@ -61,23 +61,32 @@ private:
 	int lockedDirection;
 
 public:
+	//constructor(param is a font)
 	Player(sf::Font f);
+	//destructor
 	~Player();
 
 	void Update(sf::Vector2f objectivePos, std::string currentQuestName);
 
-	//void boundary();
+	//Set the player's texture based on their chosen race
 	void setTextures();
 
+	/*Move the player in the direction they are travelling in
+	Don't allow them to move if that direction is locked due to collision with another object*/
 	void Move(int newDir);
 
-	bool CollisionWithChest(sf::Sprite chestSprite);//, Inventory* inv);
+	/*Check to see if the player is colliding with a chest*/
+	bool CollisionWithChest(sf::Sprite chestSprite);
+
+	/*Check to see if the player is colliding with an npc*/
 	bool CollisionWithNpc(Npc* npc);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 
+	/*Draw the hud*/
 	void DrawHud(sf::RenderTarget& window);
 
+	/*Draw the player*/
 	void Player::draw(sf::RenderTarget& window);
 
 #pragma region Properties
