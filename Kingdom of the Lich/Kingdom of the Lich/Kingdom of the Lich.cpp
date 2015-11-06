@@ -163,8 +163,10 @@ int main()
 	testInv->PrintAllInventory();
 	//testing npc
 	Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
+	CommanderIronArm->LoadInteractHintTexture(useController);
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
+	testChest->LoadInteractHintTexture(useController);
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", CommanderIronArm->getPosition(), 1, 5, 5);
 
@@ -190,7 +192,9 @@ int main()
 
 	sf::Text questCompletePopup;
 	questCompletePopup.setFont(font);
-	questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'B' now.");
+	if(useController == true)
+		questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'B' now.");
+	else questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'I' now.");
 	questCompletePopup.setPosition(sf::Vector2f(SCREENWIDTH / 18, SCREENHEIGHT / 2));
 	questCompletePopup.setColor(sf::Color::Black);
 	questCompletePopup.setCharacterSize(20);
@@ -540,6 +544,7 @@ int main()
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								gState = GAME;
 								p->setTextures();
+								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -723,7 +728,7 @@ int main()
 				{
 					if (testQuest->getCurrentStageIndex() == 0)
 					{
-						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'A' button" << std::endl;
+						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'E'" << std::endl;
 						testQuest->getCurrentStage()->setCompletionStatus(true);
 						testQuest->setCurrentStageIndex(1);
 					}
@@ -753,14 +758,18 @@ int main()
 				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
 			else p->Update(sf::Vector2f(0, 0), "No more quests available");
 
+			testChest->Update(p->getPosition());
 			testChest->draw(*pWindow);
+			
 
-			CommanderIronArm->Update();
+			CommanderIronArm->Update(p->getPosition());
+			
 			window.draw(*CommanderIronArm);
+			CommanderIronArm->draw(window);
 			p->draw(*pWindow);
 
 
-			//draw hints based on time(fade in/out)
+			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
 			p->DrawHud(window);
 			if (splashClock->getElapsedTime().asSeconds() > 0.5 && splashClock->getElapsedTime().asSeconds() < 1)

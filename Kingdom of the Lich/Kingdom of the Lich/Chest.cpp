@@ -19,11 +19,40 @@ Chest::~Chest()
 
 }
 
+//Load the correct texture for the interact hint
+void Chest::LoadInteractHintTexture(bool controllerHint)
+{
+	std::cout << "Loading chest hints" << std::endl;
+	if (controllerHint == true)
+	{
+		if (interactHintTexture.loadFromFile("Assets/ControllerHints/pressAtoOpenHint.png")) {}
+		else interactHintTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	}
+	else
+	{
+		if (interactHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/pressEtoOpenHint.png")) {}
+		else interactHintTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	}
+	interactHintSprite.setTexture(interactHintTexture);
+	interactHintSprite.setOrigin(interactHintTexture.getSize().x / 2, interactHintTexture.getSize().y / 2);
+	interactHintSprite.setPosition(sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y+30));
+}
+
 /*Add the items contained in the chest to the inventory and open the chest*/
 void Chest::OpenChest(Inventory* inv)
 {
 	inv->AddItemToInventory(keyForStoredItem, quantityOfStoredItem);
 	opened = true;
+}
+
+void Chest::Update(sf::Vector2f playerPos)
+{
+	sf::Vector2f pos = sprite.getPosition();
+	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
+
+	if (distance < 100)
+		interactHintSprite.setColor(sf::Color::White);
+	else interactHintSprite.setColor(sf::Color::Transparent);
 }
 
 void Chest::draw(sf::RenderTarget& window, sf::RenderStates state) const {}
@@ -41,4 +70,5 @@ void Chest::draw(sf::RenderTarget& window)
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 	}
 	window.draw(sprite, getTransform());
+	window.draw(interactHintSprite);
 }

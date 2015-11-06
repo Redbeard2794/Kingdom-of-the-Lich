@@ -31,6 +31,8 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	genders[1].setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
 	genders[1].setPosition(500, 250);
 
+	genders[0].setColor(sf::Color::Green);
+
 	//Header for choosing race
 	ChooseRace.setFont(font);
 	ChooseRace.setString("Choose your race.");

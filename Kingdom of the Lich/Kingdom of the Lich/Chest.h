@@ -14,6 +14,9 @@ private:
 
 	int quantityOfStoredItem;
 
+	sf::Sprite interactHintSprite;
+	sf::Texture interactHintTexture;
+
 public:
 	/*Constructor*/
 	Chest(std::string itemKey, int quantity);
@@ -21,8 +24,13 @@ public:
 	/*Destructor*/
 	~Chest();
 
+	//Load the correct texture for the interact hint
+	void LoadInteractHintTexture(bool controllerHint);
+
 	/*Add the items contained in the chest to the inventory and open the chest*/
 	void OpenChest(Inventory* inv);
+
+	void Update(sf::Vector2f playerPos);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 	
