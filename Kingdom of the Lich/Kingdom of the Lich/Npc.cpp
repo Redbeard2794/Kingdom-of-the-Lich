@@ -7,6 +7,13 @@ Npc::Npc(std::string n, int i, sf::Vector2f pos) : name(n), id(i)
 	setTexture(m_texture);
 	setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	setPosition(pos);
+
+	if (npcMinimapIconTexture.loadFromFile("Assets/npcMinimapIcon.png")) {}
+	else npcMinimapIconTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	npcMinimapIcon.setTexture(npcMinimapIconTexture);
+	npcMinimapIcon.setOrigin(npcMinimapIconTexture.getSize().x / 2, npcMinimapIconTexture.getSize().y / 2);
+	npcMinimapIcon.setPosition(pos);
+
 }
 
 //Load the correct texture for the interact hint
@@ -40,9 +47,16 @@ void Npc::Update(sf::Vector2f playerPos)
 	if(distance < 25)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
+
+	npcMinimapIcon.setPosition(getPosition());
 }
 
 void Npc::draw(sf::RenderTarget& window)
 {
 	window.draw(interactHintSprite);
+}
+
+void Npc::MinimapDraw(sf::RenderTarget& window)
+{
+	window.draw(npcMinimapIcon);
 }

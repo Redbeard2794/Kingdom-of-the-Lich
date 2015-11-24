@@ -924,8 +924,10 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
-			window.draw(*CommanderIronArm);
+			//window.draw(*CommanderIronArm);
 			
+			CommanderIronArm->MinimapDraw(*pWindow);
+
 			p->MinimapDraw(*pWindow);
 
 

@@ -13,6 +13,9 @@ private:
 
 	bool hasQuest;
 
+	sf::Texture npcMinimapIconTexture;
+	sf::Sprite npcMinimapIcon;
+
 public: 
 	Npc(std::string n, int i, sf::Vector2f pos);
 
@@ -24,6 +27,8 @@ public:
 	void Update(sf::Vector2f playerPos);
 
 	void draw(sf::RenderTarget& window);
+
+	void MinimapDraw(sf::RenderTarget& window);
 };
 
 #endif
