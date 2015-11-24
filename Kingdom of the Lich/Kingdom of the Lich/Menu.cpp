@@ -7,12 +7,12 @@ Menu::Menu(sf::Font f, bool controller):font(f),showControllerHints(controller)
 	LoadText();
 	LoadTexturesAndSprites();
 
-	currentSelectedOption = 1;
-	if (showControllerHints == true)
-	{
-		selectedOption = 0;
-		menuItems[selectedOption].setColor(sf::Color::Blue);
-	}
+	currentSelectedOption = 0;
+	//if (showControllerHints == true)
+	//{
+	selectedOption = 0;
+	menuItems[selectedOption].setColor(sf::Color::Blue);
+	//}
 	canMove = true;
 }
 

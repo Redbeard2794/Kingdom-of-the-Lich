@@ -49,10 +49,10 @@ void Gamepad::Rumble(int leftMotorRumble, int rightMotorRumble)
 /*Call all checks for the different button presses*/
 void Gamepad::CheckAllButtons()
 {
-	CheckA();
-	CheckB();
-	CheckX();
-	CheckY();
+	CheckADown();
+	CheckBDown();
+	CheckXDown();
+	CheckYDown();
 	CheckDpadUp();
 	CheckDpadDown();
 	CheckDpadRight();
@@ -61,9 +61,11 @@ void Gamepad::CheckAllButtons()
 	CheckLB();
 	CheckStart();
 	CheckBack();
+	CheckRT();
+	CheckLT();
 }
 
-void Gamepad::CheckA()
+void Gamepad::CheckADown()
 {
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
@@ -72,14 +74,14 @@ void Gamepad::CheckA()
 			if (aPressed == false)
 			{
 				aPressed = true;
-				std::cout << "A" << std::endl;
+				std::cout << "A down" << std::endl;
 			}
 		}
 		else aPressed = false;
 	}
 }
 
-void Gamepad::CheckB()
+void Gamepad::CheckBDown()
 {
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
@@ -88,14 +90,14 @@ void Gamepad::CheckB()
 			if (bPressed == false)
 			{
 				bPressed = true;
-				std::cout << "B" << std::endl;
+				std::cout << "B down" << std::endl;
 			}
 		}
 		else bPressed = false;
 	}
 }
 
-void Gamepad::CheckX()
+void Gamepad::CheckXDown()
 {
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
@@ -104,14 +106,14 @@ void Gamepad::CheckX()
 			if (xPressed == false)
 			{
 				xPressed = true;
-				std::cout << "X" << std::endl;
+				std::cout << "X down" << std::endl;
 			}
 		}
 		else xPressed = false;
 	}
 }
 
-void Gamepad::CheckY()
+void Gamepad::CheckYDown()
 {
 	if (XInputGetState(0, &state) == ERROR_SUCCESS)
 	{
@@ -120,7 +122,7 @@ void Gamepad::CheckY()
 			if (yPressed == false)
 			{
 				yPressed = true;
-				std::cout << "Y" << std::endl;
+				std::cout << "Y down" << std::endl;
 			}
 		}
 		else yPressed = false;
@@ -136,7 +138,7 @@ void Gamepad::CheckDpadUp()
 			if (upPressed == false)
 			{
 				upPressed = true;
-				std::cout << "Dpad up" << std::endl;
+				std::cout << "Dpad up pressed" << std::endl;
 			}
 		}
 		else upPressed = false;
@@ -152,7 +154,7 @@ void Gamepad::CheckDpadDown()
 			if (downPressed == false)
 			{
 				downPressed = true;
-				std::cout << "Dpad down" << std::endl;
+				std::cout << "Dpad down pressed" << std::endl;
 			}
 		}
 		else downPressed = false;
@@ -168,7 +170,7 @@ void Gamepad::CheckDpadRight()
 			if (rightPressed == false)
 			{
 				rightPressed = true;
-				std::cout << "Dpad right" << std::endl;
+				std::cout << "Dpad right pressed" << std::endl;
 			}
 		}
 		else rightPressed = false;
@@ -184,7 +186,7 @@ void Gamepad::CheckDpadLeft()
 			if (leftPressed == false)
 			{
 				leftPressed = true;
-				std::cout << "Dpad left" << std::endl;
+				std::cout << "Dpad left pressed" << std::endl;
 			}
 		}
 		else leftPressed = false;
@@ -200,7 +202,7 @@ void Gamepad::CheckRB()
 			if (rbPressed == false)
 			{
 				rbPressed = true;
-				std::cout << "RB" << std::endl;
+				std::cout << "RB down" << std::endl;
 			}
 		}
 		else rbPressed = false;
@@ -216,7 +218,7 @@ void Gamepad::CheckLB()
 			if (lbPressed == false)
 			{
 				lbPressed = true;
-				std::cout << "LB" << std::endl;
+				std::cout << "LB down" << std::endl;
 			}
 		}
 		else lbPressed = false;
@@ -232,7 +234,7 @@ void Gamepad::CheckStart()
 			if (startPressed == false)
 			{
 				startPressed = true;
-				std::cout << "Start" << std::endl;
+				std::cout << "Start down" << std::endl;
 			}
 		}
 		else startPressed = false;
@@ -248,10 +250,41 @@ void Gamepad::CheckBack()
 			if (backPressed == false)
 			{
 				backPressed = true;
-				std::cout << "Back" << std::endl;
+				std::cout << "Back down" << std::endl;
 			}
 		}
 		else backPressed = false;
 	}
 }
 
+void Gamepad::CheckRT()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+		{
+			if (rtPressed == false) 
+			{
+				rtPressed = true;
+				std::cout << "RT pressed" << std::endl;
+			}
+		}
+		else rtPressed = false;
+	}
+}
+
+void Gamepad::CheckLT()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		if (state.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+		{
+			if (ltPressed == false)
+			{
+				ltPressed = true;
+				std::cout << "LT pressed" << std::endl;
+			}
+		}
+		else ltPressed = false;
+	}
+}

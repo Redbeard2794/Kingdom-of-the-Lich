@@ -18,20 +18,26 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	parchment.setPosition(SCREENWIDTH/2, SCREENHEIGHT/2);
 
 	//button to select male
-	if (maleButtonTexture.loadFromFile("Assets/CharacterCreation/MaleButtonBlue.png")) {}
+	if (maleButtonTexture.loadFromFile("Assets/CharacterCreation/genders/maleSymbolNormal.png")) {}
 	else maleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	genders[0].setTexture(maleButtonTexture);
 	genders[0].setOrigin(sf::Vector2f(maleButtonTexture.getSize().x / 2, maleButtonTexture.getSize().y / 2));
 	genders[0].setPosition(300, 250);//y=500
 
 	//button to select female
-	if (femaleButtonTexture.loadFromFile("Assets/CharacterCreation/FemaleButtonPink.png")) {}
+	if (femaleButtonTexture.loadFromFile("Assets/CharacterCreation/genders/femaleSymbolNormal.png")) {}
 	else femaleButtonTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	genders[1].setTexture(femaleButtonTexture);
 	genders[1].setOrigin(sf::Vector2f(femaleButtonTexture.getSize().x / 2, femaleButtonTexture.getSize().y / 2));
 	genders[1].setPosition(500, 250);
 
-	genders[0].setColor(sf::Color::Green);
+	//genders[0].setColor(sf::Color::Green);
+	if (femaleButtonSelectedTexture.loadFromFile("Assets/CharacterCreation/genders/femaleSymbolSelected.png")) {}
+	else femaleButtonSelectedTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+
+	if (maleButtonSelectedTexture.loadFromFile("Assets/CharacterCreation/genders/maleSymbolSelected.png")) {}
+	else maleButtonSelectedTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	genders[0].setTexture(maleButtonSelectedTexture);
 
 	//Header for choosing race
 	ChooseRace.setFont(font);
@@ -55,17 +61,41 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller):fo
 	races[HUMAN].setFont(font);
 	races[HUMAN].setString("Human");
 	races[HUMAN].setColor(sf::Color::Black);
-	races[HUMAN].setPosition(sf::Vector2f(SCREENWIDTH / 5, SCREENHEIGHT / 4));
+	races[HUMAN].setPosition(sf::Vector2f(SCREENWIDTH / 5, SCREENHEIGHT / 3));
+
+	if (raceIconTextures[0].loadFromFile("Assets/CharacterCreation/races/humanIconNormal.png")) {}
+	else raceIconTextures[0].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	raceIcons[0].setTexture(raceIconTextures[0]);
+	raceIcons[0].setOrigin(raceIconTextures[0].getSize().x/2, raceIconTextures[0].getSize().y / 2);
+	raceIcons[0].setPosition(sf::Vector2f(SCREENWIDTH / 4, SCREENHEIGHT / 4));
+	if (raceIconSelectedTexture[0].loadFromFile("Assets/CharacterCreation/races/humanIconSelected.png")) {}
+	else raceIconSelectedTexture[0].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 
 	races[ELF].setFont(font);
 	races[ELF].setString("Elf");
 	races[ELF].setColor(sf::Color::Black);
-	races[ELF].setPosition(sf::Vector2f(SCREENWIDTH / 2, SCREENHEIGHT / 4));
+	races[ELF].setPosition(sf::Vector2f(SCREENWIDTH / 2, SCREENHEIGHT / 3));
 
-	races[BEASTMAN].setFont(font);
-	races[BEASTMAN].setString("Beastman");
-	races[BEASTMAN].setColor(sf::Color::Black);
-	races[BEASTMAN].setPosition(sf::Vector2f(550, SCREENHEIGHT / 4));
+	if (raceIconTextures[1].loadFromFile("Assets/CharacterCreation/races/elfIconNormal.png")) {}
+	else raceIconTextures[1].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	raceIcons[1].setTexture(raceIconTextures[1]);
+	raceIcons[1].setOrigin(raceIconTextures[1].getSize().x / 2, raceIconTextures[1].getSize().y / 2);
+	raceIcons[1].setPosition(sf::Vector2f(420, SCREENHEIGHT / 4));
+	if (raceIconSelectedTexture[1].loadFromFile("Assets/CharacterCreation/races/elfIconSelected.png")) {}
+	else raceIconSelectedTexture[1].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+
+	races[DWARF].setFont(font);
+	races[DWARF].setString("Dwarf");
+	races[DWARF].setColor(sf::Color::Black);
+	races[DWARF].setPosition(sf::Vector2f(550, SCREENHEIGHT / 3));
+
+	if (raceIconTextures[2].loadFromFile("Assets/CharacterCreation/races/dwarfIconNormal.png")) {}
+	else raceIconTextures[2].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	raceIcons[2].setTexture(raceIconTextures[2]);
+	raceIcons[2].setOrigin(raceIconTextures[2].getSize().x / 2, raceIconTextures[2].getSize().y / 2);
+	raceIcons[2].setPosition(sf::Vector2f(600, SCREENHEIGHT / 4));
+	if (raceIconSelectedTexture[2].loadFromFile("Assets/CharacterCreation/races/dwarfIconSelected.png")) {}
+	else raceIconSelectedTexture[2].loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 
 	//text for classes
 	classes[ARCHER].setFont(font);
@@ -275,11 +305,16 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionRight()
 			currentlySelectedGender = 0;
 		else currentlySelectedGender += 1;
 
-		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+		if (currentlySelectedGender == MALE)
 		{
-			genders[i].setColor(sf::Color::White);
+			genders[MALE].setTexture(maleButtonSelectedTexture);
+			genders[FEMALE].setTexture(femaleButtonTexture);
 		}
-		genders[currentlySelectedGender].setColor(sf::Color::Green);
+		else
+		{
+			genders[MALE].setTexture(maleButtonTexture);
+			genders[FEMALE].setTexture(femaleButtonSelectedTexture);
+		}
 
 		if(currentlySelectedGender == MALE)
 			std::cout << "Currently selected gender is MALE" << std::endl;
@@ -297,11 +332,16 @@ void ChooseRaceAndGenderMenu::moveGenderSelectionLeft()
 			currentlySelectedGender = 1;
 		else currentlySelectedGender -= 1;
 
-		for (int i = 0; i < MAX_MAIN_MENU_ITEMS; i++)
+		if (currentlySelectedGender == MALE)
 		{
-			genders[i].setColor(sf::Color::White);
+			genders[MALE].setTexture(maleButtonSelectedTexture);
+			genders[FEMALE].setTexture(femaleButtonTexture);
 		}
-		genders[currentlySelectedGender].setColor(sf::Color::Green);
+		else
+		{
+			genders[MALE].setTexture(maleButtonTexture);
+			genders[FEMALE].setTexture(femaleButtonSelectedTexture);
+		}
 
 		if (currentlySelectedGender == MALE)
 			std::cout << "Currently selected gender is MALE" << std::endl;
@@ -362,11 +402,32 @@ void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 			races[i].setColor(sf::Color::Black);
 		}
 		races[currentlySelectedRace].setColor(sf::Color::Red);
+
+		if (currentlySelectedRace == HUMAN)
+		{
+			raceIcons[HUMAN].setTexture(raceIconSelectedTexture[HUMAN]);
+			raceIcons[ELF].setTexture(raceIconTextures[ELF]);
+			raceIcons[DWARF].setTexture(raceIconTextures[DWARF]);
+		}
+		else if (currentlySelectedRace == ELF)
+		{
+			raceIcons[HUMAN].setTexture(raceIconTextures[HUMAN]);
+			raceIcons[ELF].setTexture(raceIconSelectedTexture[ELF]);
+			raceIcons[DWARF].setTexture(raceIconTextures[DWARF]);
+		}
+		else
+		{
+			raceIcons[HUMAN].setTexture(raceIconTextures[HUMAN]);
+			raceIcons[ELF].setTexture(raceIconTextures[ELF]);
+			raceIcons[DWARF].setTexture(raceIconSelectedTexture[DWARF]);
+		}
+		raceIcons[currentlySelectedRace].setTexture(raceIconSelectedTexture[currentlySelectedRace]);
 		
 
 		for (int i = 0; i < 3; i++)
 		{
 			window.draw(races[i]);
+			window.draw(raceIcons[i]);
 		}
 		break;
 

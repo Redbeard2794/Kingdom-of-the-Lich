@@ -24,10 +24,17 @@
 #include <tchar.h>
 #include <iostream>
 #include <vector>
+#include <thread>
+#include <atomic>
+#include <chrono>
+#include <mutex>
+//using std::atomic_int;
+//using std::thread;
 
 //project headers
 #include "STP/TMXLoader.hpp"
 #include "Player.h"
+#include "Hud.h"
 #include "Quest.h"
 #include "QuestStage.h"
 #include "Compass.h"

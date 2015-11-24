@@ -13,16 +13,6 @@ Player::Player(sf::Font f) : font(f)
 
 	isRunning = false;
 
-	hudBackgroundTexture.loadFromFile("Assets/HudBackground.png");
-	hudBackground.setTexture(hudBackgroundTexture);
-	hudBackground.setPosition(0, 500);
-	currentQuestText.setFont(font);
-	currentQuestText.setColor(sf::Color::Black);
-	currentQuestText.setString("Current Quest Name: ");
-	currentQuestText.setPosition(540, 500);
-	currentQuestText.setCharacterSize(12);
-
-	compass = new Compass();
 	currentDirection = NOTMOVING;
 	lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything yet
 }
@@ -33,12 +23,9 @@ Player::~Player()
 
 }
 
-void Player::Update(sf::Vector2f objectivePos, std::string currentQuestName)
+void Player::Update()
 {
-	//update the text for the current quest
-	currentQuestText.setString("Current Quest Name: " + currentQuestName);
-	//update the direction the compass needle is pointing
-	compass->UpdateNeedle(getPosition(), objectivePos);
+
 }
 
 //Set the player's texture based on their chosen race
@@ -48,7 +35,7 @@ void Player::setTextures()
 		mTexture.loadFromFile("Assets/Icons/humanSkull.png");
 	else if(race == ELF)
 		mTexture.loadFromFile("Assets/Icons/elfSkull.png");
-	else if(race == BEASTMAN)
+	else if(race == Dwarf)
 		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
 
 	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
@@ -84,6 +71,8 @@ void Player::Move(int newDir)
 			setPosition(getPosition().x - 1, getPosition().y);
 		else setPosition(getPosition().x - 2, getPosition().y);
 	}
+
+	previousDirection = currentDirection;
 }
 
 /*Check to see if the player is colliding with a chest*/
@@ -92,8 +81,8 @@ bool Player::CollisionWithChest(sf::Sprite chestSprite)
 	/*If the player is colliding with a chest then lock the direction they are travelling in currently so that they can't move further*/
 	if (chestSprite.getGlobalBounds().contains(getPosition()))
 	{
-		if (currentDirection != NOTMOVING)
-			lockedDirection = currentDirection;
+		if (previousDirection != NOTMOVING)
+			lockedDirection = previousDirection;
 		return true;
 	}
 	else
@@ -110,8 +99,8 @@ bool Player::CollisionWithNpc(Npc* npc)
 	sf::Vector2f pos = getPosition();
 	if (npc->getGlobalBounds().contains(pos))
 	{
-		if (currentDirection != NOTMOVING)
-			lockedDirection = currentDirection;
+		if (previousDirection != NOTMOVING)
+			lockedDirection = previousDirection;
 		return true;
 	}
 	else
@@ -127,12 +116,4 @@ void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
 void Player::draw(sf::RenderTarget& window)
 {
 	window.draw(mSprite, getTransform());
-}
-
-/*Draw the hud*/
-void Player::DrawHud(sf::RenderTarget& window)
-{
-	window.draw(hudBackground);
-	window.draw(currentQuestText);
-	compass->draw(window);
 }

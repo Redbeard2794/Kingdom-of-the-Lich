@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<npcList>
+
+	<npc>
+		<name>Commander Iron-Arm</name>
+		<id>1</id>
+		<race>Human</race>
+		<gender>Male</gender>
+		<texturePath>Assets/npcTemp.png</texturePath>
+		<x>1000</x>
+		<y>1000</y>
+		<hasQuest>True</hasQuest>
+	</npc>
+	
+	<npc>
+		<name>Mankar</name>
+		<id>1</id>
+		<race>Elf</race>
+		<gender>Male</gender>
+		<texturePath>Assets/npcTemp.png</texturePath>
+		<x>400</x>
+		<y>800</y>
+		<hasQuest>False</hasQuest>
+	</npc>
+
+</npcList>

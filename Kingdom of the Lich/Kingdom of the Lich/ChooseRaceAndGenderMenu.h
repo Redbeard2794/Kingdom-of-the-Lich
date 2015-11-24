@@ -59,6 +59,9 @@ private:
 	sf::Texture maleButtonTexture;
 	sf::Texture femaleButtonTexture;
 
+	sf::Texture maleButtonSelectedTexture;
+	sf::Texture femaleButtonSelectedTexture;
+
 	sf::Sprite genders[2];
 
 	sf::Text ChooseRace;
@@ -68,6 +71,10 @@ private:
 	sf::Text races[3];
 	sf::Text classes[3];
 
+	sf::Sprite raceIcons[3];
+	sf::Texture raceIconTextures[3];
+	sf::Texture raceIconSelectedTexture[3];
+
 	sf::Font font;
 	bool mouseClicked;
 
@@ -76,7 +83,7 @@ private:
 	{
 		HUMAN,
 		ELF,
-		BEASTMAN
+		DWARF
 	};
 
 	//possible genders

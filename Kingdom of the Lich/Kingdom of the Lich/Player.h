@@ -24,16 +24,12 @@ private:
 	bool isRunning;
 
 	sf::Font font;
-	sf::Sprite hudBackground;
-	sf::Texture hudBackgroundTexture;
-	sf::Text currentQuestText;
 
-	Compass* compass;
 	enum Race
 	{
 		HUMAN,
 		ELF,
-		BEASTMAN
+		Dwarf
 	};
 
 	enum Gender
@@ -58,6 +54,7 @@ private:
 		NOTMOVING//4
 	};
 	int currentDirection;
+	int previousDirection;
 	int lockedDirection;
 
 public:
@@ -66,7 +63,7 @@ public:
 	//destructor
 	~Player();
 
-	void Update(sf::Vector2f objectivePos, std::string currentQuestName);
+	void Update();//sf::Vector2f objectivePos, std::string currentQuestName);
 
 	//Set the player's texture based on their chosen race
 	void setTextures();
@@ -83,9 +80,6 @@ public:
 
 	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
 
-	/*Draw the hud*/
-	void DrawHud(sf::RenderTarget& window);
-
 	/*Draw the player*/
 	void Player::draw(sf::RenderTarget& window);
 
@@ -101,6 +95,8 @@ public:
 	int getGender() { return gender; }
 	int getClass() { return playerClass; }
 	int getCurrentDirection() { return currentDirection; }
+
+	int getPreviousDirection() { return previousDirection; }
 	//end gets
 	//start sets
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
@@ -112,6 +108,7 @@ public:
 	void setClass(int c) { playerClass = c; }
 
 	void setCurrentDirection(int currDir) { currentDirection = currDir; }
+	void setPreviousDirection(int pDir) { previousDirection = pDir; }
 	//end sets
 #pragma endregion
 

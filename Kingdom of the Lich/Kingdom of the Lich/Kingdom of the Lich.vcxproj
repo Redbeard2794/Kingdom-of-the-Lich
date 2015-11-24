@@ -156,6 +156,7 @@
     <ClInclude Include="Compass.h" />
     <ClInclude Include="ConfirmationDialogBox.h" />
     <ClInclude Include="Gamepad.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="ConfirmationDialogBox.cpp" />
     <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -37,6 +37,9 @@ public:
 	/*Draw*/
 	void draw(sf::RenderTarget& window);
 
+	//draw hint
+	void DrawHint(sf::RenderTarget& window);
+
 	//gets
 	std::string getKeyForStoredItem() { return keyForStoredItem; }
 	sf::Sprite getSprite() { return sprite; }

@@ -37,7 +37,7 @@ void Npc::Update(sf::Vector2f playerPos)
 	sf::Vector2f pos = getPosition();
 	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
 	
-	if(distance < 100)
+	if(distance < 25)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
 }

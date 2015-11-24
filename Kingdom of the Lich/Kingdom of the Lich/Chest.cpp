@@ -50,7 +50,7 @@ void Chest::Update(sf::Vector2f playerPos)
 	sf::Vector2f pos = sprite.getPosition();
 	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
 
-	if (distance < 100)
+	if (distance < 25)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
 }
@@ -70,5 +70,11 @@ void Chest::draw(sf::RenderTarget& window)
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 	}
 	window.draw(sprite, getTransform());
-	window.draw(interactHintSprite);
+}
+
+//draw hint
+void Chest::DrawHint(sf::RenderTarget& window)
+{
+	if (interactHintSprite.getColor() == sf::Color::White)
+		window.draw(interactHintSprite);
 }

@@ -20,10 +20,10 @@ public:
 	void CheckAllButtons();
 
 	/*methods to check button presses*/
-	void CheckA();
-	void CheckB();
-	void CheckX();
-	void CheckY();
+	void CheckADown();
+	void CheckBDown();
+	void CheckXDown();
+	void CheckYDown();
 
 	void CheckDpadUp();
 	void CheckDpadDown();
@@ -35,6 +35,9 @@ public:
 
 	void CheckStart();
 	void CheckBack();
+
+	void CheckRT();
+	void CheckLT();
 
 	/*retrieve the pressed state of each button*/
 	bool A() { return aPressed; }
@@ -52,6 +55,9 @@ public:
 
 	bool Start() { return startPressed; }
 	bool Back() { return backPressed; }
+
+	bool RT() { return rtPressed; }
+	bool LT() { return ltPressed; }
 
 private:
 	XINPUT_STATE state;
@@ -73,6 +79,12 @@ private:
 	//start and back/menu and view
 	bool startPressed;
 	bool backPressed;
+
+	//triggers
+	bool rtPressed;
+	bool ltPressed;
+
+
 
 };
 

@@ -65,6 +65,7 @@ int main()
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
+	Hud* hud = new Hud(font);
 
 	window.setFramerateLimit(60);//is this causing the flickering in the mini map
 
@@ -125,6 +126,7 @@ int main()
 	useController = gamepad->CheckControllerConnection(true);
 
 	Menu *mainMenu = new Menu(font, useController);
+
 	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController);
 
 	//hints for the splash screen
@@ -155,12 +157,13 @@ int main()
 
 	bool spacePressed = false;
 	bool enterPressed = false;
-
+	int enterCount = 0;
 
 
 	//for testing inventory
 	Inventory* testInv = new Inventory(font, useController);
 	testInv->PrintAllInventory();
+	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 	//testing npc
 	Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
 	CommanderIronArm->LoadInteractHintTexture(useController);
@@ -289,27 +292,58 @@ int main()
 			if (useController == false)
 			{
 				//show the cursor
-				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
-				window.draw(cursor);
+				//sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				//cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
+				//window.draw(cursor);
 
-				mainMenu->CheckMouse(sf::Mouse::getPosition(window));
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				{
+					if (mainMenu->getCanMove() == true)
+					{
+						mainMenu->MoveUp();
+						mainMenu->setCanMove(false);
+					}
+				}
+
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				{
+					if (mainMenu->getCanMove() == true)
+					{
+						mainMenu->MoveDown();
+						mainMenu->setCanMove(false);
+					}
+				}
+
+				else mainMenu->setCanMove(true);
+
+				//mainMenu->CheckMouse(sf::Mouse::getPosition(window));
 
 				//which option is the player choosing
-				if (mainMenu->getSelectedOption() == 0)//new game
-					gState = CHOOSERACEGENDER;
-				else if (mainMenu->getSelectedOption() == 1)//continue game
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && enterPressed == false)
 				{
-					//std::cout << "Continue game not available yet" << std::endl;
+					enterPressed = true;
+
+					if (mainMenu->getSelectedOption() == 0)//new game
+					{
+						enterPressed = false;
+						gState = CHOOSERACEGENDER;
+						//enterPressed = false;
+					}
+					else if (mainMenu->getSelectedOption() == 1)//continue game
+					{
+						//std::cout << "Continue game not available yet" << std::endl;
+					}
+					else if (mainMenu->getSelectedOption() == 2)//options
+					{
+						//std::cout << "Options not available yet" << std::endl;
+					}
+					else if (mainMenu->getSelectedOption() == 3)//credits
+						gState = CREDITS;
+					else if (mainMenu->getSelectedOption() == 4)//quit
+						window.close();
+
+					
 				}
-				else if (mainMenu->getSelectedOption() == 2)//options
-				{
-					//std::cout << "Options not available yet" << std::endl;
-				}
-				else if (mainMenu->getSelectedOption() == 3)//credits
-					gState = CREDITS;
-				else if (mainMenu->getSelectedOption() == 4)//quit
-					window.close();
 			}
 
 			//if the player is using a controller
@@ -361,8 +395,44 @@ int main()
 				//set up the dialog box based on menu state and allow player to choose
 				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
 				{
-					raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)&& enterPressed==false)//up
+					enterPressed = false;
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+					{
+						if (raceAndGenderMenu->getCanMoveSelection() == true)
+						{
+							if (raceAndGenderMenu->getCurrentState() == 0)
+								raceAndGenderMenu->moveRaceSelectionRight();
+							else if (raceAndGenderMenu->getCurrentState() == 1)
+								raceAndGenderMenu->moveGenderSelectionRight();
+							else if (raceAndGenderMenu->getCurrentState() == 2)
+								raceAndGenderMenu->moveClassSelectionRight();
+
+							raceAndGenderMenu->setCanMoveSelection(false);
+						}
+					}
+
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					{
+						if (raceAndGenderMenu->getCanMoveSelection() == true)
+						{
+							if (raceAndGenderMenu->getCurrentState() == 0)
+								raceAndGenderMenu->moveRaceSelectionLeft();
+							else if (raceAndGenderMenu->getCurrentState() == 1)
+								raceAndGenderMenu->moveGenderSelectionLeft();
+							else if (raceAndGenderMenu->getCurrentState() == 2)
+								raceAndGenderMenu->moveClassSelectionLeft();
+
+							raceAndGenderMenu->setCanMoveSelection(false);
+						}
+					}
+					else
+					{
+						raceAndGenderMenu->setCanMoveSelection(true);
+						raceAndGenderMenu->setCanSelect(true);
+					}
+
+					//raceAndGenderMenu->Update(sf::Mouse::getPosition(window));
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))// && enterPressed==false)//up
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)
 						{
@@ -380,45 +450,84 @@ int main()
 				else if (ConfirmationDialogBox::GetInstance()->getVisible() == true)
 				{
 					enterPressed = false;
-					ConfirmationDialogBox::GetInstance()->CheckMouseToOptions(mousePos);
+					//ConfirmationDialogBox::GetInstance()->CheckMouseToOptions(mousePos);
 
-					if (ConfirmationDialogBox::GetInstance()->getOptionConfirmed() == true)
+					//move up and down through yes and no in the dialog box
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 					{
-						if (raceAndGenderMenu->getCurrentState() == 0)//choose race
+						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
+							ConfirmationDialogBox::GetInstance()->MoveUp();
+							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+						}
+
+					}
+
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+					{
+						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
+						{
+							ConfirmationDialogBox::GetInstance()->MoveDown();
+							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+						}
+
+					}
+					else ConfirmationDialogBox::GetInstance()->setCanMoveSelection(true);
+
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+					{
+						if (raceAndGenderMenu->getCurrentState() == 0)//choosing race
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
 								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
+								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}
-
 						}
-						else if (raceAndGenderMenu->getCurrentState() == 1)//choose gender
+
+						else if (raceAndGenderMenu->getCurrentState() == 1)//choosing gender
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
 							{
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
-								//raceAndGenderMenu->setCurrentState(2);
+								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								p->setTextures();
 								gState = GAME;
+								p->setTextures();
+								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 							}
 						}
-						ConfirmationDialogBox::GetInstance()->setOptionConfirmed(false);
+
+						else if (raceAndGenderMenu->getCurrentState() == 2)//choosing class(not functional :( )
+						{
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							{
+								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
+								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								gState = GAME;
+							}
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							{
+								raceAndGenderMenu->setCurrentState(2);
+								ConfirmationDialogBox::GetInstance()->setVisible(false);
+							}
+						}
 					}
-					
 				}
 				
 				ConfirmationDialogBox::GetInstance()->Draw(window);
@@ -603,14 +712,10 @@ int main()
 				//	float normalizedLY = leftStickYaxis / magnitude;
 				//	float normalizedMagnitude = 0;
 
-				//	//D-pad
-				//	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
-				//		p->setIsRunning(true);
-				//	else p->setIsRunning(false);
 				gamepad->CheckAllButtons();
 
 				//is player running
-				if (gamepad->LB())
+				if (gamepad->RT())
 					p->setIsRunning(true);
 				else p->setIsRunning(false);
 
@@ -753,13 +858,13 @@ int main()
 			}
 
 			window.draw(map);
+
 			//update the player
-			if (testQuest->getCompletionStatus() == false)
-				p->Update(testQuest->getCurrentStage()->getObjectiveLocation(), testQuest->getCurrentStage()->getObjective());
-			else p->Update(sf::Vector2f(0, 0), "No more quests available");
+			p->Update();
 
 			testChest->Update(p->getPosition());
 			testChest->draw(*pWindow);
+			testChest->DrawHint(*pWindow);
 			
 
 			CommanderIronArm->Update(p->getPosition());
@@ -771,7 +876,14 @@ int main()
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
-			p->DrawHud(window);
+			
+			hud->Draw(window);
+			hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition());
+
+			if (testQuest->getCompletionStatus() == false)
+				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition());
+			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition());
+
 			if (splashClock->getElapsedTime().asSeconds() > 0.5 && splashClock->getElapsedTime().asSeconds() < 1)
 				moveHintSprite.setColor(sf::Color(255, 255, 255, 200));
 			else if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 1.5)
