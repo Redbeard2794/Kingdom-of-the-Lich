@@ -8,6 +8,7 @@
 		<race>Human</race>
 		<gender>Male</gender>
 		<texturePath>Assets/npcTemp.png</texturePath>
+		<mmapTexturePath>Assets/npc/minimapIcons/icon1.png</mmapTexturePath>
 		<x>1000</x>
 		<y>1000</y>
 		<hasQuest>True</hasQuest>
@@ -19,6 +20,7 @@
 		<race>Elf</race>
 		<gender>Male</gender>
 		<texturePath>Assets/npcTemp.png</texturePath>
+		<mmapTexturePath>Assets/npc/minimapIcons/icon1.png</mmapTexturePath>
 		<x>400</x>
 		<y>800</y>
 		<hasQuest>False</hasQuest>

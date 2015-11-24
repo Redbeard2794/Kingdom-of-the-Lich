@@ -925,7 +925,8 @@ int main()
 			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
 			window.draw(*CommanderIronArm);
-			p->draw(*pWindow);
+			
+			p->MinimapDraw(*pWindow);
 
 
 			break;

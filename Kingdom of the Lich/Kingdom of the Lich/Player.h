@@ -10,6 +10,10 @@ private:
 
 	sf::Texture mTexture;
 
+	//for representing the player on the minimap
+	sf::Texture minimapTexture;
+	sf::Sprite minimapSprite;
+
 	float speed;
 
 	float health;
@@ -82,6 +86,9 @@ public:
 
 	/*Draw the player*/
 	void Player::draw(sf::RenderTarget& window);
+
+	/*draw the player on the minimap*/
+	void MinimapDraw(sf::RenderTarget& window);
 
 #pragma region Properties
 	//start gets

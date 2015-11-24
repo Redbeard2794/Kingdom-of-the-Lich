@@ -40,6 +40,12 @@ void Player::setTextures()
 
 	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
 	mSprite.setTexture(mTexture);
+
+	//set up player's minimap icon
+	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
+	else minimapTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	minimapSprite.setTexture(minimapTexture);
+	minimapSprite.setOrigin(minimapTexture.getSize().x / 2, minimapTexture.getSize().y / 2);
 }
 
 void Player::Move(int newDir)
@@ -117,3 +123,10 @@ void Player::draw(sf::RenderTarget& window)
 {
 	window.draw(mSprite, getTransform());
 }
+
+/*draw the player on the minimap*/
+void Player::MinimapDraw(sf::RenderTarget& window)
+{
+	window.draw(minimapSprite, getTransform());
+}
+
