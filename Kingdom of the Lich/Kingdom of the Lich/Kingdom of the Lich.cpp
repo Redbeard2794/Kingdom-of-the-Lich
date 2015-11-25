@@ -106,7 +106,7 @@ int main()
 
 	window.setMouseCursorVisible(false);
 
-	//game state
+	//game states
 	enum GameState
 	{
 		SPLASH,
@@ -351,7 +351,7 @@ int main()
 			{
 				gamepad->CheckAllButtons();
 
-				if (gamepad->DpadUp() == true)
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					if (mainMenu->getCanMove() == true)
 					{
@@ -360,7 +360,7 @@ int main()
 					}
 				}
 
-				else if (gamepad->DpadDown() == true)
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					if (mainMenu->getCanMove() == true)
 					{
@@ -545,7 +545,7 @@ int main()
 				//set up the dialog box based on menu state and allow player to choose
 				if (ConfirmationDialogBox::GetInstance()->getVisible() == false)
 				{
-					if (gamepad->DpadRight() == true)
+					if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
 						if (raceAndGenderMenu->getCanMoveSelection() == true)
 						{
@@ -560,7 +560,7 @@ int main()
 						}
 					}
 
-					else if (gamepad->DpadLeft() == true)
+					else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
 						if (raceAndGenderMenu->getCanMoveSelection() == true)
 						{
@@ -604,7 +604,7 @@ int main()
 				else if (ConfirmationDialogBox::GetInstance()->getVisible() == true)
 				{
 					//move up and down through yes and no in the dialog box
-					if (gamepad->DpadUp() == true)
+					if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
 						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
 						{
@@ -614,7 +614,7 @@ int main()
 
 					}
 					
-					else if (gamepad->DpadDown() == true)
+					else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
 						if (ConfirmationDialogBox::GetInstance()->getCanMoveSelection() == true)
 						{
@@ -698,19 +698,6 @@ int main()
 
 			if (useController == true)//use controller
 			{
-				//if (XInputGetState(0, &state) == ERROR_SUCCESS)
-				//{
-				//	//for thumbsticks
-				//	leftStickXaxis = state.Gamepad.sThumbLX;
-				//	leftStickYaxis = state.Gamepad.sThumbLY;
-
-				//	//determine how far the controller is pushed
-				//	float magnitude = sqrt(leftStickXaxis*leftStickXaxis + leftStickYaxis*leftStickYaxis);
-
-				//	//determine the direction the controller is pushed
-				//	float normalizedLX = leftStickXaxis / magnitude;
-				//	float normalizedLY = leftStickYaxis / magnitude;
-				//	float normalizedMagnitude = 0;
 
 				gamepad->CheckAllButtons();
 
@@ -719,6 +706,7 @@ int main()
 					p->setIsRunning(true);
 				else p->setIsRunning(false);
 
+				//move with d-pad
 				if (gamepad->DpadUp())
 					p->Move(0);
 				else if (gamepad->DpadDown())
@@ -729,54 +717,21 @@ int main()
 					p->Move(3);
 				else p->setCurrentDirection(4);
 
+				//move with analog sticks
+				if (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+					p->Move(2);
+				else if (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+					p->Move(3);
+				if (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+					p->Move(0);
+				else if (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+					p->Move(1);
+				else p->setCurrentDirection(4);
+
+
 				//access inventory
 				if (gamepad->B())
 					gState = INVENTORY;
-
-				//	//thumbsticks
-				//	//check if the controller is outside a circular dead zone
-				//	if (magnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
-				//	{
-				//		//clip the magnitude at its expected maximum value
-				//		if (magnitude > 32767) magnitude = 32767;
-
-				//		//adjust magnitude relative to the end of the dead zone
-				//		magnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
-
-				//		//optionally normalize the magnitude with respect to its expected range
-				//		//giving a magnitude value of 0.0 to 1.0
-				//		normalizedMagnitude = magnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-
-				//		if (normalizedLX > 0.9f)
-				//		{
-				//			if (p->getIsRunning() == false)
-				//				p->Move(sf::Vector2f(1, 0));
-				//			else if (p->getIsRunning() == true)
-				//				p->Move(sf::Vector2f(2.5f, 0));
-				//		}
-				//		else if (normalizedLX < -0.9f)
-				//		{
-				//			if (p->getIsRunning() == false)
-				//				p->Move(sf::Vector2f(-1, 0));
-				//			else if (p->getIsRunning() == true)
-				//				p->Move(sf::Vector2f(-2.5f, 0));
-				//		}
-				//		if (normalizedLY > 0.9f)
-				//		{
-				//			if (p->getIsRunning() == false)
-				//				p->Move(sf::Vector2f(0, -1));
-				//			else if (p->getIsRunning() == true)
-				//				p->Move(sf::Vector2f(0, -2.5f));
-				//		}
-				//		else if (normalizedLY < -0.9f)
-				//		{
-				//			if (p->getIsRunning() == false)
-				//				p->Move(sf::Vector2f(0, 1));
-				//			else if (p->getIsRunning() == true)
-				//				p->Move(sf::Vector2f(0, 2.5f));
-				//		}
-				//	}
-				//}
 
 				//check for collision between player and commander and update quest
 				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)
@@ -924,7 +879,6 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
-			//window.draw(*CommanderIronArm);
 			
 			CommanderIronArm->MinimapDraw(*pWindow);
 

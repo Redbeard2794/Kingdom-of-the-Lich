@@ -39,6 +39,8 @@ public:
 	void CheckRT();
 	void CheckLT();
 
+	void leftStickMovement();
+
 	/*retrieve the pressed state of each button*/
 	bool A() { return aPressed; }
 	bool B() { return bPressed; }
@@ -58,6 +60,9 @@ public:
 
 	bool RT() { return rtPressed; }
 	bool LT() { return ltPressed; }
+
+	sf::Vector2f getNormalisedLeftStickAxis() { return normalisedLeftStickAxis; }
+	bool isLeftAxisOutOfDeadzone() { return leftStickOutOfDeadzone; }
 
 private:
 	XINPUT_STATE state;
@@ -84,7 +89,13 @@ private:
 	bool rtPressed;
 	bool ltPressed;
 
+	//left trigger
+	sf::Vector2f leftStickAxis;
+	sf::Vector2f normalisedLeftStickAxis;
+	float leftStickMagnitude;
+	float normalisedLeftStickMagnitude;
 
+	bool leftStickOutOfDeadzone;
 
 };
 

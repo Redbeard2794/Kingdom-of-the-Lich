@@ -11,6 +11,8 @@ Gamepad::Gamepad()
 	bPressed = false;
 	xPressed = false;
 	yPressed = false;
+
+	leftStickOutOfDeadzone = false;
 }
 
 //destructor
@@ -63,6 +65,8 @@ void Gamepad::CheckAllButtons()
 	CheckBack();
 	CheckRT();
 	CheckLT();
+
+	leftStickMovement();
 }
 
 void Gamepad::CheckADown()
@@ -287,4 +291,42 @@ void Gamepad::CheckLT()
 		}
 		else ltPressed = false;
 	}
+}
+
+void Gamepad::leftStickMovement()
+{
+	if (XInputGetState(0, &state) == ERROR_SUCCESS)
+	{
+		//for thumbsticks
+		leftStickAxis.x = state.Gamepad.sThumbLX;
+		leftStickAxis.y = state.Gamepad.sThumbLY;
+
+		//determine how far the controller is pushed
+		leftStickMagnitude = sqrt((leftStickAxis.x*leftStickAxis.x) + (leftStickAxis.y*leftStickAxis.y));
+
+		//determine the direction the controller is pushed
+		normalisedLeftStickAxis.x = leftStickAxis.x / leftStickMagnitude;
+		normalisedLeftStickAxis.y = leftStickAxis.y / leftStickMagnitude;
+		normalisedLeftStickMagnitude = 0;
+	}
+	
+
+		//thumbsticks
+		//check if the controller is outside a circular dead zone
+		if (leftStickMagnitude > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+		{
+			//clip the magnitude at its expected maximum value
+			if (leftStickMagnitude > 32767) 
+				leftStickMagnitude = 32767;
+
+			//adjust magnitude relative to the end of the dead zone
+			leftStickMagnitude -= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+
+			//optionally normalize the magnitude with respect to its expected range
+			//giving a magnitude value of 0.0 to 1.0
+			normalisedLeftStickMagnitude = leftStickMagnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+			std::cout << "Normalised left stick axis: " << normalisedLeftStickAxis.x << ", " << normalisedLeftStickAxis.y << std::endl;
+			leftStickOutOfDeadzone = true;
+		}
+		else leftStickOutOfDeadzone = false;
 }
