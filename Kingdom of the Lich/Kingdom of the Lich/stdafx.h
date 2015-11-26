@@ -33,6 +33,7 @@
 
 //project headers
 #include "STP/TMXLoader.hpp"
+#include "AudioManager.h"
 #include "Player.h"
 #include "Hud.h"
 #include "Quest.h"

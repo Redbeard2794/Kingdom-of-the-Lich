@@ -20,3 +20,9 @@ race icons: http://opengameart.org/content/jinns-icons
 
 more icons: http://opengameart.org/content/496-pixel-art-icons-for-medievalfantasy-rpg
 		http://7soul1.deviantart.com/
+
+open chest sound: http://opengameart.org/content/open-chest
+		http://opengameart.org/users/spookymodem
+
+scroll unroll: http://opengameart.org/content/spell-scroll
+		http://opengameart.org/users/spookymodem

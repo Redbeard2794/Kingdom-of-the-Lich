@@ -205,6 +205,8 @@ int main()
 
 	bool showQuestComplete = false;
 
+	AudioManager* audioManager = new AudioManager();
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -326,6 +328,7 @@ int main()
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
 						enterPressed = false;
+						audioManager->PlaySoundEffect("Assets/Audio/SoundEffects/Unrolling Parchment.wav");
 						gState = CHOOSERACEGENDER;
 						//enterPressed = false;
 					}
