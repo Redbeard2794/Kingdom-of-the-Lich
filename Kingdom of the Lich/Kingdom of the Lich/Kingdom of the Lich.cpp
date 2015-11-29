@@ -207,6 +207,9 @@ int main()
 
 	AudioManager* audioManager = new AudioManager();
 
+	//audioManager->PlayOpeningMusic();
+	audioManager->PlayMusicById(0);
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -270,6 +273,7 @@ int main()
 					useController = false;
 				if (gamepad->Start() == true)
 				{
+					audioManager->PlaySoundEffectById(2, true);
 					gState = MAINMENU;
 					gamepad->Rumble(800, 0);
 				}
@@ -281,6 +285,7 @@ int main()
 					useController = true;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 				{
+					audioManager->PlaySoundEffectById(2, true);
 					gState = MAINMENU;
 					std::cout << "Current game state: " << gState << std::endl;
 				}
@@ -302,6 +307,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
+						audioManager->PlaySoundEffectById(1, false);
 						mainMenu->MoveUp();
 						mainMenu->setCanMove(false);
 					}
@@ -311,6 +317,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
+						audioManager->PlaySoundEffectById(1, false);
 						mainMenu->MoveDown();
 						mainMenu->setCanMove(false);
 					}
@@ -324,26 +331,33 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && enterPressed == false)
 				{
 					enterPressed = true;
-
+					audioManager->PlaySoundEffectById(2, true);
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
 						enterPressed = false;
-						audioManager->PlaySoundEffect("Assets/Audio/SoundEffects/Unrolling Parchment.wav");
+						audioManager->PlaySoundEffectById(0, true);
 						gState = CHOOSERACEGENDER;
-						//enterPressed = false;
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
 					{
+						enterPressed = false;
 						//std::cout << "Continue game not available yet" << std::endl;
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
 					{
+						enterPressed = false;
 						//std::cout << "Options not available yet" << std::endl;
 					}
 					else if (mainMenu->getSelectedOption() == 3)//credits
+					{
+						enterPressed = false;
 						gState = CREDITS;
+					}
 					else if (mainMenu->getSelectedOption() == 4)//quit
+					{
+						enterPressed = false;
 						window.close();
+					}
 
 					
 				}
@@ -358,6 +372,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
+						audioManager->PlaySoundEffectById(1, false);
 						mainMenu->MoveUp();
 						mainMenu->setCanMove(false);
 					}
@@ -367,6 +382,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
+						audioManager->PlaySoundEffectById(1, false);
 						mainMenu->MoveDown();
 						mainMenu->setCanMove(false);
 					}
@@ -375,21 +391,36 @@ int main()
 
 				if (gamepad->A() == true)
 				{
+					audioManager->PlaySoundEffectById(2, true);
+
 					if (mainMenu->getSelectedOption() == 0)//new game
+					{
+						audioManager->PlaySoundEffectById(0, true);
 						gState = CHOOSERACEGENDER;
+					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
+					{
 						std::cout << "Continue game not available yet" << std::endl;
+					}
 					else if (mainMenu->getSelectedOption() == 2)//options
+					{
 						std::cout << "Options not available yet" << std::endl;
+					}
 					else if (mainMenu->getSelectedOption() == 3)//credits
+					{
 						gState = CREDITS;
+					}
 					else if (mainMenu->getSelectedOption() == 4)//quit
+					{
 						window.close();
+					}
 				}
 			}
 			break;
 
 		case CHOOSERACEGENDER:
+			audioManager->FadeOutMusic(0);
+
 			raceAndGenderMenu->Draw(window);
 
 			if (useController == false)//using keyboard and mouse
@@ -411,6 +442,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionRight();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 					}
 
@@ -426,6 +458,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionLeft();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 					}
 					else
@@ -462,6 +495,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveUp();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -472,6 +506,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveDown();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -488,11 +523,13 @@ int main()
 								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -507,11 +544,14 @@ int main()
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
+								audioManager->PlaySoundEffectById(2, true);
+								audioManager->PlayMusicById(1);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -528,6 +568,7 @@ int main()
 							{
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 					}
@@ -560,6 +601,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionRight();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 					}
 
@@ -575,6 +617,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionLeft();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 					}
 					else
@@ -613,6 +656,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveUp();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -623,6 +667,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveDown();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
+							audioManager->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -639,11 +684,13 @@ int main()
 								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -658,11 +705,14 @@ int main()
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
+								audioManager->PlaySoundEffectById(2, true);
+								audioManager->PlayMusicById(1);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -679,6 +729,7 @@ int main()
 							{
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								audioManager->PlaySoundEffectById(2, true);
 							}
 						}
 					}
@@ -734,7 +785,10 @@ int main()
 
 				//access inventory
 				if (gamepad->B())
+				{
 					gState = INVENTORY;
+					audioManager->PlaySoundEffectById(3, true);
+				}
 
 				//check for collision between player and commander and update quest
 				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)
@@ -758,8 +812,13 @@ int main()
 							testQuest->setCompletionStatus(true);
 							std::cout << "You completed your first quest!" << std::endl;
 							splashClock->restart();
+							audioManager->PlaySoundEffectById(4, true);
 						}
-						else std::cout << "You may not open this chest right now." << std::endl;
+						else
+						{
+							std::cout << "You may not open this chest right now." << std::endl;
+							audioManager->PlaySoundEffectById(5, true);
+						}
 					}
 					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 				}
@@ -784,7 +843,10 @@ int main()
 				else p->setCurrentDirection(4);
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+				{
+					audioManager->PlaySoundEffectById(3, true);
 					gState = INVENTORY;
+				}
 
 				//check for collision between player and commander and update quest
 				if (p->CollisionWithNpc(CommanderIronArm) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
@@ -808,8 +870,13 @@ int main()
 							testQuest->setCompletionStatus(true);
 							std::cout << "You completed your first quest!" << std::endl;
 							splashClock->restart();
+							audioManager->PlaySoundEffectById(4, true);
 						}
-						else std::cout << "You may not open this chest right now." << std::endl;
+						else
+						{
+							std::cout << "You may not open this chest right now." << std::endl;
+							audioManager->PlaySoundEffectById(5, true);
+						}
 					}
 					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 				}

@@ -26,3 +26,23 @@ open chest sound: http://opengameart.org/content/open-chest
 
 scroll unroll: http://opengameart.org/content/spell-scroll
 		http://opengameart.org/users/spookymodem
+
+alternate chest open sound: https://www.youtube.com/watch?v=JQ5zE2CA80o
+
+staring music: http://opengameart.org/content/horror-game-menu
+	credit as:  "Horror Game Menu" by Eric Matyas Soundimage.org 
+
+Rezoner-Pirates-Theme.mp3: http://opengameart.org/content/pirates-theme
+	http://soundcloud.com/rezoner
+	http://opengameart.org/users/rezoner
+
+Harp.mp3: http://opengameart.org/content/soft-mysterious-harp-loop
+	http://opengameart.org/users/vwolfdog
+
+rpg sounds(menuNav, inventory open)
+http://opengameart.org/content/rpg-sound-pack
+	http://opengameart.org/users/artisticdude
+
+key jiggle.wav: http://opengameart.org/content/key-jiggle
+	http://opengameart.org/users/spookymodem
+
