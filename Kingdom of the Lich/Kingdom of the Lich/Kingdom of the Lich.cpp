@@ -26,6 +26,11 @@
 
 #include <ctime>
 
+//rapidxml stuff
+#include "rapidxml_utils.hpp"
+using namespace rapidxml;
+#include <sstream> // std::stringstream
+
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
@@ -164,14 +169,17 @@ int main()
 	Inventory* testInv = new Inventory(font, useController);
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
+
+
 	//testing npc
-	Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
-	CommanderIronArm->LoadInteractHintTexture(useController);
+	//Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
+	//CommanderIronArm->LoadInteractHintTexture(useController);
+
+
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
-	//testing quest
-	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", CommanderIronArm->getPosition(), 1, 5, 5);
+
 
 	//hint for showing the player how to walk around
 	sf::Texture moveHintTexture;
@@ -206,9 +214,82 @@ int main()
 	bool showQuestComplete = false;
 
 	AudioManager* audioManager = new AudioManager();
-
-	//audioManager->PlayOpeningMusic();
+	//play the first song
 	audioManager->PlayMusicById(0);
+
+	//npcs :)
+	std::vector<Npc*> npcVector;
+
+	xml_document<> doc;
+	std::ifstream file("Assets/npcList.xml");
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	file.close();
+	std::string content(buffer.str());
+	doc.parse<0>(&content[0]);
+
+	xml_node<> *pRoot = doc.first_node();
+	std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
+
+	xml_node<>* npcList = doc.first_node("npcList");
+	xml_node<>* npc = npcList->first_node("npc");
+
+	//load in each npc's information and then create them
+	while (npc != NULL)
+	{
+		//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour
+		std::string name = "";
+		int id = 0;
+		std::string race = "";
+		std::string gender = "";
+		std::string texturePath = "";
+		std::string mapIconTexturePath = "";
+		float x = 0;
+		float y = 0;
+		bool hasQuest = false;
+		std::string behaviour = "";
+
+		std::cout << "Name: " << npc->first_attribute("name")->value() << std::endl;
+		name = npc->first_attribute("name")->value();
+
+		std::cout << "I.D: " << npc->first_node("id")->value() << std::endl;
+		id = atoi(npc->first_node("id")->value());
+
+		std::cout << "Race: " << npc->first_node("race")->value() << std::endl;
+		race = npc->first_node("race")->value();
+
+		std::cout << "Gender: " << npc->first_node("gender")->value() << std::endl;
+		gender = npc->first_node("gender")->value();
+
+		std::cout << "Texture path: " << npc->first_node("texturePath")->value() << std::endl;
+		texturePath = npc->first_node("texturePath")->value();
+
+		std::cout << "Map icon texture path: " << npc->first_node("mapIconTexturePath")->value() << std::endl;
+		mapIconTexturePath = npc->first_node("mapIconTexturePath")->value();
+
+		std::cout << "X: " << npc->first_node("x")->value() << std::endl;
+		x = atof(npc->first_node("x")->value());
+
+		std::cout << "Y: " << npc->first_node("y")->value() << std::endl;
+		y = atof(npc->first_node("y")->value());
+
+		std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
+		hasQuest = npc->first_node("hasQuest")->value();
+
+		std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
+		behaviour = npc->first_node("behaviour")->value();
+
+		Npc* n = new Npc(name, id, texturePath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
+		npcVector.push_back(n);
+		std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
+
+		std::cout << "------------------------------------------------------------" << std::endl;
+		npc = npc->next_sibling("npc");
+	}
+
+
+	//testing quest
+	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -791,7 +872,7 @@ int main()
 				}
 
 				//check for collision between player and commander and update quest
-				if (p->CollisionWithNpc(CommanderIronArm) == true && gamepad->A() == true)
+				if (p->CollisionWithNpc(npcVector.at(0)) == true && gamepad->A() == true)
 				{
 					if (testQuest->getCurrentStageIndex() == 0)
 					{
@@ -849,7 +930,7 @@ int main()
 				}
 
 				//check for collision between player and commander and update quest
-				if (p->CollisionWithNpc(CommanderIronArm) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
+				if (p->CollisionWithNpc(npcVector.at(0)) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
 				{
 					if (testQuest->getCurrentStageIndex() == 0)
 					{
@@ -891,11 +972,14 @@ int main()
 			testChest->draw(*pWindow);
 			testChest->DrawHint(*pWindow);
 			
-
-			CommanderIronArm->Update(p->getPosition());
+			//update and draw npcs
+			for (int i = 0; i < npcVector.size(); i++)
+			{
+				npcVector.at(i)->Update(p->getPosition());
+				window.draw(*npcVector.at(i));
+				npcVector.at(i)->draw(window);
+			}
 			
-			window.draw(*CommanderIronArm);
-			CommanderIronArm->draw(window);
 			p->draw(*pWindow);
 
 
@@ -950,7 +1034,11 @@ int main()
 			window.draw(lowPolyMap);
 			testChest->draw(*pWindow);
 			
-			CommanderIronArm->MinimapDraw(*pWindow);
+			//draw npcs on minimap
+			for (int i = 0; i < npcVector.size(); i++)
+			{
+				npcVector.at(i)->MinimapDraw(*pWindow);
+			}
 
 			p->MinimapDraw(*pWindow);
 

@@ -166,6 +166,10 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestController.h" />
     <ClInclude Include="QuestStage.h" />
+    <ClInclude Include="rapidxml.hpp" />
+    <ClInclude Include="rapidxml_iterators.hpp" />
+    <ClInclude Include="rapidxml_print.hpp" />
+    <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

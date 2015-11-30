@@ -2,28 +2,40 @@
 
 <npcList>
 
-	<npc>
-		<name>Commander Iron-Arm</name>
+	<npc name='Commander Iron-Arm'>
 		<id>1</id>
 		<race>Human</race>
 		<gender>Male</gender>
 		<texturePath>Assets/npcTemp.png</texturePath>
-		<mmapTexturePath>Assets/npc/minimapIcons/icon1.png</mmapTexturePath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1000</x>
 		<y>1000</y>
-		<hasQuest>True</hasQuest>
+		<hasQuest>1</hasQuest>
+		<behaviour>stand</behaviour>
 	</npc>
 	
-	<npc>
-		<name>Mankar</name>
-		<id>1</id>
+	<npc name='Mankar'>
+		<id>2</id>
 		<race>Elf</race>
 		<gender>Male</gender>
-		<texturePath>Assets/npcTemp.png</texturePath>
-		<mmapTexturePath>Assets/npc/minimapIcons/icon1.png</mmapTexturePath>
+		<texturePath>Assets/npcTemp2.png</texturePath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>625</x>
+		<y>325</y>
+		<hasQuest>0</hasQuest>
+		<behaviour>pace</behaviour>
+	</npc>
+	
+	<npc name='Blacksmith'>
+		<id>3</id>
+		<race>Dwarf</race>
+		<gender>Male</gender>
+		<texturePath>Assets/npcTemp2.png</texturePath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>400</x>
-		<y>800</y>
-		<hasQuest>False</hasQuest>
+		<y>920</y>
+		<hasQuest>0</hasQuest>
+		<behaviour>forge</behaviour>
 	</npc>
 
 </npcList>

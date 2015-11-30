@@ -5,19 +5,27 @@ class Npc : public sf::Sprite
 {
 private:
 	std::string name;
+
 	int id;
+
 	sf::Texture m_texture;
+
+	sf::Texture npcMinimapIconTexture;
+
+	sf::Sprite npcMinimapIcon;
+
+	bool hasQuest;
+
+	std::string behaviour;
+
 
 	sf::Sprite interactHintSprite;
 	sf::Texture interactHintTexture;
 
-	bool hasQuest;
-
-	sf::Texture npcMinimapIconTexture;
-	sf::Sprite npcMinimapIcon;
 
 public: 
-	Npc(std::string n, int i, sf::Vector2f pos);
+	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
+	Npc(std::string n, int i, std::string texturePath, std::string mapIconTexturePath, sf::Vector2f pos, bool quest, std::string beh, bool controller);
 
 	//Load the correct texture for the interact hint
 	void LoadInteractHintTexture(bool controllerHint);
@@ -29,6 +37,17 @@ public:
 	void draw(sf::RenderTarget& window);
 
 	void MinimapDraw(sf::RenderTarget& window);
+
+	//gets
+
+	//name
+	std::string getNpcName();
+	//id
+	int getNpcId();
+	//hasQuest
+	bool doesNpcHaveQuest();
+	//behaviour
+	std::string getBehaviour();
 };
 
 #endif

@@ -1,19 +1,22 @@
 #include "stdafx.h"
 #include "Npc.h"
 
-Npc::Npc(std::string n, int i, sf::Vector2f pos) : name(n), id(i)
+//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
+Npc::Npc(std::string n, int i, std::string texturePath, std::string mapIconTexturePath, sf::Vector2f pos, bool quest, std::string beh, bool controller)
+	: name(n), id(i), hasQuest(quest), behaviour(beh)
 {
-	m_texture.loadFromFile("Assets/npcTemp.png");
+	m_texture.loadFromFile(texturePath);
 	setTexture(m_texture);
 	setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	setPosition(pos);
 
-	if (npcMinimapIconTexture.loadFromFile("Assets/npcMinimapIcon.png")) {}
+	if (npcMinimapIconTexture.loadFromFile(mapIconTexturePath)) {}
 	else npcMinimapIconTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	npcMinimapIcon.setTexture(npcMinimapIconTexture);
 	npcMinimapIcon.setOrigin(npcMinimapIconTexture.getSize().x / 2, npcMinimapIconTexture.getSize().y / 2);
 	npcMinimapIcon.setPosition(pos);
 
+	LoadInteractHintTexture(controller);
 }
 
 //Load the correct texture for the interact hint
@@ -59,4 +62,24 @@ void Npc::draw(sf::RenderTarget& window)
 void Npc::MinimapDraw(sf::RenderTarget& window)
 {
 	window.draw(npcMinimapIcon);
+}
+
+std::string Npc::getNpcName()
+{
+	return name;
+}
+
+int Npc::getNpcId()
+{
+	return id;
+}
+
+bool Npc::doesNpcHaveQuest()
+{
+	return hasQuest;
+}
+
+std::string Npc::getBehaviour()
+{
+	return behaviour;
 }
