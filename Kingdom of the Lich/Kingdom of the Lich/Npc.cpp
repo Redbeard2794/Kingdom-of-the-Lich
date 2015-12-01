@@ -52,6 +52,25 @@ void Npc::Update(sf::Vector2f playerPos)
 	else interactHintSprite.setColor(sf::Color::Transparent);
 
 	npcMinimapIcon.setPosition(getPosition());
+
+	if (behaviour == "wander")
+	{
+		Wander();
+	}
+
+}
+
+void Npc::Wander()
+{
+	if (behaviourClock.getElapsedTime().asSeconds() > 3)
+	{
+		wanderPos = sf::Vector2f(getPosition().x + (rand() % 30+10), getPosition().y + (rand() % 30 + 10));
+		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
+
+		//now move to the postion(maybe a chance to go back to the previous position?)
+		setPosition(wanderPos);
+		behaviourClock.restart();
+	}
 }
 
 void Npc::draw(sf::RenderTarget& window)

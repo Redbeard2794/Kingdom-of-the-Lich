@@ -22,6 +22,8 @@ private:
 	sf::Sprite interactHintSprite;
 	sf::Texture interactHintTexture;
 
+	sf::Clock behaviourClock;
+	sf::Vector2f wanderPos;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
@@ -33,6 +35,8 @@ public:
 	~Npc();
 
 	void Update(sf::Vector2f playerPos);
+
+	void Wander();
 
 	void draw(sf::RenderTarget& window);
 

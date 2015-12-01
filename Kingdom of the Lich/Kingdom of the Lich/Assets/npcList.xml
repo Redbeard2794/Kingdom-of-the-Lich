@@ -21,9 +21,9 @@
 		<texturePath>Assets/npcTemp2.png</texturePath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>625</x>
-		<y>325</y>
+		<y>380</y>
 		<hasQuest>0</hasQuest>
-		<behaviour>pace</behaviour>
+		<behaviour>wander</behaviour>
 	</npc>
 	
 	<npc name='Blacksmith'>

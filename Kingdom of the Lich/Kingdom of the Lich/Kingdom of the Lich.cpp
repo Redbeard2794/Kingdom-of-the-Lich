@@ -38,6 +38,9 @@ using namespace rapidxml;
 
 int main()
 {
+	/* initialize random seed: */
+	srand(time(NULL));
+
 	//https://github.com/edoren/STP
 	tmx::TileMap map("Assets/tutorialArea.tmx");
 	tmx::TileMap lowPolyMap("Assets/lowPolyTutorialArea.tmx");

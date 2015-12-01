@@ -28,6 +28,7 @@
 #include <atomic>
 #include <chrono>
 #include <mutex>
+#include <stdlib.h>     /* srand, rand */
 //using std::atomic_int;
 //using std::thread;
 
