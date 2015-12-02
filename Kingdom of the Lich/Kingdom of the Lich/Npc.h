@@ -25,6 +25,12 @@ private:
 	sf::Clock behaviourClock;
 	sf::Vector2f wanderPos;
 	sf::Vector2f prevPos;
+	int timeBetweenWander;
+
+	sf::Vector2f patternPoint1;
+	sf::Vector2f patternPoint2;
+	sf::Vector2f patternPoint3;
+	sf::Vector2f patternPoint4;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
@@ -38,6 +44,8 @@ public:
 	void Update(sf::Vector2f playerPos);
 
 	void Wander();
+
+	void walkPattern();
 
 	void draw(sf::RenderTarget& window);
 

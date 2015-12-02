@@ -47,7 +47,7 @@
 		<x>1500</x>
 		<y>800</y>
 		<hasQuest>0</hasQuest>
-		<behaviour>stand</behaviour>
+		<behaviour>walkPattern</behaviour>
 	</npc>
 
 </npcList>
