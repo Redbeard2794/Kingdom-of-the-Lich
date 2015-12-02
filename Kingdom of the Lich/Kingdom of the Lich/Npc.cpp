@@ -17,6 +17,12 @@ Npc::Npc(std::string n, int i, std::string texturePath, std::string mapIconTextu
 	npcMinimapIcon.setPosition(pos);
 
 	LoadInteractHintTexture(controller);
+
+	if (behaviour == "wander")
+	{
+		wanderPos = sf::Vector2f(getPosition().x + (rand() % 30 + 10), getPosition().y + (rand() % 30 + 10));
+		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
+	}
 }
 
 //Load the correct texture for the interact hint
@@ -35,6 +41,7 @@ void Npc::LoadInteractHintTexture(bool controllerHint)
 	interactHintSprite.setTexture(interactHintTexture);
 	interactHintSprite.setOrigin(interactHintTexture.getSize().x / 2, interactHintTexture.getSize().y / 2);
 	interactHintSprite.setPosition(sf::Vector2f(getPosition().x,getPosition().y+50));
+
 }
 
 Npc::~Npc()
@@ -64,13 +71,32 @@ void Npc::Wander()
 {
 	if (behaviourClock.getElapsedTime().asSeconds() > 3)
 	{
-		wanderPos = sf::Vector2f(getPosition().x + (rand() % 30+10), getPosition().y + (rand() % 30 + 10));
-		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 
-		//now move to the postion(maybe a chance to go back to the previous position?)
-		setPosition(wanderPos);
-		behaviourClock.restart();
+		float distance = sqrtf((((getPosition().x - wanderPos.x)*(getPosition().x - wanderPos.x)) + ((getPosition().y - wanderPos.y)*(getPosition().y - wanderPos.y))));
+
+		sf::Vector2f dir = sf::Vector2f((wanderPos.x - getPosition().x) / distance, (wanderPos.y - getPosition().y) / distance);
+
+		if (distance > 0.5)
+		{
+			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+		}
+
+		else
+		{
+			//now need a chance of going left 
+			int coin = rand() % 2 + 0;
+			std::cout << "Coin flip: " << coin << std::endl;
+			if(coin == 1)//got to a new position
+				wanderPos = sf::Vector2f(getPosition().x + (rand() % 30 + 1), getPosition().y + (rand() % 30 + 1));
+			else wanderPos = prevPos;//go to the previous position
+
+			std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
+
+			behaviourClock.restart();
+		}
+
 	}
+	else prevPos = getPosition();
 }
 
 void Npc::draw(sf::RenderTarget& window)

@@ -24,6 +24,7 @@ private:
 
 	sf::Clock behaviourClock;
 	sf::Vector2f wanderPos;
+	sf::Vector2f prevPos;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
