@@ -26,10 +26,11 @@ Npc::Npc(std::string n, int i, std::string texturePath, std::string mapIconTextu
 	}
 	else if (behaviour == "walkPattern")
 	{
-		patternPoint1 = getPosition();
-		patternPoint2 = sf::Vector2f(patternPoint1.x - 400, patternPoint1.y);
-		patternPoint3 = sf::Vector2f(patternPoint2.x, patternPoint2.y+400);
-		patternPoint4 = sf::Vector2f(patternPoint3.x, patternPoint3.y-400);
+		patternPoints.push_back(getPosition());// = getPosition();
+		patternPoints.push_back(sf::Vector2f(patternPoints.at(0).x, patternPoints.at(0).y + 400));
+		patternPoints.push_back(sf::Vector2f(patternPoints.at(1).x-400, patternPoints.at(1).y));
+		patternPoints.push_back(sf::Vector2f(patternPoints.at(2).x, patternPoints.at(2).y - 400));
+		currentPointIndex = 0;
 	}
 }
 
@@ -96,7 +97,7 @@ void Npc::Wander()
 		else
 		{
 			//flip a coin to decide where we should wander to
-			int coin = rand() % 2 + 0;
+			int coin = rand() % 2;
 			std::cout << "Coin flip: " << coin << std::endl;
 
 			if (coin == 1)//go to a new position
@@ -105,14 +106,14 @@ void Npc::Wander()
 				float yChange = rand() % 100 + 10;
 
 				//make sure we can only go up, down, left or right but not more than one at a time
-				int dirCoin = rand() % 2 + 0;
+				int dirCoin = rand() % 2;
 				if (dirCoin == 1)
 					yChange = 0;
 				else if (dirCoin == 0)
 					xChange = 0;
 
-				//throw in something different(make a distance to wnder negative to go in the opposite direction some times)
-				int negCoin = rand() % 2 + 0;
+				//throw in something different(make a distance to wander negative to go in the opposite direction some times)
+				int negCoin = rand() % 2;
 				if (yChange == 0 && negCoin == 1)
 					xChange = -xChange;
 				else if (xChange == 0 && negCoin == 0)
@@ -125,7 +126,7 @@ void Npc::Wander()
 			else wanderPos = prevPos;//go to the previous position
 
 			//set the time between each movement
-			timeBetweenWander = rand() % 7 + 0;
+			timeBetweenWander = rand() % 7 + 2;
 			std::cout << "Time between wander: " << timeBetweenWander << std::endl;
 			std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 
@@ -140,6 +141,53 @@ void Npc::Wander()
 void Npc::walkPattern()
 {
 	//go from point to point
+	if (currentPointIndex < 3)
+	{
+		//get the distance between current position and position we are to wander to
+		float distance = sqrtf((((getPosition().x - patternPoints.at(currentPointIndex+1).x)*(getPosition().x - patternPoints.at(currentPointIndex + 1).x))
+			+ ((getPosition().y - patternPoints.at(currentPointIndex + 1).y)*(getPosition().y - patternPoints.at(currentPointIndex + 1).y))));
+		//get the direction
+		sf::Vector2f dir = sf::Vector2f((patternPoints.at(currentPointIndex + 1).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(currentPointIndex + 1).y - patternPoints.at(currentPointIndex).y) / distance);
+
+
+
+		if ((int)distance > 10)//.5 because we are dealing with floats so will never get to the exact right position
+		{
+			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+			std::cout << "Position: " << getPosition().x << ", " << getPosition().y << std::endl;
+			//std::cout << "Distance: " << distance << std::endl;
+		}
+		else
+		{
+			currentPointIndex += 1;
+			setPosition(patternPoints.at(currentPointIndex));
+		}
+	}
+
+	else
+	{
+		//get the distance between current position and position we are to wander to
+		float distance = sqrtf((((getPosition().x - patternPoints.at(0).x)*(getPosition().x - patternPoints.at(0).x))
+			+ ((getPosition().y - patternPoints.at(0).y)*(getPosition().y - patternPoints.at(0).y))));
+		//get the direction
+		sf::Vector2f dir = sf::Vector2f((patternPoints.at(0).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(0).y - patternPoints.at(currentPointIndex).y) / distance);
+
+
+
+		if ((int)distance > 5)//.5 because we are dealing with floats so will never get to the exact right position
+		{
+			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+			std::cout << "Position: " << getPosition().x << ", " << getPosition().y << std::endl;
+			//std::cout << "Distance: " << distance << std::endl;
+		}
+		else 
+		{
+			currentPointIndex = 0;
+			setPosition(patternPoints.at(currentPointIndex));
+		}
+	}
+
+	std::cout << "Current point: " << currentPointIndex << std::endl;
 }
 
 void Npc::draw(sf::RenderTarget& window)

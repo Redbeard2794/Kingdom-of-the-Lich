@@ -27,10 +27,8 @@ private:
 	sf::Vector2f prevPos;
 	int timeBetweenWander;
 
-	sf::Vector2f patternPoint1;
-	sf::Vector2f patternPoint2;
-	sf::Vector2f patternPoint3;
-	sf::Vector2f patternPoint4;
+	std::vector<sf::Vector2f> patternPoints;
+	int currentPointIndex;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint

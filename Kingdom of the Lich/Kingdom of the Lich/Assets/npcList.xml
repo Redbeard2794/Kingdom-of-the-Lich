@@ -38,7 +38,7 @@
 		<behaviour>forge</behaviour>
 	</npc>
 	
-	<npc name='Drunk'>
+	<npc name='Alvin the Drunkard'>
 		<id>4</id>
 		<race>Human</race>
 		<gender>Male</gender>
