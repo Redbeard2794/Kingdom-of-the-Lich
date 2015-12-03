@@ -23,12 +23,17 @@ private:
 	sf::Texture interactHintTexture;
 
 	sf::Clock behaviourClock;
+
+	//for wandering
 	sf::Vector2f wanderPos;
 	sf::Vector2f prevPos;
 	int timeBetweenWander;
 
+	//for walkPattern
 	std::vector<sf::Vector2f> patternPoints;
 	int currentPointIndex;
+	int prevPointIndex;
+	sf::Vector2f direction;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
@@ -40,13 +45,20 @@ public:
 	~Npc();
 
 	void Update(sf::Vector2f playerPos);
-
+	
+	/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds*/
 	void Wander();
 
+	/*Walk around in a rectangle from the points set in the constructor*/
 	void walkPattern();
 
-	void draw(sf::RenderTarget& window);
+	/*Follow the position that is passed in. This is the Seek algorithm*/
+	void Follow(sf::Vector2f positionToFollow);
 
+	/*Draw the interaction hint sprite*/
+	void draw(sf::RenderTarget& window);
+	
+	/*Draw the npc on the minimap as an icon*/
 	void MinimapDraw(sf::RenderTarget& window);
 
 	//gets

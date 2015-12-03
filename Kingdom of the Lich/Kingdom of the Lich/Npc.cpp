@@ -18,19 +18,20 @@ Npc::Npc(std::string n, int i, std::string texturePath, std::string mapIconTextu
 
 	LoadInteractHintTexture(controller);
 
-	if (behaviour == "wander")
+	if (behaviour == "wander")//if the npc is to wander
 	{
 		wanderPos = sf::Vector2f(getPosition().x + (rand() % 100 + 10), getPosition().y);
 		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 		timeBetweenWander = rand() % 7 + 2;
 	}
-	else if (behaviour == "walkPattern")
+	else if (behaviour == "walkPattern")//if the npc is to walk around in a pattern
 	{
-		patternPoints.push_back(getPosition());// = getPosition();
+		patternPoints.push_back(getPosition());
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(0).x, patternPoints.at(0).y + 400));
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(1).x-400, patternPoints.at(1).y));
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(2).x, patternPoints.at(2).y - 400));
 		currentPointIndex = 0;
+		prevPointIndex = 5;
 	}
 }
 
@@ -50,7 +51,6 @@ void Npc::LoadInteractHintTexture(bool controllerHint)
 	interactHintSprite.setTexture(interactHintTexture);
 	interactHintSprite.setOrigin(interactHintTexture.getSize().x / 2, interactHintTexture.getSize().y / 2);
 	interactHintSprite.setPosition(sf::Vector2f(getPosition().x,getPosition().y+50));
-
 }
 
 Npc::~Npc()
@@ -63,6 +63,7 @@ void Npc::Update(sf::Vector2f playerPos)
 	sf::Vector2f pos = getPosition();
 	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
 	
+	//show the interaction hint sprite
 	if(distance < 25)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
@@ -77,9 +78,14 @@ void Npc::Update(sf::Vector2f playerPos)
 	{
 		walkPattern();
 	}
+	else if (behaviour == "follow")
+	{
+		Follow(playerPos);
+	}
 
 }
 
+/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds*/
 void Npc::Wander()
 {
 	if (behaviourClock.getElapsedTime().asSeconds() > timeBetweenWander)
@@ -138,66 +144,84 @@ void Npc::Wander()
 	else prevPos = getPosition();
 }
 
+/*Walk around in a rectangle from the points set in the constructor*/
 void Npc::walkPattern()
 {
-	//go from point to point
+	//deal with the first 3 points
 	if (currentPointIndex < 3)
 	{
 		//get the distance between current position and position we are to wander to
 		float distance = sqrtf((((getPosition().x - patternPoints.at(currentPointIndex+1).x)*(getPosition().x - patternPoints.at(currentPointIndex + 1).x))
 			+ ((getPosition().y - patternPoints.at(currentPointIndex + 1).y)*(getPosition().y - patternPoints.at(currentPointIndex + 1).y))));
-		//get the direction
-		sf::Vector2f dir = sf::Vector2f((patternPoints.at(currentPointIndex + 1).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(currentPointIndex + 1).y - patternPoints.at(currentPointIndex).y) / distance);
-
-
-
-		if ((int)distance > 10)//.5 because we are dealing with floats so will never get to the exact right position
+			
+		if (prevPointIndex != currentPointIndex)
 		{
-			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
-			std::cout << "Position: " << getPosition().x << ", " << getPosition().y << std::endl;
-			//std::cout << "Distance: " << distance << std::endl;
+			//get the direction, but only once per point
+			direction = sf::Vector2f((patternPoints.at(currentPointIndex + 1).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(currentPointIndex + 1).y - patternPoints.at(currentPointIndex).y) / distance);
+			prevPointIndex = currentPointIndex;
 		}
-		else
+
+		if ((int)distance > 1)
+		{
+			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y + direction.y));
+		}
+		else//move onto the next point and adjust position so it is correct
 		{
 			currentPointIndex += 1;
 			setPosition(patternPoints.at(currentPointIndex));
 		}
 	}
 
-	else
+	else//deal with the last point
 	{
 		//get the distance between current position and position we are to wander to
 		float distance = sqrtf((((getPosition().x - patternPoints.at(0).x)*(getPosition().x - patternPoints.at(0).x))
 			+ ((getPosition().y - patternPoints.at(0).y)*(getPosition().y - patternPoints.at(0).y))));
-		//get the direction
-		sf::Vector2f dir = sf::Vector2f((patternPoints.at(0).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(0).y - patternPoints.at(currentPointIndex).y) / distance);
 
-
-
-		if ((int)distance > 5)//.5 because we are dealing with floats so will never get to the exact right position
+		if (prevPointIndex != currentPointIndex)
 		{
-			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
-			std::cout << "Position: " << getPosition().x << ", " << getPosition().y << std::endl;
-			//std::cout << "Distance: " << distance << std::endl;
+			//get the direction but only once per point
+			direction = sf::Vector2f((patternPoints.at(0).x - patternPoints.at(currentPointIndex).x) / distance, (patternPoints.at(0).y - patternPoints.at(currentPointIndex).y) / distance);
+			prevPointIndex = currentPointIndex;
 		}
-		else 
+
+		if ((int)distance > 1)
+		{
+			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y + direction.y));
+		}
+		else //go back to the first point and adjust position so it is correct
 		{
 			currentPointIndex = 0;
 			setPosition(patternPoints.at(currentPointIndex));
 		}
 	}
-
-	std::cout << "Current point: " << currentPointIndex << std::endl;
 }
 
+/*Follow the position that is passed in. This is the Seek algorithm*/
+void Npc::Follow(sf::Vector2f positionToFollow)
+{
+	//get the vector between the positionToFollow and our position
+	direction = sf::Vector2f(positionToFollow - getPosition());
+	//get the length of the direction
+	float length = sqrtf((direction.x * direction.x) + (direction.y * direction.y));
+
+	direction.x /= length;
+	direction.y /= length;
+
+	setPosition(getPosition() + (sf::Vector2f(direction.x*0.5, direction.y*0.5)));
+}
+
+/*Draw the interaction hint sprite*/
 void Npc::draw(sf::RenderTarget& window)
 {
 	window.draw(interactHintSprite);
 }
 
+/*Draw the npc on the minimap as an icon*/
 void Npc::MinimapDraw(sf::RenderTarget& window)
 {
 	window.draw(npcMinimapIcon);
+	interactHintSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y + 50));
 }
 
 std::string Npc::getNpcName()

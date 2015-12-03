@@ -49,5 +49,17 @@
 		<hasQuest>0</hasQuest>
 		<behaviour>walkPattern</behaviour>
 	</npc>
+	
+	<npc name='The Adoring Fan'>
+		<id>5</id>
+		<race>Elf</race>
+		<gender>Male</gender>
+		<texturePath>Assets/npcTemp2.png</texturePath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>600</x>
+		<y>400</y>
+		<hasQuest>0</hasQuest>
+		<behaviour>follow</behaviour>
+	</npc>
 
 </npcList>
