@@ -2,13 +2,38 @@
 #include "Npc.h"
 
 //name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
-Npc::Npc(std::string n, int i, std::string texturePath, std::string mapIconTexturePath, sf::Vector2f pos, bool quest, std::string beh, bool controller)
+Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath,
+	std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
+	sf::Vector2f pos, bool quest, std::string beh, bool controller)
 	: name(n), id(i), hasQuest(quest), behaviour(beh)
 {
-	m_texture.loadFromFile(texturePath);
-	setTexture(m_texture);
-	setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
+	//load all idle textures
+	if (downIdleTexture.loadFromFile(idleDownPath)) { std::cout << "downIdleTexture loaded successfully." << std::endl; }
+	else downIdleTexture.loadFromFile("Assets/Debug.png");
+	if (upIdleTexture.loadFromFile(idleUpPath)) { std::cout << "upIdleTexture loaded successfully." << std::endl; }
+	else upIdleTexture.loadFromFile("Assets/Debug.png");
+	if (rightIdleTexture.loadFromFile(idleRightPath)) { std::cout << "rightIdleTexture loaded successfully." << std::endl; }
+	else rightIdleTexture.loadFromFile("Assets/Debug.png");
+	if (leftIdleTexture.loadFromFile(idleLeftPath)) { std::cout << "leftIdleTexture loaded successfully." << std::endl; }
+	else leftIdleTexture.loadFromFile("Assets/Debug.png");
+	//load all walking sprite sheets
+	if (upWalkTexture.loadFromFile(walkUpPath)) { std::cout << "upWalkTexture loaded successfully. " << std::endl; }
+	else upWalkTexture.loadFromFile("Assets/Debug.png");
+	if (downWalkTexture.loadFromFile(walkDownPath)) { std::cout << "downWalkTexture loaded successfully. " << std::endl; }
+	else downWalkTexture.loadFromFile("Assets/Debug.png");
+	if (leftWalkTexture.loadFromFile(walkLeftPath)) { std::cout << "leftWalkTexture loaded successfully. " << std::endl; }
+	else leftWalkTexture.loadFromFile("Assets/Debug.png");
+	if (rightWalkTexture.loadFromFile(walkRightPath)) { std::cout << "rightWalkTexture loaded successfully. " << std::endl; }
+	else rightWalkTexture.loadFromFile("Assets/Debug.png");
+
+	framePosition = sf::Vector2i(0, 0);
+	idle = true;
+	currentDirection = DOWN;
+
+	setTexture(downIdleTexture);
+	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
 	setPosition(pos);
+	prevPos = getPosition();
 
 	if (npcMinimapIconTexture.loadFromFile(mapIconTexturePath)) {}
 	else npcMinimapIconTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
@@ -70,6 +95,45 @@ void Npc::Update(sf::Vector2f playerPos)
 
 	npcMinimapIcon.setPosition(getPosition());
 
+	if (idle == false)
+	{
+		if (animationClock.getElapsedTime().asMilliseconds() > 45)
+		{
+			if (framePosition.x < getTexture()->getSize().x-frameSize.x)
+			{
+				framePosition.x += frameSize.x;
+			}
+			else
+			{
+				framePosition.x = 0;
+			}
+			animationClock.restart();
+		}
+	}
+	else
+	{
+		if (currentDirection == UP)
+		{
+			setTexture(upIdleTexture);
+		}
+		else if (currentDirection == DOWN)
+		{
+			setTexture(downIdleTexture);
+		}
+		else if (currentDirection == LEFT)
+		{
+			setTexture(leftIdleTexture);
+		}
+		else if (currentDirection == RIGHT)
+		{
+			setTexture(rightIdleTexture);
+		}
+		framePosition = sf::Vector2i(0, 0);
+		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		setTextureRect(frame);
+	}
+
 	if (behaviour == "wander")
 	{
 		Wander();
@@ -90,6 +154,8 @@ void Npc::Wander()
 {
 	if (behaviourClock.getElapsedTime().asSeconds() > timeBetweenWander)
 	{
+		idle = false;
+
 		//get the distance between current position and position we are to wander to
 		float distance = sqrtf((((getPosition().x - wanderPos.x)*(getPosition().x - wanderPos.x)) + ((getPosition().y - wanderPos.y)*(getPosition().y - wanderPos.y))));
 		//get the direction
@@ -140,8 +206,39 @@ void Npc::Wander()
 			behaviourClock.restart();
 		}
 
+		//sort out orientation here
+		if (dir.x > 0)
+		{
+			currentDirection = RIGHT;
+			setTexture(rightWalkTexture);
+		}
+		else if (dir.x < 0)
+		{
+			currentDirection = LEFT;
+			setTexture(leftWalkTexture);
+		}
+		if (dir.y > 0)
+		{
+			currentDirection = DOWN;
+			setTexture(downWalkTexture);
+		}
+		else if (dir.y < 0)
+		{
+			currentDirection = UP;
+			setTexture(upWalkTexture);
+		}
+
+		frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		setTextureRect(frame);
+
+		std::cout << "Wander current direction: " << currentDirection << std::endl;
 	}
-	else prevPos = getPosition();
+	else
+	{
+		prevPos = getPosition();
+		idle = true;
+	}
 }
 
 /*Walk around in a rectangle from the points set in the constructor*/
@@ -197,7 +294,8 @@ void Npc::walkPattern()
 	}
 }
 
-/*Follow the position that is passed in. This is the Seek algorithm*/
+/*Follow the position that is passed in. This is a modified Seek algorithm
+(it can only move up, down, left or right but can not move in more than one direction at a time). Only allows 4 directions of movement*/
 void Npc::Follow(sf::Vector2f positionToFollow)
 {
 	//get the vector between the positionToFollow and our position
@@ -208,7 +306,12 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	direction.x /= length;
 	direction.y /= length;
 
-	setPosition(getPosition() + (sf::Vector2f(direction.x*0.5, direction.y*0.5)));
+	//move left or right
+	if (getPosition().x > positionToFollow.x+10 || getPosition().x < positionToFollow.x-10)//let them get roughly close because we are dealing with floats so will never be exact
+		setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+	//move up or down
+	else if (getPosition().y > positionToFollow.y+10 || getPosition().y < positionToFollow.y-10)//let them get roughly close because we are dealing with floats so will never be exact
+		setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
 }
 
 /*Draw the interaction hint sprite*/

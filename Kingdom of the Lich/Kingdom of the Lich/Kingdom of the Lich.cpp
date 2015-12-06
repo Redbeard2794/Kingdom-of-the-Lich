@@ -246,47 +246,92 @@ int main()
 		std::string race = "";
 		std::string gender = "";
 		std::string texturePath = "";
+
+		std::string idleUpPath = "";
+		std::string idleDownPath = "";
+		std::string idleLeftPath = "";
+		std::string idleRightPath = "";
+
+		std::string walkUpPath = "";
+		std::string walkDownPath = "";
+		std::string walkLeftPath = "";
+		std::string walkRightPath = "";
+
 		std::string mapIconTexturePath = "";
 		float x = 0;
 		float y = 0;
 		bool hasQuest = false;
 		std::string behaviour = "";
 
+		/*Get the npc's name*/
 		std::cout << "Name: " << npc->first_attribute("name")->value() << std::endl;
 		name = npc->first_attribute("name")->value();
 
+		/*Get the npc's id*/
 		std::cout << "I.D: " << npc->first_node("id")->value() << std::endl;
 		id = atoi(npc->first_node("id")->value());
 
+		/*Get the npc's race*/
 		std::cout << "Race: " << npc->first_node("race")->value() << std::endl;
 		race = npc->first_node("race")->value();
 
+		/*Get the npc's gender*/
 		std::cout << "Gender: " << npc->first_node("gender")->value() << std::endl;
 		gender = npc->first_node("gender")->value();
 
-		std::cout << "Texture path: " << npc->first_node("texturePath")->value() << std::endl;
-		texturePath = npc->first_node("texturePath")->value();
+		/*get paths for idle sprites*/
+		std::cout << "Idle up path: " << npc->first_node("idleUpPath")->value() << std::endl;
+		idleUpPath = npc->first_node("idleUpPath")->value();
 
+		std::cout << "Idle down path: " << npc->first_node("idleDownPath")->value() << std::endl;
+		idleDownPath = npc->first_node("idleDownPath")->value();
+
+		std::cout << "Idle left path: " << npc->first_node("idleLeftPath")->value() << std::endl;
+		idleLeftPath = npc->first_node("idleLeftPath")->value();
+
+		std::cout << "Idle right path: " << npc->first_node("idleRightPath")->value() << std::endl;
+		idleRightPath = npc->first_node("idleRightPath")->value();
+
+		/*get paths for walking sprites*/
+		std::cout << "Walk up path: " << npc->first_node("walkUpPath")->value() << std::endl;
+		walkUpPath = npc->first_node("walkUpPath")->value();
+
+		std::cout << "Walk down path: " << npc->first_node("walkDownPath")->value() << std::endl;
+		walkDownPath = npc->first_node("walkDownPath")->value();
+
+		std::cout << "Walk left path: " << npc->first_node("walkLeftPath")->value() << std::endl;
+		walkLeftPath = npc->first_node("walkLeftPath")->value();
+
+		std::cout << "Walk right path: " << npc->first_node("walkRightPath")->value() << std::endl;
+		walkRightPath = npc->first_node("walkRightPath")->value();
+
+		/*minimap icon path*/
 		std::cout << "Map icon texture path: " << npc->first_node("mapIconTexturePath")->value() << std::endl;
 		mapIconTexturePath = npc->first_node("mapIconTexturePath")->value();
 
+		/*x position*/
 		std::cout << "X: " << npc->first_node("x")->value() << std::endl;
 		x = atof(npc->first_node("x")->value());
 
+		/*y position*/
 		std::cout << "Y: " << npc->first_node("y")->value() << std::endl;
 		y = atof(npc->first_node("y")->value());
 
+		/*Does the npc have a quest for the player*/
 		std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
 		hasQuest = npc->first_node("hasQuest")->value();
 
+		/*What behaviour do they have? e.g: wander, stand etc*/
 		std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
 		behaviour = npc->first_node("behaviour")->value();
 
-		Npc* n = new Npc(name, id, texturePath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
+		/*Create the npc*/
+		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
 		npcVector.push_back(n);
 		std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
 
 		std::cout << "------------------------------------------------------------" << std::endl;
+		/*Move onto the next npc tag*/
 		npc = npc->next_sibling("npc");
 	}
 

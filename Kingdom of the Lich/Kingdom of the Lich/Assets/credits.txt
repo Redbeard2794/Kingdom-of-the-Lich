@@ -46,3 +46,11 @@ http://opengameart.org/content/rpg-sound-pack
 key jiggle.wav: http://opengameart.org/content/key-jiggle
 	http://opengameart.org/users/spookymodem
 
+npc animations
+mage walking poses sheet copy.png
+baldricfrontwalksheet copy.png
+attribute to Stephen "Redshrike" Challener for creation. http://opengameart.org/users/redshrike
+link to sinbad on opengameart: http://opengameart.org/content/sinbad-the-ogre
+attribute to Zi Ye for the design
+http://opengameart.org/content/four-characters-my-lpc-entries
+
