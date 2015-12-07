@@ -97,37 +97,27 @@ void Npc::Update(sf::Vector2f playerPos)
 
 	if (idle == false)
 	{
-		if (animationClock.getElapsedTime().asMilliseconds() > 45)
+		if (animationClock.getElapsedTime().asMilliseconds() > 55)
 		{
 			if (framePosition.x < getTexture()->getSize().x-frameSize.x)
-			{
 				framePosition.x += frameSize.x;
-			}
-			else
-			{
-				framePosition.x = 0;
-			}
+
+			else framePosition.x = 0;
+
 			animationClock.restart();
 		}
 	}
 	else
 	{
 		if (currentDirection == UP)
-		{
 			setTexture(upIdleTexture);
-		}
 		else if (currentDirection == DOWN)
-		{
 			setTexture(downIdleTexture);
-		}
 		else if (currentDirection == LEFT)
-		{
 			setTexture(leftIdleTexture);
-		}
 		else if (currentDirection == RIGHT)
-		{
 			setTexture(rightIdleTexture);
-		}
+
 		framePosition = sf::Vector2i(0, 0);
 		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
 		frame = sf::IntRect(framePosition, frameSize);
@@ -244,6 +234,7 @@ void Npc::Wander()
 /*Walk around in a rectangle from the points set in the constructor*/
 void Npc::walkPattern()
 {
+	idle = false;
 	//deal with the first 3 points
 	if (currentPointIndex < 3)
 	{
@@ -292,6 +283,32 @@ void Npc::walkPattern()
 			setPosition(patternPoints.at(currentPointIndex));
 		}
 	}
+
+	//sort out orientation here
+	if (direction.x > 0)
+	{
+		currentDirection = RIGHT;
+		setTexture(rightWalkTexture);
+	}
+	else if (direction.x < 0)
+	{
+		currentDirection = LEFT;
+		setTexture(leftWalkTexture);
+	}
+	if (direction.y > 0)
+	{
+		currentDirection = DOWN;
+		setTexture(downWalkTexture);
+	}
+	else if (direction.y < 0)
+	{
+		currentDirection = UP;
+		setTexture(upWalkTexture);
+	}
+
+	frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+	frame = sf::IntRect(framePosition, frameSize);
+	setTextureRect(frame);
 }
 
 /*Follow the position that is passed in. This is a modified Seek algorithm
@@ -307,11 +324,69 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	direction.y /= length;
 
 	//move left or right
-	if (getPosition().x > positionToFollow.x+10 || getPosition().x < positionToFollow.x-10)//let them get roughly close because we are dealing with floats so will never be exact
+	if (getPosition().x > positionToFollow.x + 10 || getPosition().x < positionToFollow.x - 10)//let them get roughly close because we are dealing with floats so will never be exact
+	{
 		setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+		direction.y = 0;
+	}
 	//move up or down
-	else if (getPosition().y > positionToFollow.y+10 || getPosition().y < positionToFollow.y-10)//let them get roughly close because we are dealing with floats so will never be exact
+	else if (getPosition().y > positionToFollow.y + 10 || getPosition().y < positionToFollow.y - 10)//let them get roughly close because we are dealing with floats so will never be exact
+	{
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+		direction.x = 0;
+	}
+	else
+	{
+		direction = sf::Vector2f(0, 0);
+	}
+
+	//sort out orientation here
+	if (direction.x > 0)
+	{
+		idle = false;
+		currentDirection = RIGHT;
+		setTexture(rightWalkTexture);
+	}
+	else if (direction.x < 0)
+	{
+		idle = false;
+		currentDirection = LEFT;
+		setTexture(leftWalkTexture);
+	}
+	if (direction.y > 0)
+	{
+		idle = false;
+		currentDirection = DOWN;
+		setTexture(downWalkTexture);
+	}
+	else if (direction.y < 0)
+	{
+		idle = false;
+		currentDirection = UP;
+		setTexture(upWalkTexture);
+	}
+
+	frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+	frame = sf::IntRect(framePosition, frameSize);
+	setTextureRect(frame);
+
+	if (direction.x == 0 && direction.y == 0)
+	{
+		idle = true;
+		if (currentDirection == UP)
+			setTexture(upIdleTexture);
+		else if (currentDirection == DOWN)
+			setTexture(downIdleTexture);
+		else if (currentDirection == LEFT)
+			setTexture(leftIdleTexture);
+		else if (currentDirection == RIGHT)
+			setTexture(rightIdleTexture);
+
+		framePosition = sf::Vector2i(0, 0);
+		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		setTextureRect(frame);
+	}
 }
 
 /*Draw the interaction hint sprite*/
