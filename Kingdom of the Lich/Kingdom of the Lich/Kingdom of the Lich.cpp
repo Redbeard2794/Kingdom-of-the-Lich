@@ -46,7 +46,8 @@ int main()
 	tmx::TileMap lowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
 	map.ShowObjects(); // Display all the layer objects.
-	lowPolyMap.ShowObjects();
+
+	tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
 
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 

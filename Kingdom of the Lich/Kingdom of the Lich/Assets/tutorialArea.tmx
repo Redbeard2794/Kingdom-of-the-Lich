@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="50" tileheight="50" nextobjectid="10">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="50" tileheight="50" nextobjectid="33">
  <tileset firstgid="1" name="basicTiles" tilewidth="50" tileheight="50" tilecount="4">
   <image source="Tiles/basicTiles.png" width="200" height="50"/>
  </tileset>
@@ -1631,4 +1631,26 @@
    <tile gid="1"/>
   </data>
  </layer>
+ <objectgroup name="Collision">
+  <object id="11" name="House1" x="500" y="1050.33" width="99.6667" height="99.6667"/>
+  <object id="12" name="House2" x="500.25" y="250.5" width="99.5" height="99.5"/>
+  <object id="13" name="House3" x="650.333" y="250.667" width="99.3333" height="99.3333"/>
+  <object id="14" name="House4" x="800" y="249.667" width="100" height="100"/>
+  <object id="15" name="House5" x="949.818" y="250" width="100.182" height="100"/>
+  <object id="16" name="House6" x="1100" y="250" width="100.25" height="99.75"/>
+  <object id="17" name="House7" x="1250.25" y="249.75" width="99.75" height="100.5"/>
+  <object id="18" name="House8" x="1400" y="250" width="100.25" height="100"/>
+  <object id="19" name="Forge" x="350.667" y="999.333" width="98" height="100">
+   <ellipse/>
+  </object>
+  <object id="20" name="Anvil" x="363.333" y="900.667" width="20.6667" height="50"/>
+  <object id="21" name="SouthWall" x="300" y="1750.33" width="1400" height="49.6667"/>
+  <object id="25" name="EastWall" x="1750.33" y="300.333" width="49.4167" height="1399.42"/>
+  <object id="27" name="NorthWall" x="300.667" y="200" width="1398.83" height="49"/>
+  <object id="28" name="WestWall" x="199.333" y="300" width="50" height="1400"/>
+  <object id="29" name="NETower" x="1700" y="199" width="100.5" height="101"/>
+  <object id="30" name="NWTower" x="199.5" y="200.5" width="100.5" height="99.5"/>
+  <object id="31" name="SWTower" x="200" y="1700.33" width="99.6667" height="99.6667"/>
+  <object id="32" name="SETower" x="1700.33" y="1700.33" width="100" height="99.3333"/>
+ </objectgroup>
 </map>
