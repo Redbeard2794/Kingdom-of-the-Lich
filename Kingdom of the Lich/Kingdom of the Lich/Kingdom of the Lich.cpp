@@ -252,6 +252,8 @@ int main()
 		std::string idleLeftPath = "";
 		std::string idleRightPath = "";
 
+		int numberOfFrames = 0;
+
 		std::string walkUpPath = "";
 		std::string walkDownPath = "";
 		std::string walkLeftPath = "";
@@ -292,6 +294,10 @@ int main()
 		std::cout << "Idle right path: " << npc->first_node("idleRightPath")->value() << std::endl;
 		idleRightPath = npc->first_node("idleRightPath")->value();
 
+		/*Get the number of frames*/
+		std::cout << "Number of frames: " << npc->first_node("numberOfFrames")->value() << std::endl;
+		numberOfFrames = atoi( npc->first_node("numberOfFrames")->value());
+
 		/*get paths for walking sprites*/
 		std::cout << "Walk up path: " << npc->first_node("walkUpPath")->value() << std::endl;
 		walkUpPath = npc->first_node("walkUpPath")->value();
@@ -326,7 +332,7 @@ int main()
 		behaviour = npc->first_node("behaviour")->value();
 
 		/*Create the npc*/
-		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
+		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
 		npcVector.push_back(n);
 		std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
 

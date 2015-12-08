@@ -10,6 +10,7 @@
 		<idleDownPath>Assets/npcTemp.png</idleDownPath>
 		<idleLeftPath>Assets/npcTemp.png</idleLeftPath>
 		<idleRightPath>Assets/npcTemp.png</idleRightPath>
+    <numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/npcTemp.png</walkUpPath>
 		<walkDownPath>Assets/npcTemp.png</walkDownPath>
 		<walkLeftPath>Assets/npcTemp.png</walkLeftPath>
@@ -29,6 +30,7 @@
 		<idleDownPath>Assets/Npcs/mageIdle/mdIdle.png</idleDownPath>
 		<idleLeftPath>Assets/Npcs/mageIdle/mlIdle.png</idleLeftPath>
 		<idleRightPath>Assets/Npcs/mageIdle/mrIdle.png</idleRightPath>
+    <numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/Npcs/mageSheets/mageMoveUpSheet.png</walkUpPath>
 		<walkDownPath>Assets/Npcs/mageSheets/mageMoveDownSheet.png</walkDownPath>
 		<walkLeftPath>Assets/Npcs/mageSheets/mageMoveLeftSheet.png</walkLeftPath>
@@ -48,6 +50,7 @@
 		<idleDownPath>Assets/npcTemp2.png</idleDownPath>
 		<idleLeftPath>Assets/npcTemp2.png</idleLeftPath>
 		<idleRightPath>Assets/npcTemp2.png</idleRightPath>
+    <numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/npcTemp2.png</walkUpPath>
 		<walkDownPath>Assets/npcTemp2.png</walkDownPath>
 		<walkLeftPath>Assets/npcTemp2.png</walkLeftPath>
@@ -67,6 +70,7 @@
 		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
 		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
 		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
+    <numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
 		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
 		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
@@ -86,6 +90,7 @@
 		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
 		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
 		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
+    <numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
 		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
 		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>

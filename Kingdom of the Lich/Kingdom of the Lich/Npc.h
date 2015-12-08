@@ -58,13 +58,16 @@ private:
 		RIGHT
 	};
 	int currentDirection;
+	int prevDirection;
 	bool idle;
 
 	sf::Clock animationClock;
 
+	int numberOfFrames;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
-	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, 
+	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
 		std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath
 		, sf::Vector2f pos, bool quest, std::string beh, bool controller);
 

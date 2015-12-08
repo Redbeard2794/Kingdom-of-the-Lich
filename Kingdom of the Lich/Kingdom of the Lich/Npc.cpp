@@ -3,27 +3,27 @@
 
 //name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath,
-	std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
+	int numFrames, std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
 	sf::Vector2f pos, bool quest, std::string beh, bool controller)
-	: name(n), id(i), hasQuest(quest), behaviour(beh)
+	: name(n), id(i), hasQuest(quest), behaviour(beh), numberOfFrames(numFrames)
 {
 	//load all idle textures
-	if (downIdleTexture.loadFromFile(idleDownPath)) { std::cout << "downIdleTexture loaded successfully." << std::endl; }
+	if (downIdleTexture.loadFromFile(idleDownPath)) { }
 	else downIdleTexture.loadFromFile("Assets/Debug.png");
-	if (upIdleTexture.loadFromFile(idleUpPath)) { std::cout << "upIdleTexture loaded successfully." << std::endl; }
+	if (upIdleTexture.loadFromFile(idleUpPath)) { }
 	else upIdleTexture.loadFromFile("Assets/Debug.png");
-	if (rightIdleTexture.loadFromFile(idleRightPath)) { std::cout << "rightIdleTexture loaded successfully." << std::endl; }
+	if (rightIdleTexture.loadFromFile(idleRightPath)) { }
 	else rightIdleTexture.loadFromFile("Assets/Debug.png");
-	if (leftIdleTexture.loadFromFile(idleLeftPath)) { std::cout << "leftIdleTexture loaded successfully." << std::endl; }
+	if (leftIdleTexture.loadFromFile(idleLeftPath)) { }
 	else leftIdleTexture.loadFromFile("Assets/Debug.png");
 	//load all walking sprite sheets
-	if (upWalkTexture.loadFromFile(walkUpPath)) { std::cout << "upWalkTexture loaded successfully. " << std::endl; }
+	if (upWalkTexture.loadFromFile(walkUpPath)) { }
 	else upWalkTexture.loadFromFile("Assets/Debug.png");
-	if (downWalkTexture.loadFromFile(walkDownPath)) { std::cout << "downWalkTexture loaded successfully. " << std::endl; }
+	if (downWalkTexture.loadFromFile(walkDownPath)) { }
 	else downWalkTexture.loadFromFile("Assets/Debug.png");
-	if (leftWalkTexture.loadFromFile(walkLeftPath)) { std::cout << "leftWalkTexture loaded successfully. " << std::endl; }
+	if (leftWalkTexture.loadFromFile(walkLeftPath)) { }
 	else leftWalkTexture.loadFromFile("Assets/Debug.png");
-	if (rightWalkTexture.loadFromFile(walkRightPath)) { std::cout << "rightWalkTexture loaded successfully. " << std::endl; }
+	if (rightWalkTexture.loadFromFile(walkRightPath)) { }
 	else rightWalkTexture.loadFromFile("Assets/Debug.png");
 
 	framePosition = sf::Vector2i(0, 0);
@@ -160,7 +160,6 @@ void Npc::Wander()
 		{
 			//flip a coin to decide where we should wander to
 			int coin = rand() % 2;
-			std::cout << "Coin flip: " << coin << std::endl;
 
 			if (coin == 1)//go to a new position
 			{
@@ -189,8 +188,6 @@ void Npc::Wander()
 
 			//set the time between each movement
 			timeBetweenWander = rand() % 7 + 2;
-			std::cout << "Time between wander: " << timeBetweenWander << std::endl;
-			std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 
 			//restart the clock
 			behaviourClock.restart();
@@ -218,11 +215,10 @@ void Npc::Wander()
 			setTexture(upWalkTexture);
 		}
 
-		frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+		frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);//numberOfFrames is the number of frames
 		frame = sf::IntRect(framePosition, frameSize);
 		setTextureRect(frame);
 
-		std::cout << "Wander current direction: " << currentDirection << std::endl;
 	}
 	else
 	{
@@ -289,24 +285,44 @@ void Npc::walkPattern()
 	{
 		currentDirection = RIGHT;
 		setTexture(rightWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	else if (direction.x < 0)
 	{
 		currentDirection = LEFT;
 		setTexture(leftWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	if (direction.y > 0)
 	{
 		currentDirection = DOWN;
 		setTexture(downWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	else if (direction.y < 0)
 	{
 		currentDirection = UP;
 		setTexture(upWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 
-	frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+	frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
 	frame = sf::IntRect(framePosition, frameSize);
 	setTextureRect(frame);
 }
@@ -346,27 +362,47 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 		idle = false;
 		currentDirection = RIGHT;
 		setTexture(rightWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	else if (direction.x < 0)
 	{
 		idle = false;
 		currentDirection = LEFT;
 		setTexture(leftWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	if (direction.y > 0)
 	{
 		idle = false;
 		currentDirection = DOWN;
 		setTexture(downWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 	else if (direction.y < 0)
 	{
 		idle = false;
 		currentDirection = UP;
 		setTexture(upWalkTexture);
+		if (prevDirection != currentDirection)
+		{
+			framePosition.x = 0;
+			prevDirection = currentDirection;
+		}
 	}
 
-	frameSize = sf::Vector2i(getTexture()->getSize().x / 8, getTexture()->getSize().y);
+	frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
 	frame = sf::IntRect(framePosition, frameSize);
 	setTextureRect(frame);
 
