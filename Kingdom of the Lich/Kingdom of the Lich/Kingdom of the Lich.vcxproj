@@ -154,6 +154,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
+    <ClInclude Include="CollidableObject.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="ConfirmationDialogBox.h" />
     <ClInclude Include="Gamepad.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
+    <ClCompile Include="CollidableObject.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="ConfirmationDialogBox.cpp" />
     <ClCompile Include="Gamepad.cpp" />

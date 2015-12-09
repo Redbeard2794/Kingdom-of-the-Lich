@@ -48,7 +48,7 @@ int main()
 	map.ShowObjects(); // Display all the layer objects.
 
 	tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
-
+	
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
 	// Create the main window 
@@ -66,7 +66,7 @@ int main()
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
 	//change the viewport to change the maps size
 	minimap.setViewport(sf::FloatRect(0.6f - (1.f*minimap.getSize().x) / window.getSize().x - 0.10f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f, (2.0f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
-	minimap.zoom(3.f);//4
+	minimap.zoom(6.f);//4......3(actual)
 
 	//load a font
 	sf::Font font;
@@ -342,6 +342,7 @@ int main()
 		npc = npc->next_sibling("npc");
 	}
 
+	CollidableObject* testObj = new CollidableObject(500, 250, 100, 100, true, false);
 
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
@@ -1036,7 +1037,8 @@ int main()
 			}
 			
 			p->draw(*pWindow);
-
+			window.draw(*testObj);
+			testObj->CheckContainsPoint(p->getPosition());
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());

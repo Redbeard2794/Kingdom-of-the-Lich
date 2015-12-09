@@ -48,7 +48,7 @@
 #include "Chest.h"
 #include "QuestController.h"
 #include "Npc.h"
-
+#include "CollidableObject.h"
 
 
 

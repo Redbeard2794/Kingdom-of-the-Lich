@@ -84,6 +84,9 @@
     <ClInclude Include="rapidxml_utils.hpp">
       <Filter>Header Files\rapidxml</Filter>
     </ClInclude>
+    <ClInclude Include="CollidableObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidableObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
