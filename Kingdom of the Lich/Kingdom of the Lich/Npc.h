@@ -65,6 +65,8 @@ private:
 
 	int numberOfFrames;
 
+	bool colliding;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
@@ -104,6 +106,10 @@ public:
 	bool doesNpcHaveQuest();
 	//behaviour
 	std::string getBehaviour();
+
+	bool IsColliding();
+
+	void setColliding(bool c);
 };
 
 #endif

@@ -58,6 +58,9 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 		currentPointIndex = 0;
 		prevPointIndex = 5;
 	}
+
+	colliding = false;
+
 }
 
 //Load the correct texture for the interact hint
@@ -456,4 +459,14 @@ bool Npc::doesNpcHaveQuest()
 std::string Npc::getBehaviour()
 {
 	return behaviour;
+}
+
+bool Npc::IsColliding()
+{
+	return colliding;
+}
+
+void Npc::setColliding(bool c)
+{
+	colliding = c;
 }

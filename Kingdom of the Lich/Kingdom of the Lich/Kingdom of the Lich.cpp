@@ -48,7 +48,12 @@ int main()
 	map.ShowObjects(); // Display all the layer objects.
 
 	tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
-	
+
+	//for (int i = 0; i < collisionGroup.objects_.size(); i++)
+	//{
+	//	std::string test = collisionGroup.objects_[i].GetPropertyValue("x");
+	//}
+	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
 	// Create the main window 
@@ -1038,7 +1043,14 @@ int main()
 			
 			p->draw(*pWindow);
 			window.draw(*testObj);
-			testObj->CheckContainsPoint(p->getPosition());
+			for (int i = 0; i < npcVector.size(); i++)
+			{
+				if (testObj->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
+				{
+					std::cout << "npc collided with testObj" << std::endl;
+					npcVector.at(i)->setColliding(true);
+				}
+			}
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
