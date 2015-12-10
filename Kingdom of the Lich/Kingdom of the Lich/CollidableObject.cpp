@@ -25,7 +25,7 @@ bool CollidableObject::CheckIntersectionRectangle(sf::FloatRect objectToCheck)
 {
 	if (getGlobalBounds().intersects(objectToCheck))
 	{
-		std::cout << "Global bounds intersects the object passed in" << std::endl;
+		//std::cout << "Global bounds intersects the object passed in" << std::endl;
 		return true;
 	}
 	else return false;

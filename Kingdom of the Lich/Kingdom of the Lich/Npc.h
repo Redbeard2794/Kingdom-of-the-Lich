@@ -26,6 +26,7 @@ private:
 
 	//for wandering
 	sf::Vector2f wanderPos;
+	sf::Vector2f prevWanderPos;
 	sf::Vector2f prevPos;
 	int timeBetweenWander;
 
@@ -67,6 +68,8 @@ private:
 
 	bool colliding;
 
+	sf::RectangleShape boundingBox;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
@@ -95,6 +98,8 @@ public:
 	
 	/*Draw the npc on the minimap as an icon*/
 	void MinimapDraw(sf::RenderTarget& window);
+
+	void DrawBoundingBox(sf::RenderTarget& window);
 
 	//gets
 

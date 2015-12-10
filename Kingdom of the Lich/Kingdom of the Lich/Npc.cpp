@@ -60,7 +60,9 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	}
 
 	colliding = false;
-
+	boundingBox.setOutlineThickness(2);
+	boundingBox.setOutlineColor(sf::Color(20, 69, 247, 255));
+	boundingBox.setFillColor(sf::Color::Transparent);
 }
 
 //Load the correct texture for the interact hint
@@ -153,10 +155,26 @@ void Npc::Wander()
 		float distance = sqrtf((((getPosition().x - wanderPos.x)*(getPosition().x - wanderPos.x)) + ((getPosition().y - wanderPos.y)*(getPosition().y - wanderPos.y))));
 		//get the direction
 		sf::Vector2f dir = sf::Vector2f((wanderPos.x - getPosition().x) / distance, (wanderPos.y - getPosition().y) / distance);
-
+		
 		if (distance > 0.5)//.5 because we are dealing with floats so will never get to the exact right position
 		{
-			setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+			if(!colliding)
+				setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+			//if we are colliding with something then restart the clock and wander back to the previous place we were
+			else if(colliding)
+			{
+				std::cout << "Resetting wander pos due to collision." << std::endl;
+				behaviourClock.restart();
+
+				wanderPos = prevWanderPos;//go to the previous position
+
+				sf::Vector2f unstickDir = sf::Vector2f(prevWanderPos.x - getPosition().x, prevWanderPos.y - getPosition().y);
+				float magnitudeOfDir = sqrtf((unstickDir.x*unstickDir.x) + (unstickDir.y*unstickDir.y));
+				unstickDir.x /= magnitudeOfDir;
+				unstickDir.y /= magnitudeOfDir;
+
+				setPosition(sf::Vector2f(getPosition().x + unstickDir.x*5, getPosition().y + unstickDir.y*5));
+			}
 		}
 
 		else
@@ -182,8 +200,8 @@ void Npc::Wander()
 					xChange = -xChange;
 				else if (xChange == 0 && negCoin == 0)
 					yChange = -yChange;
-
-				//set the next position to wnder to
+				prevWanderPos = wanderPos;
+				//set the next position to wander to
 				wanderPos = sf::Vector2f(getPosition().x + xChange, getPosition().y + yChange);
 			}
 
@@ -218,7 +236,7 @@ void Npc::Wander()
 			setTexture(upWalkTexture);
 		}
 
-		frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);//numberOfFrames is the number of frames
+		frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);//numberOfFrames is the number of frames in the spritesheet
 		frame = sf::IntRect(framePosition, frameSize);
 		setTextureRect(frame);
 
@@ -341,24 +359,25 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 
 	direction.x /= length;
 	direction.y /= length;
-
-	//move left or right
-	if (getPosition().x > positionToFollow.x + 10 || getPosition().x < positionToFollow.x - 10)//let them get roughly close because we are dealing with floats so will never be exact
+	if (!colliding)
 	{
-		setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
-		direction.y = 0;
+		//move left or right
+		if (getPosition().x > positionToFollow.x + 10 || getPosition().x < positionToFollow.x - 10)//let them get roughly close because we are dealing with floats so will never be exact
+		{
+			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+			direction.y = 0;
+		}
+		//move up or down
+		else if (getPosition().y > positionToFollow.y + 10 || getPosition().y < positionToFollow.y - 10)//let them get roughly close because we are dealing with floats so will never be exact
+		{
+			setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+			direction.x = 0;
+		}
+		else
+		{
+			direction = sf::Vector2f(0, 0);
+		}
 	}
-	//move up or down
-	else if (getPosition().y > positionToFollow.y + 10 || getPosition().y < positionToFollow.y - 10)//let them get roughly close because we are dealing with floats so will never be exact
-	{
-		setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
-		direction.x = 0;
-	}
-	else
-	{
-		direction = sf::Vector2f(0, 0);
-	}
-
 	//sort out orientation here
 	if (direction.x > 0)
 	{
@@ -409,6 +428,7 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	frame = sf::IntRect(framePosition, frameSize);
 	setTextureRect(frame);
 
+	//if we are no longer moving (i.e. we caught up to what we are following)
 	if (direction.x == 0 && direction.y == 0)
 	{
 		idle = true;
@@ -439,6 +459,13 @@ void Npc::MinimapDraw(sf::RenderTarget& window)
 {
 	window.draw(npcMinimapIcon);
 	interactHintSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y + 50));
+}
+
+void Npc::DrawBoundingBox(sf::RenderTarget& window)
+{
+	boundingBox.setPosition(sf::Vector2f(getGlobalBounds().left, getGlobalBounds().top));
+	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
+	window.draw(boundingBox);
 }
 
 std::string Npc::getNpcName()

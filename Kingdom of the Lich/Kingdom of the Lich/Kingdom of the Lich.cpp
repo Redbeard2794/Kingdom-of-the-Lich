@@ -348,6 +348,10 @@ int main()
 	}
 
 	CollidableObject* testObj = new CollidableObject(500, 250, 100, 100, true, false);
+	CollidableObject* testObj1 = new CollidableObject(650, 250, 100, 100, true, false);
+	std::vector<CollidableObject*> collidableObjects;
+	collidableObjects.push_back(testObj);
+	collidableObjects.push_back(testObj1);
 
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
@@ -1039,16 +1043,24 @@ int main()
 				npcVector.at(i)->Update(p->getPosition());
 				window.draw(*npcVector.at(i));
 				npcVector.at(i)->draw(window);
+				npcVector.at(i)->DrawBoundingBox(window);
 			}
 			
 			p->draw(*pWindow);
-			window.draw(*testObj);
+			for (int i = 0; i < collidableObjects.size(); i++)
+			{
+				window.draw(*collidableObjects.at(i));
+			}
 			for (int i = 0; i < npcVector.size(); i++)
 			{
-				if (testObj->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
+				for (int j = 0; j < collidableObjects.size(); j++)
 				{
-					std::cout << "npc collided with testObj" << std::endl;
-					npcVector.at(i)->setColliding(true);
+					if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
+					{
+						//std::cout << "npc collided with testObj" << std::endl;
+						npcVector.at(i)->setColliding(true);
+					}
+					else npcVector.at(i)->setColliding(false);
 				}
 			}
 
