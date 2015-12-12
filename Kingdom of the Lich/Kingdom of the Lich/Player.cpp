@@ -7,14 +7,18 @@ Player::Player(sf::Font f) : font(f)
 	//load the correct texture or load the debug texture if something is wrong
 	if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
 	else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	mSprite.setTexture(mTexture);
+	setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
+	setTexture(mTexture);
 	setPosition(500, 400);
 
 	isRunning = false;
 
 	currentDirection = NOTMOVING;
 	lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything yet
+
+	boundingBox.setOutlineThickness(2);
+	boundingBox.setOutlineColor(sf::Color::Green);
+	boundingBox.setFillColor(sf::Color::Transparent);
 }
 
 //destructor
@@ -25,7 +29,10 @@ Player::~Player()
 
 void Player::Update()
 {
-
+	if (!colliding)//if we are not colliding with something
+	{
+		preCollisionPosition = getPosition();
+	}
 }
 
 //Set the player's texture based on their chosen race
@@ -38,8 +45,8 @@ void Player::setTextures()
 	else if(race == Dwarf)
 		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
 
-	mSprite.setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	mSprite.setTexture(mTexture);
+	setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
+	setTexture(mTexture);
 
 	//set up player's minimap icon
 	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
@@ -98,35 +105,16 @@ bool Player::CollisionWithChest(sf::Sprite chestSprite)
 	}
 }
 
-/*Check to see if the player is colliding with an npc*/
-bool Player::CollisionWithNpc(Npc* npc)
-{
-	/*If the player is colliding with an npc then lock the direction they are travelling in currently so that they can't move further*/
-	sf::Vector2f pos = getPosition();
-	if (npc->getGlobalBounds().contains(pos))
-	{
-		if (previousDirection != NOTMOVING)
-			lockedDirection = previousDirection;
-		return true;
-	}
-	else
-	{
-		lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything if they are not colliding
-		return false;
-	}
-}
-
-void Player::draw(sf::RenderTarget& window, sf::RenderStates state) const{}
-
-/*Draw the player*/
-void Player::draw(sf::RenderTarget& window)
-{
-	window.draw(mSprite, getTransform());
-}
-
 /*draw the player on the minimap*/
 void Player::MinimapDraw(sf::RenderTarget& window)
 {
 	window.draw(minimapSprite, getTransform());
 }
 
+void Player::DrawBoundingBox(sf::RenderTarget& window)
+{
+	boundingBox.setPosition(sf::Vector2f(getGlobalBounds().left, getGlobalBounds().top));
+	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
+	boundingBox.setRotation(getRotation());
+	window.draw(boundingBox);
+}

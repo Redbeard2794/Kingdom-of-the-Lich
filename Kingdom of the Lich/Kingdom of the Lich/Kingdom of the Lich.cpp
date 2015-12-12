@@ -346,12 +346,55 @@ int main()
 		/*Move onto the next npc tag*/
 		npc = npc->next_sibling("npc");
 	}
+	//houses
+	CollidableObject* house1 = new CollidableObject(500, 1050, 100, 100, true, false);
+	CollidableObject* house2 = new CollidableObject(500, 250, 100, 100, true, false);
+	CollidableObject* house3 = new CollidableObject(650, 250, 100, 100, true, false);
+	CollidableObject* house4 = new CollidableObject(800, 250, 100, 100, true, false);
+	CollidableObject* house5 = new CollidableObject(950, 250, 100, 100, true, false);
+	CollidableObject* house6 = new CollidableObject(1100, 250, 100, 100, true, false);
+	CollidableObject* house7 = new CollidableObject(1250, 250, 100, 100, true, false);
+	CollidableObject* house8 = new CollidableObject(1400, 250, 100, 100, true, false);
+	//walls
+	CollidableObject* wall1 = new CollidableObject(300, 200, 1400, 50, true, false);
+	CollidableObject* wall2 = new CollidableObject(200, 300, 50, 1400, true, false);
+	CollidableObject* wall3 = new CollidableObject(300, 1750, 1400, 50, true, false);
+	CollidableObject* wall4 = new CollidableObject(1750, 300, 50, 1400, true, false);
+	//towers
+	CollidableObject* tower1 = new CollidableObject(200, 200, 100, 100, true, false);
+	CollidableObject* tower2 = new CollidableObject(1700, 200, 100, 100, true, false);
+	CollidableObject* tower3 = new CollidableObject(200, 1700, 100, 100, true, false);
+	CollidableObject* tower4 = new CollidableObject(1700, 1700, 100, 100, true, false);
+	//forge
+	CollidableObject* forge = new CollidableObject(350, 1000, 100, 100, true, false);
+	//anvil
+	CollidableObject* anvil = new CollidableObject(363, 900, 20, 50, true, false);
 
-	CollidableObject* testObj = new CollidableObject(500, 250, 100, 100, true, false);
-	CollidableObject* testObj1 = new CollidableObject(650, 250, 100, 100, true, false);
 	std::vector<CollidableObject*> collidableObjects;
-	collidableObjects.push_back(testObj);
-	collidableObjects.push_back(testObj1);
+	collidableObjects.push_back(house1);
+	collidableObjects.push_back(house2);
+	collidableObjects.push_back(house3);
+	collidableObjects.push_back(house4);
+	collidableObjects.push_back(house5);
+	collidableObjects.push_back(house6);
+	collidableObjects.push_back(house7);
+	collidableObjects.push_back(house8);
+
+	collidableObjects.push_back(wall1);
+	collidableObjects.push_back(wall2);
+	collidableObjects.push_back(wall3);
+	collidableObjects.push_back(wall4);
+
+	collidableObjects.push_back(tower1);
+	collidableObjects.push_back(tower2);
+	collidableObjects.push_back(tower3);
+	collidableObjects.push_back(tower4);
+
+	collidableObjects.push_back(forge);
+
+	collidableObjects.push_back(anvil);
+
+	bool debugMode = true;
 
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
@@ -370,6 +413,9 @@ int main()
 			// Escape key : exit 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
+
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
+				debugMode = !debugMode;
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
 			{
@@ -936,38 +982,42 @@ int main()
 					audioManager->PlaySoundEffectById(3, true);
 				}
 
-				//check for collision between player and commander and update quest
-				if (p->CollisionWithNpc(npcVector.at(0)) == true && gamepad->A() == true)
-				{
-					if (testQuest->getCurrentStageIndex() == 0)
-					{
-						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'A' button" << std::endl;
-						testQuest->getCurrentStage()->setCompletionStatus(true);
-						testQuest->setCurrentStageIndex(1);
-					}
-				}
 				//check for collision between player and chest and update quest
-				if (p->CollisionWithChest(testChest->getSprite()) == true && gamepad->A() == true)
+				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()))
 				{
-					if (testChest->getOpened() == false)
+					if (gamepad->A() == true)
 					{
-						if (testQuest->getCurrentStageIndex() == 1)
+						if (testChest->getOpened() == false)
 						{
-							testChest->OpenChest(testInv);
-							testQuest->getCurrentStage()->setCompletionStatus(true);
-							testQuest->setCompletionStatus(true);
-							std::cout << "You completed your first quest!" << std::endl;
-							splashClock->restart();
-							audioManager->PlaySoundEffectById(4, true);
+							if (testQuest->getCurrentStageIndex() == 1)
+							{
+								testChest->OpenChest(testInv);
+								testQuest->getCurrentStage()->setCompletionStatus(true);
+								testQuest->setCompletionStatus(true);
+								std::cout << "You completed your first quest!" << std::endl;
+								splashClock->restart();
+								audioManager->PlaySoundEffectById(4, true);
+							}
+							else
+							{
+								std::cout << "You may not open this chest right now." << std::endl;
+								audioManager->PlaySoundEffectById(5, true);
+							}
 						}
-						else
-						{
-							std::cout << "You may not open this chest right now." << std::endl;
-							audioManager->PlaySoundEffectById(5, true);
-						}
+						else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 					}
-					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
+					p->setCollidingStatus(true);
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - testChest->getPosition().x)*(p->getPosition().x - testChest->getPosition().x))
+						+ ((p->getPosition().y - testChest->getPosition().y)*(p->getPosition().y - testChest->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - testChest->getPosition().x) / distance,
+						(p->getPosition().y - testChest->getPosition().y) / distance);
+					//move the player out of collision
+					p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
 				}
+				else p->setCollidingStatus(false);
+
 			}
 
 
@@ -994,38 +1044,43 @@ int main()
 					gState = INVENTORY;
 				}
 
-				//check for collision between player and commander and update quest
-				if (p->CollisionWithNpc(npcVector.at(0)) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
-				{
-					if (testQuest->getCurrentStageIndex() == 0)
-					{
-						std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'E'" << std::endl;
-						testQuest->getCurrentStage()->setCompletionStatus(true);
-						testQuest->setCurrentStageIndex(1);
-					}
-				}
 				//check for collision between player and chest and update quest
-				if (p->CollisionWithChest(testChest->getSprite()) == true && sf::Keyboard::isKeyPressed(sf::Keyboard::E))// , testInv);
+				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()))// , testInv);
 				{
-					if (testChest->getOpened() == false)
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 					{
-						if (testQuest->getCurrentStageIndex() == 1)
+						if (testChest->getOpened() == false)
 						{
-							testChest->OpenChest(testInv);
-							testQuest->getCurrentStage()->setCompletionStatus(true);
-							testQuest->setCompletionStatus(true);
-							std::cout << "You completed your first quest!" << std::endl;
-							splashClock->restart();
-							audioManager->PlaySoundEffectById(4, true);
+							if (testQuest->getCurrentStageIndex() == 1)
+							{
+								testChest->OpenChest(testInv);
+								testQuest->getCurrentStage()->setCompletionStatus(true);
+								testQuest->setCompletionStatus(true);
+								std::cout << "You completed your first quest!" << std::endl;
+								splashClock->restart();
+								audioManager->PlaySoundEffectById(4, true);
+							}
+							else
+							{
+								std::cout << "You may not open this chest right now." << std::endl;
+								audioManager->PlaySoundEffectById(5, true);
+							}
+
 						}
-						else
-						{
-							std::cout << "You may not open this chest right now." << std::endl;
-							audioManager->PlaySoundEffectById(5, true);
-						}
+						else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
 					}
-					else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
+					p->setCollidingStatus(true);
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - testChest->getPosition().x)*(p->getPosition().x - testChest->getPosition().x))
+						+ ((p->getPosition().y - testChest->getPosition().y)*(p->getPosition().y - testChest->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - testChest->getPosition().x) / distance,
+						(p->getPosition().y - testChest->getPosition().y) / distance);
+					//move the player out of collision
+					p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+				
 				}
+				else p->setCollidingStatus(false);
 			}
 
 			window.draw(map);
@@ -1034,8 +1089,10 @@ int main()
 			p->Update();
 
 			testChest->Update(p->getPosition());
-			testChest->draw(*pWindow);
+			window.draw(*testChest);
 			testChest->DrawHint(*pWindow);
+			if(debugMode)
+				testChest->DrawBoundingBox(window);
 			
 			//update and draw npcs
 			for (int i = 0; i < npcVector.size(); i++)
@@ -1043,26 +1100,97 @@ int main()
 				npcVector.at(i)->Update(p->getPosition());
 				window.draw(*npcVector.at(i));
 				npcVector.at(i)->draw(window);
-				npcVector.at(i)->DrawBoundingBox(window);
+				if (debugMode)
+					npcVector.at(i)->DrawBoundingBox(window);
+				if (npcVector.at(i)->CheckDistanceToPlayer() < 50)
+					npcVector.at(i)->setShowHint(true);
+				else npcVector.at(i)->setShowHint(false);
 			}
 			
-			p->draw(*pWindow);
+			window.draw(*p);
+			if (debugMode)
+				p->DrawBoundingBox(window);
+
 			for (int i = 0; i < collidableObjects.size(); i++)
 			{
 				window.draw(*collidableObjects.at(i));
 			}
+
+			//collision detection
+			//npcs and collidable objects
 			for (int i = 0; i < npcVector.size(); i++)
 			{
 				for (int j = 0; j < collidableObjects.size(); j++)
 				{
 					if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
 					{
-						//std::cout << "npc collided with testObj" << std::endl;
 						npcVector.at(i)->setColliding(true);
+						break;
 					}
 					else npcVector.at(i)->setColliding(false);
 				}
 			}
+			//player and collidable objects
+			for (int i = 0; i < collidableObjects.size(); i++)
+			{
+				if (p->getGlobalBounds().intersects(collidableObjects.at(i)->getGlobalBounds()))
+				{
+					p->setCollidingStatus(true);
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - collidableObjects.at(i)->getPosition().x)*(p->getPosition().x - collidableObjects.at(i)->getPosition().x))
+						+ ((p->getPosition().y - collidableObjects.at(i)->getPosition().y)*(p->getPosition().y - collidableObjects.at(i)->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - collidableObjects.at(i)->getPosition().x) / distance, 
+													(p->getPosition().y - collidableObjects.at(i)->getPosition().y) / distance);
+					//move the player out of collision
+					if(p->getPosition().x < collidableObjects.at(i)->getPosition().x || p->getPosition().x > collidableObjects.at(i)->getPosition().x)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 0));
+
+					else if(p->getPosition().y < collidableObjects.at(i)->getPosition().y || p->getPosition().y > collidableObjects.at(i)->getPosition().y)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 0, p->GetPreCollisionPosition().y + dir.y * 3));
+					break;
+				}
+				else p->setCollidingStatus(false);
+			}
+			//player and npcs
+			for (int i = 0; i < npcVector.size(); i++)
+			{
+				if (p->getGlobalBounds().intersects(npcVector.at(i)->getGlobalBounds()))
+				{
+					p->setCollidingStatus(true);
+					npcVector.at(i)->setColliding(true);
+
+					if (i == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					{
+						if (testQuest->getCurrentStageIndex() == 0)
+						{
+							std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'E'" << std::endl;
+							testQuest->getCurrentStage()->setCompletionStatus(true);
+							testQuest->setCurrentStageIndex(1);
+						}
+						
+					}
+
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - npcVector.at(i)->getPosition().x)*(p->getPosition().x - npcVector.at(i)->getPosition().x))
+						+ ((p->getPosition().y - npcVector.at(i)->getPosition().y)*(p->getPosition().y - npcVector.at(i)->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - npcVector.at(i)->getPosition().x) / distance,
+						(p->getPosition().y - npcVector.at(i)->getPosition().y) / distance);
+					//move the player out of collision
+					if(npcVector.at(i)->getBehaviour() != "follow")
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+
+					break;
+				}
+				else
+				{
+					p->setCollidingStatus(false);
+					npcVector.at(i)->setColliding(false);
+				}
+			}
+			
+
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
@@ -1113,7 +1241,7 @@ int main()
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
-			testChest->draw(*pWindow);
+			window.draw(*testChest);
 			
 			//draw npcs on minimap
 			for (int i = 0; i < npcVector.size(); i++)

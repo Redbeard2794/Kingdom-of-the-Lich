@@ -1,7 +1,7 @@
 #ifndef CHEST_H
 #define CHEST_H
 
-class Chest : public sf::Drawable, public sf::Transformable
+class Chest : public sf::Sprite
 {
 private:
 	sf::Sprite sprite;
@@ -16,6 +16,8 @@ private:
 
 	sf::Sprite interactHintSprite;
 	sf::Texture interactHintTexture;
+
+	sf::RectangleShape boundingBox;
 
 public:
 	/*Constructor*/
@@ -32,13 +34,10 @@ public:
 
 	void Update(sf::Vector2f playerPos);
 
-	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
-	
-	/*Draw*/
-	void draw(sf::RenderTarget& window);
-
 	//draw hint
 	void DrawHint(sf::RenderTarget& window);
+
+	void DrawBoundingBox(sf::RenderTarget& window);
 
 	//gets
 	std::string getKeyForStoredItem() { return keyForStoredItem; }

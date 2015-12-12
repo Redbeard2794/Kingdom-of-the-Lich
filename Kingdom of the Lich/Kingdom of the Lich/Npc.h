@@ -70,6 +70,10 @@ private:
 
 	sf::RectangleShape boundingBox;
 
+	float distanceToPlayer;
+
+	bool showHint;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
@@ -83,7 +87,8 @@ public:
 
 	void Update(sf::Vector2f playerPos);
 	
-	/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds*/
+	/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds.
+	If we collide with something, move out of collision and choose a new place to wander to*/
 	void Wander();
 
 	/*Walk around in a rectangle from the points set in the constructor*/
@@ -115,6 +120,10 @@ public:
 	bool IsColliding();
 
 	void setColliding(bool c);
+
+	float CheckDistanceToPlayer();
+
+	void setShowHint(bool s);
 };
 
 #endif

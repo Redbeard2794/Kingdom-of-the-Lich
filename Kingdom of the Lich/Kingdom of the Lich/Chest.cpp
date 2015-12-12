@@ -6,11 +6,15 @@ Chest::Chest(std::string itemKey, int quantity) : keyForStoredItem(itemKey), qua
 {
 	//set up the texture and sprite
 	texture.loadFromFile("Assets/Chests/plainChest.png");
-	sprite.setTexture(texture);
-	sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
-	sprite.setPosition(sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));//setPosition rather than sprite.setPosition?
+	setTexture(texture);
+	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+	setPosition(sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));//setPosition rather than sprite.setPosition?
 
 	opened = false;//The chest is not open yet
+
+	boundingBox.setOutlineThickness(2);
+	boundingBox.setOutlineColor(sf::Color::Yellow);
+	boundingBox.setFillColor(sf::Color::Transparent);
 }
 
 /*Destructor*/
@@ -53,13 +57,7 @@ void Chest::Update(sf::Vector2f playerPos)
 	if (distance < 25)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
-}
 
-void Chest::draw(sf::RenderTarget& window, sf::RenderStates state) const {}
-
-/*Draw*/
-void Chest::draw(sf::RenderTarget& window)
-{
 	//change the colour based in whether the chest is open or not
 	if (opened == true)
 	{
@@ -69,7 +67,6 @@ void Chest::draw(sf::RenderTarget& window)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 	}
-	window.draw(sprite, getTransform());
 }
 
 //draw hint
@@ -77,4 +74,12 @@ void Chest::DrawHint(sf::RenderTarget& window)
 {
 	if (interactHintSprite.getColor() == sf::Color::White)
 		window.draw(interactHintSprite);
+}
+
+void Chest::DrawBoundingBox(sf::RenderTarget & window)
+{
+	boundingBox.setPosition(sf::Vector2f(getGlobalBounds().left, getGlobalBounds().top));
+	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
+	boundingBox.setRotation(getRotation());
+	window.draw(boundingBox);
 }

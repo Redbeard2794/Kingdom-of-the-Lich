@@ -91,10 +91,14 @@ Npc::~Npc()
 void Npc::Update(sf::Vector2f playerPos)
 {
 	sf::Vector2f pos = getPosition();
-	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
+	distanceToPlayer = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
 	
 	//show the interaction hint sprite
-	if(distance < 25)
+	//if(distanceToPlayer < 50)
+	//	interactHintSprite.setColor(sf::Color::White);
+	//else interactHintSprite.setColor(sf::Color::Transparent);
+
+	if(showHint)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
 
@@ -139,12 +143,24 @@ void Npc::Update(sf::Vector2f playerPos)
 	}
 	else if (behaviour == "follow")
 	{
-		Follow(playerPos);
+		if (distanceToPlayer < 300 && colliding == false)// && colliding == false)
+		{
+			Follow(playerPos);
+		}
+		else
+		{
+			idle = true;
+			if (distanceToPlayer > 300 && colliding == true)
+			{
+				setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
+			}
+		}
 	}
 
 }
 
-/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds*/
+/*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds. 
+If we collide with something, move out of collision and choose a new place to wander to*/
 void Npc::Wander()
 {
 	if (behaviourClock.getElapsedTime().asSeconds() > timeBetweenWander)
@@ -173,7 +189,7 @@ void Npc::Wander()
 				unstickDir.x /= magnitudeOfDir;
 				unstickDir.y /= magnitudeOfDir;
 
-				setPosition(sf::Vector2f(getPosition().x + unstickDir.x*5, getPosition().y + unstickDir.y*5));
+				setPosition(sf::Vector2f(getPosition().x + unstickDir.x*3, getPosition().y + unstickDir.y*3));
 			}
 		}
 
@@ -359,25 +375,30 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 
 	direction.x /= length;
 	direction.y /= length;
-	if (!colliding)
+
+	//move left or right
+	if (getPosition().x > positionToFollow.x + 10 || getPosition().x < positionToFollow.x - 10)//let them get roughly close because we are dealing with floats so will never be exact
 	{
-		//move left or right
-		if (getPosition().x > positionToFollow.x + 10 || getPosition().x < positionToFollow.x - 10)//let them get roughly close because we are dealing with floats so will never be exact
+		if (!colliding)
 		{
 			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
 			direction.y = 0;
 		}
-		//move up or down
-		else if (getPosition().y > positionToFollow.y + 10 || getPosition().y < positionToFollow.y - 10)//let them get roughly close because we are dealing with floats so will never be exact
+	}
+	//move up or down
+	else if (getPosition().y > positionToFollow.y + 10 || getPosition().y < positionToFollow.y - 10)//let them get roughly close because we are dealing with floats so will never be exact
+	{
+		if (!colliding)
 		{
 			setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
 			direction.x = 0;
 		}
-		else
-		{
-			direction = sf::Vector2f(0, 0);
-		}
 	}
+	else
+	{
+		direction = sf::Vector2f(0, 0);
+	}
+
 	//sort out orientation here
 	if (direction.x > 0)
 	{
@@ -465,6 +486,7 @@ void Npc::DrawBoundingBox(sf::RenderTarget& window)
 {
 	boundingBox.setPosition(sf::Vector2f(getGlobalBounds().left, getGlobalBounds().top));
 	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
+	boundingBox.setRotation(getRotation());
 	window.draw(boundingBox);
 }
 
@@ -496,4 +518,14 @@ bool Npc::IsColliding()
 void Npc::setColliding(bool c)
 {
 	colliding = c;
+}
+
+float Npc::CheckDistanceToPlayer()
+{
+	return distanceToPlayer;
+}
+
+void Npc::setShowHint(bool s)
+{
+	showHint = s;
 }

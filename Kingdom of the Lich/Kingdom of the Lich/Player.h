@@ -2,7 +2,7 @@
 #define PLAYER_H
 #include "Compass.h"
 #include "Npc.h"
-class Player : public sf::Drawable, public sf::Transformable
+class Player : public sf::Sprite
 {
 private:
 	sf::Vector2f velocity;
@@ -61,6 +61,11 @@ private:
 	int previousDirection;
 	int lockedDirection;
 
+	sf::RectangleShape boundingBox;
+	sf::Vector2f preCollisionPosition;
+	bool colliding;
+	sf::Vector2f collisionSeparation;
+
 public:
 	//constructor(param is a font)
 	Player(sf::Font f);
@@ -79,13 +84,7 @@ public:
 	/*Check to see if the player is colliding with a chest*/
 	bool CollisionWithChest(sf::Sprite chestSprite);
 
-	/*Check to see if the player is colliding with an npc*/
-	bool CollisionWithNpc(Npc* npc);
-
-	void draw(sf::RenderTarget& window, sf::RenderStates state) const;
-
-	/*Draw the player*/
-	void Player::draw(sf::RenderTarget& window);
+	void DrawBoundingBox(sf::RenderTarget& window);
 
 	/*draw the player on the minimap*/
 	void MinimapDraw(sf::RenderTarget& window);
@@ -104,6 +103,9 @@ public:
 	int getCurrentDirection() { return currentDirection; }
 
 	int getPreviousDirection() { return previousDirection; }
+
+	bool IsColliding() { return colliding; }
+	sf::Vector2f GetPreCollisionPosition() { return preCollisionPosition; }
 	//end gets
 	//start sets
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
@@ -116,6 +118,9 @@ public:
 
 	void setCurrentDirection(int currDir) { currentDirection = currDir; }
 	void setPreviousDirection(int pDir) { previousDirection = pDir; }
+
+	void setCollidingStatus(bool c) { colliding = c; }
+	void setCollisionSeparation(sf::Vector2f sep) { collisionSeparation = sep; }
 	//end sets
 #pragma endregion
 
