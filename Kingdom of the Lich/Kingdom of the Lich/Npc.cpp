@@ -143,14 +143,14 @@ void Npc::Update(sf::Vector2f playerPos)
 	}
 	else if (behaviour == "follow")
 	{
-		if (distanceToPlayer < 300 && colliding == false)// && colliding == false)
+		if (distanceToPlayer < 300 && colliding == false)
 		{
 			Follow(playerPos);
 		}
 		else
 		{
 			idle = true;
-			if (distanceToPlayer > 300 && colliding == true)
+			if (distanceToPlayer > 300 || colliding == true)
 			{
 				setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
 			}
@@ -174,10 +174,9 @@ void Npc::Wander()
 		
 		if (distance > 0.5)//.5 because we are dealing with floats so will never get to the exact right position
 		{
-			if(!colliding)
-				setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
+
 			//if we are colliding with something then restart the clock and wander back to the previous place we were
-			else if(colliding)
+			if(colliding)
 			{
 				std::cout << "Resetting wander pos due to collision." << std::endl;
 				behaviourClock.restart();
@@ -191,6 +190,8 @@ void Npc::Wander()
 
 				setPosition(sf::Vector2f(getPosition().x + unstickDir.x*3, getPosition().y + unstickDir.y*3));
 			}
+			else if (!colliding)
+				setPosition(sf::Vector2f(getPosition().x + dir.x, getPosition().y + dir.y));
 		}
 
 		else

@@ -29,7 +29,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (!colliding)//if we are not colliding with something
+	if (!colliding && (getPosition().x != preCollisionPosition.x || getPosition().y != preCollisionPosition.y))//if we are not colliding with something
 	{
 		preCollisionPosition = getPosition();
 	}

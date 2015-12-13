@@ -953,24 +953,24 @@ int main()
 				else p->setIsRunning(false);
 
 				//move with d-pad
-				if (gamepad->DpadUp())
+				if (gamepad->DpadUp() && p->IsColliding() == false)
 					p->Move(0);
-				else if (gamepad->DpadDown())
+				else if (gamepad->DpadDown() && p->IsColliding() == false)
 					p->Move(1);
-				else if (gamepad->DpadRight())
+				else if (gamepad->DpadRight() && p->IsColliding() == false)
 					p->Move(2);
-				else if (gamepad->DpadLeft())
+				else if (gamepad->DpadLeft() && p->IsColliding() == false)
 					p->Move(3);
 				else p->setCurrentDirection(4);
 
 				//move with analog sticks
-				if (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+				if (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(2);
-				else if (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+				else if (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(3);
-				if (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+				if (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(0);
-				else if (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true)
+				else if (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(1);
 				else p->setCurrentDirection(4);
 
@@ -1028,13 +1028,13 @@ int main()
 					p->setIsRunning(true);
 				else { p->setIsRunning(false); }
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))//up
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && p->IsColliding() == false)//up
 					p->Move(0);
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))//down
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && p->IsColliding() == false)//down
 					p->Move(1);
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))//left
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && p->IsColliding() == false)//left
 					p->Move(3);
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))//right
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && p->IsColliding() == false)//right
 					p->Move(2);
 				else p->setCurrentDirection(4);
 
@@ -1125,6 +1125,7 @@ int main()
 					if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
 					{
 						npcVector.at(i)->setColliding(true);
+						std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
 						break;
 					}
 					else npcVector.at(i)->setColliding(false);
@@ -1136,18 +1137,28 @@ int main()
 				if (p->getGlobalBounds().intersects(collidableObjects.at(i)->getGlobalBounds()))
 				{
 					p->setCollidingStatus(true);
+
 					//get the distance between the player and the thing they hit
 					float distance = sqrtf((((p->getPosition().x - collidableObjects.at(i)->getPosition().x)*(p->getPosition().x - collidableObjects.at(i)->getPosition().x))
 						+ ((p->getPosition().y - collidableObjects.at(i)->getPosition().y)*(p->getPosition().y - collidableObjects.at(i)->getPosition().y))));
+					
 					//get the direction between them
 					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - collidableObjects.at(i)->getPosition().x) / distance, 
 													(p->getPosition().y - collidableObjects.at(i)->getPosition().y) / distance);
 					//move the player out of collision
-					if(p->getPosition().x < collidableObjects.at(i)->getPosition().x || p->getPosition().x > collidableObjects.at(i)->getPosition().x)
-						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 0));
+					if(p->getPosition().x < collidableObjects.at(i)->getPosition().x)// || p->getPosition().x > collidableObjects.at(i)->getPosition().x)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 6, p->GetPreCollisionPosition().y + dir.y));
+					
+					else if(p->getPosition().x > collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 6, p->GetPreCollisionPosition().y + dir.y));
 
-					else if(p->getPosition().y < collidableObjects.at(i)->getPosition().y || p->getPosition().y > collidableObjects.at(i)->getPosition().y)
-						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 0, p->GetPreCollisionPosition().y + dir.y * 3));
+					else if(p->getPosition().y < collidableObjects.at(i)->getPosition().y)// || p->getPosition().y > collidableObjects.at(i)->getPosition().y)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x, p->GetPreCollisionPosition().y + dir.y * 6));
+					
+					else if(p->getPosition().y > collidableObjects.at(i)->getPosition().y + collidableObjects.at(i)->getGlobalBounds().height)
+						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x, p->GetPreCollisionPosition().y + dir.y * 6));
+					//p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x*3, p->GetPreCollisionPosition().y + dir.y*3));
+
 					break;
 				}
 				else p->setCollidingStatus(false);
