@@ -150,7 +150,7 @@ void Npc::Update(sf::Vector2f playerPos)
 		else
 		{
 			idle = true;
-			if (distanceToPlayer > 300 || colliding == true)
+			if (colliding == true)
 			{
 				setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
 			}

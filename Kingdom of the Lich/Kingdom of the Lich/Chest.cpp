@@ -15,6 +15,8 @@ Chest::Chest(std::string itemKey, int quantity) : keyForStoredItem(itemKey), qua
 	boundingBox.setOutlineThickness(2);
 	boundingBox.setOutlineColor(sf::Color::Yellow);
 	boundingBox.setFillColor(sf::Color::Transparent);
+
+	showHint = false;
 }
 
 /*Destructor*/
@@ -39,7 +41,7 @@ void Chest::LoadInteractHintTexture(bool controllerHint)
 	}
 	interactHintSprite.setTexture(interactHintTexture);
 	interactHintSprite.setOrigin(interactHintTexture.getSize().x / 2, interactHintTexture.getSize().y / 2);
-	interactHintSprite.setPosition(sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y+30));
+	interactHintSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y+30));
 }
 
 /*Add the items contained in the chest to the inventory and open the chest*/
@@ -51,21 +53,26 @@ void Chest::OpenChest(Inventory* inv)
 
 void Chest::Update(sf::Vector2f playerPos)
 {
-	sf::Vector2f pos = sprite.getPosition();
+	sf::Vector2f pos = getPosition();
 	float distance = sqrtf((((pos.x - playerPos.x)*(pos.x - playerPos.x)) + ((pos.y - playerPos.y)*(pos.y - playerPos.y))));
 
-	if (distance < 25)
+	if (distance < 50)
+		showHint = true;
+	else showHint = false;
+
+
+	if (showHint)
 		interactHintSprite.setColor(sf::Color::White);
 	else interactHintSprite.setColor(sf::Color::Transparent);
 
 	//change the colour based in whether the chest is open or not
 	if (opened == true)
 	{
-		sprite.setColor(sf::Color(255, 255, 255, 127));
+		setColor(sf::Color(255, 255, 255, 127));
 	}
 	else
 	{
-		sprite.setColor(sf::Color(255, 255, 255, 255));
+		setColor(sf::Color(255, 255, 255, 255));
 	}
 }
 

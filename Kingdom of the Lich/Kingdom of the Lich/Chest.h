@@ -19,6 +19,8 @@ private:
 
 	sf::RectangleShape boundingBox;
 
+	bool showHint;
+
 public:
 	/*Constructor*/
 	Chest(std::string itemKey, int quantity);
@@ -43,6 +45,7 @@ public:
 	std::string getKeyForStoredItem() { return keyForStoredItem; }
 	sf::Sprite getSprite() { return sprite; }
 	bool getOpened() { return opened; }
+	void setShowHint(bool s) { showHint = s; }
 };
 
 #endif

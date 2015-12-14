@@ -22,7 +22,7 @@
 		<behaviour>stand</behaviour>
 	</npc>
 	
-	<npc name='Mankar'>
+	<npc name='Mankar Shamoran'>
 		<id>2</id>
 		<race>Elf</race>
 		<gender>Male</gender>

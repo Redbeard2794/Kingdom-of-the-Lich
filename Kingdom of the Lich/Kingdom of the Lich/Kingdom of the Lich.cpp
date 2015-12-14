@@ -45,7 +45,7 @@ int main()
 	tmx::TileMap map("Assets/tutorialArea.tmx");
 	tmx::TileMap lowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
-	map.ShowObjects(); // Display all the layer objects.
+	//map.ShowObjects(); // Display all the layer objects.
 
 	tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
 
@@ -1080,7 +1080,10 @@ int main()
 					p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
 				
 				}
-				else p->setCollidingStatus(false);
+				else
+				{
+					p->setCollidingStatus(false);
+				}
 			}
 
 			window.draw(map);
@@ -1125,12 +1128,17 @@ int main()
 					if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
 					{
 						npcVector.at(i)->setColliding(true);
-						std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
+						//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
 						break;
 					}
 					else npcVector.at(i)->setColliding(false);
 				}
 			}
+
+			if(npcVector.at(1)->IsColliding() == false)
+				std::cout << "Mankar Shamoran is not colliding" << std::endl;
+			else std::cout << "Mankar Shamoran is colliding" << std::endl;
+
 			//player and collidable objects
 			for (int i = 0; i < collidableObjects.size(); i++)
 			{
