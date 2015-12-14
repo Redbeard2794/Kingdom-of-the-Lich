@@ -268,7 +268,8 @@ int main()
 		std::string mapIconTexturePath = "";
 		float x = 0;
 		float y = 0;
-		bool hasQuest = false;
+		std::string hasQuest = "";
+		std::string interactable = "";
 		std::string behaviour = "";
 
 		/*Get the npc's name*/
@@ -333,12 +334,16 @@ int main()
 		std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
 		hasQuest = npc->first_node("hasQuest")->value();
 
+		/*Can the npc be interacted with?*/
+		std::cout << "Interactable: " << npc->first_node("interact")->value() << std::endl;
+		interactable = npc->first_node("interact")->value();
+
 		/*What behaviour do they have? e.g: wander, stand etc*/
 		std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
 		behaviour = npc->first_node("behaviour")->value();
 
 		/*Create the npc*/
-		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, behaviour, useController);
+		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, useController);
 		npcVector.push_back(n);
 		std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
 
@@ -1135,10 +1140,6 @@ int main()
 				}
 			}
 
-			if(npcVector.at(1)->IsColliding() == false)
-				std::cout << "Mankar Shamoran is not colliding" << std::endl;
-			else std::cout << "Mankar Shamoran is colliding" << std::endl;
-
 			//player and collidable objects
 			for (int i = 0; i < collidableObjects.size(); i++)
 			{
@@ -1205,7 +1206,7 @@ int main()
 				else
 				{
 					p->setCollidingStatus(false);
-					npcVector.at(i)->setColliding(false);
+					//npcVector.at(i)->setColliding(false);//this was causing the npcs to just ignore collisions!!!! need something along the line of this though to stop them getting stuck.
 				}
 			}
 			

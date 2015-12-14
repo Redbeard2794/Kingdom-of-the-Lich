@@ -4,8 +4,8 @@
 //name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath,
 	int numFrames, std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
-	sf::Vector2f pos, bool quest, std::string beh, bool controller)
-	: name(n), id(i), hasQuest(quest), behaviour(beh), numberOfFrames(numFrames)
+	sf::Vector2f pos, std::string quest, std::string interact, std::string beh, bool controller)
+	: name(n), id(i), behaviour(beh), numberOfFrames(numFrames)
 {
 	//load all idle textures
 	if (downIdleTexture.loadFromFile(idleDownPath)) { }
@@ -63,6 +63,14 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	boundingBox.setOutlineThickness(2);
 	boundingBox.setOutlineColor(sf::Color(20, 69, 247, 255));
 	boundingBox.setFillColor(sf::Color::Transparent);
+
+	if (interact == "true")
+		interactable = true;
+	else interactable = false;
+
+	if (quest == "true")
+		hasQuest = true;
+	else hasQuest = false;
 }
 
 //Load the correct texture for the interact hint
@@ -98,9 +106,12 @@ void Npc::Update(sf::Vector2f playerPos)
 	//	interactHintSprite.setColor(sf::Color::White);
 	//else interactHintSprite.setColor(sf::Color::Transparent);
 
-	if(showHint)
-		interactHintSprite.setColor(sf::Color::White);
-	else interactHintSprite.setColor(sf::Color::Transparent);
+	if (interactable == true)//if the npc is interactable
+	{
+		if (showHint)//and we are to show the hint
+			interactHintSprite.setColor(sf::Color::White);
+		else interactHintSprite.setColor(sf::Color::Transparent);
+	}
 
 	npcMinimapIcon.setPosition(getPosition());
 
@@ -473,7 +484,8 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 /*Draw the interaction hint sprite*/
 void Npc::draw(sf::RenderTarget& window)
 {
-	window.draw(interactHintSprite);
+	if(interactable)
+		window.draw(interactHintSprite);
 }
 
 /*Draw the npc on the minimap as an icon*/
