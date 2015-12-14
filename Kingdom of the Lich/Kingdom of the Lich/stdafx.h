@@ -42,6 +42,7 @@
 #include "Compass.h"
 #include "Menu.h"
 #include "ChooseRaceAndGenderMenu.h"
+#include "CombatMenu.h"
 #include "Gamepad.h"
 #include "ConfirmationDialogBox.h"
 #include "Inventory.h"

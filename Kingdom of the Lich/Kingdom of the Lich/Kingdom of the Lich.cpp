@@ -404,6 +404,8 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
 
+	CombatMenu* combatMenu = new CombatMenu();
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -421,6 +423,9 @@ int main()
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
 				debugMode = !debugMode;
+
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::C))
+				gState = COMBAT;
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
 			{
@@ -774,8 +779,8 @@ int main()
 				ConfirmationDialogBox::GetInstance()->Draw(window);
 
 
-				cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
-				window.draw(cursor);
+				//cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
+				//window.draw(cursor);
 
 			}
 
@@ -1275,7 +1280,7 @@ int main()
 			break;
 
 		case COMBAT:
-
+			combatMenu->Draw(window);
 			break;
 
 		case CONVERSATION:
