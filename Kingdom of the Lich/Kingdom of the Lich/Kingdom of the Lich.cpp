@@ -1313,6 +1313,44 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
+				else if (combatMenu->GetCurrentMenuState() == 1 || combatMenu->GetCurrentMenuState() == 2)
+				{
+					if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionDown();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionUp();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else combatMenu->setCanMove(true);
+				}
+
+				if (combatMenu->GetCurrentMenuState() != 0)
+				{
+					if (gamepad->B())
+					{
+						if(combatMenu->GetCurrentMenuState() == 1)
+							combatMenu->SetSelectorPosition(sf::Vector2f(225, SCREENHEIGHT - 70));
+						else if(combatMenu->GetCurrentMenuState() == 2)
+							combatMenu->SetSelectorPosition(sf::Vector2f(475, SCREENHEIGHT - 70));
+
+						combatMenu->SetCurrentMenuState(0);
+					}
+				}
+
 				if (gamepad->A() == true)
 				{
 					audioManager->PlaySoundEffectById(2, true);
@@ -1322,10 +1360,12 @@ int main()
 						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
 						{
 							combatMenu->SetCurrentMenuState(1);
+							combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
 						}
 						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
 						{
 							combatMenu->SetCurrentMenuState(2);
+							combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
 						}
 						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
 						{

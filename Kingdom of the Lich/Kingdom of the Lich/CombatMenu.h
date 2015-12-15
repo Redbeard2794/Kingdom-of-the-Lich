@@ -23,9 +23,15 @@ private:
 	sf::Texture attackPanelTexture;
 	sf::Sprite attackPanelSprite;
 
+	//possible attacks
+	std::vector<sf::Text*> attackOptions;//going with a vector here as more attacks will be added when the player learns them(in future of course!)
+
 	//items panel
 	sf::Texture itemPanelTexture;
 	sf::Sprite itemPanelSprite;
+
+	//possible items
+	std::vector<sf::Text*> itemOptions;//These are only items that are useful in combat. using a vector as I want to pull items in from the player's inventory in the future.
 
 	//possible menu states
 	enum MenuStates
@@ -49,6 +55,10 @@ public:
 
 	void MoveSelectionLeft();
 
+	void MoveSelectionUp();
+
+	void MoveSelectionDown();
+
 	/*Draw all elements of the menu*/
 	void Draw(sf::RenderTarget& window);
 
@@ -61,6 +71,10 @@ public:
 	int GetCurrentMenuState();
 
 	void SetCurrentMenuState(int newState);
+
+	void SetSelectorPosition(sf::Vector2f pos);
+
+	sf::Vector2f GetSelectorPosition();
 };
 
 #endif
