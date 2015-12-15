@@ -44,7 +44,7 @@
 		<behaviour>wander</behaviour>
 	</npc>
 	
-	<npc name='Blacksmith'>
+	<npc name='Eorlund the Blacksmith'>
 		<id>3</id>
 		<race>Dwarf</race>
 		<gender>Male</gender>
@@ -121,8 +121,8 @@
 		<walkLeftPath>Assets/Npcs/mageSheets/mageMoveLeftSheet.png</walkLeftPath>
 		<walkRightPath>Assets/Npcs/mageSheets/mageMoveRightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>900</x>
-		<y>800</y>
+		<x>700</x>
+		<y>1000</y>
 		<hasQuest>false</hasQuest>
     <interact>false</interact>
 		<behaviour>wander</behaviour>

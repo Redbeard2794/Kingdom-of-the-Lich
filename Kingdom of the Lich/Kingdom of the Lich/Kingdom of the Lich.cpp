@@ -404,7 +404,7 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
 
-	CombatMenu* combatMenu = new CombatMenu();
+	CombatMenu* combatMenu = new CombatMenu(font);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -946,6 +946,7 @@ int main()
 			break;
 
 		case GAME:
+			audioManager->FadeOutSound(0);
 			//update sf::View center position
 			player_view.setCenter(p->getPosition());
 
@@ -1126,7 +1127,8 @@ int main()
 
 			for (int i = 0; i < collidableObjects.size(); i++)
 			{
-				window.draw(*collidableObjects.at(i));
+				if(debugMode)
+					window.draw(*collidableObjects.at(i));
 			}
 
 			//collision detection
@@ -1280,6 +1282,108 @@ int main()
 			break;
 
 		case COMBAT:
+			window.setView(window.getDefaultView());
+
+			if (useController == true)//if we are using a controller
+			{
+				gamepad->CheckAllButtons();
+
+				if (combatMenu->GetCurrentMenuState() == 0)
+				{
+					if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionRight();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionLeft();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else combatMenu->setCanMove(true);
+				}
+
+				if (gamepad->A() == true)
+				{
+					audioManager->PlaySoundEffectById(2, true);
+
+					if (combatMenu->GetCurrentMenuState() == 0)
+					{
+						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+						{
+							combatMenu->SetCurrentMenuState(1);
+						}
+						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+						{
+							combatMenu->SetCurrentMenuState(2);
+						}
+						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
+						{
+							combatMenu->SetCurrentMenuState(3);
+						}
+					}
+				}
+			}
+
+			else//we are using a keyboard
+			{
+				if (combatMenu->GetCurrentMenuState() == 0)
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionRight();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					{
+						if (combatMenu->getCanMove() == true)
+						{
+							audioManager->PlaySoundEffectById(1, false);
+							combatMenu->MoveSelectionLeft();
+							combatMenu->setCanMove(false);
+						}
+					}
+
+					else combatMenu->setCanMove(true);
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				{
+					audioManager->PlaySoundEffectById(2, true);
+
+					if (combatMenu->GetCurrentMenuState() == 0)
+					{
+						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+						{
+							combatMenu->SetCurrentMenuState(1);
+						}
+						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+						{
+							combatMenu->SetCurrentMenuState(2);
+						}
+						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
+						{
+							combatMenu->SetCurrentMenuState(3);
+						}
+					}
+				}
+			}
+
 			combatMenu->Draw(window);
 			break;
 
