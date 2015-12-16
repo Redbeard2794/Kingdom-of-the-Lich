@@ -325,7 +325,7 @@ void Gamepad::leftStickMovement()
 			//optionally normalize the magnitude with respect to its expected range
 			//giving a magnitude value of 0.0 to 1.0
 			normalisedLeftStickMagnitude = leftStickMagnitude / (32767 - XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-			std::cout << "Normalised left stick axis: " << normalisedLeftStickAxis.x << ", " << normalisedLeftStickAxis.y << std::endl;
+			//std::cout << "Normalised left stick axis: " << normalisedLeftStickAxis.x << ", " << normalisedLeftStickAxis.y << std::endl;
 			leftStickOutOfDeadzone = true;
 		}
 		else leftStickOutOfDeadzone = false;

@@ -36,6 +36,7 @@
 #include "STP/TMXLoader.hpp"
 #include "AudioManager.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Hud.h"
 #include "Quest.h"
 #include "QuestStage.h"

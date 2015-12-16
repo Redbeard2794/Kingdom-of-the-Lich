@@ -2,7 +2,7 @@
 #include "CombatMenu.h"
 
 /*constructor*/
-CombatMenu::CombatMenu(sf::Font f) : font(f)
+CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
 {
 	backgroundTexture.loadFromFile("Assets/combatMoveSelectorBackground.png");
 	backgroundSprite.setTexture(backgroundTexture);
@@ -93,8 +93,28 @@ CombatMenu::CombatMenu(sf::Font f) : font(f)
 	item3->setPosition(sf::Vector2f(260, 125));
 	itemOptions.push_back(item3);
 
+	playerRepTexture.loadFromFile("Assets/Icons/goldskull.png");
+	playerRepSprite.setTexture(playerRepTexture);
+	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
+	playerRepSprite.setScale(5, 5);
+	playerRepSprite.setPosition(250, 350);
+
+	playerHealthText.setFont(font);
+	playerHealthText.setString("Health: ");
+	playerHealthText.setColor(sf::Color::Blue);
+	playerHealthText.setCharacterSize(30);
+	playerHealthText.setPosition(10, 400);
+
+	enemyTexture.loadFromFile(ePath);
+	enemySprite.setTexture(enemyTexture);
+	enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
+	enemySprite.setScale(5, 3);
+	enemySprite.setPosition(650, 225);
+
 	currentOption = 0;
 	canMove = true;
+
+	combatOver = false;
 }
 
 /*destructor*/
@@ -103,6 +123,7 @@ CombatMenu::~CombatMenu()
 
 }
 
+//move right through the menu(for choosing action)
 void CombatMenu::MoveSelectionRight()
 {
 	if (canMove == true)
@@ -119,6 +140,7 @@ void CombatMenu::MoveSelectionRight()
 	}
 }
 
+//move left through the menu(for choosing action)
 void CombatMenu::MoveSelectionLeft()
 {
 	if (canMove == true)
@@ -135,6 +157,7 @@ void CombatMenu::MoveSelectionLeft()
 	}
 }
 
+//move up through the menu(for choosing attack/item)
 void CombatMenu::MoveSelectionUp()
 {
 	int size = 0;
@@ -175,6 +198,7 @@ void CombatMenu::MoveSelectionUp()
 	}
 }
 
+//move down through the menu(for choosing attack/item)
 void CombatMenu::MoveSelectionDown()
 {
 	int size = 0;
@@ -216,13 +240,18 @@ void CombatMenu::MoveSelectionDown()
 }
 
 /*Draw all elements of the menu*/
-void CombatMenu::Draw(sf::RenderTarget & window)
+void CombatMenu::Draw(sf::RenderTarget & window, int playerHealth)
 {
 	window.draw(backgroundSprite);
 	for (int i = 0; i < 3; i++)
 	{
 		window.draw(menuItems[i]);
 	}
+
+	window.draw(playerRepSprite);
+	window.draw(playerHealthText);
+	playerHealthText.setString("Health: "+std::to_string(playerHealth));
+	window.draw(enemySprite);
 
 	if (currentState == SelectAction)
 	{
@@ -259,6 +288,8 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	}
 }
 
+/*gets & sets start*/
+
 int CombatMenu::getCurrentOption()
 {
 	return currentOption;
@@ -293,3 +324,15 @@ sf::Vector2f CombatMenu::GetSelectorPosition()
 {
 	return selectorSprite.getPosition();
 }
+
+bool CombatMenu::IsCombatOver()
+{
+	return combatOver;
+}
+
+void CombatMenu::setCombatOver(bool co)
+{
+	combatOver = co;
+}
+
+/*gets & sets end*/

@@ -19,6 +19,8 @@ Player::Player(sf::Font f) : font(f)
 	boundingBox.setOutlineThickness(2);
 	boundingBox.setOutlineColor(sf::Color::Green);
 	boundingBox.setFillColor(sf::Color::Transparent);
+
+	health = 100;
 }
 
 //destructor

@@ -33,6 +33,16 @@ private:
 	//possible items
 	std::vector<sf::Text*> itemOptions;//These are only items that are useful in combat. using a vector as I want to pull items in from the player's inventory in the future.
 
+	//player representation
+	sf::Texture playerRepTexture;
+	sf::Sprite playerRepSprite;
+
+	//player health
+	sf::Text playerHealthText;
+
+	sf::Texture enemyTexture;
+	sf::Sprite enemySprite;
+
 	//possible menu states
 	enum MenuStates
 	{
@@ -44,23 +54,31 @@ private:
 
 	int currentState = SelectAction;
 
+	bool combatOver;//is combat finished as a result of winning/losing or fleeing
+
 public:
 	/*constructor*/
-	CombatMenu(sf::Font f);
+	CombatMenu(sf::Font f, std::string ePath);
 
 	/*destructor*/
 	~CombatMenu();
 
+	//move right through the menu(for choosing action)
 	void MoveSelectionRight();
 
+	//move left through the menu(for choosing action)
 	void MoveSelectionLeft();
 
+	//move up through the menu(for choosing attack/item)
 	void MoveSelectionUp();
 
+	//move down through the menu(for choosing attack/item)
 	void MoveSelectionDown();
 
 	/*Draw all elements of the menu*/
-	void Draw(sf::RenderTarget& window);
+	void Draw(sf::RenderTarget& window, int playerHealth);
+
+	/*gets & sets start*/
 
 	int getCurrentOption();
 
@@ -75,6 +93,12 @@ public:
 	void SetSelectorPosition(sf::Vector2f pos);
 
 	sf::Vector2f GetSelectorPosition();
+
+	bool IsCombatOver();
+
+	void setCombatOver(bool co);
+
+	/*gets & sets end*/
 };
 
 #endif

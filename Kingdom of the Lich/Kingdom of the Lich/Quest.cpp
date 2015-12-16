@@ -18,6 +18,8 @@ Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vecto
 	stages.push_back(stageZero);
 	QuestStage* stageOne = new QuestStage("Retrieve items from chest", 1, sf::Vector2f(SCREENWIDTH/2, SCREENHEIGHT/2));
 	stages.push_back(stageOne);
+	QuestStage* stageTwo = new QuestStage("Combat Training", 2, sf::Vector2f(800, 1600));
+	stages.push_back(stageTwo);
 }
 
 Quest::~Quest()

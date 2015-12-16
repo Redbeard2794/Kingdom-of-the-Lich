@@ -404,7 +404,11 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
 
-	CombatMenu* combatMenu = new CombatMenu(font);
+	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 100, 20, 0, sf::Vector2f(800, 1600));
+
+	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png");
+
+
 
 	// Start game loop 
 	while (window.isOpen())
@@ -424,8 +428,8 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
 				debugMode = !debugMode;
 
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::C))
-				gState = COMBAT;
+			//if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::C))
+			//	gState = COMBAT;
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
 			{
@@ -1004,8 +1008,9 @@ int main()
 							{
 								testChest->OpenChest(testInv);
 								testQuest->getCurrentStage()->setCompletionStatus(true);
-								testQuest->setCompletionStatus(true);
-								std::cout << "You completed your first quest!" << std::endl;
+								//testQuest->setCompletionStatus(true);
+								testQuest->setCurrentStageIndex(2);
+								//std::cout << "You completed your first quest!" << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 							}
@@ -1066,8 +1071,9 @@ int main()
 							{
 								testChest->OpenChest(testInv);
 								testQuest->getCurrentStage()->setCompletionStatus(true);
-								testQuest->setCompletionStatus(true);
-								std::cout << "You completed your first quest!" << std::endl;
+								testQuest->setCurrentStageIndex(2);
+								//testQuest->setCompletionStatus(true);
+								//std::cout << "You completed your first quest!" << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 							}
@@ -1216,8 +1222,34 @@ int main()
 					//npcVector.at(i)->setColliding(false);//this was causing the npcs to just ignore collisions!!!! need something along the line of this though to stop them getting stuck.
 				}
 			}
-			
 
+			//player and enemy
+			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()))
+			{
+				p->setCollidingStatus(true);
+
+				if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true) && testQuest->getCurrentStageIndex() == 2)
+				{
+					gState = COMBAT;
+				}
+
+				//get the distance between the player and the thing they hit
+				float distance = sqrtf((((p->getPosition().x - testEnemy->getPosition().x)*(p->getPosition().x - testEnemy->getPosition().x))
+					+ ((p->getPosition().y - testEnemy->getPosition().y)*(p->getPosition().y - testEnemy->getPosition().y))));
+				//get the direction between them
+				sf::Vector2f dir = sf::Vector2f((p->getPosition().x - testEnemy->getPosition().x) / distance,
+					(p->getPosition().y - testEnemy->getPosition().y) / distance);
+				//move the player out of collision
+				p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+			}
+			else
+			{
+				p->setCollidingStatus(false);
+			}
+			
+			window.draw(*testEnemy);
+			if(debugMode)
+				testEnemy->DrawBoundingBox(window);
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
@@ -1269,7 +1301,7 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			window.draw(*testChest);
-			
+			window.draw(*testEnemy);
 			//draw npcs on minimap
 			for (int i = 0; i < npcVector.size(); i++)
 			{
@@ -1367,9 +1399,9 @@ int main()
 							combatMenu->SetCurrentMenuState(2);
 							combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
 						}
-						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
+						else if (combatMenu->getCurrentOption() == 2)//we are now choosing to flee
 						{
-							combatMenu->SetCurrentMenuState(3);
+							combatMenu->setCombatOver(true);
 						}
 					}
 				}
@@ -1411,20 +1443,28 @@ int main()
 						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
 						{
 							combatMenu->SetCurrentMenuState(1);
+							combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
 						}
 						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
 						{
 							combatMenu->SetCurrentMenuState(2);
+							combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
 						}
 						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
 						{
-							combatMenu->SetCurrentMenuState(3);
+							combatMenu->setCombatOver(true);
 						}
 					}
 				}
 			}
 
-			combatMenu->Draw(window);
+			if (combatMenu->IsCombatOver() == true)//if combat is over
+			{
+				combatMenu->setCombatOver(false);
+				gState = GAME;//return to free roam
+			}
+
+			combatMenu->Draw(window, p->getHealth());
 			break;
 
 		case CONVERSATION:
