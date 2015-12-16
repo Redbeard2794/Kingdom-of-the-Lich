@@ -58,3 +58,7 @@ training dummy
 http://opengameart.org/content/misc-dark-fantasy-scenery-sprites
 http://opengameart.org/users/gwes
 public domain
+
+battle temp background
+http://opengameart.org/content/tower-defense-grass-background
+http://opengameart.org/users/hassekf

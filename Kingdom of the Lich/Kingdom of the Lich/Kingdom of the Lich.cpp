@@ -404,7 +404,7 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
 
-	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 100, 20, 0, sf::Vector2f(800, 1600));
+	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 25, 20, 0, sf::Vector2f(800, 1600));
 
 	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png");
 
@@ -1272,19 +1272,22 @@ int main()
 			else if (splashClock->getElapsedTime().asSeconds() > 2.5 && splashClock->getElapsedTime().asSeconds() < 3)
 				moveHintSprite.setColor(sf::Color(255, 255, 255, 0));
 
-			if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
-				objective.setColor(sf::Color(0, 0, 0, 200));
-			else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
-				objective.setColor(sf::Color(0, 0, 0, 100));
-			else if (splashClock->getElapsedTime().asSeconds() > 6 && splashClock->getElapsedTime().asSeconds() < 7.5)
-				objective.setColor(sf::Color(0, 0, 0, 0));
+			if (testQuest->getCurrentStageIndex() == 0)
+			{
+				if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
+					objective.setColor(sf::Color(0, 0, 0, 200));
+				else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
+					objective.setColor(sf::Color(0, 0, 0, 100));
+				else if (splashClock->getElapsedTime().asSeconds() > 6 && splashClock->getElapsedTime().asSeconds() < 7.5)
+					objective.setColor(sf::Color(0, 0, 0, 0));
 
-			if (splashClock->getElapsedTime().asSeconds() < 3 && testQuest->getCompletionStatus() == false)
-				window.draw(moveHintSprite);
-			else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 8 && testQuest->getCompletionStatus() == false)
-				window.draw(objective);
+				if (splashClock->getElapsedTime().asSeconds() < 3 && testQuest->getCompletionStatus() == false)
+					window.draw(moveHintSprite);
+				else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 8 && testQuest->getCompletionStatus() == false)
+					window.draw(objective);
+			}
 
-			if (testQuest->getCompletionStatus() == true)
+			if (testQuest->getCurrentStageIndex() == 2)
 			{
 				window.draw(questCompletePopup);
 
@@ -1301,7 +1304,7 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			window.draw(*testChest);
-			window.draw(*testEnemy);
+			testEnemy->MinimapDraw(window);
 			//draw npcs on minimap
 			for (int i = 0; i < npcVector.size(); i++)
 			{
@@ -1461,10 +1464,13 @@ int main()
 			if (combatMenu->IsCombatOver() == true)//if combat is over
 			{
 				combatMenu->setCombatOver(false);
+				testQuest->getCurrentStage()->setCompletionStatus(true);
+				testQuest->setCompletionStatus(true);
 				gState = GAME;//return to free roam
 			}
 
-			combatMenu->Draw(window, p->getHealth());
+			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
+			combatMenu->Draw(window);
 			break;
 
 		case CONVERSATION:

@@ -51,6 +51,7 @@
 #include "QuestController.h"
 #include "Npc.h"
 #include "CollidableObject.h"
+#include "DamageCalculator.h"
 
 
 

@@ -43,6 +43,12 @@ private:
 	sf::Texture enemyTexture;
 	sf::Sprite enemySprite;
 
+	//enemy health
+	sf::Text enemyHealthText;
+
+	int playerCurrentHealth;
+	int enemyCurrentHealth;
+
 	//possible menu states
 	enum MenuStates
 	{
@@ -55,6 +61,18 @@ private:
 	int currentState = SelectAction;
 
 	bool combatOver;//is combat finished as a result of winning/losing or fleeing
+
+	sf::Texture combatBackgroundTexture;
+	sf::Sprite combatBackgroundSprite;
+
+	sf::Texture moveSelectionHintTexture;
+	sf::Sprite moveSelectionHintSprite;
+
+	sf::Texture selectHintTexture;
+	sf::Sprite selectHintSprite;
+
+	sf::Texture goBackHintTexture;
+	sf::Sprite goBackHintSprite;
 
 public:
 	/*constructor*/
@@ -75,8 +93,10 @@ public:
 	//move down through the menu(for choosing attack/item)
 	void MoveSelectionDown();
 
+	void Update(int playerHealth, int enemyHealth);
+
 	/*Draw all elements of the menu*/
-	void Draw(sf::RenderTarget& window, int playerHealth);
+	void Draw(sf::RenderTarget& window);
 
 	/*gets & sets start*/
 

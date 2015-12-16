@@ -111,10 +111,36 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
 	enemySprite.setScale(5, 3);
 	enemySprite.setPosition(650, 225);
 
+	
+	enemyHealthText.setFont(font);
+	enemyHealthText.setString("Health: ");
+	enemyHealthText.setColor(sf::Color::Red);
+	enemyHealthText.setCharacterSize(30);
+	enemyHealthText.setPosition(250, 100);
+
 	currentOption = 0;
 	canMove = true;
 
 	combatOver = false;
+
+	combatBackgroundTexture.loadFromFile("Assets/grass_template2.jpg");
+	combatBackgroundSprite.setTexture(combatBackgroundTexture);
+	combatBackgroundSprite.setPosition(0, 0);
+
+	moveSelectionHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
+	moveSelectionHintSprite.setTexture(moveSelectionHintTexture);
+	moveSelectionHintSprite.setScale(0.5, 0.4);
+	moveSelectionHintSprite.setPosition(50, 465);
+
+	selectHintTexture.loadFromFile("Assets/ControllerHints/pressAtoSelectHint.png");
+	selectHintSprite.setTexture(selectHintTexture);
+	selectHintSprite.setScale(0.7, 0.7);
+	selectHintSprite.setPosition(325, 465);
+
+	goBackHintTexture.loadFromFile("Assets/ControllerHints/pressBtoGoBack.png");
+	goBackHintSprite.setTexture(goBackHintTexture);
+	goBackHintSprite.setScale(0.7, 0.7);
+	goBackHintSprite.setPosition(600, 465);
 }
 
 /*destructor*/
@@ -239,19 +265,31 @@ void CombatMenu::MoveSelectionDown()
 	}
 }
 
-/*Draw all elements of the menu*/
-void CombatMenu::Draw(sf::RenderTarget & window, int playerHealth)
+void CombatMenu::Update(int playerHealth, int enemyHealth)
 {
+	playerCurrentHealth = playerHealth;
+	enemyCurrentHealth = enemyHealth;
+}
+
+/*Draw all elements of the menu*/
+void CombatMenu::Draw(sf::RenderTarget & window)
+{
+	window.draw(combatBackgroundSprite);
 	window.draw(backgroundSprite);
 	for (int i = 0; i < 3; i++)
 	{
 		window.draw(menuItems[i]);
 	}
+	window.draw(moveSelectionHintSprite);
+	window.draw(selectHintSprite);
+	window.draw(goBackHintSprite);
 
 	window.draw(playerRepSprite);
+	playerHealthText.setString("Health: " + std::to_string(playerCurrentHealth));
 	window.draw(playerHealthText);
-	playerHealthText.setString("Health: "+std::to_string(playerHealth));
 	window.draw(enemySprite);
+	enemyHealthText.setString("Health: " + std::to_string(enemyCurrentHealth));
+	window.draw(enemyHealthText);
 
 	if (currentState == SelectAction)
 	{

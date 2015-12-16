@@ -21,6 +21,10 @@ private:
 
 	sf::RectangleShape boundingBox;
 
+	//for representing the enemy on the minimap
+	sf::Texture minimapTexture;
+	sf::Sprite minimapSprite;
+
 public:
 	/*Constructor, params are assetPath, health, how rare the enemy is, the enemy type*/
 	Enemy(std::string assetPath, float h, float r, int t, sf::Vector2f pos);
@@ -29,6 +33,10 @@ public:
 
 	void DrawBoundingBox(sf::RenderTarget& window);
 
+	/*draw the enemy on the minimap*/
+	void MinimapDraw(sf::RenderTarget& window);
+
+	float GetHealth() { return health; }
 };
 
 #endif

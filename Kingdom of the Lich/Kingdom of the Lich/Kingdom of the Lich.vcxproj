@@ -158,6 +158,7 @@
     <ClInclude Include="CombatMenu.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="ConfirmationDialogBox.h" />
+    <ClInclude Include="DamageCalculator.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="Hud.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="CombatMenu.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="ConfirmationDialogBox.cpp" />
+    <ClCompile Include="DamageCalculator.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Hud.cpp" />
