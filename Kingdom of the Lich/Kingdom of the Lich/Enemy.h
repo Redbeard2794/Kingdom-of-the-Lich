@@ -37,6 +37,8 @@ public:
 	void MinimapDraw(sf::RenderTarget& window);
 
 	float GetHealth() { return health; }
+
+	void setHealth(float h) { health = h; }
 };
 
 #endif

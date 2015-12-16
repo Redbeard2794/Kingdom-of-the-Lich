@@ -74,6 +74,8 @@ private:
 	sf::Texture goBackHintTexture;
 	sf::Sprite goBackHintSprite;
 
+	bool canSelect;
+
 public:
 	/*constructor*/
 	CombatMenu(sf::Font f, std::string ePath);
@@ -117,6 +119,10 @@ public:
 	bool IsCombatOver();
 
 	void setCombatOver(bool co);
+
+	bool getCanSelect() { return canSelect; }
+
+	void setCanSelect(bool cas) { canSelect = cas; }
 
 	/*gets & sets end*/
 };

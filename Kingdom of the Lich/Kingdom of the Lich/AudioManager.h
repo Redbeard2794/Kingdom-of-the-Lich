@@ -30,6 +30,9 @@ private:
 	sf::SoundBuffer chestLockedSoundBuffer;
 	sf::Sound chestLockedSound;
 
+	sf::SoundBuffer crunchSoundBuffer;
+	sf::Sound crunchSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 

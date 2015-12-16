@@ -10,7 +10,7 @@ public:
 
 	~DamageCalculator();
 
-	int CalculateDamage(int damageDealth, int healthToDecrease);
+	int CalculateDamage(int damageDealt, int healthToDecrease);
 };
 
 #endif

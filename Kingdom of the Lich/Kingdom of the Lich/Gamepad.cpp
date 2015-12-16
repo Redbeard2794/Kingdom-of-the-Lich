@@ -78,7 +78,7 @@ void Gamepad::CheckADown()
 			if (aPressed == false)
 			{
 				aPressed = true;
-				std::cout << "A down" << std::endl;
+				//std::cout << "A down" << std::endl;
 			}
 		}
 		else aPressed = false;
@@ -94,7 +94,7 @@ void Gamepad::CheckBDown()
 			if (bPressed == false)
 			{
 				bPressed = true;
-				std::cout << "B down" << std::endl;
+				//std::cout << "B down" << std::endl;
 			}
 		}
 		else bPressed = false;
@@ -110,7 +110,7 @@ void Gamepad::CheckXDown()
 			if (xPressed == false)
 			{
 				xPressed = true;
-				std::cout << "X down" << std::endl;
+				//std::cout << "X down" << std::endl;
 			}
 		}
 		else xPressed = false;
@@ -126,7 +126,7 @@ void Gamepad::CheckYDown()
 			if (yPressed == false)
 			{
 				yPressed = true;
-				std::cout << "Y down" << std::endl;
+				//std::cout << "Y down" << std::endl;
 			}
 		}
 		else yPressed = false;
@@ -142,7 +142,7 @@ void Gamepad::CheckDpadUp()
 			if (upPressed == false)
 			{
 				upPressed = true;
-				std::cout << "Dpad up pressed" << std::endl;
+				//std::cout << "Dpad up pressed" << std::endl;
 			}
 		}
 		else upPressed = false;
@@ -158,7 +158,7 @@ void Gamepad::CheckDpadDown()
 			if (downPressed == false)
 			{
 				downPressed = true;
-				std::cout << "Dpad down pressed" << std::endl;
+				//std::cout << "Dpad down pressed" << std::endl;
 			}
 		}
 		else downPressed = false;
@@ -174,7 +174,7 @@ void Gamepad::CheckDpadRight()
 			if (rightPressed == false)
 			{
 				rightPressed = true;
-				std::cout << "Dpad right pressed" << std::endl;
+				//std::cout << "Dpad right pressed" << std::endl;
 			}
 		}
 		else rightPressed = false;
@@ -190,7 +190,7 @@ void Gamepad::CheckDpadLeft()
 			if (leftPressed == false)
 			{
 				leftPressed = true;
-				std::cout << "Dpad left pressed" << std::endl;
+				//std::cout << "Dpad left pressed" << std::endl;
 			}
 		}
 		else leftPressed = false;
@@ -206,7 +206,7 @@ void Gamepad::CheckRB()
 			if (rbPressed == false)
 			{
 				rbPressed = true;
-				std::cout << "RB down" << std::endl;
+				//std::cout << "RB down" << std::endl;
 			}
 		}
 		else rbPressed = false;
@@ -222,7 +222,7 @@ void Gamepad::CheckLB()
 			if (lbPressed == false)
 			{
 				lbPressed = true;
-				std::cout << "LB down" << std::endl;
+				//std::cout << "LB down" << std::endl;
 			}
 		}
 		else lbPressed = false;
@@ -238,7 +238,7 @@ void Gamepad::CheckStart()
 			if (startPressed == false)
 			{
 				startPressed = true;
-				std::cout << "Start down" << std::endl;
+				//std::cout << "Start down" << std::endl;
 			}
 		}
 		else startPressed = false;
@@ -254,7 +254,7 @@ void Gamepad::CheckBack()
 			if (backPressed == false)
 			{
 				backPressed = true;
-				std::cout << "Back down" << std::endl;
+				//std::cout << "Back down" << std::endl;
 			}
 		}
 		else backPressed = false;
@@ -270,7 +270,7 @@ void Gamepad::CheckRT()
 			if (rtPressed == false) 
 			{
 				rtPressed = true;
-				std::cout << "RT pressed" << std::endl;
+				//std::cout << "RT pressed" << std::endl;
 			}
 		}
 		else rtPressed = false;
@@ -286,7 +286,7 @@ void Gamepad::CheckLT()
 			if (ltPressed == false)
 			{
 				ltPressed = true;
-				std::cout << "LT pressed" << std::endl;
+				//std::cout << "LT pressed" << std::endl;
 			}
 		}
 		else ltPressed = false;

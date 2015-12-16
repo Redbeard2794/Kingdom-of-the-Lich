@@ -45,6 +45,10 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/interactionSounds/chestSounds/Key Jiggle.wav'" << std::endl;
 	chestLockedSound.setBuffer(chestLockedSoundBuffer);
 
+	if (crunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/impactcrunch03.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/impactcrunch03.wav'" << std::endl;
+	crunchSound.setBuffer(crunchSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -52,6 +56,7 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&inventoryOpenSound);//3
 	soundEffects.push_back(&chestOpenSound);//4
 	soundEffects.push_back(&chestLockedSound);//5
+	soundEffects.push_back(&crunchSound);//6
 }
 
 //destructor

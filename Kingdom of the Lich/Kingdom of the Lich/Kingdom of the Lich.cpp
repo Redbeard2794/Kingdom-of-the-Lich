@@ -408,7 +408,9 @@ int main()
 
 	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png");
 
+	DamageCalculator* damageCalc = new DamageCalculator();
 
+	
 
 	// Start game loop 
 	while (window.isOpen())
@@ -1224,7 +1226,7 @@ int main()
 			}
 
 			//player and enemy
-			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()))
+			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()) && testEnemy->GetHealth() > 0)
 			{
 				p->setCollidingStatus(true);
 
@@ -1247,9 +1249,12 @@ int main()
 				p->setCollidingStatus(false);
 			}
 			
-			window.draw(*testEnemy);
-			if(debugMode)
-				testEnemy->DrawBoundingBox(window);
+			if (testEnemy->GetHealth() > 0)
+			{
+				window.draw(*testEnemy);
+				if (debugMode)
+					testEnemy->DrawBoundingBox(window);
+			}
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
@@ -1304,7 +1309,8 @@ int main()
 			minimap.setCenter(p->getPosition());
 			window.draw(lowPolyMap);
 			window.draw(*testChest);
-			testEnemy->MinimapDraw(window);
+			if(testEnemy->GetHealth() > 0)
+				testEnemy->MinimapDraw(window);
 			//draw npcs on minimap
 			for (int i = 0; i < npcVector.size(); i++)
 			{
@@ -1389,26 +1395,41 @@ int main()
 				if (gamepad->A() == true)
 				{
 					audioManager->PlaySoundEffectById(2, true);
+					
 
-					if (combatMenu->GetCurrentMenuState() == 0)
-					{
-						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+						if (combatMenu->GetCurrentMenuState() == 0)
 						{
-							combatMenu->SetCurrentMenuState(1);
-							combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
+							if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+							{
+								combatMenu->SetCurrentMenuState(1);
+								combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
+							}
+							else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+							{
+								combatMenu->SetCurrentMenuState(2);
+								combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
+							}
+							else if (combatMenu->getCurrentOption() == 2)//we are now choosing to flee
+							{
+								combatMenu->setCombatOver(true);
+							}
 						}
-						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+						else if (combatMenu->GetCurrentMenuState() == 1 && combatMenu->getCanSelect() == true)
 						{
-							combatMenu->SetCurrentMenuState(2);
-							combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
+							combatMenu->SetCurrentMenuState(0);
+							combatMenu->SetSelectorPosition(sf::Vector2f(225, SCREENHEIGHT - 70));
+							while (testEnemy->GetHealth() != 0)
+							{
+								testEnemy->setHealth(testEnemy->GetHealth() - 0.5f);
+							}
+
 						}
-						else if (combatMenu->getCurrentOption() == 2)//we are now choosing to flee
-						{
-							combatMenu->setCombatOver(true);
-						}
+
+						combatMenu->setCanSelect(false);
 					}
-				}
+				else combatMenu->setCanSelect(true);
 			}
+			
 
 			else//we are using a keyboard
 			{
@@ -1459,6 +1480,12 @@ int main()
 						}
 					}
 				}
+			}
+
+			if (testEnemy->GetHealth() <= 0)
+			{
+				combatMenu->setCombatOver(true);
+				audioManager->PlaySoundEffectById(6, true);
 			}
 
 			if (combatMenu->IsCombatOver() == true)//if combat is over

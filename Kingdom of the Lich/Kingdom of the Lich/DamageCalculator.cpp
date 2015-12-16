@@ -11,7 +11,7 @@ DamageCalculator::~DamageCalculator()
 
 }
 
-int DamageCalculator::CalculateDamage(int damageDealth, int healthToDecrease)
+int DamageCalculator::CalculateDamage(int damageDealt, int healthToDecrease)
 {
-	return 0;
+	return healthToDecrease - damageDealt;
 }

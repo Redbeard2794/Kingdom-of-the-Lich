@@ -141,6 +141,8 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
 	goBackHintSprite.setTexture(goBackHintTexture);
 	goBackHintSprite.setScale(0.7, 0.7);
 	goBackHintSprite.setPosition(600, 465);
+
+	canSelect = false;
 }
 
 /*destructor*/
@@ -250,7 +252,7 @@ void CombatMenu::MoveSelectionDown()
 			selectorSprite.setPosition(selectorSprite.getPosition().x, selectorSprite.getPosition().y + 45);
 		}
 
-		for (int i = 0; i < attackOptions.size(); i++)
+		for (int i = 0; i < size; i++)
 		{
 			if (currentState == SelectAttack)
 				attackOptions.at(i)->setColor(sf::Color::Blue);
