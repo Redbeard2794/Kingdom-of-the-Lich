@@ -65,3 +65,6 @@ http://opengameart.org/users/hassekf
 
 crack sound for statue fight
 http://opengameart.org/content/5-break-crunch-impacts
+
+thunder clap from splash screen
+http://opengameart.org/content/rockbreaking

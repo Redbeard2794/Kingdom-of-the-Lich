@@ -33,6 +33,9 @@ private:
 	sf::SoundBuffer crunchSoundBuffer;
 	sf::Sound crunchSound;
 
+	sf::SoundBuffer thunderClapSoundBuffer;
+	sf::Sound thunderClap;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 

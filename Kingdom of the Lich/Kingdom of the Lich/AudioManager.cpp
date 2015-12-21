@@ -8,8 +8,8 @@ AudioManager::AudioManager()
 	//load music, well partial load I suppose....
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
-	openingMusic.setLoop(false);
-	openingMusic.setVolume(30);
+	openingMusic.setLoop(true);
+	openingMusic.setVolume(40);
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
@@ -49,6 +49,10 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/impactcrunch03.wav'" << std::endl;
 	crunchSound.setBuffer(crunchSoundBuffer);
 
+	if (thunderClapSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/rock_breaking.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/rock_breaking.wav'" << std::endl;
+	thunderClap.setBuffer(thunderClapSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -57,6 +61,7 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&chestOpenSound);//4
 	soundEffects.push_back(&chestLockedSound);//5
 	soundEffects.push_back(&crunchSound);//6
+	soundEffects.push_back(&thunderClap);//7
 }
 
 //destructor

@@ -33,6 +33,8 @@
 //using std::thread;
 
 //project headers
+#include "SplashScreen.h"
+#include "Credits.h"
 #include "STP/TMXLoader.hpp"
 #include "AudioManager.h"
 #include "Player.h"

@@ -85,12 +85,7 @@ int main()
 
 	//text by cooltext.com
 	//splash screen
-	sf::Sprite startup;
-	sf::Texture startupTexture;
-	startupTexture.loadFromFile("Assets/Splash Screen/startScreenIcon.png");
-	startup.setTexture(startupTexture);
-	startup.setScale(sf::Vector2f(.5f, .5f));
-	startup.setPosition(85, 260);
+	SplashScreen* splashScreen = new SplashScreen();
 
 	//clock for fading stuff in and out and changing colours
 	sf::Clock* splashClock = new sf::Clock();
@@ -179,16 +174,9 @@ int main()
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 
-
-	//testing npc
-	//Npc* CommanderIronArm = new Npc("Commander Iron-Arm", 1, sf::Vector2f(1000, 1000));
-	//CommanderIronArm->LoadInteractHintTexture(useController);
-
-
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
-
 
 	//hint for showing the player how to walk around
 	sf::Texture moveHintTexture;
@@ -410,7 +398,10 @@ int main()
 
 	DamageCalculator* damageCalc = new DamageCalculator();
 
-	
+	//played the splash screen sound effect?
+	bool playedSplashSound = false;
+
+	Credits* credits = new Credits();
 
 	// Start game loop 
 	while (window.isOpen())
@@ -454,23 +445,28 @@ int main()
 		switch (gState)
 		{
 		case SPLASH:
-			window.draw(startup);
+			splashScreen->Update();
+			splashScreen->Draw(window);
 			window.draw(splashHintSprite);
 			window.draw(splashHintText1);
 
-			//change the colour of the splash image based on time
+			//flash the hint
 			if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 2)
 			{
-				startup.setColor(sf::Color::Blue);
 				splashHintSprite.setColor(sf::Color::Transparent);
 				splashHintText1.setColor(sf::Color::Transparent);
 			}
 			else if (splashClock->getElapsedTime().asSeconds() > 2)
 			{
-				startup.setColor(sf::Color::White);
 				splashHintSprite.setColor(sf::Color::White);
 				splashHintText1.setColor(sf::Color::White);
 				splashClock->restart();
+			}
+
+			if (splashScreen->isSummoned() && playedSplashSound == false)
+			{
+				audioManager->PlaySoundEffectById(7, true);
+				playedSplashSound = true;
 			}
 			
 			//if the player is using a controller
@@ -502,7 +498,7 @@ int main()
 
 		case MAINMENU:
 			mainMenu->Draw(window);
-
+			audioManager->FadeOutSound(7);
 			//if the player is using keyboard and mouse
 			if (useController == false)
 			{
@@ -1522,7 +1518,21 @@ int main()
 			break;
 
 		case CREDITS:
+			credits->Update();
+			credits->Draw(window);
 
+			if (useController)
+			{
+				gamepad->CheckAllButtons();
+				if (gamepad->B())
+					gState = MAINMENU;
+			}
+
+			else
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
+					gState = MAINMENU;
+			}
 			break;
 		}
 
