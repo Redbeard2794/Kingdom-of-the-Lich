@@ -2,34 +2,38 @@
 #include "CombatMenu.h"
 
 /*constructor*/
-CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
+CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 {
-	backgroundTexture.loadFromFile("Assets/combatMoveSelectorBackground.png");
+	screenW = sw;
+	screenH = sh;
+
+	if (backgroundTexture.loadFromFile("Assets/Combat/moveSelectorBackground/combatMoveSelectorBackground" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")) {}
+	else backgroundTexture.loadFromFile("Assets/Combat/moveSelectorBackground/combatMoveSelectorBackground.png");
 	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setPosition(0, SCREENHEIGHT - backgroundTexture.getSize().y);
+	backgroundSprite.setPosition(0, screenH - backgroundTexture.getSize().y);
 
 	menuItems[0].setFont(font);
 	menuItems[0].setString("Fight");
 	menuItems[0].setColor(sf::Color::Red);
 	menuItems[0].setCharacterSize(40);
-	menuItems[0].setPosition(sf::Vector2f(100, SCREENHEIGHT - 100));
+	menuItems[0].setPosition(sf::Vector2f(screenW / 8, screenH - 125));
 
 	menuItems[1].setFont(font);
 	menuItems[1].setString("Items");
 	menuItems[1].setColor(sf::Color::Blue);
 	menuItems[1].setCharacterSize(40);
-	menuItems[1].setPosition(sf::Vector2f(350, SCREENHEIGHT - 100));
+	menuItems[1].setPosition(sf::Vector2f(screenW / 2.1, screenH - 125));
 
 	menuItems[2].setFont(font);
 	menuItems[2].setString("Flee");
 	menuItems[2].setColor(sf::Color::Blue);
 	menuItems[2].setCharacterSize(40);
-	menuItems[2].setPosition(sf::Vector2f(650, SCREENHEIGHT - 100));
+	menuItems[2].setPosition(sf::Vector2f(screenW / 1.2, screenH - 125));
 
 	selectorTexture.loadFromFile("Assets/combatUiSelector.png");
 	selectorSprite.setTexture(selectorTexture);
 	selectorSprite.setOrigin(selectorTexture.getSize().x / 2, selectorTexture.getSize().y / 2);
-	selectorSprite.setPosition(225, SCREENHEIGHT - 70);
+	selectorSprite.setPosition(screenW / 2.5, screenH - 110);//225
 
 	//attack panel
 	attackPanelTexture.loadFromFile("Assets/attackSelectionPanel.png");
@@ -97,7 +101,7 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
 	playerRepSprite.setTexture(playerRepTexture);
 	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
 	playerRepSprite.setScale(5, 5);
-	playerRepSprite.setPosition(250, 350);
+	playerRepSprite.setPosition(screenW / 6, screenH / 3);
 
 	playerHealthText.setFont(font);
 	playerHealthText.setString("Health: ");
@@ -123,9 +127,12 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath) : font(f)
 
 	combatOver = false;
 
-	combatBackgroundTexture.loadFromFile("Assets/grass_template2.jpg");
+	if(combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/grass/grass" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")){}
+	else combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/grass/grass_template2.jpg");
 	combatBackgroundSprite.setTexture(combatBackgroundTexture);
 	combatBackgroundSprite.setPosition(0, 0);
+
+	//hints
 
 	moveSelectionHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
 	moveSelectionHintSprite.setTexture(moveSelectionHintTexture);

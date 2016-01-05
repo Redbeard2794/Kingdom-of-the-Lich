@@ -2,18 +2,23 @@
 #include "Compass.h"
 
 //constructor
-Compass::Compass()
+Compass::Compass(int sW, int sH, float yPos)
 {
+	screenW = sW;
+	screenH = sH;
 	//load the correct texture or load the debug texture if something is wrong
-	if (bodyTexture.loadFromFile("Assets/Compass/Compass.png")) {}
+	if (bodyTexture.loadFromFile("Assets/Compass/body/compass1366x768.png")) {}
 	else bodyTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	compassBody.setOrigin(sf::Vector2f(bodyTexture.getSize().x / 2, bodyTexture.getSize().y / 2));
 	compassBody.setTexture(bodyTexture);
+	//compassBody.scale(1.4, 1.4);
+	setPosition(screenW / 2, yPos);
 
 	if (needleTexture.loadFromFile("Assets/Compass/CompassNeedle.png")) {}
 	else needleTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	needle.setOrigin(sf::Vector2f(needleTexture.getSize().x, needleTexture.getSize().y / 2));
 	needle.setTexture(needleTexture);
+	needle.scale(2, 2);
 	needle.setPosition(sf::Vector2f(getPosition().x,getPosition().y-25));
 }
 
@@ -26,7 +31,6 @@ Compass::~Compass()
 //update the direction the compass needle is pointing in
 void Compass::UpdateNeedle(sf::Vector2f playerPos, sf::Vector2f objectivePos)
 {
-	setPosition(750, 550);
 	needle.setPosition(getPosition());
 
 	//update the orientation of the needle

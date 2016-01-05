@@ -5,7 +5,7 @@ class ChooseRaceAndGenderMenu
 {
 public:
 	//Constructor(params are font and whether to show controller hints or keyboard hints)
-	ChooseRaceAndGenderMenu(sf::Font f, bool controller);
+	ChooseRaceAndGenderMenu(sf::Font f, bool controller, int screenW, int screenH);
 
 	//destructor
 	~ChooseRaceAndGenderMenu();

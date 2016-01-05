@@ -5,7 +5,7 @@ class Compass : public sf::Drawable, public sf::Transformable
 {
 public:
 	//constructor
-	Compass();
+	Compass(int sW, int sH, float yPos);
 	//destructor
 	~Compass();
 
@@ -23,6 +23,9 @@ private:
 	//sprite and texture for compass needle
 	sf::Sprite needle;
 	sf::Texture needleTexture;
+
+	int screenW;
+	int screenH;
 
 };
 

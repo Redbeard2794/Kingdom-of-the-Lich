@@ -2,7 +2,7 @@
 #include "SplashScreen.h"
 
 /*constructor*/
-SplashScreen::SplashScreen()
+SplashScreen::SplashScreen(float screenW, float screenH)
 {
 	summoned = false;
 
@@ -10,7 +10,7 @@ SplashScreen::SplashScreen()
 	nameTexture.loadFromFile("Assets/Splash Screen/startScreenIcon.png");
 	nameSprite.setTexture(nameTexture);
 	nameSprite.setScale(sf::Vector2f(.5f, .5f));
-	nameSprite.setPosition(85, 250);
+	nameSprite.setPosition(screenW/3.75, 250);//85
 
 	//summoning circle
 	summoningCircleTexture;
@@ -18,14 +18,14 @@ SplashScreen::SplashScreen()
 	summoningCircleSprite.setTexture(summoningCircleTexture);
 	summoningCircleSprite.setOrigin(summoningCircleTexture.getSize().x / 2, summoningCircleTexture.getSize().y / 2);
 	summoningCircleSprite.setScale(0.5f, 0.5f);
-	summoningCircleSprite.setPosition(SCREENWIDTH / 2, 275);
+	summoningCircleSprite.setPosition(screenW / 2, 275);
 
 	//fireball
 	fireballTexture.loadFromFile("Assets/Splash Screen/VioletFireBallSheet.png");
 	fireballSprite.setTexture(fireballTexture);
 	fireballSprite.setOrigin(fireballTexture.getSize().x / 2, fireballTexture.getSize().y / 2);
 	
-	fireballSprite.setPosition(675, 275);
+	fireballSprite.setPosition(screenW / 1.42, 275);//675
 	fireballSprite.setScale(4, 4);
 
 	//set up the fireball texture rectangle
@@ -56,10 +56,10 @@ SplashScreen::SplashScreen()
 		candles[i].setScale(7, 7);
 		candles[i].setTextureRect(candlesFrame);
 	}
-	candles[0].setPosition(200, 100);
-	candles[1].setPosition(650, 100);
-	candles[2].setPosition(200, 400);
-	candles[3].setPosition(650, 400);
+	candles[0].setPosition(screenW / 3, 100);//200
+	candles[1].setPosition(screenW / 2 + 275, 100);//650
+	candles[2].setPosition(screenW / 3, 400);//200
+	candles[3].setPosition(screenW / 2 + 275, 400);//650
 }
 
 /*destructor*/

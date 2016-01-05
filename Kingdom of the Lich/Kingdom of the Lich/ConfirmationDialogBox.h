@@ -46,6 +46,9 @@ private:
 	sf::Texture mouseSelectHintTexture;
 	sf::Text mouseSelectHintText;
 
+	int screenW;
+	int screenH;
+
 	//constructor is private as it is a singleton
 	ConfirmationDialogBox()
 	{
@@ -53,27 +56,27 @@ private:
 		else backgroundTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 		backgroundSprite.setOrigin(sf::Vector2f(backgroundTexture.getSize().x / 2, backgroundTexture.getSize().y / 2));
 		backgroundSprite.setTexture(backgroundTexture);
-		backgroundSprite.setPosition(SCREENWIDTH/2, SCREENHEIGHT/2);
+		
 
 		visible = false;
 
 		font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
 		dialogText.setFont(font);
-		dialogText.setPosition((SCREENWIDTH / 3)-40, SCREENHEIGHT / 3);
+		
 		dialogText.setColor(sf::Color(127, 0, 0, 255));
 
 		confirmationOptions[0] = new sf::Text();
 		confirmationOptions[0]->setFont(font);
 		confirmationOptions[0]->setString("YES");
 		confirmationOptions[0]->setColor(sf::Color::Red);
-		confirmationOptions[0]->setPosition(sf::Vector2f(backgroundSprite.getPosition().x - 30, backgroundSprite.getPosition().y - 40));
+		
 
 		confirmationOptions[1] = new sf::Text();
 		confirmationOptions[1]->setFont(font);
 		confirmationOptions[1]->setString("NO");
 		confirmationOptions[1]->setColor(sf::Color(80, 0, 0, 255));
-		confirmationOptions[1]->setPosition(sf::Vector2f(backgroundSprite.getPosition().x - 25, backgroundSprite.getPosition().y + 20));
+		
 
 		canMoveSelection = true;
 		currentOption = YES;
@@ -120,6 +123,10 @@ public:
 
 	//set up the hints for controller or mouse/keyboard
 	void setHints();
+
+	void setScreenSizes(int w, int h);
+
+	void setElementsOptions();
 
 	void Draw(sf::RenderTarget& window);
 };

@@ -4,6 +4,9 @@
 class Inventory
 {
 private:
+	int screenW;
+	int screenH;
+
 	//map containg items with their quantity
 	std::map<std::string, int> inventoryItems;
 	//background stuff for UI
@@ -64,7 +67,7 @@ public:
 	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
 
 	/*Constructor*/
-	Inventory(sf::Font f, bool controller);
+	Inventory(sf::Font f, bool controller, int sw, int sh);
 
 	/*Destructor*/
 	~Inventory();

@@ -7,11 +7,10 @@
 #define STDAFX_H
 
 //#Defines
-#define SCREENWIDTH 800
-#define SCREENHEIGHT 600
-
 
 #include "targetver.h"
+#define SCREENWIDTH 800
+#define SCREENHEIGHT 600
 
 //SFML includes
 #include "SFML\Graphics.hpp"

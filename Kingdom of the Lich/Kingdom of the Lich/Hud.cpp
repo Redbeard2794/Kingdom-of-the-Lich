@@ -2,12 +2,19 @@
 #include "Hud.h"
 
 /*Constructor, params: sf::Font for text*/
-Hud::Hud(sf::Font f) : font(f)
+Hud::Hud(sf::Font f, int sw, int sh, sf::Vector2f framePos, sf::Vector2f frameSize) : font(f)
 {
+	screenW = sw;
+	screenH = sh;
 	//load all assets and text
 	LoadAssets();
 	//intialise the compass
-	compass = new Compass();
+	compass = new Compass(screenW, screenH, screenH - overlayTexture.getSize().y/2);
+
+	mapFrameTexture.loadFromFile("Assets/Hud/background/window_red2mod.png");
+	mapFrame.setTexture(&mapFrameTexture);
+	mapFrame.setPosition(framePos);
+	mapFrame.setSize(frameSize);
 }
 
 /*Destructor*/
@@ -20,30 +27,30 @@ Hud::~Hud()
 void Hud::LoadAssets()
 {
 	//basic overlay
-	overlayTexture.loadFromFile("Assets/HudBackground.png");
+	overlayTexture.loadFromFile("Assets/Hud/background/window_red2mod" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
 	overlaySprite.setTexture(overlayTexture);
-	overlaySprite.setPosition(0, 500);
+	overlaySprite.setPosition(0, screenH - overlayTexture.getSize().y);
 
 	//the current quest
 	currentQuestText.setFont(font);
-	currentQuestText.setColor(sf::Color::Black);
+	currentQuestText.setColor(sf::Color::White);
 	currentQuestText.setString("Current Quest Name: ");
-	currentQuestText.setPosition(540, 500);
-	currentQuestText.setCharacterSize(12);
+	currentQuestText.setPosition(screenW/1.35, overlaySprite.getPosition().y+20);
+	currentQuestText.setCharacterSize(13);
 
 	//an icon for the player's gems
 	if (gemIconTexture.loadFromFile("Assets/Icons/Items/gemsIcon.png")) {}
 	else gemIconTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
 	gemIconSprite.setTexture(gemIconTexture);
 	gemIconSprite.setOrigin(sf::Vector2f(gemIconTexture.getSize().x / 2, gemIconTexture.getSize().y / 2));
-	gemIconSprite.setPosition(sf::Vector2f(20, 525));
+	gemIconSprite.setPosition(sf::Vector2f(screenW / 13, overlaySprite.getPosition().y + 25));
 
 	//the amount of gems the player has
 	gemBalance.setFont(font);
-	gemBalance.setColor(sf::Color::Black);
+	gemBalance.setColor(sf::Color::White);
 	gemBalance.setString("0");
-	gemBalance.setPosition(40, 517);
-	gemBalance.setCharacterSize(12);
+	gemBalance.setPosition(screenW / 10, overlaySprite.getPosition().y + 17);
+	gemBalance.setCharacterSize(13);
 }
 
 /*Update the various elements that make up the Hud such as number of gems and current objective, 
@@ -66,5 +73,6 @@ void Hud::Draw(sf::RenderTarget& window)
 	window.draw(currentQuestText);
 	window.draw(gemIconSprite);
 	window.draw(gemBalance);
+	window.draw(mapFrame);
 	compass->draw(window);
 }

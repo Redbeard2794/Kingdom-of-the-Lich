@@ -6,8 +6,11 @@ class Credits
 private:
 	sf::Texture summoningCircleTexture;
 	sf::Sprite summoningCircleSprite;
+
+	int screenW;
+	int screenH;
 public:
-	Credits();
+	Credits(int sw, int sh);
 
 	~Credits();
 

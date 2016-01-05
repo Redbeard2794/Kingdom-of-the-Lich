@@ -157,6 +157,20 @@ void ConfirmationDialogBox::setHints()
 	}
 }
 
+void ConfirmationDialogBox::setScreenSizes(int w, int h)
+{
+	screenW = w;
+	screenH = h;
+}
+
+void ConfirmationDialogBox::setElementsOptions()
+{
+	backgroundSprite.setPosition(screenW / 2, screenH / 2);
+	dialogText.setPosition((screenW / 2.65), screenH / 3);
+	confirmationOptions[0]->setPosition(sf::Vector2f(backgroundSprite.getPosition().x - 30, backgroundSprite.getPosition().y - 50));
+	confirmationOptions[1]->setPosition(sf::Vector2f(backgroundSprite.getPosition().x - 25, backgroundSprite.getPosition().y + 30));
+}
+
 void ConfirmationDialogBox::Draw(sf::RenderTarget & window)
 {
 	if (visible == true)

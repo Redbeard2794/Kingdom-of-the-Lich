@@ -68,3 +68,8 @@ http://opengameart.org/content/5-break-crunch-impacts
 
 thunder clap from splash screen
 http://opengameart.org/content/rockbreaking
+
+new hud:
+	background: http://opengameart.org/content/window-frame
+		    http://opengameart.org/users/shadow3097
+		    I modified this

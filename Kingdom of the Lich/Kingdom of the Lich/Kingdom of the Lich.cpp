@@ -57,8 +57,12 @@ int main()
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
 	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT, 32), "Kingdom of the Lich");// , sf::Style::Titlebar);
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich", sf::Style::Fullscreen);
+	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
 	sf::RenderWindow *pWindow = &window;
+
+	int screenW = sf::VideoMode::getDesktopMode().width;
+	int screenH = sf::VideoMode::getDesktopMode().height;
 
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -70,7 +74,7 @@ int main()
 	unsigned int size = 130;//100
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
 	//change the viewport to change the maps size
-	minimap.setViewport(sf::FloatRect(0.6f - (1.f*minimap.getSize().x) / window.getSize().x - 0.10f, 1.f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f, (2.0f*minimap.getSize().x) / window.getSize().x, (1.f*minimap.getSize().y) / (window.getSize().y)));
+	minimap.setViewport(sf::FloatRect(0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f, 0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f, (2.f*minimap.getSize().x) / window.getSize().x, (2.f*minimap.getSize().y) / (window.getSize().y)));
 	minimap.zoom(6.f);//4......3(actual)
 
 	//load a font
@@ -79,13 +83,14 @@ int main()
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
-	Hud* hud = new Hud(font);
+	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	window.setFramerateLimit(60);//is this causing the flickering in the mini map
+	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
+	window.setVerticalSyncEnabled(true);
 
 	//text by cooltext.com
 	//splash screen
-	SplashScreen* splashScreen = new SplashScreen();
+	SplashScreen* splashScreen = new SplashScreen(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
 	//clock for fading stuff in and out and changing colours
 	sf::Clock* splashClock = new sf::Clock();
@@ -134,9 +139,9 @@ int main()
 	Gamepad* gamepad = new Gamepad();
 	useController = gamepad->CheckControllerConnection(true);
 
-	Menu *mainMenu = new Menu(font, useController);
+	Menu *mainMenu = new Menu(font, useController, screenW, screenH);
 
-	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController);
+	ChooseRaceAndGenderMenu* raceAndGenderMenu = new ChooseRaceAndGenderMenu(font, useController, screenW, screenH);
 
 	//hints for the splash screen
 	sf::Sprite splashHintSprite;
@@ -148,21 +153,24 @@ int main()
 	if (useController == true)//controller hints
 	{
 		splashHintTexture.loadFromFile("Assets/ControllerHints/startButtonHint.png");
-		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 2-100, SCREENHEIGHT - 75));
+		splashHintText1.setPosition(sf::Vector2f(screenW / 2-100, screenH - 175));
 		ConfirmationDialogBox::GetInstance()->setShowControllerHints(true);
+		ConfirmationDialogBox::GetInstance()->setScreenSizes(screenW, screenH);
 	}
 	else if (useController == false)//keyboard and mouse hints
 	{
 		splashHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/spaceButtonHint.png");
-		splashHintText1.setPosition(sf::Vector2f(SCREENWIDTH / 3, SCREENHEIGHT - 75));
+		splashHintText1.setPosition(sf::Vector2f(screenW / 2.5, screenH - 175));
 		ConfirmationDialogBox::GetInstance()->setShowControllerHints(false);
+		ConfirmationDialogBox::GetInstance()->setScreenSizes(screenW, screenH);
 	}
 
+	ConfirmationDialogBox::GetInstance()->setElementsOptions();
 	ConfirmationDialogBox::GetInstance()->setHints();
 
 	splashHintSprite.setTexture(splashHintTexture);
 	splashHintSprite.setOrigin(sf::Vector2f(splashHintTexture.getSize().x / 2, splashHintTexture.getSize().y / 2));
-	splashHintSprite.setPosition(sf::Vector2f(SCREENWIDTH / 2, SCREENHEIGHT - 50));
+	splashHintSprite.setPosition(sf::Vector2f(screenW / 2, screenH - 150));
 
 	bool spacePressed = false;
 	bool enterPressed = false;
@@ -170,7 +178,7 @@ int main()
 
 
 	//for testing inventory
-	Inventory* testInv = new Inventory(font, useController);
+	Inventory* testInv = new Inventory(font, useController, screenW, screenH);
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 
@@ -394,14 +402,14 @@ int main()
 
 	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 25, 20, 0, sf::Vector2f(800, 1600));
 
-	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png");
+	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png", screenW, screenH);
 
 	DamageCalculator* damageCalc = new DamageCalculator();
 
 	//played the splash screen sound effect?
 	bool playedSplashSound = false;
 
-	Credits* credits = new Credits();
+	Credits* credits = new Credits(screenW, screenH);
 
 	// Start game loop 
 	while (window.isOpen())
@@ -1303,7 +1311,7 @@ int main()
 			//drawing the minimap
 			window.setView(minimap);
 			minimap.setCenter(p->getPosition());
-			window.draw(lowPolyMap);
+			window.draw(lowPolyMap);//do I need this? or could I make something nicer to show
 			window.draw(*testChest);
 			if(testEnemy->GetHealth() > 0)
 				testEnemy->MinimapDraw(window);
@@ -1380,9 +1388,9 @@ int main()
 					if (gamepad->B())
 					{
 						if(combatMenu->GetCurrentMenuState() == 1)
-							combatMenu->SetSelectorPosition(sf::Vector2f(225, SCREENHEIGHT - 70));
+							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 2.5, screenH - 110));
 						else if(combatMenu->GetCurrentMenuState() == 2)
-							combatMenu->SetSelectorPosition(sf::Vector2f(475, SCREENHEIGHT - 70));
+							combatMenu->SetSelectorPosition(sf::Vector2f(475, screenH - 110));
 
 						combatMenu->SetCurrentMenuState(0);
 					}

@@ -16,9 +16,16 @@ private:
 	sf::Text currentQuestText;
 
 	Compass* compass;
+
+	int screenW;
+	int screenH;
+
+	sf::RectangleShape mapFrame;
+	sf::Texture mapFrameTexture;
+
 public:
 	/*Constructor, params: sf::Font for text*/
-	Hud(sf::Font f);
+	Hud(sf::Font f, int sw, int sh, sf::Vector2f framePos, sf::Vector2f frameSize);
 
 	/*Destructor*/
 	~Hud();

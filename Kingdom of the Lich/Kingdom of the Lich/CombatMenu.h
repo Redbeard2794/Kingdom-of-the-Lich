@@ -76,9 +76,12 @@ private:
 
 	bool canSelect;
 
+	int screenW;
+	int screenH;
+
 public:
 	/*constructor*/
-	CombatMenu(sf::Font f, std::string ePath);
+	CombatMenu(sf::Font f, std::string ePath, int sw, int sh);
 
 	/*destructor*/
 	~CombatMenu();

@@ -7,14 +7,14 @@ class Menu
 {
 public:
 	//constructor(params are font and whether to show controller hints or keyboard hints)
-	Menu(sf::Font f, bool controller);
+	Menu(sf::Font f, bool controller, int screenW, int screenH);
 	//destructor
 	~Menu();
 
 	//load all text items(menu options)
-	void LoadText();
+	void LoadText(int screenW, int screenH);
 	//load all sprites and textures needed for the menu
-	void LoadTexturesAndSprites();
+	void LoadTexturesAndSprites(int screenW, int screenH);
 
 	//for moving up and down in the menu with a controller
 	void MoveUp();

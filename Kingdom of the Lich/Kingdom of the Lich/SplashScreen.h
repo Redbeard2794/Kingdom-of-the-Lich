@@ -35,7 +35,7 @@ private:
 
 public:
 	/*constructor*/
-	SplashScreen();
+	SplashScreen(float screenW, float screenH);
 
 	/*destructor*/
 	~SplashScreen();

@@ -2,8 +2,12 @@
 #include "Inventory.h"
 
 /*Constructor*/
-Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints(controller)
+Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), showControllerHints(controller)
 {
+	screenW = sw;
+	screenH = sh;
+
+	//load these keys from a file eventually
 	i_healthPotion.key = "Health Potion";
 	i_ale.key = "Bottle of Ale";
 	i_bread.key = "Loaf of Bread";
@@ -26,7 +30,8 @@ Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints
 
 	InitialiseInventoryItems();
 
-	backgroundTexture.loadFromFile("Assets/BackPackInterior.png");
+	if (backgroundTexture.loadFromFile("Assets/Inventory/BackPackInterior" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")) {}
+	else backgroundTexture.loadFromFile("Assets/Inventory/BackPackInterior.png");
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(15, 5);
 	backgroundSprite.setColor(sf::Color(255, 255, 255, 127));
@@ -37,10 +42,10 @@ Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints
 	headerText.setStyle(sf::Text::Underlined);
 	headerText.setCharacterSize(60);
 	headerText.setFont(font);
-	headerText.setPosition(SCREENWIDTH / 3, -12);
+	headerText.setPosition(screenW / 2.5, -2);
 	headerText.setColor(sf::Color::Cyan);
 
-	//load item textures
+	//load item textures(maybe take these from a file too?)
 	healthPotTexture.loadFromFile("Assets/Icons/Items/healthPotionIcon.png");
 	aleBottleTexture.loadFromFile("Assets/Icons/Items/ale.png");
 	loafOfBreadTexture.loadFromFile("Assets/Icons/Items/loafOfBread.png");
@@ -51,84 +56,87 @@ Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints
 	appleTexture.loadFromFile("Assets/Icons/Items/apple.png");
 	quillTexture.loadFromFile("Assets/Icons/Items/quill.png");
 
+	//need to come up with a way of only showing items with quantity > 0
+	//also need to take item names from keys/file
+
 	//set up item sprites and text
 	healthPotSprite.setTexture(healthPotTexture);
 	healthPotSprite.setOrigin(healthPotTexture.getSize().x / 2, healthPotTexture.getSize().y / 2);
-	healthPotSprite.setPosition(90, 100);
+	healthPotSprite.setPosition(screenW / 10, 100);
 	healthText.setString("Health Potion x");
 	healthText.setFont(font);
-	healthText.setPosition(120, 70 + healthPotTexture.getSize().y / 2);
+	healthText.setPosition(screenW / 8, 70 + healthPotTexture.getSize().y / 2);
 	healthText.setCharacterSize(15);
 
 	aleBottleSprite.setTexture(aleBottleTexture);
 	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
 	aleBottleSprite.setScale(2, 1.7f);
-	aleBottleSprite.setPosition(90, 200);
+	aleBottleSprite.setPosition(screenW / 10, 200);
 	aleText.setString("Bottle of Ale x");
 	aleText.setFont(font);
-	aleText.setPosition(120, 170 + aleBottleTexture.getSize().y / 2);
+	aleText.setPosition(screenW / 8, 170 + aleBottleTexture.getSize().y / 2);
 	aleText.setCharacterSize(15);
 
 	loafOfBreadSprite.setTexture(loafOfBreadTexture);
 	loafOfBreadSprite.setOrigin(loafOfBreadTexture.getSize().x / 2, loafOfBreadTexture.getSize().y / 2);
 	loafOfBreadSprite.setScale(2, 1.7f);
-	loafOfBreadSprite.setPosition(90, 300);
+	loafOfBreadSprite.setPosition(screenW / 10, 300);
 	breadText.setString("Loaf of Bread x");
 	breadText.setFont(font);
-	breadText.setPosition(120, 270 + loafOfBreadTexture.getSize().y / 2);
+	breadText.setPosition(screenW / 8, 270 + loafOfBreadTexture.getSize().y / 2);
 	breadText.setCharacterSize(15);
 
 	baracksKeySprite.setTexture(baracksKeyTexture);
 	baracksKeySprite.setOrigin(baracksKeyTexture.getSize().x / 2, baracksKeyTexture.getSize().y / 2);
 	baracksKeySprite.setRotation(-30);
-	baracksKeySprite.setPosition(90, 400);
+	baracksKeySprite.setPosition(screenW / 10, 400);
 	baracksKeyText.setString("Baracks key x");
 	baracksKeyText.setFont(font);
-	baracksKeyText.setPosition(120, 370 + baracksKeyTexture.getSize().y / 2);
+	baracksKeyText.setPosition(screenW / 8, 370 + baracksKeyTexture.getSize().y / 2);
 	baracksKeyText.setCharacterSize(15);
 
 	parchmentSprite.setTexture(parchmentTexture);
 	parchmentSprite.setOrigin(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2);
-	parchmentSprite.setPosition(90, 500);
+	parchmentSprite.setPosition(screenW / 10, 500);
 	parchmentText.setString("Parchment x");
 	parchmentText.setFont(font);
-	parchmentText.setPosition(120, 470 + parchmentTexture.getSize().y / 2);
+	parchmentText.setPosition(screenW / 8, 470 + parchmentTexture.getSize().y / 2);
 	parchmentText.setCharacterSize(15);
 
 	inkBottleSprite.setTexture(inkBottleTexture);
 	inkBottleSprite.setOrigin(inkBottleTexture.getSize().x / 2, inkBottleTexture.getSize().y / 2);
 	inkBottleSprite.setScale(1.2f, 1.2f);
-	inkBottleSprite.setPosition(290, 100);
+	inkBottleSprite.setPosition(screenW / 3.3, 100);
 	inkBottleText.setString("Ink Bottle x");
 	inkBottleText.setFont(font);
-	inkBottleText.setPosition(330, 70 + inkBottleTexture.getSize().y / 2);
+	inkBottleText.setPosition(screenW / 3, 70 + inkBottleTexture.getSize().y / 2);
 	inkBottleText.setCharacterSize(15);
 
 	gemSprite.setTexture(gemTexture);
 	gemSprite.setOrigin(gemTexture.getSize().x / 2, gemTexture.getSize().y / 2);
 	gemSprite.setScale(1.5f, 1.5f);
-	gemSprite.setPosition(290, 200);
+	gemSprite.setPosition(screenW / 3.3, 200);
 	gemText.setString("Gems x");
 	gemText.setFont(font);
-	gemText.setPosition(330, 170 + gemTexture.getSize().y / 2);
+	gemText.setPosition(screenW / 3, 170 + gemTexture.getSize().y / 2);
 	gemText.setCharacterSize(15);
 
 	appleSprite.setTexture(appleTexture);
 	appleSprite.setOrigin(appleTexture.getSize().x / 2, appleTexture.getSize().y / 2);
 	//appleSprite.setScale(1.5f, 1.5f);
-	appleSprite.setPosition(290, 300);
+	appleSprite.setPosition(screenW / 3.3, 300);
 	appleText.setString("Apple x");
 	appleText.setFont(font);
-	appleText.setPosition(330, 270 + appleTexture.getSize().y / 2);
+	appleText.setPosition(screenW / 3, 270 + appleTexture.getSize().y / 2);
 	appleText.setCharacterSize(15);
 
 	quillSprite.setTexture(quillTexture);
 	quillSprite.setOrigin(quillTexture.getSize().x / 2, quillTexture.getSize().y / 2);
 	//quillSprite.setScale(1.5f, 1.5f);
-	quillSprite.setPosition(290, 400);
+	quillSprite.setPosition(screenW / 3.3, 400);
 	quillText.setString("Quill x");
 	quillText.setFont(font);
-	quillText.setPosition(330, 370 + quillTexture.getSize().y / 2);
+	quillText.setPosition(screenW / 3, 370 + quillTexture.getSize().y / 2);
 	quillText.setCharacterSize(15);
 
 	//hints
@@ -138,7 +146,7 @@ Inventory::Inventory(sf::Font f, bool controller) : font(f), showControllerHints
 		exitHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/PressEnterToReturnToGameHint.png");
 	exitHintSprite.setTexture(exitHintTexture);
 	exitHintSprite.setOrigin(exitHintTexture.getSize().x / 2, exitHintTexture.getSize().y / 2);
-	exitHintSprite.setPosition(600, 575);
+	exitHintSprite.setPosition(screenW/2.1, screenH/1.05);
 }
 
 /*Destructor*/
