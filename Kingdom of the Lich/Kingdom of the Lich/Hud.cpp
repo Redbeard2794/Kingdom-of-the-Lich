@@ -56,7 +56,7 @@ void Hud::LoadAssets()
 /*Update the various elements that make up the Hud such as number of gems and current objective, 
 params are questName, number of gems the player has, objectives location and player's position
 */
-void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos)
+void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos, bool showMinimap)
 {
 	//update the text for the current quest
 	currentQuestText.setString("Current Quest Name: " + objTxt);
@@ -64,6 +64,8 @@ void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::
 	compass->UpdateNeedle(playerPos, objectivePos);
 	//update the value of gems
 	gemBalance.setString(std::to_string(numGems));
+
+	drawMinimapFrame = showMinimap;
 }
 
 /*Draw all the elements that make up the Hud*/
@@ -73,6 +75,7 @@ void Hud::Draw(sf::RenderTarget& window)
 	window.draw(currentQuestText);
 	window.draw(gemIconSprite);
 	window.draw(gemBalance);
-	window.draw(mapFrame);
+	if(drawMinimapFrame)
+		window.draw(mapFrame);
 	compass->draw(window);
 }

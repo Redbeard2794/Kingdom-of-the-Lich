@@ -33,7 +33,7 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	selectorTexture.loadFromFile("Assets/combatUiSelector.png");
 	selectorSprite.setTexture(selectorTexture);
 	selectorSprite.setOrigin(selectorTexture.getSize().x / 2, selectorTexture.getSize().y / 2);
-	selectorSprite.setPosition(screenW / 2.5, screenH - 110);//225
+	selectorSprite.setPosition(screenW / 4.7, screenH - 100);//225
 
 	//attack panel
 	attackPanelTexture.loadFromFile("Assets/attackSelectionPanel.png");
@@ -123,6 +123,7 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	enemyHealthText.setPosition(250, 100);
 
 	currentOption = 0;
+	currentAction = 0;
 	canMove = true;
 
 	combatOver = false;
@@ -163,15 +164,15 @@ void CombatMenu::MoveSelectionRight()
 {
 	if (canMove == true)
 	{
-		if (currentOption == 2)
-			currentOption = 0;
-		else currentOption += 1;
+		if (currentAction == 2)
+			currentAction = 0;
+		else currentAction += 1;
 
 		for (int i = 0; i < 3; i++)
 		{
 			menuItems[i].setColor(sf::Color::Blue);
 		}
-		menuItems[currentOption].setColor(sf::Color::Red);
+		menuItems[currentAction].setColor(sf::Color::Red);
 	}
 }
 
@@ -180,15 +181,15 @@ void CombatMenu::MoveSelectionLeft()
 {
 	if (canMove == true)
 	{
-		if (currentOption == 0)
-			currentOption = 2;
-		else currentOption -= 1;
+		if (currentAction == 0)
+			currentAction = 2;
+		else currentAction -= 1;
 
 		for (int i = 0; i < 3; i++)
 		{
 			menuItems[i].setColor(sf::Color::Blue);
 		}
-		menuItems[currentOption].setColor(sf::Color::Red);
+		menuItems[currentAction].setColor(sf::Color::Red);
 	}
 }
 
@@ -207,15 +208,15 @@ void CombatMenu::MoveSelectionUp()
 		{
 			currentOption = size - 1;
 
-			if(currentState == SelectAttack)
-				selectorSprite.setPosition(sf::Vector2f(325, 135));
-			else if (currentState == SelectItem)
-				selectorSprite.setPosition(sf::Vector2f(525, 135));
+			//if(currentState == SelectAttack)
+			//	selectorSprite.setPosition(sf::Vector2f(325, 135));
+			//else if (currentState == SelectItem)
+			//	selectorSprite.setPosition(sf::Vector2f(525, 135));
 		}
 		else
 		{
 			currentOption -= 1;
-			selectorSprite.setPosition(selectorSprite.getPosition().x, selectorSprite.getPosition().y - 45);
+			//selectorSprite.setPosition(selectorSprite.getPosition().x, selectorSprite.getPosition().y - 45);
 		}
 
 		for (int i = 0; i < size; i++)
@@ -248,15 +249,15 @@ void CombatMenu::MoveSelectionDown()
 		{
 			currentOption = 0;
 
-			if (currentState == SelectAttack)
-				selectorSprite.setPosition(sf::Vector2f(325, 45));
-			else if(currentState == SelectItem)
-				selectorSprite.setPosition(sf::Vector2f(525, 45));
+			//if (currentState == SelectAttack)
+			//	selectorSprite.setPosition(sf::Vector2f(325, 45));
+			//else if(currentState == SelectItem)
+			//	selectorSprite.setPosition(sf::Vector2f(525, 45));
 		}
 		else
 		{
 			currentOption += 1;
-			selectorSprite.setPosition(selectorSprite.getPosition().x, selectorSprite.getPosition().y + 45);
+			//selectorSprite.setPosition(selectorSprite.getPosition().x, selectorSprite.getPosition().y + 45);
 		}
 
 		for (int i = 0; i < size; i++)
@@ -303,12 +304,12 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	if (currentState == SelectAction)
 	{
 		window.draw(selectorSprite);
-		if (currentOption == 0)
-			selectorSprite.setPosition(225, selectorSprite.getPosition().y);
-		else if(currentOption == 1)
-			selectorSprite.setPosition(475, selectorSprite.getPosition().y);
-		else if(currentOption == 2)
-			selectorSprite.setPosition(750, selectorSprite.getPosition().y);
+		if (currentAction == 0)
+			selectorSprite.setPosition(screenW / 4.7, selectorSprite.getPosition().y);
+		else if(currentAction == 1)
+			selectorSprite.setPosition(screenW / 1.8, selectorSprite.getPosition().y);//475
+		else if(currentAction == 2)
+			selectorSprite.setPosition(screenW / 1.1, selectorSprite.getPosition().y);//750
 	}
 
 	else if (currentState == SelectAttack)
@@ -319,6 +320,12 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 		{
 			window.draw(*attackOptions.at(i));
 		}
+		if (currentOption == 0)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
+		else if (currentOption == 1)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
+		else if (currentOption == 2)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
 	}
 	else if (currentState == SelectItem)
 	{
@@ -328,6 +335,12 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 		{
 			window.draw(*itemOptions.at(i));
 		}
+		if (currentOption == 0)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
+		else if (currentOption == 1)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
+		else if (currentOption == 2)
+			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
 	}
 	else if (currentState == FleeAttempt)
 	{
@@ -337,9 +350,19 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 
 /*gets & sets start*/
 
+int CombatMenu::getCurrentAction()
+{
+	return currentAction;
+}
+
 int CombatMenu::getCurrentOption()
 {
 	return currentOption;
+}
+
+void CombatMenu::setCurrentOption(int o)
+{
+	currentOption = 0;
 }
 
 bool CombatMenu::getCanMove()

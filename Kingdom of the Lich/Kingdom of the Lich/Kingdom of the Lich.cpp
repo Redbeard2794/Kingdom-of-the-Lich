@@ -71,6 +71,7 @@ int main()
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
 	//minimap
+	bool showMinimap = true;
 	unsigned int size = 130;//100
 	sf::View minimap(sf::FloatRect(player_view.getCenter().x, player_view.getCenter().y, size, window.getSize().y*size / window.getSize().x));
 	//change the viewport to change the maps size
@@ -185,36 +186,6 @@ int main()
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
-
-	//hint for showing the player how to walk around
-	sf::Texture moveHintTexture;
-	sf::Sprite moveHintSprite;
-	if (useController == true)
-		moveHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
-	else moveHintTexture.loadFromFile("Assets/KeyboardAndMouseHints/useWASDToMoveHint.png");
-	moveHintSprite.setTexture(moveHintTexture);
-	moveHintSprite.setOrigin(moveHintTexture.getSize().x / 2, moveHintTexture.getSize().y / 2);
-	moveHintSprite.setPosition(SCREENWIDTH/2, SCREENHEIGHT/2);
-
-
-	//quest stuff is temporary until I figure out what I am doing with the quest controller
-	sf::Text objective;
-	objective.setFont(font);
-	objective.setString("Go and talk to Commander Iron-Arm. Use your compass to find him.");
-	objective.setPosition(sf::Vector2f(SCREENWIDTH / 18, SCREENHEIGHT / 2));
-	objective.setColor(sf::Color::Black);
-	objective.setCharacterSize(22);
-	objective.setStyle(sf::Text::Bold);
-
-	sf::Text questCompletePopup;
-	questCompletePopup.setFont(font);
-	if(useController == true)
-		questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'B' now.");
-	else questCompletePopup.setString("Quest complete. You got 3 potions from the chest. Press 'I' now.");
-	questCompletePopup.setPosition(sf::Vector2f(SCREENWIDTH / 18, SCREENHEIGHT / 2));
-	questCompletePopup.setColor(sf::Color::Black);
-	questCompletePopup.setCharacterSize(20);
-	questCompletePopup.setStyle(sf::Text::Bold);
 
 	bool showQuestComplete = false;
 
@@ -411,6 +382,8 @@ int main()
 
 	Credits* credits = new Credits(screenW, screenH);
 
+	PopupMessageHandler popupMessageHandler = PopupMessageHandler(font);
+
 	// Start game loop 
 	while (window.isOpen())
 	{
@@ -428,9 +401,6 @@ int main()
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
 				debugMode = !debugMode;
-
-			//if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::C))
-			//	gState = COMBAT;
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
 			{
@@ -510,11 +480,6 @@ int main()
 			//if the player is using keyboard and mouse
 			if (useController == false)
 			{
-				//show the cursor
-				//sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				//cursor.setPosition(sf::Vector2f(mousePos.x,mousePos.y));
-				//window.draw(cursor);
-
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				{
 					if (mainMenu->getCanMove() == true)
@@ -536,8 +501,6 @@ int main()
 				}
 
 				else mainMenu->setCanMove(true);
-
-				//mainMenu->CheckMouse(sf::Mouse::getPosition(window));
 
 				//which option is the player choosing
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && enterPressed == false)
@@ -758,6 +721,8 @@ int main()
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -774,6 +739,7 @@ int main()
 								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
 								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
 								gState = GAME;
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -787,10 +753,6 @@ int main()
 				}
 				
 				ConfirmationDialogBox::GetInstance()->Draw(window);
-
-
-				//cursor.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
-				//window.draw(cursor);
 
 			}
 
@@ -919,6 +881,8 @@ int main()
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -935,6 +899,7 @@ int main()
 								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
 								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
 								gState = GAME;
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -956,6 +921,8 @@ int main()
 			break;
 
 		case GAME:
+			popupMessageHandler.UpdateMessages();
+			
 			audioManager->FadeOutSound(0);
 			//update sf::View center position
 			player_view.setCenter(p->getPosition());
@@ -1019,6 +986,9 @@ int main()
 								//std::cout << "You completed your first quest!" << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
+								if (useController)
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
 							}
 							else
 							{
@@ -1080,6 +1050,9 @@ int main()
 								testQuest->setCurrentStageIndex(2);
 								//testQuest->setCompletionStatus(true);
 								//std::cout << "You completed your first quest!" << std::endl;
+								if (useController)
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 							}
@@ -1110,7 +1083,7 @@ int main()
 			}
 
 			window.draw(map);
-
+			
 			//update the player
 			p->Update();
 
@@ -1206,6 +1179,9 @@ int main()
 							std::cout << "Go and open that chest and retrieve the items within. Walk up to it and press the 'E'" << std::endl;
 							testQuest->getCurrentStage()->setCompletionStatus(true);
 							testQuest->setCurrentStageIndex(1);
+							if (useController)
+								popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'A'", sf::Vector2f(screenW / 18, screenH / 2), 5);
+							else popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'E'", sf::Vector2f(screenW / 18, screenH / 2), 5);
 						}
 						
 					}
@@ -1262,66 +1238,37 @@ int main()
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
+			popupMessageHandler.DrawMessages(*pWindow);
 			
 			hud->Draw(window);
-			hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition());
+			//hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
 
 			if (testQuest->getCompletionStatus() == false)
-				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition());
-			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition());
+				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
+			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap);
 
-			if (splashClock->getElapsedTime().asSeconds() > 0.5 && splashClock->getElapsedTime().asSeconds() < 1)
-				moveHintSprite.setColor(sf::Color(255, 255, 255, 200));
-			else if (splashClock->getElapsedTime().asSeconds() > 1 && splashClock->getElapsedTime().asSeconds() < 1.5)
-				moveHintSprite.setColor(sf::Color(255, 255, 255, 150));
-			else if (splashClock->getElapsedTime().asSeconds() > 1.5 && splashClock->getElapsedTime().asSeconds() < 2)
-				moveHintSprite.setColor(sf::Color(255, 255, 255, 100));
-			else if (splashClock->getElapsedTime().asSeconds() > 2 && splashClock->getElapsedTime().asSeconds() < 2.5)
-				moveHintSprite.setColor(sf::Color(255, 255, 255, 50));
-			else if (splashClock->getElapsedTime().asSeconds() > 2.5 && splashClock->getElapsedTime().asSeconds() < 3)
-				moveHintSprite.setColor(sf::Color(255, 255, 255, 0));
-
-			if (testQuest->getCurrentStageIndex() == 0)
+			if (gamepad->Back())
 			{
-				if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
-					objective.setColor(sf::Color(0, 0, 0, 200));
-				else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
-					objective.setColor(sf::Color(0, 0, 0, 100));
-				else if (splashClock->getElapsedTime().asSeconds() > 6 && splashClock->getElapsedTime().asSeconds() < 7.5)
-					objective.setColor(sf::Color(0, 0, 0, 0));
-
-				if (splashClock->getElapsedTime().asSeconds() < 3 && testQuest->getCompletionStatus() == false)
-					window.draw(moveHintSprite);
-				else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 8 && testQuest->getCompletionStatus() == false)
-					window.draw(objective);
-			}
-
-			if (testQuest->getCurrentStageIndex() == 2)
-			{
-				window.draw(questCompletePopup);
-
-				if (splashClock->getElapsedTime().asSeconds() > 1.5 && splashClock->getElapsedTime().asSeconds() < 3)
-					questCompletePopup.setColor(sf::Color(0, 0, 0, 200));
-				else if (splashClock->getElapsedTime().asSeconds() > 3 && splashClock->getElapsedTime().asSeconds() < 4.5)
-					questCompletePopup.setColor(sf::Color(0, 0, 0, 100));
-				else if (splashClock->getElapsedTime().asSeconds() > 4.5 && splashClock->getElapsedTime().asSeconds() < 6)
-					questCompletePopup.setColor(sf::Color(0, 0, 0, 0));
+				showMinimap = !showMinimap;
 			}
 
 			//drawing the minimap
-			window.setView(minimap);
-			minimap.setCenter(p->getPosition());
-			window.draw(lowPolyMap);//do I need this? or could I make something nicer to show
-			window.draw(*testChest);
-			if(testEnemy->GetHealth() > 0)
-				testEnemy->MinimapDraw(window);
-			//draw npcs on minimap
-			for (int i = 0; i < npcVector.size(); i++)
+			if (showMinimap)
 			{
-				npcVector.at(i)->MinimapDraw(*pWindow);
-			}
+				window.setView(minimap);
+				minimap.setCenter(p->getPosition());
+				window.draw(lowPolyMap);//do I need this? or could I make something nicer to show
+				window.draw(*testChest);
+				if (testEnemy->GetHealth() > 0)
+					testEnemy->MinimapDraw(window);
+				//draw npcs on minimap
+				for (int i = 0; i < npcVector.size(); i++)
+				{
+					npcVector.at(i)->MinimapDraw(*pWindow);
+				}
 
-			p->MinimapDraw(*pWindow);
+				p->MinimapDraw(*pWindow);
+			}
 
 
 			break;
@@ -1387,10 +1334,14 @@ int main()
 				{
 					if (gamepad->B())
 					{
-						if(combatMenu->GetCurrentMenuState() == 1)
-							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 2.5, screenH - 110));
-						else if(combatMenu->GetCurrentMenuState() == 2)
-							combatMenu->SetSelectorPosition(sf::Vector2f(475, screenH - 110));
+						if (combatMenu->GetCurrentMenuState() == 1)
+						{
+							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 4.7, screenH - 100));
+						}
+						else if (combatMenu->GetCurrentMenuState() == 2)
+						{
+							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 1.8, screenH - 100));
+						}
 
 						combatMenu->SetCurrentMenuState(0);
 					}
@@ -1403,17 +1354,17 @@ int main()
 
 						if (combatMenu->GetCurrentMenuState() == 0)
 						{
-							if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+							if (combatMenu->getCurrentAction() == 0)//we are now choosing to attack
 							{
 								combatMenu->SetCurrentMenuState(1);
-								combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
+								combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 5, screenH / 16.3));//325, 45
 							}
-							else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+							else if (combatMenu->getCurrentAction() == 1)//we are now choosing to use an item
 							{
 								combatMenu->SetCurrentMenuState(2);
-								combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
+								combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 3, screenH / 16.3));//525, 45
 							}
-							else if (combatMenu->getCurrentOption() == 2)//we are now choosing to flee
+							else if (combatMenu->getCurrentAction() == 2)//we are now choosing to flee
 							{
 								combatMenu->setCombatOver(true);
 							}
@@ -1468,17 +1419,17 @@ int main()
 
 					if (combatMenu->GetCurrentMenuState() == 0)
 					{
-						if (combatMenu->getCurrentOption() == 0)//we are now choosing to attack
+						if (combatMenu->getCurrentAction() == 0)//we are now choosing to attack
 						{
 							combatMenu->SetCurrentMenuState(1);
 							combatMenu->SetSelectorPosition(sf::Vector2f(325, 45));
 						}
-						else if (combatMenu->getCurrentOption() == 1)//we are now choosing to item
+						else if (combatMenu->getCurrentAction() == 1)//we are now choosing to item
 						{
 							combatMenu->SetCurrentMenuState(2);
 							combatMenu->SetSelectorPosition(sf::Vector2f(525, 45));
 						}
-						else if (combatMenu->getCurrentOption() == 2)//we are no choosing to flee
+						else if (combatMenu->getCurrentAction() == 2)//we are no choosing to flee
 						{
 							combatMenu->setCombatOver(true);
 						}
@@ -1522,7 +1473,7 @@ int main()
 				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 					gState = GAME;
 			}
-			questCompletePopup.setColor(sf::Color(0, 0, 0, 0));
+
 			break;
 
 		case CREDITS:

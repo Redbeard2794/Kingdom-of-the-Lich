@@ -102,6 +102,12 @@
     <ClInclude Include="Credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PopupMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMessageController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -165,6 +171,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Credits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupMessageController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -32,6 +32,8 @@
 //using std::thread;
 
 //project headers
+#include "PopupMessageController.h"
+#include "PopupMessage.h"
 #include "SplashScreen.h"
 #include "Credits.h"
 #include "STP/TMXLoader.hpp"

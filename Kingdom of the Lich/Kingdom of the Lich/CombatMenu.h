@@ -12,6 +12,7 @@ private:
 	sf::Font font;
 
 	int currentOption;
+	int currentAction;
 
 	bool canMove;
 
@@ -105,7 +106,11 @@ public:
 
 	/*gets & sets start*/
 
+	int getCurrentAction();
+
 	int getCurrentOption();
+
+	void setCurrentOption(int o);
 
 	bool getCanMove();
 

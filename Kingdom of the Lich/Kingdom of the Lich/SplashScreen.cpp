@@ -53,7 +53,7 @@ SplashScreen::SplashScreen(float screenW, float screenH)
 	{
 		candles[i].setTexture(candleTexture);
 		candles[i].setOrigin(candleTexture.getSize().x / 2, candleTexture.getSize().y / 2);
-		candles[i].setScale(7, 7);
+		candles[i].setScale(7, 7);//gonna need to change this to suit resolutions as image blurs if resized
 		candles[i].setTextureRect(candlesFrame);
 	}
 	candles[0].setPosition(screenW / 3, 100);//200

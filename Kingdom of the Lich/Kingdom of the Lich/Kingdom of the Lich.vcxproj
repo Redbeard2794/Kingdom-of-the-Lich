@@ -168,6 +168,8 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PopupMessage.h" />
+    <ClInclude Include="PopupMessageController.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestController.h" />
     <ClInclude Include="QuestStage.h" />
@@ -197,6 +199,8 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PopupMessage.cpp" />
+    <ClCompile Include="PopupMessageController.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestStage.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
