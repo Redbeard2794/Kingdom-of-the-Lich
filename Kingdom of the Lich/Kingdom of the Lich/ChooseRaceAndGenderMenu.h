@@ -75,6 +75,16 @@ private:
 	sf::Texture raceIconTextures[3];
 	sf::Texture raceIconSelectedTexture[3];
 
+	//descriptions
+	sf::Texture humanDescriptionTexture;
+	sf::Sprite humanDescription;
+
+	sf::Texture elfDescriptionTexture;
+	sf::Sprite elfDescription;
+
+	sf::Texture dwarfDescriptionTexture;
+	sf::Sprite dwarfDescription;
+
 	sf::Font font;
 	bool mouseClicked;
 

@@ -1,0 +1,28 @@
+Collections:
+
+http://opengameart.org/art-search?keys=32x32&page=6
+
+http://opengameart.org/content/2d-complete-kit
+
+http://opengameart.org/art-search-advanced?field_art_tags_tid=32x32
+
+
+character artwork:
+http://opengameart.org/users/charlesgabriel
+
+re-done: http://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed
+
+enemies:
+http://opengameart.org/content/roguelike-bosses
+
+http://opengameart.org/content/undead-king
+
+music:
+http://opengameart.org/content/epic-fantasy-music
+
+misc:
+http://opengameart.org/content/32x32-fantasy-tileset
+
+http://opengameart.org/content/16x16-jrpg-tilesets-enlarged-2x
+
+http://opengameart.org/content/tiled-terrains

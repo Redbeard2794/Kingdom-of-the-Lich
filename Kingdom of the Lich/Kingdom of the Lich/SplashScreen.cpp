@@ -10,7 +10,10 @@ SplashScreen::SplashScreen(float screenW, float screenH)
 	nameTexture.loadFromFile("Assets/Splash Screen/startScreenIcon.png");
 	nameSprite.setTexture(nameTexture);
 	nameSprite.setScale(sf::Vector2f(.5f, .5f));
-	nameSprite.setPosition(screenW/3.75, 250);//85
+	if(screenW == 1366 && screenH == 768)
+		nameSprite.setPosition(screenW/3.75, 250);//85
+	else if(screenW == 1600 && screenH == 900)
+		nameSprite.setPosition(screenW / 3.32, 250);//85
 
 	//summoning circle
 	summoningCircleTexture;
@@ -25,7 +28,10 @@ SplashScreen::SplashScreen(float screenW, float screenH)
 	fireballSprite.setTexture(fireballTexture);
 	fireballSprite.setOrigin(fireballTexture.getSize().x / 2, fireballTexture.getSize().y / 2);
 	
-	fireballSprite.setPosition(screenW / 1.42, 275);//675
+	if (screenW == 1366 && screenH == 768)
+		fireballSprite.setPosition(screenW / 1.42, 275);//675
+	else if (screenW == 1600 && screenH == 900)
+		fireballSprite.setPosition(screenW / 1.48, 275);//675
 	fireballSprite.setScale(4, 4);
 
 	//set up the fireball texture rectangle
@@ -56,10 +62,20 @@ SplashScreen::SplashScreen(float screenW, float screenH)
 		candles[i].setScale(7, 7);//gonna need to change this to suit resolutions as image blurs if resized
 		candles[i].setTextureRect(candlesFrame);
 	}
-	candles[0].setPosition(screenW / 3, 100);//200
-	candles[1].setPosition(screenW / 2 + 275, 100);//650
-	candles[2].setPosition(screenW / 3, 400);//200
-	candles[3].setPosition(screenW / 2 + 275, 400);//650
+	if (screenW == 1366 && screenH == 768)
+	{
+		candles[0].setPosition(screenW / 3, 100);//200
+		candles[1].setPosition(screenW / 2 + 275, 100);//650
+		candles[2].setPosition(screenW / 3, 400);//200
+		candles[3].setPosition(screenW / 2 + 275, 400);//650
+	}
+	else if (screenW == 1600 && screenH == 900)
+	{
+		candles[0].setPosition(screenW / 2.8, 100);//200
+		candles[1].setPosition(screenW / 1.49, 100);//650
+		candles[2].setPosition(screenW / 2.8, 400);//200
+		candles[3].setPosition(screenW / 1.49, 400);//650
+	}
 }
 
 /*destructor*/

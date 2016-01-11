@@ -113,6 +113,22 @@ ChooseRaceAndGenderMenu::ChooseRaceAndGenderMenu(sf::Font f, bool controller, in
 	classes[SPELLBLADE].setColor(sf::Color::Black);
 	classes[SPELLBLADE].setPosition(sf::Vector2f(550, SCREENHEIGHT / 4));
 
+	//descriptions
+	humanDescriptionTexture.loadFromFile("Assets/CharacterCreation/humanDescription.png");
+	humanDescription.setTexture(humanDescriptionTexture);
+	humanDescription.setOrigin(humanDescriptionTexture.getSize().x / 2, humanDescriptionTexture.getSize().y / 2);
+	humanDescription.setPosition(screenW / 4, screenH / 1.9);
+
+	elfDescriptionTexture.loadFromFile("Assets/CharacterCreation/elfDescription.png");
+	elfDescription.setTexture(elfDescriptionTexture);
+	elfDescription.setOrigin(elfDescriptionTexture.getSize().x / 2, elfDescriptionTexture.getSize().y / 2);
+	elfDescription.setPosition(screenW / 2, screenH / 1.9);
+
+	dwarfDescriptionTexture.loadFromFile("Assets/CharacterCreation/dwarfDescription.png");
+	dwarfDescription.setTexture(dwarfDescriptionTexture);
+	dwarfDescription.setOrigin(dwarfDescriptionTexture.getSize().x / 2, dwarfDescriptionTexture.getSize().y / 2);
+	dwarfDescription.setPosition(screenW / 1.4, screenH / 1.9);
+
 	mouseClicked = false;
 
 	currentState = CHOOSERACE;
@@ -429,6 +445,11 @@ void ChooseRaceAndGenderMenu::Draw(sf::RenderWindow &window)
 			window.draw(races[i]);
 			window.draw(raceIcons[i]);
 		}
+
+		window.draw(humanDescription);
+		window.draw(elfDescription);
+		window.draw(dwarfDescription);
+
 		break;
 
 	case CHOOSEGENDER:

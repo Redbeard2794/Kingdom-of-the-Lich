@@ -320,12 +320,24 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 		{
 			window.draw(*attackOptions.at(i));
 		}
-		if (currentOption == 0)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
-		else if (currentOption == 1)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
-		else if (currentOption == 2)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
+		if (screenW == 1366 && screenH == 768)
+		{
+			if (currentOption == 0)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
+			else if (currentOption == 1)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
+			else if (currentOption == 2)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
+		}
+		else if (screenW == 1600 && screenH == 900)
+		{
+			if (currentOption == 0)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 19);
+			else if (currentOption == 1)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 9.3);//475
+			else if (currentOption == 2)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 6.4);//750
+		}
 	}
 	else if (currentState == SelectItem)
 	{
@@ -335,12 +347,24 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 		{
 			window.draw(*itemOptions.at(i));
 		}
-		if (currentOption == 0)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
-		else if (currentOption == 1)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
-		else if (currentOption == 2)
-			selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
+		if (screenW == 1366 && screenH == 768)
+		{
+			if (currentOption == 0)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 16.3);
+			else if (currentOption == 1)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 8);//475
+			else if (currentOption == 2)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 5.4);//750
+		}
+		else if (screenW == 1600 && screenH == 900)
+		{
+			if (currentOption == 0)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 19);
+			else if (currentOption == 1)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 9.3);//475
+			else if (currentOption == 2)
+				selectorSprite.setPosition(selectorSprite.getPosition().x, screenH / 6.4);//750
+		}
 	}
 	else if (currentState == FleeAttempt)
 	{
