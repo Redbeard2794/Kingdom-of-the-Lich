@@ -66,6 +66,31 @@ private:
 	bool colliding;
 	sf::Vector2f collisionSeparation;
 
+	//for spritesheet handling
+	sf::Vector2i framePosition;
+	sf::Vector2i frameSize;
+	sf::IntRect frame;
+
+	sf::Texture upIdleTexture;
+	sf::Texture downIdleTexture;
+	sf::Texture rightIdleTexture;
+	sf::Texture leftIdleTexture;
+
+	sf::Texture upWalkTexture;
+	sf::Texture downWalkTexture;
+	sf::Texture rightWalkTexture;
+	sf::Texture leftWalkTexture;
+
+	/*The total number of frames in the sheet*/
+	int numFrames;
+
+	/*How long does it take to move through each frame*/
+	float animationTime;
+
+	/*clock for moving through the sheet*/
+	sf::Clock animationClock;
+
+
 public:
 	//constructor(param is a font)
 	Player(sf::Font f);
@@ -80,6 +105,8 @@ public:
 	/*Move the player in the direction they are travelling in
 	Don't allow them to move if that direction is locked due to collision with another object*/
 	void Move(int newDir);
+
+	void Animate();
 
 	/*Check to see if the player is colliding with a chest*/
 	bool CollisionWithChest(sf::Sprite chestSprite);

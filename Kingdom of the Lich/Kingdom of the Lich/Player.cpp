@@ -5,15 +5,16 @@
 Player::Player(sf::Font f) : font(f)
 {
 	//load the correct texture or load the debug texture if something is wrong
-	if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
-	else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	setTexture(mTexture);
+	//if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
+	//else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	//setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
+	//setTexture(mTexture);
 	setPosition(500, 400);
 
 	isRunning = false;
 
-	currentDirection = NOTMOVING;
+	currentDirection = SOUTH;
+	previousDirection = SOUTH;
 	lockedDirection = 5;//assigning a number that does not correspond to a valid direction so that it does not lock anything yet
 
 	boundingBox.setOutlineThickness(2);
@@ -40,15 +41,103 @@ void Player::Update()
 //Set the player's texture based on their chosen race
 void Player::setTextures()
 {
-	if (race == HUMAN)
-		mTexture.loadFromFile("Assets/Icons/humanSkull.png");
-	else if(race == ELF)
-		mTexture.loadFromFile("Assets/Icons/elfSkull.png");
-	else if(race == Dwarf)
-		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
+	numFrames = 3;
+	animationClock.restart();
+	animationTime = 0.2;
 
-	setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	setTexture(mTexture);
+	if (race == HUMAN)
+	{
+		mTexture.loadFromFile("Assets/Icons/humanSkull.png");
+
+		if (gender == MALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/rightSheet.png");
+		}
+		else if (gender == FEMALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/rightSheet.png");
+		}
+	}
+	else if (race == ELF)
+	{
+		mTexture.loadFromFile("Assets/Icons/elfSkull.png");
+		//ranger sprites
+		if (gender == MALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/rightSheet.png");
+		}
+		else if (gender == FEMALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/rightSheet.png");
+		}
+	}
+	else if (race == Dwarf)
+	{
+		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
+		//use berserk sprites?
+		if (gender == MALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/rightSheet.png");
+		}
+		else if (gender == FEMALE)
+		{
+			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/rightSheet.png");
+		}
+	}
+	framePosition = sf::Vector2i(0, 0);
+
+	//setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
+	//setTexture(mTexture);
+	setTexture(downIdleTexture);
+	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
 
 	//set up player's minimap icon
 	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
@@ -67,27 +156,75 @@ void Player::Move(int newDir)
 		if(isRunning == false)
 			setPosition(getPosition().x, getPosition().y -1);
 		else setPosition(getPosition().x, getPosition().y - 2);
+
+		setTexture(upWalkTexture);
 	}
 	else if (currentDirection == SOUTH && lockedDirection != currentDirection)
 	{
 		if (isRunning == false)
 			setPosition(getPosition().x, getPosition().y + 1);
 		else setPosition(getPosition().x, getPosition().y + 2);
+
+		setTexture(downWalkTexture);
 	}
 	else if (currentDirection == EAST && lockedDirection != currentDirection)
 	{
 		if (isRunning == false)
 			setPosition(getPosition().x + 1, getPosition().y);
 		else setPosition(getPosition().x + 2, getPosition().y);
+
+		setTexture(rightWalkTexture);
 	}
 	else if (currentDirection == WEST && lockedDirection != currentDirection)
 	{
 		if (isRunning == false)
 			setPosition(getPosition().x - 1, getPosition().y);
 		else setPosition(getPosition().x - 2, getPosition().y);
+
+		setTexture(leftWalkTexture);
 	}
 
+	frameSize = sf::Vector2i(getTexture()->getSize().x / numFrames, getTexture()->getSize().y);
+	frame = sf::IntRect(framePosition, frameSize);
+	setTextureRect(frame);
+	setOrigin(frameSize.x / 2, frameSize.y / 2);
+
 	previousDirection = currentDirection;
+}
+
+void Player::Animate()
+{
+	//idle
+	if (currentDirection == NOTMOVING)
+	{
+		if (previousDirection == NORTH)
+			setTexture(upIdleTexture);
+		else if (previousDirection == SOUTH)
+			setTexture(downIdleTexture);
+		else if (previousDirection == WEST)
+			setTexture(leftIdleTexture);
+		else if (previousDirection == EAST)
+			setTexture(rightIdleTexture);
+
+		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		setTextureRect(frame);
+		setOrigin(frameSize.x / 2, frameSize.y / 2);
+		framePosition.x = 0;
+	}
+	//moving
+	else
+	{
+		if (animationClock.getElapsedTime().asSeconds() > animationTime)
+		{
+			if (framePosition.x <  getTexture()->getSize().x - frameSize.x)
+				framePosition.x += frameSize.x;//move the frame forward
+
+			else framePosition.x = 0;
+
+			animationClock.restart();
+		}
+	}
 }
 
 /*Check to see if the player is colliding with a chest*/

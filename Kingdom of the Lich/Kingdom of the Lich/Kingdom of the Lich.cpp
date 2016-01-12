@@ -947,17 +947,19 @@ int main()
 				if (gamepad->RT())
 					p->setIsRunning(true);
 				else p->setIsRunning(false);
+				p->Animate();
 
+				//temporarily remove(or maybe permanently)
 				//move with d-pad
-				if (gamepad->DpadUp() && p->IsColliding() == false)
-					p->Move(0);
-				else if (gamepad->DpadDown() && p->IsColliding() == false)
-					p->Move(1);
-				else if (gamepad->DpadRight() && p->IsColliding() == false)
-					p->Move(2);
-				else if (gamepad->DpadLeft() && p->IsColliding() == false)
-					p->Move(3);
-				else p->setCurrentDirection(4);
+				//if (gamepad->DpadUp() && p->IsColliding() == false)
+				//	p->Move(0);
+				//else if (gamepad->DpadDown() && p->IsColliding() == false)
+				//	p->Move(1);
+				//else if (gamepad->DpadRight() && p->IsColliding() == false)
+				//	p->Move(2);
+				//else if (gamepad->DpadLeft() && p->IsColliding() == false)
+				//	p->Move(3);
+				//else p->setCurrentDirection(4);
 
 				//move with analog sticks
 				if (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
