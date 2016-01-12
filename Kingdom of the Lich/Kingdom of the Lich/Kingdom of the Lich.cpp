@@ -947,7 +947,7 @@ int main()
 				if (gamepad->RT())
 					p->setIsRunning(true);
 				else p->setIsRunning(false);
-				p->Animate();
+				
 
 				//temporarily remove(or maybe permanently)
 				//move with d-pad
@@ -966,12 +966,13 @@ int main()
 					p->Move(2);
 				else if (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(3);
-				if (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
+				else if (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(0);
 				else if (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true && p->IsColliding() == false)
 					p->Move(1);
 				else p->setCurrentDirection(4);
 
+				p->Animate();
 
 				//access inventory
 				if (gamepad->B())

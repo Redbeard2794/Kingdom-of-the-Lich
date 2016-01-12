@@ -138,6 +138,7 @@ void Player::setTextures()
 	//setTexture(mTexture);
 	setTexture(downIdleTexture);
 	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
+	scale(2, 2);
 
 	//set up player's minimap icon
 	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
