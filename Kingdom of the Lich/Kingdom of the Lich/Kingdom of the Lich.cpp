@@ -972,8 +972,6 @@ int main()
 					p->Move(1);
 				else p->setCurrentDirection(4);
 
-				p->Animate();
-
 				//access inventory
 				if (gamepad->B())
 				{
@@ -1467,7 +1465,7 @@ int main()
 			break;
 
 		case CONVERSATION:
-
+			//really need to do this
 			break;
 
 		case INVENTORY:

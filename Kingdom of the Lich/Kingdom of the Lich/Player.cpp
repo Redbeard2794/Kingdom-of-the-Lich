@@ -4,11 +4,6 @@
 //constructor(param is a font)
 Player::Player(sf::Font f) : font(f)
 {
-	//load the correct texture or load the debug texture if something is wrong
-	//if (mTexture.loadFromFile("Assets/Icons/goldskull.png")) {}
-	//else mTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
-	//setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	//setTexture(mTexture);
 	setPosition(500, 400);
 
 	isRunning = false;
@@ -36,6 +31,11 @@ void Player::Update()
 	{
 		preCollisionPosition = getPosition();
 	}
+
+	if (isRunning)
+		animationTime = 0.1;
+	else animationTime = 0.18;
+	Animate();
 }
 
 //Set the player's texture based on their chosen race
@@ -45,11 +45,9 @@ void Player::setTextures()
 	animationClock.restart();
 	animationTime = 0.2;
 
-	if (race == HUMAN)
+	if (race == HUMAN)//if the player is a human
 	{
-		mTexture.loadFromFile("Assets/Icons/humanSkull.png");
-
-		if (gender == MALE)
+		if (gender == MALE)//if the player is male
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/downIdle.png");
@@ -61,7 +59,7 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/rightSheet.png");
 		}
-		else if (gender == FEMALE)
+		else if (gender == FEMALE)//if the player is female
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/downIdle.png");
@@ -73,12 +71,12 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/rightSheet.png");
 		}
+
+		scale(1.3, 1.3);
 	}
-	else if (race == ELF)
+	else if (race == ELF)//if the player is an elf
 	{
-		mTexture.loadFromFile("Assets/Icons/elfSkull.png");
-		//ranger sprites
-		if (gender == MALE)
+		if (gender == MALE)//if the player is male
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/downIdle.png");
@@ -90,7 +88,7 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/rightSheet.png");
 		}
-		else if (gender == FEMALE)
+		else if (gender == FEMALE)//if the player is a female
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/downIdle.png");
@@ -102,12 +100,12 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/rightSheet.png");
 		}
+
+		scale(1.3, 1.4);
 	}
-	else if (race == Dwarf)
+	else if (race == Dwarf)//if the player is a dwarf
 	{
-		mTexture.loadFromFile("Assets/Icons/beastmanSkull.png");
-		//use berserk sprites?
-		if (gender == MALE)
+		if (gender == MALE)//if the player is male
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/downIdle.png");
@@ -119,7 +117,7 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/rightSheet.png");
 		}
-		else if (gender == FEMALE)
+		else if (gender == FEMALE)//if the player is female
 		{
 			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/upIdle.png");
 			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/downIdle.png");
@@ -131,14 +129,14 @@ void Player::setTextures()
 			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/leftSheet.png");
 			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/rightSheet.png");
 		}
+
+		scale(1.8, 1.7);
 	}
+
 	framePosition = sf::Vector2i(0, 0);
 
-	//setOrigin(sf::Vector2f(mTexture.getSize().x / 2, mTexture.getSize().y / 2));
-	//setTexture(mTexture);
 	setTexture(downIdleTexture);
 	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
-	scale(2, 2);
 
 	//set up player's minimap icon
 	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
