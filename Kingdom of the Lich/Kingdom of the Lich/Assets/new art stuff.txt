@@ -9,6 +9,12 @@ http://opengameart.org/art-search-advanced?field_art_tags_tid=32x32
 
 character artwork:
 http://opengameart.org/users/charlesgabriel
+npcs:
+http://opengameart.org/content/twelve-more-characters-3-free-characters-and-a-child-template
+	* Paladin = Commander Iron-Arm
+	* normal npcs: townfolk from here: http://opengameart.org/content/twelve-more-16x18-rpg-character-sprites
+	* cultist: http://opengameart.org/content/twelve-16x18-rpg-character-sprites-including-npcs-and-elementals
+	* old man: http://opengameart.org/content/twelve-more-characters-3-free-characters-and-a-child-template
 
 re-done: http://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed
 

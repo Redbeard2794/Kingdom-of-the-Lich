@@ -130,7 +130,7 @@ void Player::setTextures()
 			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/rightSheet.png");
 		}
 
-		scale(1.8, 1.7);
+		scale(2, 2.1);
 	}
 
 	framePosition = sf::Vector2i(0, 0);

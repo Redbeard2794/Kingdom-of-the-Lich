@@ -6,20 +6,20 @@
 		<id>1</id>
 		<race>Human</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/npcTemp.png</idleUpPath>
-		<idleDownPath>Assets/npcTemp.png</idleDownPath>
-		<idleLeftPath>Assets/npcTemp.png</idleLeftPath>
-		<idleRightPath>Assets/npcTemp.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/npcTemp.png</walkUpPath>
-		<walkDownPath>Assets/npcTemp.png</walkDownPath>
-		<walkLeftPath>Assets/npcTemp.png</walkLeftPath>
-		<walkRightPath>Assets/npcTemp.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/Commander Iron-Arm/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/Commander Iron-Arm/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/Commander Iron-Arm/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/Commander Iron-Arm/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/Commander Iron-Arm/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/Commander Iron-Arm/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/Commander Iron-Arm/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/Commander Iron-Arm/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1000</x>
 		<y>1000</y>
 		<hasQuest>true</hasQuest>
-    <interact>true</interact>
+		<interact>true</interact>
 		<behaviour>stand</behaviour>
 	</npc>
 	
@@ -27,20 +27,20 @@
 		<id>2</id>
 		<race>Elf</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/mageIdle/muIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/mageIdle/mdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/mageIdle/mlIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/mageIdle/mrIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/mageSheets/mageMoveUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/mageSheets/mageMoveDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/mageSheets/mageMoveLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/mageSheets/mageMoveRightSheet.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/maleGuard/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleGuard/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleGuard/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleGuard/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/maleGuard/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleGuard/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>625</x>
 		<y>380</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>wander</behaviour>
 	</npc>
 	
@@ -48,20 +48,20 @@
 		<id>3</id>
 		<race>Dwarf</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/npcTemp2.png</idleUpPath>
-		<idleDownPath>Assets/npcTemp2.png</idleDownPath>
-		<idleLeftPath>Assets/npcTemp2.png</idleLeftPath>
-		<idleRightPath>Assets/npcTemp2.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/npcTemp2.png</walkUpPath>
-		<walkDownPath>Assets/npcTemp2.png</walkDownPath>
-		<walkLeftPath>Assets/npcTemp2.png</walkLeftPath>
-		<walkRightPath>Assets/npcTemp2.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/oldMan/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/oldMan/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/oldMan/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/oldMan/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/oldMan/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/oldMan/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/oldMan/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>400</x>
 		<y>920</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>forge</behaviour>
 	</npc>
 	
@@ -69,24 +69,24 @@
 		<id>4</id>
 		<race>Human</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/baldricIdle/buIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/baldricSheets/baldricRightSheet.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/maleTownFolk1/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleTownFolk1/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleTownFolk1/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/maleTownFolk1/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleTownFolk1/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleTownFolk1/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1500</x>
 		<y>800</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>walkPattern</behaviour>
 	</npc>
 	
-	<npc name='The Adoring Fan'>
+	<npc name='The Adoring Giant'>
 		<id>5</id>
 		<race>Elf</race>
 		<gender>Male</gender>
@@ -94,7 +94,7 @@
 		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
 		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
 		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
+		<numberOfFrames>8</numberOfFrames>
 		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
 		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
 		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
@@ -103,7 +103,7 @@
 		<x>600</x>
 		<y>400</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>follow</behaviour>
 	</npc>
   
@@ -111,62 +111,62 @@
 		<id>6</id>
 		<race>Elf</race>
 		<gender>Female</gender>
-		<idleUpPath>Assets/Npcs/mageIdle/muIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/mageIdle/mdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/mageIdle/mlIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/mageIdle/mrIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/mageSheets/mageMoveUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/mageSheets/mageMoveDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/mageSheets/mageMoveLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/mageSheets/mageMoveRightSheet.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/femaleTownFolk1/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/femaleTownFolk1/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/femaleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/femaleTownFolk1/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/femaleTownFolk1/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/femaleTownFolk1/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/femaleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/femaleTownFolk1/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>700</x>
 		<y>1000</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
-		<behaviour>wander</behaviour>
-	</npc>
-  
-	<npc name='Yami'>
-		<id>7</id>
-		<race>Elf</race>
-		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/baldricIdle/buIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/baldricSheets/baldricRightSheet.png</walkRightPath>
-		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>400</x>
-		<y>1500</y>
-		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>wander</behaviour>
 	</npc>
   
 	<npc name='Ezio'>
+		<id>7</id>
+		<race>Elf</race>
+		<gender>Male</gender>
+		<idleUpPath>Assets/Npcs/maleGuard/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleGuard/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleGuard/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleGuard/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/maleGuard/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleGuard/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>400</x>
+		<y>1500</y>
+		<hasQuest>false</hasQuest>
+		<interact>false</interact>
+		<behaviour>wander</behaviour>
+	</npc>
+  
+	<npc name='Yami'>
 		<id>8</id>
 		<race>Human</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/baldricIdle/buIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/baldricSheets/baldricRightSheet.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/cultist/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/cultist/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/cultist/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/cultist/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/cultist/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/cultist/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/cultist/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/cultist/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1200</x>
 		<y>1500</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
+		<interact>false</interact>
 		<behaviour>wander</behaviour>
 	</npc>
   
@@ -174,42 +174,42 @@
 		<id>9</id>
 		<race>Dwarf</race>
 		<gender>Female</gender>
-		<idleUpPath>Assets/npcTemp2.png</idleUpPath>
-		<idleDownPath>Assets/npcTemp2.png</idleDownPath>
-		<idleLeftPath>Assets/npcTemp2.png</idleLeftPath>
-		<idleRightPath>Assets/npcTemp2.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/npcTemp2.png</walkUpPath>
-		<walkDownPath>Assets/npcTemp2.png</walkDownPath>
-		<walkLeftPath>Assets/npcTemp2.png</walkLeftPath>
-		<walkRightPath>Assets/npcTemp2.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/femaleTownFolk1/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/femaleTownFolk1/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/femaleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/femaleTownFolk1/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/femaleTownFolk1/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/femaleTownFolk1/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/femaleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/femaleTownFolk1/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>666</x>
 		<y>666</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
-		<behaviour>forge</behaviour>
+		<interact>false</interact>
+		<behaviour>stand</behaviour>
 	</npc>
   
 	<npc name='Jackie'>
 		<id>10</id>
 		<race>Human</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/npcTemp.png</idleUpPath>
-		<idleDownPath>Assets/npcTemp.png</idleDownPath>
-		<idleLeftPath>Assets/npcTemp.png</idleLeftPath>
-		<idleRightPath>Assets/npcTemp.png</idleRightPath>
-    <numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/npcTemp.png</walkUpPath>
-		<walkDownPath>Assets/npcTemp.png</walkDownPath>
-		<walkLeftPath>Assets/npcTemp.png</walkLeftPath>
-		<walkRightPath>Assets/npcTemp.png</walkRightPath>
+		<idleUpPath>Assets/Npcs/maleGuard/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleGuard/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleGuard/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleGuard/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/maleGuard/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleGuard/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1600</x>
 		<y>300</y>
 		<hasQuest>false</hasQuest>
-    <interact>false</interact>
-		<behaviour>forge</behaviour>
+		<interact>false</interact>
+		<behaviour>stand</behaviour>
 	</npc>
 
 </npcList>

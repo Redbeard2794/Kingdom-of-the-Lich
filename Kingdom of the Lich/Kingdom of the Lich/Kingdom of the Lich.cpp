@@ -69,6 +69,7 @@ int main()
 	//player_view.zoom(1.5f);
 	//Set it to be size of window
 	player_view.setViewport(sf::FloatRect(0, 0, 1, 1));
+	player_view.zoom(.36);
 
 	//minimap
 	bool showMinimap = true;

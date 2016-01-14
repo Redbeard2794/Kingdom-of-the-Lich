@@ -28,12 +28,23 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 
 	framePosition = sf::Vector2i(0, 0);
 	idle = true;
-	currentDirection = DOWN;
+	
 
-	setTexture(downIdleTexture);
-	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
+	if (behaviour == "forge")
+	{
+		setTexture(leftIdleTexture);
+		setOrigin(leftIdleTexture.getSize().x / 2, leftIdleTexture.getSize().y / 2);
+		currentDirection = LEFT;
+	}
+	else
+	{
+		setTexture(downIdleTexture);
+		setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
+		currentDirection = DOWN;
+	}
 	setPosition(pos);
 	prevPos = getPosition();
+	scale(2.6, 2.9);
 
 	if (npcMinimapIconTexture.loadFromFile(mapIconTexturePath)) {}
 	else npcMinimapIconTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
@@ -117,7 +128,7 @@ void Npc::Update(sf::Vector2f playerPos)
 
 	if (idle == false)
 	{
-		if (animationClock.getElapsedTime().asMilliseconds() > 55)
+		if (animationClock.getElapsedTime().asSeconds() > 0.2)
 		{
 			if (framePosition.x < getTexture()->getSize().x-frameSize.x)
 				framePosition.x += frameSize.x;
