@@ -431,6 +431,8 @@ int main()
 		window.clear();
 		switch (gState)
 		{
+
+#pragma region SplashScreen
 		case SPLASH:
 			splashScreen->Update();
 			splashScreen->Draw(window);
@@ -482,7 +484,10 @@ int main()
 				}
 			}
 			break;
+#pragma endregion
 
+
+#pragma region MainMenu
 		case MAINMENU:
 			mainMenu->Draw(window);
 			audioManager->FadeOutSound(7);
@@ -601,7 +606,10 @@ int main()
 				}
 			}
 			break;
+#pragma endregion
 
+
+#pragma region ChooseRaceAndGender
 		case CHOOSERACEGENDER:
 			audioManager->FadeOutMusic(0);
 
@@ -924,11 +932,14 @@ int main()
 				ConfirmationDialogBox::GetInstance()->Draw(window);
 			}
 			break;
+#pragma endregion
+
 
 		case CHOOSECLASS:
 
 			break;
 
+#pragma region Game
 		case GAME:
 			popupMessageHandler.UpdateMessages();
 			
@@ -1282,7 +1293,10 @@ int main()
 
 
 			break;
+#pragma endregion
 
+
+#pragma region Combat
 		case COMBAT:
 			window.setView(window.getDefaultView());
 
@@ -1464,11 +1478,16 @@ int main()
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
 			break;
+#pragma endregion
+
+#pragma region Conversation
 
 		case CONVERSATION:
 			//really need to do this
 			break;
+#pragma endregion
 
+#pragma region Inventory
 		case INVENTORY:
 			window.setView(window.getDefaultView());
 			testInv->Draw(window);
@@ -1485,7 +1504,9 @@ int main()
 			}
 
 			break;
+#pragma endregion
 
+#pragma region Credits
 		case CREDITS:
 			credits->Update();
 			credits->Draw(window);
@@ -1503,6 +1524,7 @@ int main()
 					gState = MAINMENU;
 			}
 			break;
+#pragma endregion
 		}
 
 
