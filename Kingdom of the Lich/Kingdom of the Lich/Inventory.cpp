@@ -147,6 +147,8 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	exitHintSprite.setTexture(exitHintTexture);
 	exitHintSprite.setOrigin(exitHintTexture.getSize().x / 2, exitHintTexture.getSize().y / 2);
 	exitHintSprite.setPosition(screenW/2.1, screenH/1.05);
+
+	CheckItemsToShow();
 }
 
 /*Destructor*/
@@ -276,48 +278,85 @@ void Inventory::UseItem(std::string itemToUse)
 	}
 }
 
+//check items that should be drawn i.e. items that have a quantity > 0
+void Inventory::CheckItemsToShow()
+{
+	for (int i = 0; i < itemKeys.size(); i++)
+	{
+		if (std::find(drawableItems.begin(), drawableItems.end(), itemKeys.at(i)) != drawableItems.end() == false)//if the item is not already in the drawable items vector
+		{
+			if (CheckQuantity(itemKeys.at(i), false) > 0)//if the quantity of this item is > 0
+			{
+				drawableItems.push_back(itemKeys.at(i));//add the item to the drawable items vector
+			}
+		}
+	}
+}
+
 /*Draw items that have a quantity > 0*/
 void Inventory::Draw(sf::RenderTarget& window)
 {
+	CheckItemsToShow();
 	window.draw(backgroundSprite);
 	window.draw(headerText);
 
-	//draw items
-	window.draw(healthPotSprite);
-	healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
-	window.draw(healthText);
-
-	window.draw(aleBottleSprite);
-	aleText.setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
-	window.draw(aleText);
-
-	window.draw(loafOfBreadSprite);
-	breadText.setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
-	window.draw(breadText);
-
-	window.draw(baracksKeySprite);
-	baracksKeyText.setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
-	window.draw(baracksKeyText);
-
-	window.draw(parchmentSprite);
-	parchmentText.setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
-	window.draw(parchmentText);
-
-	window.draw(inkBottleSprite);
-	inkBottleText.setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
-	window.draw(inkBottleText);
-
-	window.draw(gemSprite);
-	gemText.setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
-	window.draw(gemText);
-
-	window.draw(appleSprite);
-	appleText.setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
-	window.draw(appleText);
-
-	window.draw(quillSprite);
-	quillText.setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
-	window.draw(quillText);
+	for (int i = 0; i < drawableItems.size(); i++)
+	{
+		if (drawableItems.at(i) == i_healthPotion.key)
+		{
+			window.draw(healthPotSprite);
+			healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
+			window.draw(healthText);
+		}
+		else if (drawableItems.at(i) == i_ale.key)
+		{
+			window.draw(aleBottleSprite);
+			aleText.setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
+			window.draw(aleText);
+		}
+		else if (drawableItems.at(i) == i_bread.key)
+		{
+			window.draw(loafOfBreadSprite);
+			breadText.setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
+			window.draw(breadText);
+		}
+		else if (drawableItems.at(i) == i_baracksKey.key)
+		{
+			window.draw(baracksKeySprite);
+			baracksKeyText.setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
+			window.draw(baracksKeyText);
+		}
+		else if (drawableItems.at(i) == i_parchment.key)
+		{
+			window.draw(parchmentSprite);
+			parchmentText.setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
+			window.draw(parchmentText);
+		}
+		else if (drawableItems.at(i) == i_inkBottle.key)
+		{
+			window.draw(inkBottleSprite);
+			inkBottleText.setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
+			window.draw(inkBottleText);
+		}
+		else if (drawableItems.at(i) == i_gems.key)
+		{
+			window.draw(gemSprite);
+			gemText.setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
+			window.draw(gemText);
+		}
+		else if (drawableItems.at(i) == i_apple.key)
+		{
+			window.draw(appleSprite);
+			appleText.setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
+			window.draw(appleText);
+		}
+		else if (drawableItems.at(i) == i_quill.key)
+		{
+			window.draw(quillSprite);
+			quillText.setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
+			window.draw(quillText);
+		}
+	}
 
 	window.draw(exitHintSprite);
 }

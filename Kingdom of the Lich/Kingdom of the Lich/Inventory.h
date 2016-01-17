@@ -17,6 +17,7 @@ private:
 	sf::Font font;
 	//all the item keys
 	std::vector<std::string> itemKeys;
+	std::vector<std::string> drawableItems;
 
 	//item icon stuff
 	sf::Texture healthPotTexture;
@@ -106,6 +107,9 @@ public:
 	parameter is the itme to use
 	*/
 	void UseItem(std::string itemToUse);
+
+	//check items that should be drawn i.e. items that have a quantity > 0
+	void CheckItemsToShow();
 
 	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);
