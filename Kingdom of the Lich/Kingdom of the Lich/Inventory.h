@@ -7,6 +7,9 @@ private:
 	int screenW;
 	int screenH;
 
+	int currentlySelectedItem;
+	bool canMove;
+
 	//map containg items with their quantity
 	std::map<std::string, int> inventoryItems;
 	//background stuff for UI
@@ -55,6 +58,8 @@ private:
 	sf::Texture quillTexture;
 	sf::Sprite quillSprite;
 	sf::Text quillText;
+
+	sf::Text menuItems[9];
 
 	//hint stuff
 	bool showControllerHints;
@@ -110,6 +115,10 @@ public:
 
 	//check items that should be drawn i.e. items that have a quantity > 0
 	void CheckItemsToShow();
+
+	void NavigateUp();
+
+	void NavigateDown();
 
 	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);

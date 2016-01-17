@@ -7,6 +7,9 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	screenW = sw;
 	screenH = sh;
 
+	currentlySelectedItem = 0;
+	canMove = true;
+
 	//load these keys from a file eventually
 	i_healthPotion.key = "Health Potion";
 	i_ale.key = "Bottle of Ale";
@@ -290,6 +293,26 @@ void Inventory::CheckItemsToShow()
 				drawableItems.push_back(itemKeys.at(i));//add the item to the drawable items vector
 			}
 		}
+	}
+}
+
+void Inventory::NavigateUp()
+{
+	if (canMove)
+	{
+		if (currentlySelectedItem == drawableItems.size())
+			currentlySelectedItem = 0;
+		else currentlySelectedItem++;
+	}
+}
+
+void Inventory::NavigateDown()
+{
+	if (canMove)
+	{
+		if (currentlySelectedItem == 0)
+			currentlySelectedItem = drawableItems.size();
+		else currentlySelectedItem--;
 	}
 }
 

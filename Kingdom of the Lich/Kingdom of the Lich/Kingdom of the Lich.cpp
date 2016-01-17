@@ -1491,6 +1491,7 @@ int main()
 		case INVENTORY:
 			window.setView(window.getDefaultView());
 			testInv->Draw(window);
+
 			if (useController == true)
 			{
 				gamepad->CheckAllButtons();
