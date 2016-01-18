@@ -1497,6 +1497,22 @@ int main()
 				gamepad->CheckAllButtons();
 				if (gamepad->Back())
 					gState = GAME;
+
+				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					testInv->NavigateDown();
+					testInv->setCanMove(false);
+				}
+
+				else if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					testInv->NavigateUp();
+					testInv->setCanMove(false);
+				}
+
+				else testInv->setCanMove(true);
+
+
 			}
 			else if (useController == false)
 			{

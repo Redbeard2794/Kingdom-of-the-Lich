@@ -20,46 +20,44 @@ private:
 	sf::Font font;
 	//all the item keys
 	std::vector<std::string> itemKeys;
+
+	struct DrawableItem
+	{
+		std::string key;
+		sf::Vector2f position;
+	};
+
 	std::vector<std::string> drawableItems;
 
 	//item icon stuff
 	sf::Texture healthPotTexture;
 	sf::Sprite healthPotSprite;
-	sf::Text healthText;
 
 	sf::Texture aleBottleTexture;
 	sf::Sprite aleBottleSprite;
-	sf::Text aleText;
 
 	sf::Texture loafOfBreadTexture;
 	sf::Sprite loafOfBreadSprite;
-	sf::Text breadText;
 
 	sf::Texture baracksKeyTexture;
 	sf::Sprite baracksKeySprite;
-	sf::Text baracksKeyText;
 
 	sf::Texture parchmentTexture;
 	sf::Sprite parchmentSprite;
-	sf::Text parchmentText;
 
 	sf::Texture inkBottleTexture;
 	sf::Sprite inkBottleSprite;
-	sf::Text inkBottleText;
 
 	sf::Texture gemTexture;
 	sf::Sprite gemSprite;
-	sf::Text gemText;
 
 	sf::Texture appleTexture;
 	sf::Sprite appleSprite;
-	sf::Text appleText;
 
 	sf::Texture quillTexture;
 	sf::Sprite quillSprite;
-	sf::Text quillText;
 
-	sf::Text menuItems[9];
+	sf::Text itemTexts[9];
 
 	//hint stuff
 	bool showControllerHints;
@@ -120,8 +118,12 @@ public:
 
 	void NavigateDown();
 
+	void PositionText();
+
 	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);
+
+	void setCanMove(bool b);
 
 };
 

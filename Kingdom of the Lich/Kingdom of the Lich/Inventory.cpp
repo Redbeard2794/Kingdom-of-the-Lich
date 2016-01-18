@@ -21,6 +21,19 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	i_inkBottle.key = "Ink Bottle";
 	i_quill.key = "Quill";
 
+	std::string line;
+	std::ifstream myfile("Assets/Inventory/itemKeys.txt");
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			std::cout << line << '\n' << std::endl;;
+		}
+		myfile.close();
+	}
+
+	else std::cout << "Unable to open file" << std::endl;;
+
 	itemKeys.push_back(i_healthPotion.key);
 	itemKeys.push_back(i_ale.key);
 	itemKeys.push_back(i_bread.key);
@@ -66,81 +79,90 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	healthPotSprite.setTexture(healthPotTexture);
 	healthPotSprite.setOrigin(healthPotTexture.getSize().x / 2, healthPotTexture.getSize().y / 2);
 	healthPotSprite.setPosition(screenW / 10, 100);
-	healthText.setString("Health Potion x");
-	healthText.setFont(font);
-	healthText.setPosition(screenW / 8, 70 + healthPotTexture.getSize().y / 2);
-	healthText.setCharacterSize(15);
+
+	itemTexts[0].setString("Health Potion x");
+	itemTexts[0].setFont(font);
+	itemTexts[0].setPosition(screenW / 8, 70 + healthPotTexture.getSize().y / 2);
+	itemTexts[0].setCharacterSize(15);
 
 	aleBottleSprite.setTexture(aleBottleTexture);
 	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
 	aleBottleSprite.setScale(2, 1.7f);
 	aleBottleSprite.setPosition(screenW / 10, 200);
-	aleText.setString("Bottle of Ale x");
-	aleText.setFont(font);
-	aleText.setPosition(screenW / 8, 170 + aleBottleTexture.getSize().y / 2);
-	aleText.setCharacterSize(15);
+
+	itemTexts[1].setString("Bottle of Ale x");
+	itemTexts[1].setFont(font);
+	itemTexts[1].setPosition(screenW / 8, 170 + aleBottleTexture.getSize().y / 2);
+	itemTexts[1].setCharacterSize(15);
 
 	loafOfBreadSprite.setTexture(loafOfBreadTexture);
 	loafOfBreadSprite.setOrigin(loafOfBreadTexture.getSize().x / 2, loafOfBreadTexture.getSize().y / 2);
 	loafOfBreadSprite.setScale(2, 1.7f);
 	loafOfBreadSprite.setPosition(screenW / 10, 300);
-	breadText.setString("Loaf of Bread x");
-	breadText.setFont(font);
-	breadText.setPosition(screenW / 8, 270 + loafOfBreadTexture.getSize().y / 2);
-	breadText.setCharacterSize(15);
+
+	itemTexts[2].setString("Loaf of Bread x");
+	itemTexts[2].setFont(font);
+	itemTexts[2].setPosition(screenW / 8, 270 + loafOfBreadTexture.getSize().y / 2);
+	itemTexts[2].setCharacterSize(15);
 
 	baracksKeySprite.setTexture(baracksKeyTexture);
 	baracksKeySprite.setOrigin(baracksKeyTexture.getSize().x / 2, baracksKeyTexture.getSize().y / 2);
 	baracksKeySprite.setRotation(-30);
 	baracksKeySprite.setPosition(screenW / 10, 400);
-	baracksKeyText.setString("Baracks key x");
-	baracksKeyText.setFont(font);
-	baracksKeyText.setPosition(screenW / 8, 370 + baracksKeyTexture.getSize().y / 2);
-	baracksKeyText.setCharacterSize(15);
+
+	itemTexts[3].setString("Baracks key x");
+	itemTexts[3].setFont(font);
+	itemTexts[3].setPosition(screenW / 8, 370 + baracksKeyTexture.getSize().y / 2);
+	itemTexts[3].setCharacterSize(15);
 
 	parchmentSprite.setTexture(parchmentTexture);
 	parchmentSprite.setOrigin(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2);
 	parchmentSprite.setPosition(screenW / 10, 500);
-	parchmentText.setString("Parchment x");
-	parchmentText.setFont(font);
-	parchmentText.setPosition(screenW / 8, 470 + parchmentTexture.getSize().y / 2);
-	parchmentText.setCharacterSize(15);
+
+	itemTexts[4].setString("Parchment x");
+	itemTexts[4].setFont(font);
+	itemTexts[4].setPosition(screenW / 8, 470 + parchmentTexture.getSize().y / 2);
+	itemTexts[4].setCharacterSize(15);
 
 	inkBottleSprite.setTexture(inkBottleTexture);
 	inkBottleSprite.setOrigin(inkBottleTexture.getSize().x / 2, inkBottleTexture.getSize().y / 2);
 	inkBottleSprite.setScale(1.2f, 1.2f);
 	inkBottleSprite.setPosition(screenW / 3.3, 100);
-	inkBottleText.setString("Ink Bottle x");
-	inkBottleText.setFont(font);
-	inkBottleText.setPosition(screenW / 3, 70 + inkBottleTexture.getSize().y / 2);
-	inkBottleText.setCharacterSize(15);
+
+	itemTexts[5].setString("Ink Bottle x");
+	itemTexts[5].setFont(font);
+	itemTexts[5].setPosition(screenW / 3, 70 + inkBottleTexture.getSize().y / 2);
+	itemTexts[5].setCharacterSize(15);
 
 	gemSprite.setTexture(gemTexture);
 	gemSprite.setOrigin(gemTexture.getSize().x / 2, gemTexture.getSize().y / 2);
 	gemSprite.setScale(1.5f, 1.5f);
 	gemSprite.setPosition(screenW / 3.3, 200);
-	gemText.setString("Gems x");
-	gemText.setFont(font);
-	gemText.setPosition(screenW / 3, 170 + gemTexture.getSize().y / 2);
-	gemText.setCharacterSize(15);
+
+	itemTexts[6].setString("Gems x");
+	itemTexts[6].setFont(font);
+	itemTexts[6].setPosition(screenW / 3, 170 + gemTexture.getSize().y / 2);
+	itemTexts[6].setCharacterSize(15);
 
 	appleSprite.setTexture(appleTexture);
 	appleSprite.setOrigin(appleTexture.getSize().x / 2, appleTexture.getSize().y / 2);
 	//appleSprite.setScale(1.5f, 1.5f);
 	appleSprite.setPosition(screenW / 3.3, 300);
-	appleText.setString("Apple x");
-	appleText.setFont(font);
-	appleText.setPosition(screenW / 3, 270 + appleTexture.getSize().y / 2);
-	appleText.setCharacterSize(15);
+
+	itemTexts[7].setString("Apple x");
+	itemTexts[7].setFont(font);
+	itemTexts[7].setPosition(screenW / 3, 270 + appleTexture.getSize().y / 2);
+	itemTexts[7].setCharacterSize(15);
 
 	quillSprite.setTexture(quillTexture);
 	quillSprite.setOrigin(quillTexture.getSize().x / 2, quillTexture.getSize().y / 2);
 	//quillSprite.setScale(1.5f, 1.5f);
 	quillSprite.setPosition(screenW / 3.3, 400);
-	quillText.setString("Quill x");
-	quillText.setFont(font);
-	quillText.setPosition(screenW / 3, 370 + quillTexture.getSize().y / 2);
-	quillText.setCharacterSize(15);
+
+	itemTexts[8].setString("Quill x");
+	itemTexts[8].setFont(font);
+	itemTexts[8].setPosition(screenW / 3, 370 + quillTexture.getSize().y / 2);
+	itemTexts[8].setCharacterSize(15);
 
 	//hints
 	if (showControllerHints == true)
@@ -165,7 +187,7 @@ void Inventory::InitialiseInventoryItems()
 {
 	for (int i = 0; i < itemKeys.size(); i++)
 	{
-		inventoryItems[itemKeys.at(i)] = 0;
+		inventoryItems[itemKeys.at(i)] = 2;
 	}
 }
 
@@ -316,10 +338,28 @@ void Inventory::NavigateDown()
 	}
 }
 
+void Inventory::PositionText()
+{
+	for (int i = 0; i < drawableItems.size(); i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			std::string temp = itemTexts[j].getString();
+			temp = temp.substr(0, temp.size() - 2);
+			if (drawableItems.at(i) == temp)
+			{
+				std::cout << j << std::endl;
+				itemTexts[j].setPosition(screenW / 8, i * 50);
+			}
+		}
+	}
+}
+
 /*Draw items that have a quantity > 0*/
 void Inventory::Draw(sf::RenderTarget& window)
 {
 	CheckItemsToShow();
+	PositionText();
 	window.draw(backgroundSprite);
 	window.draw(headerText);
 
@@ -328,58 +368,126 @@ void Inventory::Draw(sf::RenderTarget& window)
 		if (drawableItems.at(i) == i_healthPotion.key)
 		{
 			window.draw(healthPotSprite);
-			healthText.setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
-			window.draw(healthText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[0].setColor(sf::Color::Red);
+			}
+			else itemTexts[0].setColor(sf::Color::White);
+
+			itemTexts[0].setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
+			window.draw(itemTexts[0]);
 		}
 		else if (drawableItems.at(i) == i_ale.key)
 		{
 			window.draw(aleBottleSprite);
-			aleText.setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
-			window.draw(aleText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[1].setColor(sf::Color::Red);
+			}
+			else itemTexts[1].setColor(sf::Color::White);
+
+			itemTexts[1].setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
+			window.draw(itemTexts[1]);
 		}
 		else if (drawableItems.at(i) == i_bread.key)
 		{
 			window.draw(loafOfBreadSprite);
-			breadText.setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
-			window.draw(breadText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[2].setColor(sf::Color::Red);
+			}
+			else itemTexts[2].setColor(sf::Color::White);
+
+			itemTexts[2].setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
+			window.draw(itemTexts[2]);
 		}
 		else if (drawableItems.at(i) == i_baracksKey.key)
 		{
 			window.draw(baracksKeySprite);
-			baracksKeyText.setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
-			window.draw(baracksKeyText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[3].setColor(sf::Color::Red);
+			}
+			else itemTexts[3].setColor(sf::Color::White);
+
+			itemTexts[3].setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
+			window.draw(itemTexts[3]);
 		}
 		else if (drawableItems.at(i) == i_parchment.key)
 		{
 			window.draw(parchmentSprite);
-			parchmentText.setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
-			window.draw(parchmentText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[4].setColor(sf::Color::Red);
+			}
+			else itemTexts[4].setColor(sf::Color::White);
+
+			itemTexts[4].setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
+			window.draw(itemTexts[4]);
 		}
 		else if (drawableItems.at(i) == i_inkBottle.key)
 		{
 			window.draw(inkBottleSprite);
-			inkBottleText.setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
-			window.draw(inkBottleText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[5].setColor(sf::Color::Red);
+			}
+			else itemTexts[5].setColor(sf::Color::White);
+
+			itemTexts[5].setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
+			window.draw(itemTexts[5]);
 		}
 		else if (drawableItems.at(i) == i_gems.key)
 		{
 			window.draw(gemSprite);
-			gemText.setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
-			window.draw(gemText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[6].setColor(sf::Color::Red);
+			}
+			else itemTexts[6].setColor(sf::Color::White);
+
+			itemTexts[6].setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
+			window.draw(itemTexts[6]);
 		}
 		else if (drawableItems.at(i) == i_apple.key)
 		{
 			window.draw(appleSprite);
-			appleText.setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
-			window.draw(appleText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[7].setColor(sf::Color::Red);
+			}
+			else itemTexts[7].setColor(sf::Color::White);
+
+			itemTexts[7].setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
+			window.draw(itemTexts[7]);
 		}
 		else if (drawableItems.at(i) == i_quill.key)
 		{
 			window.draw(quillSprite);
-			quillText.setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
-			window.draw(quillText);
+
+			if (currentlySelectedItem == i)
+			{
+				itemTexts[8].setColor(sf::Color::Red);
+			}
+			else itemTexts[8].setColor(sf::Color::White);
+
+			itemTexts[8].setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
+			window.draw(itemTexts[8]);
 		}
 	}
 
 	window.draw(exitHintSprite);
+}
+
+void Inventory::setCanMove(bool b)
+{
+	canMove = b;
 }

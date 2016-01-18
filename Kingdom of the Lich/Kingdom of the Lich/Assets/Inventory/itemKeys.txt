@@ -1,0 +1,9 @@
+Health Potion
+Bottle of Ale
+Loaf of Bread
+Apple
+Gems
+Baracks Key
+Parchment
+Ink Bottle
+Quill
