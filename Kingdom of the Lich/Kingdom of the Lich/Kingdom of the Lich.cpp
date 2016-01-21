@@ -193,7 +193,7 @@ int main()
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 
 	//testing chest
-	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
+	Chest* testChest = new Chest(testInv->i_healthPotion.key, 1);
 	testChest->LoadInteractHintTexture(useController);
 
 	bool showQuestComplete = false;
@@ -1512,17 +1512,10 @@ int main()
 
 				else testInv->setCanMove(true);
 
+
 				if (gamepad->A() == true)
 				{
-					if (testInv->getCanMove() == true)
-					{
-						testInv->UseItem(testInv->getCurrentlySelectedItem(), *p);
-						testInv->setCanMove(false);
-					}
-				}
-				else
-				{
-					testInv->setCanMove(true);
+					testInv->UseItem(testInv->getCurrentlySelectedItem(), *p);
 				}
 
 			}

@@ -187,7 +187,7 @@ void Inventory::InitialiseInventoryItems()
 {
 	for (int i = 0; i < itemKeys.size(); i++)
 	{
-		inventoryItems[itemKeys.at(i)] = 1;
+		inventoryItems[itemKeys.at(i)] = 0;
 	}
 }
 
