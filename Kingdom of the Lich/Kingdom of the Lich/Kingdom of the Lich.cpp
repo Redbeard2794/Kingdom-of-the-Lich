@@ -57,7 +57,7 @@ int main()
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
 	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
 	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
 	sf::RenderWindow *pWindow = &window;
 
@@ -1265,8 +1265,8 @@ int main()
 			//hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
 
 			if (testQuest->getCompletionStatus() == false)
-				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
-			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap);
+				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap, p->getHealth());
+			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
 
 			if (gamepad->Back())
 			{
@@ -1512,6 +1512,18 @@ int main()
 
 				else testInv->setCanMove(true);
 
+				if (gamepad->A() == true)
+				{
+					if (testInv->getCanMove() == true)
+					{
+						testInv->UseItem(testInv->getCurrentlySelectedItem(), *p);
+						testInv->setCanMove(false);
+					}
+				}
+				else
+				{
+					testInv->setCanMove(true);
+				}
 
 			}
 			else if (useController == false)

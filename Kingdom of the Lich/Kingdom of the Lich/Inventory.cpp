@@ -187,7 +187,7 @@ void Inventory::InitialiseInventoryItems()
 {
 	for (int i = 0; i < itemKeys.size(); i++)
 	{
-		inventoryItems[itemKeys.at(i)] = 2;
+		inventoryItems[itemKeys.at(i)] = 1;
 	}
 }
 
@@ -279,28 +279,99 @@ void Inventory::RemoveItemFromInventory(std::string itemToRemoveFrom, int quanti
 Use an item from the inventory
 parameter is the itme to use
 */
-void Inventory::UseItem(std::string itemToUse)
+void Inventory::UseItem(int itemToUseIndex, Player& p)
 {
-	if (itemToUse == "Health Potion")
+	if (canMove == true)
 	{
-		if (inventoryItems["Health Potion"] > 0)
+		if (drawableItems.at(itemToUseIndex) == i_healthPotion.key)
 		{
-			std::cout << "Using a health potion now" << std::endl;
-			RemoveItemFromInventory("Health Potion", 1);
-			std::cout << "Healing the player" << std::endl;
-			//player would be healed from here in the future
+			if (inventoryItems[i_healthPotion.key] > 0)
+			{
+				std::cout << "Using a health potion now" << std::endl;
+				RemoveItemFromInventory(i_healthPotion.key, 1);
+				std::cout << "Healing the player" << std::endl;
+				p.setHealth(p.getHealth() + 25);
+			}
+			else std::cout << "you do not have any Health Potions" << std::endl;
 		}
-		else std::cout << "you do not have any Health Potions" << std::endl;
-	}
 
-	else if (itemToUse == "Loaf of Bread")
-	{
-		if (inventoryItems["Loaf of Bread"] > 0)
+		else if (drawableItems.at(itemToUseIndex) == i_ale.key)
 		{
-
+			if (inventoryItems[i_ale.key] > 0)
+			{
+				std::cout << "Drinking a nice bottle of ale." << std::endl;
+				RemoveItemFromInventory(i_ale.key, 1);
+				std::cout << "Healed the player slightly. Add drunkness effect later...." << std::endl;
+				p.setHealth(p.getHealth() + 7);
+			}
+			else std::cout << "You do not have any ale :(" << std::endl;
 		}
-		else std::cout << "you do not have any Loaves of Bread" << std::endl;
+
+		else if (drawableItems.at(itemToUseIndex) == i_bread.key)
+		{
+			if (inventoryItems[i_bread.key] > 0)
+			{
+				std::cout << "Eating some bread now." << std::endl;
+				RemoveItemFromInventory(i_bread.key, 1);
+				std::cout << "Healing the player." << std::endl;
+				p.setHealth(p.getHealth() + 10);
+			}
+			else std::cout << "you do not have any Loaves of Bread" << std::endl;
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_apple.key)
+		{
+			if (inventoryItems[i_apple.key] > 0)
+			{
+				std::cout << "Eating an apple now." << std::endl;
+				RemoveItemFromInventory(i_apple.key, 1);
+				std::cout << "Healing the player" << std::endl;
+				p.setHealth(p.getHealth() + 10);//get the healing value from a file in future?
+			}
+			else std::cout << "You do not have any apples." << std::endl;
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_gems.key)
+		{
+			if (inventoryItems[i_gems.key] > 0)
+			{
+				std::cout << "Now is not the time to use these gems." << std::endl;
+			}
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_baracksKey.key)
+		{
+			if (inventoryItems[i_baracksKey.key] > 0)
+			{
+				std::cout << "Now is not the time to use this key." << std::endl;
+			}
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_parchment.key)
+		{
+			if (inventoryItems[i_parchment.key] > 0)
+			{
+				std::cout << "Now is not the time to use this parchment." << std::endl;
+			}
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_inkBottle.key)
+		{
+			if (inventoryItems[i_inkBottle.key] > 0)
+			{
+				std::cout << "Now is not the time to use the ink in this bottle." << std::endl;
+			}
+		}
+
+		else if (drawableItems.at(itemToUseIndex) == i_quill.key)
+		{
+			if (inventoryItems[i_quill.key] > 0)
+			{
+				std::cout << "Now is not the time to write a novel." << std::endl;
+			}
+		}
 	}
+	UpdateDrawableVector();
 }
 
 //check items that should be drawn i.e. items that have a quantity > 0
@@ -355,6 +426,21 @@ void Inventory::PositionText()
 	}
 }
 
+void Inventory::UpdateDrawableVector()
+{
+	std::cout << "DrawableItems.Size() before: " << drawableItems.size() << std::endl;
+	for (auto it = drawableItems.begin(); it != drawableItems.end();)
+	{
+		if (inventoryItems[(*it)] <= 0)
+		{
+			it = drawableItems.erase(it);//erase the object(calls the objects destructor)
+		}
+		else ++it;
+	}
+
+	std::cout << "DrawableItems.Size() after: " << drawableItems.size() << std::endl;
+}
+
 /*Draw items that have a quantity > 0*/
 void Inventory::Draw(sf::RenderTarget& window)
 {
@@ -367,7 +453,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 	{
 		if (drawableItems.at(i) == i_healthPotion.key)
 		{
-			window.draw(healthPotSprite);
+			//window.draw(healthPotSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -380,7 +466,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_ale.key)
 		{
-			window.draw(aleBottleSprite);
+			//window.draw(aleBottleSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -393,7 +479,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_bread.key)
 		{
-			window.draw(loafOfBreadSprite);
+			//window.draw(loafOfBreadSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -406,7 +492,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_baracksKey.key)
 		{
-			window.draw(baracksKeySprite);
+			//window.draw(baracksKeySprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -419,7 +505,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_parchment.key)
 		{
-			window.draw(parchmentSprite);
+			//window.draw(parchmentSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -432,7 +518,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_inkBottle.key)
 		{
-			window.draw(inkBottleSprite);
+			//window.draw(inkBottleSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -445,7 +531,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_gems.key)
 		{
-			window.draw(gemSprite);
+			//window.draw(gemSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -458,7 +544,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_apple.key)
 		{
-			window.draw(appleSprite);
+			//window.draw(appleSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -471,7 +557,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 		}
 		else if (drawableItems.at(i) == i_quill.key)
 		{
-			window.draw(quillSprite);
+			//window.draw(quillSprite);
 
 			if (currentlySelectedItem == i)
 			{
@@ -487,7 +573,17 @@ void Inventory::Draw(sf::RenderTarget& window)
 	window.draw(exitHintSprite);
 }
 
+bool Inventory::getCanMove()
+{
+	return canMove;
+}
+
 void Inventory::setCanMove(bool b)
 {
 	canMove = b;
+}
+
+int Inventory::getCurrentlySelectedItem()
+{
+	return currentlySelectedItem;
 }

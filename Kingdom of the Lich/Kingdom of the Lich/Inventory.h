@@ -21,11 +21,11 @@ private:
 	//all the item keys
 	std::vector<std::string> itemKeys;
 
-	struct DrawableItem
-	{
-		std::string key;
-		sf::Vector2f position;
-	};
+	//struct DrawableItem
+	//{
+	//	std::string key;
+	//	sf::Vector2f position;
+	//};
 
 	std::vector<std::string> drawableItems;
 
@@ -109,7 +109,7 @@ public:
 	Use an item from the inventory
 	parameter is the itme to use
 	*/
-	void UseItem(std::string itemToUse);
+	void UseItem(int itemToUseIndex, Player& p);
 
 	//check items that should be drawn i.e. items that have a quantity > 0
 	void CheckItemsToShow();
@@ -120,10 +120,16 @@ public:
 
 	void PositionText();
 
+	void UpdateDrawableVector();
+
 	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);
 
+	bool getCanMove();
+
 	void setCanMove(bool b);
+
+	int getCurrentlySelectedItem();
 
 };
 

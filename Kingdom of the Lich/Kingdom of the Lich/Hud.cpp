@@ -15,6 +15,11 @@ Hud::Hud(sf::Font f, int sw, int sh, sf::Vector2f framePos, sf::Vector2f frameSi
 	mapFrame.setTexture(&mapFrameTexture);
 	mapFrame.setPosition(framePos);
 	mapFrame.setSize(frameSize);
+
+	playerHealthText.setFont(font);
+	playerHealthText.setCharacterSize(17);
+	playerHealthText.setString("Player Health: ");
+	playerHealthText.setPosition(screenW / 13, overlaySprite.getPosition().y + 40);
 }
 
 /*Destructor*/
@@ -56,7 +61,7 @@ void Hud::LoadAssets()
 /*Update the various elements that make up the Hud such as number of gems and current objective, 
 params are questName, number of gems the player has, objectives location and player's position
 */
-void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos, bool showMinimap)
+void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos, bool showMinimap, float playerHealth)
 {
 	//update the text for the current quest
 	currentQuestText.setString("Current Quest Name: " + objTxt);
@@ -66,12 +71,15 @@ void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::
 	gemBalance.setString(std::to_string(numGems));
 
 	drawMinimapFrame = showMinimap;
+
+	playerHealthText.setString("Player Health: " + std::to_string(playerHealth));
 }
 
 /*Draw all the elements that make up the Hud*/
 void Hud::Draw(sf::RenderTarget& window)
 {
 	window.draw(overlaySprite);
+	window.draw(playerHealthText);
 	window.draw(currentQuestText);
 	window.draw(gemIconSprite);
 	window.draw(gemBalance);

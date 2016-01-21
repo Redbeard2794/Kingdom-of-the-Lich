@@ -135,6 +135,7 @@ public:
 	sf::Vector2f GetPreCollisionPosition() { return preCollisionPosition; }
 	//end gets
 	//start sets
+	void setHealth(float h) { health = h; }
 	void setVelocity(sf::Vector2f vel) { velocity = vel; }
 	void setSpeed(float s) { speed = s; }
 	void setIsRunning(bool r) { isRunning = r; }

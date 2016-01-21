@@ -25,6 +25,8 @@ private:
 
 	bool drawMinimapFrame;
 
+	sf::Text playerHealthText;
+
 public:
 	/*Constructor, params: sf::Font for text*/
 	Hud(sf::Font f, int sw, int sh, sf::Vector2f framePos, sf::Vector2f frameSize);
@@ -38,7 +40,7 @@ public:
 	/*Update the various elements that make up the Hud such as number of gems and current objective,
 	params are questName, number of gems the player has, objectives location and player's position
 	*/
-	void Update(sf::String objText, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos, bool showMinimap);
+	void Update(sf::String objText, int numGems, sf::Vector2f objectivePos, sf::Vector2f playerPos, bool showMinimap, float playerHealth);
 
 	/*Draw all the elements that make up the Hud*/
 	void Draw(sf::RenderTarget& window);
