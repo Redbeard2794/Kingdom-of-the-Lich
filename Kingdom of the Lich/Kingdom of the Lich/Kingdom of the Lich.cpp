@@ -987,6 +987,7 @@ int main()
 				//access inventory
 				if (gamepad->B())
 				{
+					testInv->OpenInventory();
 					gState = INVENTORY;
 					audioManager->PlaySoundEffectById(3, true);
 				}

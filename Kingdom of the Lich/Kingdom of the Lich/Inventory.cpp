@@ -187,7 +187,7 @@ void Inventory::InitialiseInventoryItems()
 {
 	for (int i = 0; i < itemKeys.size(); i++)
 	{
-		inventoryItems[itemKeys.at(i)] = 0;
+		inventoryItems[itemKeys.at(i)] = 1;
 	}
 }
 
@@ -372,6 +372,9 @@ void Inventory::UseItem(int itemToUseIndex, Player& p)
 		}
 	}
 	UpdateDrawableVector();
+	drawableItems.clear();
+	CheckItemsToShow();
+	PositionText();
 }
 
 //check items that should be drawn i.e. items that have a quantity > 0
@@ -389,11 +392,20 @@ void Inventory::CheckItemsToShow()
 	}
 }
 
+void Inventory::OpenInventory()
+{
+	drawableItems.clear();
+
+	CheckItemsToShow();
+
+	PositionText();
+}
+
 void Inventory::NavigateUp()
 {
 	if (canMove)
 	{
-		if (currentlySelectedItem == drawableItems.size())
+		if (currentlySelectedItem == drawableItems.size()-1)
 			currentlySelectedItem = 0;
 		else currentlySelectedItem++;
 	}
@@ -404,7 +416,7 @@ void Inventory::NavigateDown()
 	if (canMove)
 	{
 		if (currentlySelectedItem == 0)
-			currentlySelectedItem = drawableItems.size();
+			currentlySelectedItem = drawableItems.size()-1;
 		else currentlySelectedItem--;
 	}
 }
@@ -444,8 +456,8 @@ void Inventory::UpdateDrawableVector()
 /*Draw items that have a quantity > 0*/
 void Inventory::Draw(sf::RenderTarget& window)
 {
-	CheckItemsToShow();
-	PositionText();
+	//CheckItemsToShow();
+	//PositionText();
 	window.draw(backgroundSprite);
 	window.draw(headerText);
 

@@ -114,6 +114,8 @@ public:
 	//check items that should be drawn i.e. items that have a quantity > 0
 	void CheckItemsToShow();
 
+	void OpenInventory();
+
 	void NavigateUp();
 
 	void NavigateDown();
