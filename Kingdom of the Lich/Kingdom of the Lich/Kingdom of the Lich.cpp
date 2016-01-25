@@ -987,7 +987,7 @@ int main()
 				//access inventory
 				if (gamepad->B())
 				{
-					testInv->OpenInventory();
+					//testInv->OpenInventory();
 					gState = INVENTORY;
 					audioManager->PlaySoundEffectById(3, true);
 				}
@@ -1516,7 +1516,7 @@ int main()
 
 				if (gamepad->A() == true)
 				{
-					testInv->UseItem(testInv->getCurrentlySelectedItem(), *p);
+					testInv->UseItem(*p);
 				}
 
 			}

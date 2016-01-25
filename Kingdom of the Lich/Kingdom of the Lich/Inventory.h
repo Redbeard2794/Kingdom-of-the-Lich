@@ -1,6 +1,8 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include "ItemSlot.h"
+
 class Inventory
 {
 private:
@@ -8,6 +10,9 @@ private:
 	int screenH;
 
 	int currentlySelectedItem;
+
+	int numFilledSlots;
+
 	bool canMove;
 
 	//map containg items with their quantity
@@ -21,13 +26,7 @@ private:
 	//all the item keys
 	std::vector<std::string> itemKeys;
 
-	//struct DrawableItem
-	//{
-	//	std::string key;
-	//	sf::Vector2f position;
-	//};
-
-	std::vector<std::string> drawableItems;
+	std::vector<ItemSlot*> itemSlots;
 
 	//item icon stuff
 	sf::Texture healthPotTexture;
@@ -56,8 +55,6 @@ private:
 
 	sf::Texture quillTexture;
 	sf::Sprite quillSprite;
-
-	sf::Text itemTexts[9];
 
 	//hint stuff
 	bool showControllerHints;
@@ -107,22 +104,17 @@ public:
 
 	/*
 	Use an item from the inventory
-	parameter is the itme to use
+	parameter is a pointer to the player
 	*/
-	void UseItem(int itemToUseIndex, Player& p);
+	void UseItem(Player& p);
 
-	//check items that should be drawn i.e. items that have a quantity > 0
-	void CheckItemsToShow();
+	void CalculateFilledSlots();
 
-	void OpenInventory();
+	void ReorderSlots();
 
 	void NavigateUp();
 
 	void NavigateDown();
-
-	void PositionText();
-
-	void UpdateDrawableVector();
 
 	/*Draw items that have a quantity > 0*/
 	void Draw(sf::RenderTarget& window);

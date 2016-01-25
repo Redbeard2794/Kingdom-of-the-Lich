@@ -51,6 +51,7 @@
 #include "Gamepad.h"
 #include "ConfirmationDialogBox.h"
 #include "Inventory.h"
+#include "ItemSlot.h"
 #include "Chest.h"
 #include "QuestController.h"
 #include "Npc.h"
