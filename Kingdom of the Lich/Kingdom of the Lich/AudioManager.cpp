@@ -9,12 +9,12 @@ AudioManager::AudioManager()
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
 	openingMusic.setLoop(true);
-	openingMusic.setVolume(0);
+	openingMusic.setVolume(100);
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
 	tutorialAreaMusic.setLoop(true);
-	tutorialAreaMusic.setVolume(0);
+	tutorialAreaMusic.setVolume(100);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0

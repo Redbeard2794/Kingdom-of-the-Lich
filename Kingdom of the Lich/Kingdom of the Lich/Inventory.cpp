@@ -7,38 +7,41 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	screenW = sw;
 	screenH = sh;
 
-	for (int i = 1; i < 10; i++)
-	{
-		itemSlots.push_back(new ItemSlot(i, f));
-	}
-	
-
 	currentlySelectedItem = 0;
 	canMove = true;
+	canSelect = true;
 
-	//load these keys from a file eventually
-	i_healthPotion.key = "Health Potion";
-	i_ale.key = "Bottle of Ale";
-	i_bread.key = "Loaf of Bread";
-	i_apple.key = "Apple";
-	i_gems.key = "Gems";
-	i_baracksKey.key = "Baracks Key";
-	i_parchment.key = "Parchment";
-	i_inkBottle.key = "Ink Bottle";
-	i_quill.key = "Quill";
-
+	std::vector<std::string> allKeys;
 	std::string line;
 	std::ifstream myfile("Assets/Inventory/itemKeys.txt");
 	if (myfile.is_open())
 	{
 		while (getline(myfile, line))
 		{
-			std::cout << line << '\n' << std::endl;;
+			allKeys.push_back(line);
 		}
 		myfile.close();
 	}
+	else std::cout << "Unable to open itemKeys.txt file!" << std::endl;
 
-	else std::cout << "Unable to open file" << std::endl;;
+	i_healthPotion.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_ale.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_bread.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_apple.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_gems.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_baracksKey.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_parchment.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_inkBottle.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
+	i_quill.key = allKeys.at(0);
+	allKeys.erase(allKeys.begin() + 0);
 
 	itemKeys.push_back(i_healthPotion.key);
 	itemKeys.push_back(i_ale.key);
@@ -78,55 +81,44 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	appleTexture.loadFromFile("Assets/Icons/Items/apple.png");
 	quillTexture.loadFromFile("Assets/Icons/Items/quill.png");
 
-	//need to come up with a way of only showing items with quantity > 0
-	//also need to take item names from keys/file
-
 	//set up item sprites and text
 	healthPotSprite.setTexture(healthPotTexture);
 	healthPotSprite.setOrigin(healthPotTexture.getSize().x / 2, healthPotTexture.getSize().y / 2);
 	healthPotSprite.setPosition(screenW / 10, 100);
-
 
 	aleBottleSprite.setTexture(aleBottleTexture);
 	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
 	aleBottleSprite.setScale(2, 1.7f);
 	aleBottleSprite.setPosition(screenW / 10, 200);
 
-
 	loafOfBreadSprite.setTexture(loafOfBreadTexture);
 	loafOfBreadSprite.setOrigin(loafOfBreadTexture.getSize().x / 2, loafOfBreadTexture.getSize().y / 2);
 	loafOfBreadSprite.setScale(2, 1.7f);
 	loafOfBreadSprite.setPosition(screenW / 10, 300);
-
 
 	baracksKeySprite.setTexture(baracksKeyTexture);
 	baracksKeySprite.setOrigin(baracksKeyTexture.getSize().x / 2, baracksKeyTexture.getSize().y / 2);
 	baracksKeySprite.setRotation(-30);
 	baracksKeySprite.setPosition(screenW / 10, 400);
 
-
 	parchmentSprite.setTexture(parchmentTexture);
 	parchmentSprite.setOrigin(parchmentTexture.getSize().x / 2, parchmentTexture.getSize().y / 2);
 	parchmentSprite.setPosition(screenW / 10, 500);
-
 
 	inkBottleSprite.setTexture(inkBottleTexture);
 	inkBottleSprite.setOrigin(inkBottleTexture.getSize().x / 2, inkBottleTexture.getSize().y / 2);
 	inkBottleSprite.setScale(1.2f, 1.2f);
 	inkBottleSprite.setPosition(screenW / 3.3, 100);
 
-
 	gemSprite.setTexture(gemTexture);
 	gemSprite.setOrigin(gemTexture.getSize().x / 2, gemTexture.getSize().y / 2);
 	gemSprite.setScale(1.5f, 1.5f);
 	gemSprite.setPosition(screenW / 3.3, 200);
 
-
 	appleSprite.setTexture(appleTexture);
 	appleSprite.setOrigin(appleTexture.getSize().x / 2, appleTexture.getSize().y / 2);
 	//appleSprite.setScale(1.5f, 1.5f);
 	appleSprite.setPosition(screenW / 3.3, 300);
-
 
 	quillSprite.setTexture(quillTexture);
 	quillSprite.setOrigin(quillTexture.getSize().x / 2, quillTexture.getSize().y / 2);
@@ -142,13 +134,12 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	exitHintSprite.setOrigin(exitHintTexture.getSize().x / 2, exitHintTexture.getSize().y / 2);
 	exitHintSprite.setPosition(screenW/2.1, screenH/1.05);
 
-
 }
 
 /*Destructor*/
 Inventory::~Inventory()
 {
-
+	//blank for the moment
 }
 
 /*Initialise all items in inventory to have '0' quantity*/
@@ -226,14 +217,15 @@ void Inventory::AddItemToInventory(std::string itemToAddTo, int quantityToAdd)
 				std::cout << "Adding " << quantityToAdd << " to " << itemToAddTo << std::endl;
 				inventoryItems[itemToAddTo] = it->second + quantityToAdd;
 
+				bool foundKey = false;
 				for (int i = 0; i < itemSlots.size(); i++)
 				{
-					if (itemSlots.at(i)->IsOpen())
-					{
-						itemSlots.at(i)->FillSlot(itemToAddTo);
-						break;
-					}
+					if (itemSlots.at(i)->GetCurrentItemKey() == itemToAddTo)
+						foundKey = true;
 				}
+				if(foundKey == false)
+					itemSlots.push_back(new ItemSlot(itemToAddTo, itemSlots.size() + 1, font));
+
 			}
 			else std::cout << "Could not add " << quantityToAdd << " " << itemToAddTo << " as it is at max capacity." << std::endl;
 		}
@@ -375,6 +367,7 @@ void Inventory::UseItem(Player& p)
 	}
 }
 
+/*Figure out how many item slots are filled*/
 void Inventory::CalculateFilledSlots()
 {
 	numFilledSlots = 0;
@@ -386,46 +379,34 @@ void Inventory::CalculateFilledSlots()
 	std::cout << "Filled slots: " << numFilledSlots << std::endl;
 }
 
+/*Re-order item slots after an item has been used up and its slot removed*/
 void Inventory::ReorderSlots()
 {
-	//std::vector<ItemSlot*> temp;
-
-	//for (int i = 0; i < itemSlots.size(); i++)
-	//{
-	//	if (itemSlots.at(i)->IsOpen() == false)
-	//	{
-	//		temp.push_back(itemSlots.at(i));
-	//	}
-	//}
-	//itemSlots.clear();
-
-	//for (int i = 1;i<temp.size)
-	int i = 0;
-	for (i = 0; i < itemSlots.size() - 1; i++)
+	int removeIndex = -1;
+	for (int i = 0; i < itemSlots.size(); i++)
 	{
-		if (itemSlots.at(i)->IsOpen())
+		if (itemSlots.at(i)->IsOpen())//if the slot was emptied(last item of that type was removed from it)
 		{
-			if (itemSlots.at(i + 1)->IsOpen() == false)
-			{
-				for (int j = i + 1; j < itemSlots.size(); j++)
-				{
-					itemSlots.at(j)->ResetSlotNumAndPos(itemSlots.at(j)->GetSlotNumber() - 1);
-				}
-			}
+			currentlySelectedItem = 0;
+			itemSlots.erase(itemSlots.begin() + i);//erase it from the vector
+			removeIndex = i;//store the index it was found at
 		}
-		break;
 	}
 
-	itemSlots.erase(itemSlots.begin() + (i + 1));
-	itemSlots.push_back(new ItemSlot(9, font));
-
+	if (itemSlots.size() > 1 && removeIndex != -1)//if there is more than 1 item in the inventory
+	{
+		for (int i = removeIndex; i < itemSlots.size(); i++)
+		{
+			itemSlots.at(i)->ResetSlotNumAndPos(itemSlots.at(i)->GetSlotNumber() - 1);//move all slots after the removed slot down a slot
+		}
+	}
 }
 
 void Inventory::NavigateUp()
 {
 	if (canMove)
 	{
-		if (currentlySelectedItem == numFilledSlots-1)
+		if (currentlySelectedItem == itemSlots.size()-1)
 			currentlySelectedItem = 0;
 		else currentlySelectedItem++;
 	}
@@ -436,7 +417,7 @@ void Inventory::NavigateDown()
 	if (canMove)
 	{
 		if (currentlySelectedItem == 0)
-			currentlySelectedItem = numFilledSlots-1;
+			currentlySelectedItem = itemSlots.size() -1;
 		else currentlySelectedItem--;
 	}
 }
@@ -455,129 +436,61 @@ void Inventory::Draw(sf::RenderTarget& window)
 			if(currentlySelectedItem == i)
 				itemSlots.at(i)->Draw(window, inventoryItems[itemSlots.at(i)->GetCurrentItemKey()], sf::Color::Red, true);
 			else itemSlots.at(i)->Draw(window, inventoryItems[itemSlots.at(i)->GetCurrentItemKey()], sf::Color::White, false);
+
+			if (itemSlots.at(i)->GetCurrentItemKey() == i_healthPotion.key)
+			{
+				healthPotSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(healthPotSprite);
+			}
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_ale.key)
+			{
+				aleBottleSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(aleBottleSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_bread.key)
+			{
+				loafOfBreadSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(loafOfBreadSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_apple.key)
+			{
+				appleSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(appleSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_gems.key)
+			{
+				gemSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(gemSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_baracksKey.key)
+			{
+				baracksKeySprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(baracksKeySprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_parchment.key)
+			{
+				parchmentSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(parchmentSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_inkBottle.key)
+			{
+				inkBottleSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(inkBottleSprite);
+			}
+
+			else if (itemSlots.at(i)->GetCurrentItemKey() == i_quill.key)
+			{
+				quillSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());
+				window.draw(quillSprite);
+			}
 		}
 	}
-
-	//for (int i = 0; i < drawableItems.size(); i++)
-	//{
-	//	if (drawableItems.at(i) == i_healthPotion.key)
-	//	{
-	//		//window.draw(healthPotSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[0].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[0].setColor(sf::Color::White);
-
-	//		itemTexts[0].setString("Health Potion *" + std::to_string(CheckQuantity(i_healthPotion.key, false)));
-	//		window.draw(itemTexts[0]);
-	//	}
-	//	else if (drawableItems.at(i) == i_ale.key)
-	//	{
-	//		//window.draw(aleBottleSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[1].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[1].setColor(sf::Color::White);
-
-	//		itemTexts[1].setString("Bottle of Ale *" + std::to_string(CheckQuantity(i_ale.key, false)));
-	//		window.draw(itemTexts[1]);
-	//	}
-	//	else if (drawableItems.at(i) == i_bread.key)
-	//	{
-	//		//window.draw(loafOfBreadSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[2].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[2].setColor(sf::Color::White);
-
-	//		itemTexts[2].setString("Loaf of Bread *" + std::to_string(CheckQuantity(i_bread.key, false)));
-	//		window.draw(itemTexts[2]);
-	//	}
-	//	else if (drawableItems.at(i) == i_baracksKey.key)
-	//	{
-	//		//window.draw(baracksKeySprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[3].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[3].setColor(sf::Color::White);
-
-	//		itemTexts[3].setString("Baracks key *" + std::to_string(CheckQuantity(i_baracksKey.key, false)));
-	//		window.draw(itemTexts[3]);
-	//	}
-	//	else if (drawableItems.at(i) == i_parchment.key)
-	//	{
-	//		//window.draw(parchmentSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[4].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[4].setColor(sf::Color::White);
-
-	//		itemTexts[4].setString("Parchment *" + std::to_string(CheckQuantity(i_parchment.key, false)));
-	//		window.draw(itemTexts[4]);
-	//	}
-	//	else if (drawableItems.at(i) == i_inkBottle.key)
-	//	{
-	//		//window.draw(inkBottleSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[5].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[5].setColor(sf::Color::White);
-
-	//		itemTexts[5].setString("Ink Bottle *" + std::to_string(CheckQuantity(i_inkBottle.key, false)));
-	//		window.draw(itemTexts[5]);
-	//	}
-	//	else if (drawableItems.at(i) == i_gems.key)
-	//	{
-	//		//window.draw(gemSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[6].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[6].setColor(sf::Color::White);
-
-	//		itemTexts[6].setString("Gems *" + std::to_string(CheckQuantity(i_gems.key, false)));
-	//		window.draw(itemTexts[6]);
-	//	}
-	//	else if (drawableItems.at(i) == i_apple.key)
-	//	{
-	//		//window.draw(appleSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[7].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[7].setColor(sf::Color::White);
-
-	//		itemTexts[7].setString("Apple *" + std::to_string(CheckQuantity(i_apple.key, false)));
-	//		window.draw(itemTexts[7]);
-	//	}
-	//	else if (drawableItems.at(i) == i_quill.key)
-	//	{
-	//		//window.draw(quillSprite);
-
-	//		if (currentlySelectedItem == i)
-	//		{
-	//			itemTexts[8].setColor(sf::Color::Red);
-	//		}
-	//		else itemTexts[8].setColor(sf::Color::White);
-
-	//		itemTexts[8].setString("Quill *" + std::to_string(CheckQuantity(i_quill.key, false)));
-	//		window.draw(itemTexts[8]);
-	//	}
-	//}
 
 	window.draw(exitHintSprite);
 }
@@ -590,6 +503,16 @@ bool Inventory::getCanMove()
 void Inventory::setCanMove(bool b)
 {
 	canMove = b;
+}
+
+bool Inventory::getCanSelect()
+{
+	return canSelect;
+}
+
+void Inventory::setCanSelect(bool cs)
+{
+	canSelect = cs;
 }
 
 int Inventory::getCurrentlySelectedItem()

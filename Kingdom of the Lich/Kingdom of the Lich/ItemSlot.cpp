@@ -2,17 +2,17 @@
 #include "ItemSlot.h"
 
 //constructor. param is slotNumber
-ItemSlot::ItemSlot(int number, sf::Font f) : font(f)
+ItemSlot::ItemSlot(std::string key, int number, sf::Font f) : font(f)
 {
 	text.setFont(font);
 	text.setColor(sf::Color::White);
 	text.setCharacterSize(20);
 
-	currentItemKey = "";
+	currentItemKey = key;
 	slotNumber = number;
-	open = true;
+	open = false;
 	selected = false;
-	text.setPosition(sf::Vector2f(50, slotNumber * 50));
+	text.setPosition(sf::Vector2f(50, slotNumber * 75));
 }
 
 //destructor
@@ -62,6 +62,7 @@ bool ItemSlot::IsOpen()
 	return open;
 }
 
+//reset the slot number and its position
 void ItemSlot::ResetSlotNumAndPos(int number)
 {
 	slotNumber = number;

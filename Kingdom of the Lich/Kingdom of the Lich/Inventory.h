@@ -14,6 +14,7 @@ private:
 	int numFilledSlots;
 
 	bool canMove;
+	bool canSelect;
 
 	//map containg items with their quantity
 	std::map<std::string, int> inventoryItems;
@@ -108,9 +109,12 @@ public:
 	*/
 	void UseItem(Player& p);
 
+	/*Figure out how many item slots are filled*/
 	void CalculateFilledSlots();
 
+	/*Re-order item slots after an item has been used up and its slot removed*/
 	void ReorderSlots();
+
 
 	void NavigateUp();
 
@@ -122,6 +126,9 @@ public:
 	bool getCanMove();
 
 	void setCanMove(bool b);
+
+	bool getCanSelect();
+	void setCanSelect(bool cs);
 
 	int getCurrentlySelectedItem();
 

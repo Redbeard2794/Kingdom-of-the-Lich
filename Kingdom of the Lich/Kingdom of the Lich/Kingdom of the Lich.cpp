@@ -193,7 +193,7 @@ int main()
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 
 	//testing chest
-	Chest* testChest = new Chest(testInv->i_healthPotion.key, 1);
+	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
 
 	bool showQuestComplete = false;
@@ -1516,7 +1516,16 @@ int main()
 
 				if (gamepad->A() == true)
 				{
-					testInv->UseItem(*p);
+					if (testInv->getCanSelect())
+					{
+						testInv->UseItem(*p);
+						testInv->setCanSelect(false);
+					}
+				}
+				else
+				{
+					testInv->setCanSelect(true);
+					//std::cout << "A released" << std::endl;
 				}
 
 			}

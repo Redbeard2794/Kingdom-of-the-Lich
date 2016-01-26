@@ -18,7 +18,7 @@ private:
 public:
 
 	//constructor. param is slotNumber
-	ItemSlot(int number, sf::Font f);
+	ItemSlot(std::string key, int number, sf::Font f);
 
 	//destructor
 	~ItemSlot();
@@ -38,6 +38,7 @@ public:
 	//is the slot open?
 	bool IsOpen();
 
+	//reset the slot number and its position
 	void ResetSlotNumAndPos(int number);
 
 	void Draw(sf::RenderTarget& window, int quantity, sf::Color col, bool sel);
