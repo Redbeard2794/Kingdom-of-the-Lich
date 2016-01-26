@@ -27,9 +27,13 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (!colliding && (getPosition().x != preCollisionPosition.x || getPosition().y != preCollisionPosition.y))//if we are not colliding with something
+	if (!colliding)// && (getPosition().x != preCollisionPosition.x || getPosition().y != preCollisionPosition.y))//if we are not colliding with something
 	{
-		preCollisionPosition = getPosition();
+		if (getPosition().x != preCollisionPosition.x)
+			preCollisionPosition.x = getPosition().x;
+		if (getPosition().y != preCollisionPosition.y)
+			preCollisionPosition.y = getPosition().y;
+		//preCollisionPosition = getPosition();
 	}
 
 	if (isRunning)
