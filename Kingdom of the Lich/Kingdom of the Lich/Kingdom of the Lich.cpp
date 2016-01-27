@@ -1171,21 +1171,41 @@ int main()
 
 					//std::cout << "Help i am colliding with something!" << std::endl;
 
-					if (p->getPosition().x - p->getGlobalBounds().width / 2 < collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width
-						&& p->getPosition().x > collidableObjects.at(i)->getPosition().x )//right
-					{
-						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
-						break;
-					}
-					else if (p->getPosition().x + p->getGlobalBounds().width / 2 > collidableObjects.at(i)->getPosition().x)//left
+					if (collidableObjects.at(i)->CheckCollisionLeftSide(p->getGlobalBounds(), p->getPosition()))//left
 					{
 						p->setPosition(p->getPosition().x - 2, p->getPosition().y);
 						break;
 					}
-					else
+					else if (collidableObjects.at(i)->CheckCollisionRightSide(p->getGlobalBounds(), p->getPosition()))//right
 					{
-						std::cout << "Up or down" << std::endl;
+						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
+						break;
 					}
+					if (collidableObjects.at(i)->CheckCollisionTopSide(p->getGlobalBounds(), p->getPosition()))//top
+					{
+						p->setPosition(p->getPosition().x, p->getPosition().y - 2);
+						break;
+					}
+					else if (collidableObjects.at(i)->CheckCollisionBottomSide(p->getGlobalBounds(), p->getPosition()))
+					{
+						p->setPosition(p->getPosition().x, p->getPosition().y + 2);
+						break;
+					}
+					//if (p->getPosition().x - p->getGlobalBounds().width / 2 < collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width
+					//	&& p->getPosition().x > collidableObjects.at(i)->getPosition().x )//right
+					//{
+					//	p->setPosition(p->getPosition().x + 2, p->getPosition().y);
+					//	break;
+					//}
+					//else if (p->getPosition().x + p->getGlobalBounds().width / 2 > collidableObjects.at(i)->getPosition().x)//left
+					//{
+					//	p->setPosition(p->getPosition().x - 2, p->getPosition().y);
+					//	break;
+					//}
+					//else
+					//{
+					//	std::cout << "Up or down" << std::endl;
+					//}
 
 					//if (p->getPosition().y + p->getGlobalBounds().height / 2 > collidableObjects.at(i)->getPosition().y)//top
 					//{
