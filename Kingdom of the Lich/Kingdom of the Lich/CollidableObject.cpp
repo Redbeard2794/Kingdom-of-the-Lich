@@ -31,6 +31,26 @@ bool CollidableObject::CheckIntersectionRectangle(sf::FloatRect objectToCheck)
 	else return false;
 }
 
+bool CollidableObject::CheckCollisionRightSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
+{
+	return false;
+}
+
+bool CollidableObject::CheckCollisionLeftSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
+{
+	return false;
+}
+
+bool CollidableObject::CheckCollisionTopSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
+{
+	return false;
+}
+
+bool CollidableObject::CheckCollisionBottomSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
+{
+	return false;
+}
+
 /*Check if the Collidable Objects global bounds contains the point passed in*/
 bool CollidableObject::CheckContainsPoint(sf::Vector2f pointToCheck)
 {

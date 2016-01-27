@@ -19,6 +19,11 @@ public:
 	/*Check if the passed in rectangle intersects with the Collidable Objects global bounds*/
 	bool CheckIntersectionRectangle(sf::FloatRect objectToCheck);
 
+	bool CheckCollisionRightSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition);
+	bool CheckCollisionLeftSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition);
+	bool CheckCollisionTopSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition);
+	bool CheckCollisionBottomSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition);
+
 	/*Check if the Collidable Objects global bounds contains the point passed in*/
 	bool CheckContainsPoint(sf::Vector2f pointToCheck);
 };
