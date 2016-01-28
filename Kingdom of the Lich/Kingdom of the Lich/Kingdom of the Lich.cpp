@@ -1161,83 +1161,22 @@ int main()
 				{
 					p->setCollidingStatus(true);
 
-					//get the distance between the player and the thing they hit
-					float distance = sqrtf((((p->getPosition().x - collidableObjects.at(i)->getPosition().x)*(p->getPosition().x - collidableObjects.at(i)->getPosition().x))
-						+ ((p->getPosition().y - collidableObjects.at(i)->getPosition().y)*(p->getPosition().y - collidableObjects.at(i)->getPosition().y))));
-					
-					//get the direction between them(this is a terrible way of doing stuff.......)
-					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - collidableObjects.at(i)->getPosition().x) / distance, 
-													(p->getPosition().y - collidableObjects.at(i)->getPosition().y) / distance);
-
-					//std::cout << "Help i am colliding with something!" << std::endl;
-
-					if (collidableObjects.at(i)->CheckCollisionLeftSide(p->getGlobalBounds(), p->getPosition()))//left
-					{
-						p->setPosition(p->getPosition().x - 2, p->getPosition().y);
-						break;
-					}
-					else if (collidableObjects.at(i)->CheckCollisionRightSide(p->getGlobalBounds(), p->getPosition()))//right
-					{
-						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
-						break;
-					}
-					if (collidableObjects.at(i)->CheckCollisionTopSide(p->getGlobalBounds(), p->getPosition()))//top
-					{
-						p->setPosition(p->getPosition().x, p->getPosition().y - 2);
-						break;
-					}
-					else if (collidableObjects.at(i)->CheckCollisionBottomSide(p->getGlobalBounds(), p->getPosition()))
+					if (p->getCurrentDirection() == 0)//up
 					{
 						p->setPosition(p->getPosition().x, p->getPosition().y + 2);
-						break;
 					}
-					//if (p->getPosition().x - p->getGlobalBounds().width / 2 < collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width
-					//	&& p->getPosition().x > collidableObjects.at(i)->getPosition().x )//right
-					//{
-					//	p->setPosition(p->getPosition().x + 2, p->getPosition().y);
-					//	break;
-					//}
-					//else if (p->getPosition().x + p->getGlobalBounds().width / 2 > collidableObjects.at(i)->getPosition().x)//left
-					//{
-					//	p->setPosition(p->getPosition().x - 2, p->getPosition().y);
-					//	break;
-					//}
-					//else
-					//{
-					//	std::cout << "Up or down" << std::endl;
-					//}
-
-					//if (p->getPosition().y + p->getGlobalBounds().height / 2 > collidableObjects.at(i)->getPosition().y)//top
-					//{
-					//	p->setPosition(p->getPosition().x, p->getPosition().y - 2);
-					//}
-
-					//p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x, p->GetPreCollisionPosition().y + dir.y));
-
-					//if (p->getPosition().x - p->getGlobalBounds().width / 2 < collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width)//right
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y));
-					//else if(p->getPosition().x + p->getGlobalBounds().width / 2 > collidableObjects.at(i)->getGlobalBounds().width)//left
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x - dir.x * 3, p->GetPreCollisionPosition().y));
-					//else if(p->getPosition().y - p->getGlobalBounds().height / 2 < collidableObjects.at(i)->getPosition().y + collidableObjects.at(i)->getGlobalBounds().height)//top
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x, p->GetPreCollisionPosition().y + dir.y*3));
-					//else if (p->getPosition().y + p->getGlobalBounds().height / 2 > collidableObjects.at(i)->getGlobalBounds().height)//top
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x, p->GetPreCollisionPosition().y - dir.y * 3));
-
-					//p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + (dir.x*3), p->GetPreCollisionPosition().y + (dir.y*3)));
-
-					//move the player out of collision
-					//if(p->getPosition().x < collidableObjects.at(i)->getPosition().x)// || p->getPosition().x > collidableObjects.at(i)->getPosition().x)
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 6, p->GetPreCollisionPosition().y + dir.y));
-					//
-					//else if(p->getPosition().x > collidableObjects.at(i)->getPosition().x + collidableObjects.at(i)->getGlobalBounds().width)
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 6, p->GetPreCollisionPosition().y + dir.y));
-
-					//else if(p->getPosition().y < collidableObjects.at(i)->getPosition().y)// || p->getPosition().y > collidableObjects.at(i)->getPosition().y)
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x, p->GetPreCollisionPosition().y + dir.y * 6));
-					//
-					//else if(p->getPosition().y > collidableObjects.at(i)->getPosition().y + collidableObjects.at(i)->getGlobalBounds().height)
-					//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x, p->GetPreCollisionPosition().y + dir.y * 6));
-					//p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x*3, p->GetPreCollisionPosition().y + dir.y*3));
+					else if (p->getCurrentDirection() == 1)//down
+					{
+						p->setPosition(p->getPosition().x, p->getPosition().y - 2);
+					}
+					else if (p->getCurrentDirection() == 2)//right
+					{
+						p->setPosition(p->getPosition().x - 2, p->getPosition().y);
+					}
+					else if (p->getCurrentDirection() == 3)//left
+					{
+						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
+					}
 
 					break;
 				}
@@ -1265,15 +1204,27 @@ int main()
 						
 					}
 
-					//get the distance between the player and the thing they hit
-					float distance = sqrtf((((p->getPosition().x - npcVector.at(i)->getPosition().x)*(p->getPosition().x - npcVector.at(i)->getPosition().x))
-						+ ((p->getPosition().y - npcVector.at(i)->getPosition().y)*(p->getPosition().y - npcVector.at(i)->getPosition().y))));
-					//get the direction between them
-					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - npcVector.at(i)->getPosition().x) / distance,
-						(p->getPosition().y - npcVector.at(i)->getPosition().y) / distance);
 					//move the player out of collision
-					if(npcVector.at(i)->getBehaviour() != "follow")
-						p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+					if (npcVector.at(i)->getBehaviour() != "follow")
+					{
+
+						if (p->getCurrentDirection() == 0)//up
+						{
+							p->setPosition(p->getPosition().x, p->getPosition().y + 2);
+						}
+						else if (p->getCurrentDirection() == 1)//down
+						{
+							p->setPosition(p->getPosition().x, p->getPosition().y - 2);
+						}
+						else if (p->getCurrentDirection() == 2)//right
+						{
+							p->setPosition(p->getPosition().x - 2, p->getPosition().y);
+						}
+						else if (p->getCurrentDirection() == 3)//left
+						{
+							p->setPosition(p->getPosition().x + 2, p->getPosition().y);
+						}
+					}
 
 					break;
 				}
@@ -1294,14 +1245,24 @@ int main()
 					gState = COMBAT;
 				}
 
-				//get the distance between the player and the thing they hit
-				float distance = sqrtf((((p->getPosition().x - testEnemy->getPosition().x)*(p->getPosition().x - testEnemy->getPosition().x))
-					+ ((p->getPosition().y - testEnemy->getPosition().y)*(p->getPosition().y - testEnemy->getPosition().y))));
-				//get the direction between them
-				sf::Vector2f dir = sf::Vector2f((p->getPosition().x - testEnemy->getPosition().x) / distance,
-					(p->getPosition().y - testEnemy->getPosition().y) / distance);
 				//move the player out of collision
-				p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+
+				if (p->getCurrentDirection() == 0)//up
+				{
+					p->setPosition(p->getPosition().x, p->getPosition().y + 3);
+				}
+				else if (p->getCurrentDirection() == 1)//down
+				{
+					p->setPosition(p->getPosition().x, p->getPosition().y - 3);
+				}
+				else if (p->getCurrentDirection() == 2)//right
+				{
+					p->setPosition(p->getPosition().x - 3, p->getPosition().y);
+				}
+				else if (p->getCurrentDirection() == 3)//left
+				{
+					p->setPosition(p->getPosition().x + 3, p->getPosition().y);
+				}
 			}
 			else
 			{

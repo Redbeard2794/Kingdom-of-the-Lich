@@ -31,38 +31,6 @@ bool CollidableObject::CheckIntersectionRectangle(sf::FloatRect objectToCheck)
 	else return false;
 }
 
-bool CollidableObject::CheckCollisionRightSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
-{
-	if (objectPosition.x - boundsToCheck.width / 2 < getPosition().x + getGlobalBounds().width && objectPosition.x - boundsToCheck.width / 2 > getPosition().x)
-		return true;
-	else return false;
-}
-
-bool CollidableObject::CheckCollisionLeftSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
-{
-	if (objectPosition.x + boundsToCheck.width / 2 > getPosition().x && objectPosition.x + boundsToCheck.width / 2 < getPosition().x + getGlobalBounds().width)
-	{
-		return true;
-	}
-
-	else return false;
-}
-
-bool CollidableObject::CheckCollisionTopSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
-{
-	if (objectPosition.x + boundsToCheck.width / 2 > getPosition().x && objectPosition.x - boundsToCheck.width / 2 < getPosition().x + getGlobalBounds().width && objectPosition.y + boundsToCheck.height / 2 > getPosition().y)
-		return true;
-
-	else return false;
-}
-
-bool CollidableObject::CheckCollisionBottomSide(sf::FloatRect boundsToCheck, sf::Vector2f objectPosition)
-{
-	if (objectPosition.x - boundsToCheck.width / 2 > getPosition().x && objectPosition.x + boundsToCheck.width / 2 < getPosition().x + getGlobalBounds().width && objectPosition.y - boundsToCheck.height / 2 < getPosition().y + getGlobalBounds().height)
-		return true;
-	else return false;
-}
-
 /*Check if the Collidable Objects global bounds contains the point passed in*/
 bool CollidableObject::CheckContainsPoint(sf::Vector2f pointToCheck)
 {
