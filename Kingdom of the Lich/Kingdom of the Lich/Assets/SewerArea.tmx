@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="bridgeTiles" tilewidth="32" tileheight="32" tilecount="10">
+  <image source="Tiles/sewerLevel/bridge/bridgeTiles.png" width="160" height="64"/>
+ </tileset>
+ <tileset firstgid="11" name="wallTiles" tilewidth="32" tileheight="32" tilecount="2">
+  <image source="Tiles/sewerLevel/walls/wallTiles.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="13" name="floorTiles" tilewidth="32" tileheight="32" tilecount="2">
+  <image source="Tiles/sewerLevel/floors/floorTiles.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="15" name="barredSewerTunnel3x3" tilewidth="32" tileheight="32" tilecount="9">
+  <image source="Tiles/sewerLevel/barred sewer tunnel/barredSewerTunnel3x3.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="24" name="waterTiles" tilewidth="32" tileheight="32" tilecount="3">
+  <image source="Tiles/sewerLevel/water/waterTiles.png" width="96" height="32"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztlNkOgjAUBeu+IHXf+P8P9TxoQswtS1WIZSaZsJSWDg9kzrnN0yxSa26Te+6Dd5bXq9p7XVf+J/qneekYs0abMf+mdc83WNdXXOfO7gqdx/bHfjPrW3xr3diONvPqnu0C671buZP7HvfVFVbfQR7lKTCeElbfWV7kNTCeElbfTd5lERhPCfrpp59++umnn3766aeffvrpp5/+IfbXmRJD7x8ZjuVETuXMMCXmhgu5lCu5NkyJ17+uqUU/2/wZ9NNPP/30008//fTTTz/99NM/hH4AAAAAAAAAAIC+eAB2BzNr
+  </data>
+ </layer>
+</map>
