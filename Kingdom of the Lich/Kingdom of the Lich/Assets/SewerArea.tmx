@@ -15,9 +15,12 @@
  <tileset firstgid="24" name="waterTiles" tilewidth="32" tileheight="32" tilecount="3">
   <image source="Tiles/sewerLevel/water/waterTiles.png" width="96" height="32"/>
  </tileset>
+ <tileset firstgid="27" name="entranceExitWall" tilewidth="32" tileheight="32" tilecount="1">
+  <image source="Tiles/sewerLevel/entrances and exits/entranceExitWall.png" width="32" height="40"/>
+ </tileset>
  <layer name="Tile Layer 1" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztlNkOgjAUBeu+IHXf+P8P9TxoQswtS1WIZSaZsJSWDg9kzrnN0yxSa26Te+6Dd5bXq9p7XVf+J/qneekYs0abMf+mdc83WNdXXOfO7gqdx/bHfjPrW3xr3diONvPqnu0C671buZP7HvfVFVbfQR7lKTCeElbfWV7kNTCeElbfTd5lERhPCfrpp59++umnn3766aeffvrpp5/+IfbXmRJD7x8ZjuVETuXMMCXmhgu5lCu5NkyJ17+uqUU/2/wZ9NNPP/30008//fTTTz/99NM/hH4AAAAAAAAAAIC+eAB2BzNr
+   eJztmoluwyAQROmZtqmd3of7///ZRQrqxloOg4thMyONkpiAeZzOkr0x5vHofaalvCnXfgruycsL1T3GNXTi8eiBveaUsSRtnFm6NiaUOwY+D0bm8r3P5c9tM6kt1io3l2NJvth3a0i674H8RH7esF61JPG9kF/Jb550TZL43skf5E9PuiZJfF/kb/LkSdck8IMf/OAHP/jBD37wgx/84Ac/+MGvkz8WG47x8/w9KiU2HjL49fBfCL4kX5GvyTeCNfHfCt6R78j35AfBmvjdWpfqyYAf/O3wLz3z9e31S/hTy66hFvh9962hkn1cQ/+7+vMzaz5PJa0x/12/by1Xf35mfY78/My6Bn8r67+v/uAHP/hlgf9v/S5Z/1uIhW3Z/73y82fWc+3/0vHfyvzPUen47z0WXtr/Gvhz2mBieXrmtyrh753dKmcP0MQ/jxfF2kDT2Hfi8atUfi3sVuA/HdOhZym+Xmjht0qJhbb2zLumUvm1jX2n2ByY/97Txm/F+Xz8rcR7/0Mp/NrWPa75+RX//4/2se8U4tfObhXj1zr3nVrs/18re1oz
   </data>
  </layer>
 </map>

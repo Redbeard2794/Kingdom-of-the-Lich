@@ -57,7 +57,8 @@
 #include "Npc.h"
 #include "CollidableObject.h"
 #include "DamageCalculator.h"
-
+#include "Area.h"
+#include "AreaManager.h"
 
 
 #endif

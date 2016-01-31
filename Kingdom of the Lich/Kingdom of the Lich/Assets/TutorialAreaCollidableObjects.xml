@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<collidableObjectsList>
+
+	<collidableObject name='house1'>
+		<id>1</id>
+		<x>500</x>
+		<y>1050</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house2'>
+		<id>2</id>
+		<x>500</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house3'>
+		<id>3</id>
+		<x>650</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house4'>
+		<id>4</id>
+		<x>800</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house5'>
+		<id>5</id>
+		<x>950</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house6'>
+		<id>6</id>
+		<x>1100</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house7'>
+		<id>7</id>
+		<x>1250</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='house8'>
+		<id>8</id>
+		<x>1400</x>
+		<y>250</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='wall1'>
+		<id>9</id>
+		<x>300</x>
+		<y>200</y>
+		<w>1400</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='wall2'>
+		<id>10</id>
+		<x>200</x>
+		<y>300</y>
+		<w>50</w>
+		<h>1400</h>
+	</collidableObject>
+	
+	<collidableObject name='wall3'>
+		<id>11</id>
+		<x>300</x>
+		<y>1750</y>
+		<w>1400</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='wall4'>
+		<id>12</id>
+		<x>1750</x>
+		<y>300</y>
+		<w>50</w>
+		<h>1400</h>
+	</collidableObject>
+	
+	<collidableObject name='tower1'>
+		<id>13</id>
+		<x>200</x>
+		<y>200</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='tower2'>
+		<id>14</id>
+		<x>1700</x>
+		<y>200</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='tower3'>
+		<id>15</id>
+		<x>200</x>
+		<y>1700</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='tower4'>
+		<id>16</id>
+		<x>1700</x>
+		<y>1700</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='forge'>
+		<id>17</id>
+		<x>350</x>
+		<y>1000</y>
+		<w>100</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='anvil'>
+		<id>18</id>
+		<x>363</x>
+		<y>900</y>
+		<w>20</w>
+		<h>50</h>
+	</collidableObject>
+	
+</collidableObjectsList>

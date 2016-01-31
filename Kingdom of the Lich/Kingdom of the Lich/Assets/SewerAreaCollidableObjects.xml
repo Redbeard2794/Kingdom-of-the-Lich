@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<collidableObjectsList>
+
+	<collidableObject name='wall1'>
+		<id>1</id>
+		<x>0</x>
+		<y>0</y>
+		<w>0</w>
+		<h>0</h>
+	</collidableObject>
+	
+</collidableObjectsList>

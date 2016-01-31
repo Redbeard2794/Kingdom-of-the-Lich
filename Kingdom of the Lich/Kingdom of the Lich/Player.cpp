@@ -4,7 +4,7 @@
 //constructor(param is a font)
 Player::Player(sf::Font f) : font(f)
 {
-	setPosition(500, 400);
+	setPosition(500, 400);//400
 
 	isRunning = false;
 

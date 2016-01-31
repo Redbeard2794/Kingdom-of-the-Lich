@@ -40,14 +40,28 @@ int main()
 {
 	/* initialize random seed: */
 	srand(time(NULL));
+	AreaManager* areaManager = new AreaManager();
+	enum Areas
+	{
+		TUTORIAL,
+		SEWER
+	};
+	int currentArea = areaManager->GetCurrentArea();
+
+	//switch which one we are drawing here then. 
+	//so areas handle all npcs and collidable objects+collision detection.
+	//area manager updates current area.
 
 	//https://github.com/edoren/STP
-	tmx::TileMap map("Assets/tutorialArea.tmx");
-	tmx::TileMap lowPolyMap("Assets/lowPolyTutorialArea.tmx");
+	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
+	tmx::TileMap tutorialAreaLowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
+	tmx::TileMap sewerAreaMap("Assets/50x50SewerArea.tmx");
+
+	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
 
-	tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
+	//tmx::ObjectGroup collisionGroup = map.GetObjectGroup("Collision");
 
 	//for (int i = 0; i < collisionGroup.objects_.size(); i++)
 	//{
@@ -203,182 +217,182 @@ int main()
 	audioManager->PlayMusicById(0);
 
 	//npcs :)
-	std::vector<Npc*> npcVector;
+	/*std::vector<Npc*> npcVector;*/
 
-	xml_document<> doc;
-	std::ifstream file("Assets/npcList.xml");
-	std::stringstream buffer;
-	buffer << file.rdbuf();
-	file.close();
-	std::string content(buffer.str());
-	doc.parse<0>(&content[0]);
+	//xml_document<> doc;
+	//std::ifstream file("Assets/npcList.xml");
+	//std::stringstream buffer;
+	//buffer << file.rdbuf();
+	//file.close();
+	//std::string content(buffer.str());
+	//doc.parse<0>(&content[0]);
 
-	xml_node<> *pRoot = doc.first_node();
-	std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
+	//xml_node<> *pRoot = doc.first_node();
+	////std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
 
-	xml_node<>* npcList = doc.first_node("npcList");
-	xml_node<>* npc = npcList->first_node("npc");
+	//xml_node<>* npcList = doc.first_node("npcList");
+	//xml_node<>* npc = npcList->first_node("npc");
 
-	//load in each npc's information and then create them
-	while (npc != NULL)
-	{
-		//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour
-		std::string name = "";
-		int id = 0;
-		std::string race = "";
-		std::string gender = "";
-		std::string texturePath = "";
+	////load in each npc's information and then create them
+	//while (npc != NULL)
+	//{
+	//	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour
+	//	std::string name = "";
+	//	int id = 0;
+	//	std::string race = "";
+	//	std::string gender = "";
+	//	std::string texturePath = "";
 
-		std::string idleUpPath = "";
-		std::string idleDownPath = "";
-		std::string idleLeftPath = "";
-		std::string idleRightPath = "";
+	//	std::string idleUpPath = "";
+	//	std::string idleDownPath = "";
+	//	std::string idleLeftPath = "";
+	//	std::string idleRightPath = "";
 
-		int numberOfFrames = 0;
+	//	int numberOfFrames = 0;
 
-		std::string walkUpPath = "";
-		std::string walkDownPath = "";
-		std::string walkLeftPath = "";
-		std::string walkRightPath = "";
+	//	std::string walkUpPath = "";
+	//	std::string walkDownPath = "";
+	//	std::string walkLeftPath = "";
+	//	std::string walkRightPath = "";
 
-		std::string mapIconTexturePath = "";
-		float x = 0;
-		float y = 0;
-		std::string hasQuest = "";
-		std::string interactable = "";
-		std::string behaviour = "";
+	//	std::string mapIconTexturePath = "";
+	//	float x = 0;
+	//	float y = 0;
+	//	std::string hasQuest = "";
+	//	std::string interactable = "";
+	//	std::string behaviour = "";
 
-		/*Get the npc's name*/
-		std::cout << "Name: " << npc->first_attribute("name")->value() << std::endl;
-		name = npc->first_attribute("name")->value();
+	//	/*Get the npc's name*/
+	//	//std::cout << "Name: " << npc->first_attribute("name")->value() << std::endl;
+	//	name = npc->first_attribute("name")->value();
 
-		/*Get the npc's id*/
-		std::cout << "I.D: " << npc->first_node("id")->value() << std::endl;
-		id = atoi(npc->first_node("id")->value());
+	//	/*Get the npc's id*/
+	//	//std::cout << "I.D: " << npc->first_node("id")->value() << std::endl;
+	//	id = atoi(npc->first_node("id")->value());
 
-		/*Get the npc's race*/
-		std::cout << "Race: " << npc->first_node("race")->value() << std::endl;
-		race = npc->first_node("race")->value();
+	//	/*Get the npc's race*/
+	//	//std::cout << "Race: " << npc->first_node("race")->value() << std::endl;
+	//	race = npc->first_node("race")->value();
 
-		/*Get the npc's gender*/
-		std::cout << "Gender: " << npc->first_node("gender")->value() << std::endl;
-		gender = npc->first_node("gender")->value();
+	//	/*Get the npc's gender*/
+	//	//std::cout << "Gender: " << npc->first_node("gender")->value() << std::endl;
+	//	gender = npc->first_node("gender")->value();
 
-		/*get paths for idle sprites*/
-		std::cout << "Idle up path: " << npc->first_node("idleUpPath")->value() << std::endl;
-		idleUpPath = npc->first_node("idleUpPath")->value();
+	//	/*get paths for idle sprites*/
+	//	//std::cout << "Idle up path: " << npc->first_node("idleUpPath")->value() << std::endl;
+	//	idleUpPath = npc->first_node("idleUpPath")->value();
 
-		std::cout << "Idle down path: " << npc->first_node("idleDownPath")->value() << std::endl;
-		idleDownPath = npc->first_node("idleDownPath")->value();
+	//	//std::cout << "Idle down path: " << npc->first_node("idleDownPath")->value() << std::endl;
+	//	idleDownPath = npc->first_node("idleDownPath")->value();
 
-		std::cout << "Idle left path: " << npc->first_node("idleLeftPath")->value() << std::endl;
-		idleLeftPath = npc->first_node("idleLeftPath")->value();
+	//	//std::cout << "Idle left path: " << npc->first_node("idleLeftPath")->value() << std::endl;
+	//	idleLeftPath = npc->first_node("idleLeftPath")->value();
 
-		std::cout << "Idle right path: " << npc->first_node("idleRightPath")->value() << std::endl;
-		idleRightPath = npc->first_node("idleRightPath")->value();
+	//	//std::cout << "Idle right path: " << npc->first_node("idleRightPath")->value() << std::endl;
+	//	idleRightPath = npc->first_node("idleRightPath")->value();
 
-		/*Get the number of frames*/
-		std::cout << "Number of frames: " << npc->first_node("numberOfFrames")->value() << std::endl;
-		numberOfFrames = atoi( npc->first_node("numberOfFrames")->value());
+	//	/*Get the number of frames*/
+	//	//std::cout << "Number of frames: " << npc->first_node("numberOfFrames")->value() << std::endl;
+	//	numberOfFrames = atoi( npc->first_node("numberOfFrames")->value());
 
-		/*get paths for walking sprites*/
-		std::cout << "Walk up path: " << npc->first_node("walkUpPath")->value() << std::endl;
-		walkUpPath = npc->first_node("walkUpPath")->value();
+	//	/*get paths for walking sprites*/
+	//	//std::cout << "Walk up path: " << npc->first_node("walkUpPath")->value() << std::endl;
+	//	walkUpPath = npc->first_node("walkUpPath")->value();
 
-		std::cout << "Walk down path: " << npc->first_node("walkDownPath")->value() << std::endl;
-		walkDownPath = npc->first_node("walkDownPath")->value();
+	//	//std::cout << "Walk down path: " << npc->first_node("walkDownPath")->value() << std::endl;
+	//	walkDownPath = npc->first_node("walkDownPath")->value();
 
-		std::cout << "Walk left path: " << npc->first_node("walkLeftPath")->value() << std::endl;
-		walkLeftPath = npc->first_node("walkLeftPath")->value();
+	//	//std::cout << "Walk left path: " << npc->first_node("walkLeftPath")->value() << std::endl;
+	//	walkLeftPath = npc->first_node("walkLeftPath")->value();
 
-		std::cout << "Walk right path: " << npc->first_node("walkRightPath")->value() << std::endl;
-		walkRightPath = npc->first_node("walkRightPath")->value();
+	//	//std::cout << "Walk right path: " << npc->first_node("walkRightPath")->value() << std::endl;
+	//	walkRightPath = npc->first_node("walkRightPath")->value();
 
-		/*minimap icon path*/
-		std::cout << "Map icon texture path: " << npc->first_node("mapIconTexturePath")->value() << std::endl;
-		mapIconTexturePath = npc->first_node("mapIconTexturePath")->value();
+	//	/*minimap icon path*/
+	//	//std::cout << "Map icon texture path: " << npc->first_node("mapIconTexturePath")->value() << std::endl;
+	//	mapIconTexturePath = npc->first_node("mapIconTexturePath")->value();
 
-		/*x position*/
-		std::cout << "X: " << npc->first_node("x")->value() << std::endl;
-		x = atof(npc->first_node("x")->value());
+	//	/*x position*/
+	//	//std::cout << "X: " << npc->first_node("x")->value() << std::endl;
+	//	x = atof(npc->first_node("x")->value());
 
-		/*y position*/
-		std::cout << "Y: " << npc->first_node("y")->value() << std::endl;
-		y = atof(npc->first_node("y")->value());
+	//	/*y position*/
+	//	//std::cout << "Y: " << npc->first_node("y")->value() << std::endl;
+	//	y = atof(npc->first_node("y")->value());
 
-		/*Does the npc have a quest for the player*/
-		std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
-		hasQuest = npc->first_node("hasQuest")->value();
+	//	/*Does the npc have a quest for the player*/
+	//	//std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
+	//	hasQuest = npc->first_node("hasQuest")->value();
 
-		/*Can the npc be interacted with?*/
-		std::cout << "Interactable: " << npc->first_node("interact")->value() << std::endl;
-		interactable = npc->first_node("interact")->value();
+	//	/*Can the npc be interacted with?*/
+	//	//std::cout << "Interactable: " << npc->first_node("interact")->value() << std::endl;
+	//	interactable = npc->first_node("interact")->value();
 
-		/*What behaviour do they have? e.g: wander, stand etc*/
-		std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
-		behaviour = npc->first_node("behaviour")->value();
+	//	/*What behaviour do they have? e.g: wander, stand etc*/
+	//	//std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
+	//	behaviour = npc->first_node("behaviour")->value();
 
-		/*Create the npc*/
-		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, useController);
-		npcVector.push_back(n);
-		std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
+	//	/*Create the npc*/
+	//	Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, useController);
+	//	npcVector.push_back(n);
+	//	//std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
 
-		std::cout << "------------------------------------------------------------" << std::endl;
-		/*Move onto the next npc tag*/
-		npc = npc->next_sibling("npc");
-	}
+	//	std::cout << "------------------------------------------------------------" << std::endl;
+	//	/*Move onto the next npc tag*/
+	//	npc = npc->next_sibling("npc");
+	//}
 	//houses
-	CollidableObject* house1 = new CollidableObject(500, 1050, 100, 100, true, false);
-	CollidableObject* house2 = new CollidableObject(500, 250, 100, 100, true, false);
-	CollidableObject* house3 = new CollidableObject(650, 250, 100, 100, true, false);
-	CollidableObject* house4 = new CollidableObject(800, 250, 100, 100, true, false);
-	CollidableObject* house5 = new CollidableObject(950, 250, 100, 100, true, false);
-	CollidableObject* house6 = new CollidableObject(1100, 250, 100, 100, true, false);
-	CollidableObject* house7 = new CollidableObject(1250, 250, 100, 100, true, false);
-	CollidableObject* house8 = new CollidableObject(1400, 250, 100, 100, true, false);
-	//walls
-	CollidableObject* wall1 = new CollidableObject(300, 200, 1400, 50, true, false);
-	CollidableObject* wall2 = new CollidableObject(200, 300, 50, 1400, true, false);
-	CollidableObject* wall3 = new CollidableObject(300, 1750, 1400, 50, true, false);
-	CollidableObject* wall4 = new CollidableObject(1750, 300, 50, 1400, true, false);
-	//towers
-	CollidableObject* tower1 = new CollidableObject(200, 200, 100, 100, true, false);
-	CollidableObject* tower2 = new CollidableObject(1700, 200, 100, 100, true, false);
-	CollidableObject* tower3 = new CollidableObject(200, 1700, 100, 100, true, false);
-	CollidableObject* tower4 = new CollidableObject(1700, 1700, 100, 100, true, false);
-	//forge
-	CollidableObject* forge = new CollidableObject(350, 1000, 100, 100, true, false);
-	//anvil
-	CollidableObject* anvil = new CollidableObject(363, 900, 20, 50, true, false);
+	//CollidableObject* house1 = new CollidableObject(500, 1050, 100, 100, true, false);
+	//CollidableObject* house2 = new CollidableObject(500, 250, 100, 100, true, false);
+	//CollidableObject* house3 = new CollidableObject(650, 250, 100, 100, true, false);
+	//CollidableObject* house4 = new CollidableObject(800, 250, 100, 100, true, false);
+	//CollidableObject* house5 = new CollidableObject(950, 250, 100, 100, true, false);
+	//CollidableObject* house6 = new CollidableObject(1100, 250, 100, 100, true, false);
+	//CollidableObject* house7 = new CollidableObject(1250, 250, 100, 100, true, false);
+	//CollidableObject* house8 = new CollidableObject(1400, 250, 100, 100, true, false);
+	////walls
+	//CollidableObject* wall1 = new CollidableObject(300, 200, 1400, 50, true, false);
+	//CollidableObject* wall2 = new CollidableObject(200, 300, 50, 1400, true, false);
+	//CollidableObject* wall3 = new CollidableObject(300, 1750, 1400, 50, true, false);
+	//CollidableObject* wall4 = new CollidableObject(1750, 300, 50, 1400, true, false);
+	////towers
+	//CollidableObject* tower1 = new CollidableObject(200, 200, 100, 100, true, false);
+	//CollidableObject* tower2 = new CollidableObject(1700, 200, 100, 100, true, false);
+	//CollidableObject* tower3 = new CollidableObject(200, 1700, 100, 100, true, false);
+	//CollidableObject* tower4 = new CollidableObject(1700, 1700, 100, 100, true, false);
+	////forge
+	//CollidableObject* forge = new CollidableObject(350, 1000, 100, 100, true, false);
+	////anvil
+	//CollidableObject* anvil = new CollidableObject(363, 900, 20, 50, true, false);
 
-	std::vector<CollidableObject*> collidableObjects;
-	collidableObjects.push_back(house1);
-	collidableObjects.push_back(house2);
-	collidableObjects.push_back(house3);
-	collidableObjects.push_back(house4);
-	collidableObjects.push_back(house5);
-	collidableObjects.push_back(house6);
-	collidableObjects.push_back(house7);
-	collidableObjects.push_back(house8);
+	//std::vector<CollidableObject*> collidableObjects;
+	//collidableObjects.push_back(house1);
+	//collidableObjects.push_back(house2);
+	//collidableObjects.push_back(house3);
+	//collidableObjects.push_back(house4);
+	//collidableObjects.push_back(house5);
+	//collidableObjects.push_back(house6);
+	//collidableObjects.push_back(house7);
+	//collidableObjects.push_back(house8);
 
-	collidableObjects.push_back(wall1);
-	collidableObjects.push_back(wall2);
-	collidableObjects.push_back(wall3);
-	collidableObjects.push_back(wall4);
+	//collidableObjects.push_back(wall1);
+	//collidableObjects.push_back(wall2);
+	//collidableObjects.push_back(wall3);
+	//collidableObjects.push_back(wall4);
 
-	collidableObjects.push_back(tower1);
-	collidableObjects.push_back(tower2);
-	collidableObjects.push_back(tower3);
-	collidableObjects.push_back(tower4);
+	//collidableObjects.push_back(tower1);
+	//collidableObjects.push_back(tower2);
+	//collidableObjects.push_back(tower3);
+	//collidableObjects.push_back(tower4);
 
-	collidableObjects.push_back(forge);
+	//collidableObjects.push_back(forge);
 
-	collidableObjects.push_back(anvil);
+	//collidableObjects.push_back(anvil);
 
 	bool debugMode = true;
 
 	//testing quest
-	Quest* testQuest = new Quest(2, "Learn how chests work", npcVector.at(0)->getNpcName(), npcVector.at(0)->getPosition(), 1, 5, 5);
+	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
 
 	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 25, 20, 0, sf::Vector2f(800, 1600));
 
@@ -1103,8 +1117,13 @@ int main()
 					p->setCollidingStatus(false);
 				}
 			}
+			if (areaManager->GetCurrentArea() == TUTORIAL)
+				window.draw(tutorialAreaMap);
+			else if (areaManager->GetCurrentArea() == SEWER)
+				window.draw(sewerAreaMap);
 
-			window.draw(map);
+			//window.draw(tutorialAreaMap);
+			//window.draw(area);
 			
 			//update the player
 			p->Update();
@@ -1116,48 +1135,51 @@ int main()
 				testChest->DrawBoundingBox(window);
 			
 			//update and draw npcs
-			for (int i = 0; i < npcVector.size(); i++)
-			{
-				npcVector.at(i)->Update(p->getPosition());
-				window.draw(*npcVector.at(i));
-				npcVector.at(i)->draw(window);
-				if (debugMode)
-					npcVector.at(i)->DrawBoundingBox(window);
-				if (npcVector.at(i)->CheckDistanceToPlayer() < 50)
-					npcVector.at(i)->setShowHint(true);
-				else npcVector.at(i)->setShowHint(false);
-			}
+			//for (int i = 0; i < npcVector.size(); i++)
+			//{
+			//	npcVector.at(i)->Update(p->getPosition());
+			//	window.draw(*npcVector.at(i));
+			//	npcVector.at(i)->draw(window);
+			//	if (debugMode)
+			//		npcVector.at(i)->DrawBoundingBox(window);
+			//	if (npcVector.at(i)->CheckDistanceToPlayer() < 50)
+			//		npcVector.at(i)->setShowHint(true);
+			//	else npcVector.at(i)->setShowHint(false);
+			//}
+
+			areaManager->Update(p->getPosition());
+			areaManager->Draw(window, debugMode);
 			
 			window.draw(*p);
 			if (debugMode)
 				p->DrawBoundingBox(window);
 
-			for (int i = 0; i < collidableObjects.size(); i++)
-			{
-				if(debugMode)
-					window.draw(*collidableObjects.at(i));
-			}
+			//for (int i = 0; i < collidableObjects.size(); i++)
+			//{
+			//	if(debugMode)
+			//		window.draw(*collidableObjects.at(i));
+			//}
 
 			//collision detection
 			//npcs and collidable objects
-			for (int i = 0; i < npcVector.size(); i++)
-			{
-				for (int j = 0; j < collidableObjects.size(); j++)
-				{
-					if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
-					{
-						npcVector.at(i)->setColliding(true);
-						//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
-						break;
-					}
-					else npcVector.at(i)->setColliding(false);
-				}
-			}
+			//for (int i = 0; i < npcVector.size(); i++)
+			//{
+			//	for (int j = 0; j < collidableObjects.size(); j++)
+			//	{
+			//		if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
+			//		{
+			//			npcVector.at(i)->setColliding(true);
+			//			//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
+			//			break;
+			//		}
+			//		else npcVector.at(i)->setColliding(false);
+			//	}
+			//}
 
 			//player and collidable objects
-			for (int i = 0; i < collidableObjects.size(); i++)
-			{
-				if (collidableObjects.at(i)->CheckIntersectionRectangle(p->getGlobalBounds()))
+			//for (int i = 0; i < collidableObjects.size(); i++)
+			//{
+				if (areaManager->CheckPlayerCollidableObjectsCollisions(p->getGlobalBounds()))
 				{
 					p->setCollidingStatus(true);
 
@@ -1178,19 +1200,20 @@ int main()
 						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
 					}
 
-					break;
+					//break;
 				}
 				else p->setCollidingStatus(false);
-			}
-			//player and npcs
-			for (int i = 0; i < npcVector.size(); i++)
-			{
-				if (p->getGlobalBounds().intersects(npcVector.at(i)->getGlobalBounds()))
+			//}
+			//player and npcs.......   check player collision in area, return pair of a bool and a number
+			//if number is 0 the npc has a quest, if 1 they dont, if 2 they follow
+			//for (int i = 0; i < npcVector.size(); i++)
+			//{
+				if (areaManager->CheckCollisionPlayerNpcs(p).first)
 				{
 					p->setCollidingStatus(true);
-					npcVector.at(i)->setColliding(true);
+					//npcVector.at(i)->setColliding(true);
 
-					if (i == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					if (areaManager->CheckCollisionPlayerNpcs(p).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
 					{
 						if (testQuest->getCurrentStageIndex() == 0)
 						{
@@ -1205,7 +1228,7 @@ int main()
 					}
 
 					//move the player out of collision
-					if (npcVector.at(i)->getBehaviour() != "follow")
+					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
 					{
 
 						if (p->getCurrentDirection() == 0)//up
@@ -1233,7 +1256,7 @@ int main()
 					p->setCollidingStatus(false);
 					//npcVector.at(i)->setColliding(false);//this was causing the npcs to just ignore collisions!!!! need something along the line of this though to stop them getting stuck.
 				}
-			}
+			//}
 
 			//player and enemy
 			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()) && testEnemy->GetHealth() > 0)
@@ -1297,15 +1320,16 @@ int main()
 			{
 				window.setView(minimap);
 				minimap.setCenter(p->getPosition());
-				window.draw(lowPolyMap);//do I need this? or could I make something nicer to show
+				window.draw(tutorialAreaLowPolyMap);//do I need this? or could I make something nicer to show
 				window.draw(*testChest);
 				if (testEnemy->GetHealth() > 0)
 					testEnemy->MinimapDraw(window);
 				//draw npcs on minimap
-				for (int i = 0; i < npcVector.size(); i++)
-				{
-					npcVector.at(i)->MinimapDraw(*pWindow);
-				}
+				//for (int i = 0; i < npcVector.size(); i++)
+				//{
+				//	npcVector.at(i)->MinimapDraw(*pWindow);
+				//}
+				areaManager->MinimapDraw(window);
 
 				p->MinimapDraw(*pWindow);
 			}
