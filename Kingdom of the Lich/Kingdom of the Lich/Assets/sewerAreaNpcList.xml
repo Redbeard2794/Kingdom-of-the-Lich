@@ -6,18 +6,18 @@
 		<id>1</id>
 		<race>Human</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/Commander Iron-Arm/Idle/upIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/Commander Iron-Arm/Idle/downIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/Commander Iron-Arm/Idle/leftIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/Commander Iron-Arm/Idle/rightIdle.png</idleRightPath>
+		<idleUpPath>Assets/Npcs/maleGuard/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleGuard/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleGuard/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleGuard/Idle/rightIdle.png</idleRightPath>
 		<numberOfFrames>3</numberOfFrames>
-		<walkUpPath>Assets/Npcs/Commander Iron-Arm/Moving/upSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/Commander Iron-Arm/Moving/downSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/Commander Iron-Arm/Moving/leftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/Commander Iron-Arm/Moving/rightSheet.png</walkRightPath>
+		<walkUpPath>Assets/Npcs/maleGuard/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleGuard/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>100</x>
-		<y>300</y>
+		<x>1325</x>
+		<y>375</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>stand</behaviour>
