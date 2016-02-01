@@ -2,7 +2,7 @@
 
 <npcList>
 
-	<npc name='Commander Iron-Arm'>
+	<npc name='Guard1'>
 		<id>1</id>
 		<race>Human</race>
 		<gender>Male</gender>
@@ -21,6 +21,69 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>stand</behaviour>
+	</npc>
+	
+	<npc name='Guard2'>
+		<id>2</id>
+		<race>Human</race>
+		<gender>Male</gender>
+		<idleUpPath>Assets/Npcs/maleGuard/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/maleGuard/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/maleGuard/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/maleGuard/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/maleGuard/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/maleGuard/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>2000</x>
+		<y>1500</y>
+		<hasQuest>true</hasQuest>
+		<interact>true</interact>
+		<behaviour>wander</behaviour>
+	</npc>
+	
+	<npc name='Sewer Dweller 1'>
+		<id>3</id>
+		<race>Human</race>
+		<gender>Male</gender>
+		<idleUpPath>Assets/Npcs/oldMan/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/oldMan/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/oldMan/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/oldMan/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/oldMan/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/oldMan/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/oldMan/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>500</x>
+		<y>1500</y>
+		<hasQuest>true</hasQuest>
+		<interact>true</interact>
+		<behaviour>wander</behaviour>
+	</npc>
+	
+	<npc name='Apprentice Necromancer 1'>
+		<id>4</id>
+		<race>Human</race>
+		<gender>Male</gender>
+		<idleUpPath>Assets/Npcs/cultist/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/cultist/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/cultist/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/cultist/Idle/rightIdle.png</idleRightPath>
+		<numberOfFrames>3</numberOfFrames>
+		<walkUpPath>Assets/Npcs/cultist/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/cultist/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/cultist/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/cultist/Moving/rightSheet.png</walkRightPath>
+		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+		<x>1300</x>
+		<y>1200</y>
+		<hasQuest>true</hasQuest>
+		<interact>true</interact>
+		<behaviour>wander</behaviour>
 	</npc>
 
 </npcList>

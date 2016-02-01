@@ -109,8 +109,8 @@ int main()
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
-	window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
+	//window.setVerticalSyncEnabled(true);
 
 	//text by cooltext.com
 	//splash screen
@@ -1259,7 +1259,7 @@ int main()
 			//}
 
 			//player and enemy
-			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()) && testEnemy->GetHealth() > 0)
+			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()) && testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 			{
 				p->setCollidingStatus(true);
 
@@ -1292,7 +1292,7 @@ int main()
 				p->setCollidingStatus(false);
 			}
 			
-			if (testEnemy->GetHealth() > 0)
+			if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 			{
 				window.draw(*testEnemy);
 				if (debugMode)
@@ -1322,7 +1322,7 @@ int main()
 				minimap.setCenter(p->getPosition());
 				window.draw(tutorialAreaLowPolyMap);//do I need this? or could I make something nicer to show
 				window.draw(*testChest);
-				if (testEnemy->GetHealth() > 0)
+				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);
 				//draw npcs on minimap
 				//for (int i = 0; i < npcVector.size(); i++)

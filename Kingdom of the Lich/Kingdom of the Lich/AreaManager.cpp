@@ -8,7 +8,7 @@ AreaManager::AreaManager()
 	Area* sewerArea = new Area("Assets/50x50SewerArea.tmx", "", "Assets/sewerAreaNpcList.xml", "Assets/SewerAreaCollidableObjects.xml");
 	areas.push_back(sewerArea);
 
-	currentArea = TUTORIAL;
+	currentArea = SEWER;
 }
 
 AreaManager::~AreaManager()

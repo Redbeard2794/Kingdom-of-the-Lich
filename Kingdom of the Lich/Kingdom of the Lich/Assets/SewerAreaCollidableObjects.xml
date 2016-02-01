@@ -6,8 +6,464 @@
 		<id>1</id>
 		<x>0</x>
 		<y>0</y>
-		<w>0</w>
-		<h>0</h>
+		<w>1300</w>
+		<h>250</h>
+	</collidableObject>
+	
+	<collidableObject name='wall2'>
+		<id>2</id>
+		<x>1350</x>
+		<y>0</y>
+		<w>1250</w>
+		<h>250</h>
+	</collidableObject>
+	
+	<collidableObject name='wall3'>
+		<id>3</id>
+		<x>1300</x>
+		<y>0</y>
+		<w>50</w>
+		<h>200</h>
+	</collidableObject>
+	
+	<collidableObject name='wall4'>
+		<id>4</id>
+		<x>0</x>
+		<y>0</y>
+		<w>1</w>
+		<h>2600</h>
+	</collidableObject>
+	
+	<collidableObject name='wall5'>
+		<id>5</id>
+		<x>2600</x>
+		<y>0</y>
+		<w>1</w>
+		<h>2600</h>
+	</collidableObject>
+	
+	<collidableObject name='wall6'>
+		<id>6</id>
+		<x>0</x>
+		<y>2600</y>
+		<w>2600</w>
+		<h>1</h>
+	</collidableObject>
+	
+	<collidableObject name='wall7'>
+		<id>7</id>
+		<x>250</x>
+		<y>2500</y>
+		<w>2350</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='wall8'>
+		<id>8</id>
+		<x>600</x>
+		<y>1250</y>
+		<w>150</w>
+		<h>1250</h>
+	</collidableObject>
+	
+	<collidableObject name='wall9'>
+		<id>9</id>
+		<x>1800</x>
+		<y>1250</y>
+		<w>650</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='water1'>
+		<id>10</id>
+		<x>1250</x>
+		<y>400</y>
+		<w>150</w>
+		<h>750</h>
+	</collidableObject>
+	
+	<collidableObject name='water2'>
+		<id>11</id>
+		<x>1000</x>
+		<y>1250</y>
+		<w>650</w>
+		<h>650</h>
+	</collidableObject>
+	
+	<collidableObject name='water3'>
+		<id>12</id>
+		<x>1050</x>
+		<y>1900</y>
+		<w>550</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water4'>
+		<id>13</id>
+		<x>1100</x>
+		<y>2050</y>
+		<w>450</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water5'>
+		<id>14</id>
+		<x>1150</x>
+		<y>2200</y>
+		<w>350</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water6'>
+		<id>15</id>
+		<x>1200</x>
+		<y>2350</y>
+		<w>250</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water7'>
+		<id>16</id>
+		<x>650</x>
+		<y>250</y>
+		<w>50</w>
+		<h>400</h>
+	</collidableObject>
+	
+	<collidableObject name='water8'>
+		<id>17</id>
+		<x>550</x>
+		<y>650</y>
+		<w>250</w>
+		<h>350</h>
+	</collidableObject>
+	
+	<collidableObject name='water9'>
+		<id>18</id>
+		<x>0</x>
+		<y>400</y>
+		<w>250</w>
+		<h>450</h>
+	</collidableObject>
+	
+	<collidableObject name='water10'>
+		<id>19</id>
+		<x>50</x>
+		<y>850</y>
+		<w>200</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water11'>
+		<id>20</id>
+		<x>100</x>
+		<y>900</y>
+		<w>150</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water12'>
+		<id>21</id>
+		<x>150</x>
+		<y>950</y>
+		<w>100</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water13'>
+		<id>22</id>
+		<x>200</x>
+		<y>1100</y>
+		<w>50</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water14'>
+		<id>23</id>
+		<x>2450</x>
+		<y>1250</y>
+		<w>150</w>
+		<h>900</h>
+	</collidableObject>
+	
+	<collidableObject name='water15'>
+		<id>24</id>
+		<x>2400</x>
+		<y>2150</y>
+		<w>200</w>
+		<h>350</h>
+	</collidableObject>
+	
+	<collidableObject name='water16'>
+		<id>25</id>
+		<x>2350</x>
+		<y>2300</y>
+		<w>50</w>
+		<h>200</h>
+	</collidableObject>
+	
+	<collidableObject name='water17'>
+		<id>26</id>
+		<x>2300</x>
+		<y>2350</y>
+		<w>50</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water18'>
+		<id>27</id>
+		<x>2250</x>
+		<y>2400</y>
+		<w>50</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='water19'>
+		<id>28</id>
+		<x>2200</x>
+		<y>2450</y>
+		<w>50</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water20'>
+		<id>29</id>
+		<x>2100</x>
+		<y>1500</y>
+		<w>50</w>
+		<h>350</h>
+	</collidableObject>
+	
+	<collidableObject name='water21'>
+		<id>30</id>
+		<x>2050</x>
+		<y>1550</y>
+		<w>150</w>
+		<h>250</h>
+	</collidableObject>
+	
+	<collidableObject name='water22'>
+		<id>31</id>
+		<x>2000</x>
+		<y>1600</y>
+		<w>250</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water23'>
+		<id>32</id>
+		<x>1950</x>
+		<y>1650</y>
+		<w>350</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water24'>
+		<id>33</id>
+		<x>2050</x>
+		<y>2150</y>
+		<w>50</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water25'>
+		<id>34</id>
+		<x>2350</x>
+		<y>1800</y>
+		<w>50</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water26'>
+		<id>35</id>
+		<x>1950</x>
+		<y>2300</y>
+		<w>100</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water27'>
+		<id>36</id>
+		<x>1600</x>
+		<y>2450</y>
+		<w>100</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='water28'>
+		<id>37</id>
+		<x>0</x>
+		<y>1250</y>
+		<w>450</w>
+		<h>250</h>
+	</collidableObject>
+	
+	<collidableObject name='water29'>
+		<id>38</id>
+		<x>0</x>
+		<y>1500</y>
+		<w>250</w>
+		<h>1000</h>
+	</collidableObject>
+	
+	<collidableObject name='water30'>
+		<id>39</id>
+		<x>250</x>
+		<y>1500</y>
+		<w>100</w>
+		<h>350</h>
+	</collidableObject>
+	
+	<collidableObject name='water31'>
+		<id>40</id>
+		<x>300</x>
+		<y>1500</y>
+		<w>100</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water32'>
+		<id>41</id>
+		<x>250</x>
+		<y>1850</y>
+		<w>50</w>
+		<h>100</h>
+	</collidableObject>
+	
+	<collidableObject name='water33'>
+		<id>42</id>
+		<x>250</x>
+		<y>2250</y>
+		<w>50</w>
+		<h>200</h>
+	</collidableObject>
+	
+	<collidableObject name='water34'>
+		<id>43</id>
+		<x>2400</x>
+		<y>250</y>
+		<w>200</w>
+		<h>900</h>
+	</collidableObject>
+	
+	<collidableObject name='water35'>
+		<id>44</id>
+		<x>2350</x>
+		<y>250</y>
+		<w>50</w>
+		<h>850</h>
+	</collidableObject>
+	
+	<collidableObject name='water36'>
+		<id>45</id>
+		<x>2250</x>
+		<y>250</y>
+		<w>100</w>
+		<h>800</h>
+	</collidableObject>
+	
+	<collidableObject name='water37'>
+		<id>46</id>
+		<x>2200</x>
+		<y>300</y>
+		<w>50</w>
+		<h>700</h>
+	</collidableObject>
+	
+	<collidableObject name='water38'>
+		<id>47</id>
+		<x>2150</x>
+		<y>300</y>
+		<w>50</w>
+		<h>650</h>
+	</collidableObject>
+	
+	<collidableObject name='water39'>
+		<id>48</id>
+		<x>2050</x>
+		<y>450</y>
+		<w>100</w>
+		<h>450</h>
+	</collidableObject>
+	
+	<collidableObject name='water40'>
+		<id>49</id>
+		<x>2000</x>
+		<y>650</y>
+		<w>50</w>
+		<h>150</h>
+	</collidableObject>
+	
+	<collidableObject name='water41'>
+		<id>50</id>
+		<x>1950</x>
+		<y>700</y>
+		<w>50</w>
+		<h>50</h>
+	</collidableObject>
+	
+	<collidableObject name='barrel1'>
+		<id>51</id>
+		<x>1212</x>
+		<y>660</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+	
+	<collidableObject name='table1'>
+		<id>52</id>
+		<x>1210</x>
+		<y>615</y>
+		<w>32</w>
+		<h>30</h>
+	</collidableObject>
+  
+	<collidableObject name='barrel2'>
+		<id>53</id>
+		<x>1412</x>
+		<y>1110</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+  
+	<collidableObject name='barrel3'>
+		<id>54</id>
+		<x>12</x>
+		<y>1160</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+  
+	<collidableObject name='barrel4'>
+		<id>55</id>
+		<x>2060</x>
+		<y>1510</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+  
+	<collidableObject name='barrel5'>
+		<id>56</id>
+		<x>2010</x>
+		<y>1560</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+  
+	<collidableObject name='barrel6'>
+		<id>57</id>
+		<x>1960</x>
+		<y>1610</y>
+		<w>24</w>
+		<h>32</h>
+	</collidableObject>
+  
+	<collidableObject name='table2'>
+		<id>58</id>
+		<x>1860</x>
+		<y>1365</y>
+		<w>32</w>
+		<h>30</h>
 	</collidableObject>
 	
 </collidableObjectsList>
