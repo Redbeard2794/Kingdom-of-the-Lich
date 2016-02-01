@@ -59,6 +59,7 @@
 #include "DamageCalculator.h"
 #include "Area.h"
 #include "AreaManager.h"
+#include "Door.h"
 
 
 #endif

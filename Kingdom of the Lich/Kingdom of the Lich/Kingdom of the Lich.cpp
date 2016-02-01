@@ -48,9 +48,8 @@ int main()
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	//switch which one we are drawing here then. 
-	//so areas handle all npcs and collidable objects+collision detection.
-	//area manager updates current area.
+	Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false);
+	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true);
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -747,12 +746,13 @@ int main()
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								gState = GAME;
+								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 2), 5);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -907,12 +907,13 @@ int main()
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								gState = GAME;
+								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 2), 5);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -1007,7 +1008,7 @@ int main()
 				}
 
 				//check for collision between player and chest and update quest
-				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()))
+				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)
 				{
 					if (gamepad->A() == true)
 					{
@@ -1023,8 +1024,8 @@ int main()
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 								if (useController)
-									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
-								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
 							}
 							else
 							{
@@ -1073,7 +1074,7 @@ int main()
 				}
 
 				//check for collision between player and chest and update quest
-				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()))// , testInv);
+				if (p->getGlobalBounds().intersects(testChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)// , testInv);
 				{
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 					{
@@ -1087,8 +1088,8 @@ int main()
 								//testQuest->setCompletionStatus(true);
 								//std::cout << "You completed your first quest!" << std::endl;
 								if (useController)
-									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
-								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 							}
@@ -1121,31 +1122,40 @@ int main()
 				window.draw(tutorialAreaMap);
 			else if (areaManager->GetCurrentArea() == SEWER)
 				window.draw(sewerAreaMap);
-
-			//window.draw(tutorialAreaMap);
-			//window.draw(area);
 			
 			//update the player
 			p->Update();
 
-			testChest->Update(p->getPosition());
-			window.draw(*testChest);
-			testChest->DrawHint(*pWindow);
-			if(debugMode)
-				testChest->DrawBoundingBox(window);
+			if (areaManager->GetCurrentArea() == TUTORIAL)
+			{
+				testChest->Update(p->getPosition());
+				window.draw(*testChest);
+				testChest->DrawHint(*pWindow);
+				if (debugMode)
+					testChest->DrawBoundingBox(window);
+			}
 			
-			//update and draw npcs
-			//for (int i = 0; i < npcVector.size(); i++)
-			//{
-			//	npcVector.at(i)->Update(p->getPosition());
-			//	window.draw(*npcVector.at(i));
-			//	npcVector.at(i)->draw(window);
-			//	if (debugMode)
-			//		npcVector.at(i)->DrawBoundingBox(window);
-			//	if (npcVector.at(i)->CheckDistanceToPlayer() < 50)
-			//		npcVector.at(i)->setShowHint(true);
-			//	else npcVector.at(i)->setShowHint(false);
-			//}
+
+			if (areaManager->GetCurrentArea() == TUTORIAL)
+			{
+				window.draw(*sewerHatch);
+				if (sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
+				{
+					areaManager->ChangeArea(SEWER);
+					p->setPosition(1325, 275);
+					testQuest->getCurrentStage()->setCompletionStatus(true);
+					testQuest->setCompletionStatus(true);
+				}
+			}
+			else if (areaManager->GetCurrentArea() == SEWER)
+			{
+				window.draw(*sewerExit);
+				if (sewerExit->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerExit->IsOpen())
+				{
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(1100+sewerHatch->getTexture()->getSize().x, 1000);
+				}
+			}
 
 			areaManager->Update(p->getPosition());
 			areaManager->Draw(window, debugMode);
@@ -1154,31 +1164,7 @@ int main()
 			if (debugMode)
 				p->DrawBoundingBox(window);
 
-			//for (int i = 0; i < collidableObjects.size(); i++)
-			//{
-			//	if(debugMode)
-			//		window.draw(*collidableObjects.at(i));
-			//}
 
-			//collision detection
-			//npcs and collidable objects
-			//for (int i = 0; i < npcVector.size(); i++)
-			//{
-			//	for (int j = 0; j < collidableObjects.size(); j++)
-			//	{
-			//		if (collidableObjects.at(j)->CheckIntersectionRectangle(npcVector.at(i)->getGlobalBounds()))
-			//		{
-			//			npcVector.at(i)->setColliding(true);
-			//			//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
-			//			break;
-			//		}
-			//		else npcVector.at(i)->setColliding(false);
-			//	}
-			//}
-
-			//player and collidable objects
-			//for (int i = 0; i < collidableObjects.size(); i++)
-			//{
 				if (areaManager->CheckPlayerCollidableObjectsCollisions(p->getGlobalBounds()))
 				{
 					p->setCollidingStatus(true);
@@ -1200,14 +1186,10 @@ int main()
 						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
 					}
 
-					//break;
+
 				}
 				else p->setCollidingStatus(false);
-			//}
-			//player and npcs.......   check player collision in area, return pair of a bool and a number
-			//if number is 0 the npc has a quest, if 1 they dont, if 2 they follow
-			//for (int i = 0; i < npcVector.size(); i++)
-			//{
+
 				if (areaManager->CheckCollisionPlayerNpcs(p).first)
 				{
 					p->setCollidingStatus(true);
@@ -1221,8 +1203,8 @@ int main()
 							testQuest->getCurrentStage()->setCompletionStatus(true);
 							testQuest->setCurrentStageIndex(1);
 							if (useController)
-								popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'A'", sf::Vector2f(screenW / 18, screenH / 2), 5);
-							else popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'E'", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'A'", sf::Vector2f(screenW / 6, screenH / 2), 5);
+							else popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'E'", sf::Vector2f(screenW / 6, screenH / 2), 5);
 						}
 						
 					}
@@ -1233,19 +1215,19 @@ int main()
 
 						if (p->getCurrentDirection() == 0)//up
 						{
-							p->setPosition(p->getPosition().x, p->getPosition().y + 2);
+							p->setPosition(p->getPosition().x, p->getPosition().y + 5);//2
 						}
 						else if (p->getCurrentDirection() == 1)//down
 						{
-							p->setPosition(p->getPosition().x, p->getPosition().y - 2);
+							p->setPosition(p->getPosition().x, p->getPosition().y - 5);//2
 						}
 						else if (p->getCurrentDirection() == 2)//right
 						{
-							p->setPosition(p->getPosition().x - 2, p->getPosition().y);
+							p->setPosition(p->getPosition().x - 5, p->getPosition().y);//2
 						}
 						else if (p->getCurrentDirection() == 3)//left
 						{
-							p->setPosition(p->getPosition().x + 2, p->getPosition().y);
+							p->setPosition(p->getPosition().x + 5, p->getPosition().y);//2
 						}
 					}
 
@@ -1320,15 +1302,16 @@ int main()
 			{
 				window.setView(minimap);
 				minimap.setCenter(p->getPosition());
-				window.draw(tutorialAreaLowPolyMap);//do I need this? or could I make something nicer to show
-				window.draw(*testChest);
+
+				if (areaManager->GetCurrentArea() == TUTORIAL)
+					window.draw(tutorialAreaLowPolyMap);//do I need this? or could I make something nicer to show
+				else if (areaManager->GetCurrentArea() == SEWER)
+					window.draw(sewerAreaMap);
+				if(areaManager->GetCurrentArea() == TUTORIAL)
+					window.draw(*testChest);
 				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);
-				//draw npcs on minimap
-				//for (int i = 0; i < npcVector.size(); i++)
-				//{
-				//	npcVector.at(i)->MinimapDraw(*pWindow);
-				//}
+
 				areaManager->MinimapDraw(window);
 
 				p->MinimapDraw(*pWindow);
@@ -1514,7 +1497,11 @@ int main()
 			{
 				combatMenu->setCombatOver(false);
 				testQuest->getCurrentStage()->setCompletionStatus(true);
-				testQuest->setCompletionStatus(true);
+				testQuest->setCurrentStageIndex(3);
+				sewerHatch->SetOpen(true);
+				popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 2), 5);
+				//testQuest->getCurrentStage()->setCompletionStatus(true);
+				//testQuest->setCompletionStatus(true);
 				gState = GAME;//return to free roam
 			}
 

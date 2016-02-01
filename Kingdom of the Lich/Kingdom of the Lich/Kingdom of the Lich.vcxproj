@@ -162,6 +162,7 @@
     <ClInclude Include="ConfirmationDialogBox.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="DamageCalculator.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="Hud.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="ConfirmationDialogBox.cpp" />
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="DamageCalculator.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Hud.cpp" />

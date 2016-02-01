@@ -19,7 +19,7 @@ Hud::Hud(sf::Font f, int sw, int sh, sf::Vector2f framePos, sf::Vector2f frameSi
 	playerHealthText.setFont(font);
 	playerHealthText.setCharacterSize(17);
 	playerHealthText.setString("Player Health: ");
-	playerHealthText.setPosition(screenW / 13, overlaySprite.getPosition().y + 40);
+	playerHealthText.setPosition(screenW / 15, overlaySprite.getPosition().y + 40);
 }
 
 /*Destructor*/
@@ -72,7 +72,7 @@ void Hud::Update(sf::String objTxt, int numGems, sf::Vector2f objectivePos, sf::
 
 	drawMinimapFrame = showMinimap;
 
-	playerHealthText.setString("Player Health: " + std::to_string(playerHealth));
+	playerHealthText.setString("HP: " + std::to_string((int)playerHealth));
 }
 
 /*Draw all the elements that make up the Hud*/

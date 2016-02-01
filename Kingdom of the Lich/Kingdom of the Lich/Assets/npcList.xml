@@ -85,27 +85,6 @@
 		<interact>false</interact>
 		<behaviour>walkPattern</behaviour>
 	</npc>
-	
-	<npc name='The Adoring Giant'>
-		<id>5</id>
-		<race>Elf</race>
-		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/baldricIdle/buIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/baldricIdle/bdIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/baldricIdle/blIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/baldricIdle/brIdle.png</idleRightPath>
-		<numberOfFrames>8</numberOfFrames>
-		<walkUpPath>Assets/Npcs/baldricSheets/baldricUpSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/baldricSheets/baldricDownSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/baldricSheets/baldricLeftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/baldricSheets/baldricRightSheet.png</walkRightPath>
-		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>600</x>
-		<y>400</y>
-		<hasQuest>false</hasQuest>
-		<interact>false</interact>
-		<behaviour>follow</behaviour>
-	</npc>
   
 	<npc name='Misty'>
 		<id>6</id>

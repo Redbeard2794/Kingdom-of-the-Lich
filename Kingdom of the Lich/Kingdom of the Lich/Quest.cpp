@@ -20,6 +20,8 @@ Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vecto
 	stages.push_back(stageOne);
 	QuestStage* stageTwo = new QuestStage("Combat Training", 2, sf::Vector2f(800, 1600));
 	stages.push_back(stageTwo);
+	QuestStage* stageThree = new QuestStage("Go to the sewer", 3, sf::Vector2f(1100, 1000));
+	stages.push_back(stageThree);
 }
 
 Quest::~Quest()
