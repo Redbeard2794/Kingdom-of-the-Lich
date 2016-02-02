@@ -73,3 +73,11 @@ new hud:
 	background: http://opengameart.org/content/window-frame
 		    http://opengameart.org/users/shadow3097
 		    I modified this
+
+drink sound and door sound: http://opengameart.org/content/rpg-sound-pack
+
+sewer level music: http://opengameart.org/content/magical-theme
+credit: remaxim. http://opengameart.org/users/remaxim
+
+Battle music: http://opengameart.org/content/battle-theme-2
+credit: DJ K-ManZ, K-ManZ, Kevin O'Ryan or my OGA Tag.

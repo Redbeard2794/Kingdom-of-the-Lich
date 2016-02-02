@@ -7,6 +7,8 @@ private:
 	//music
 	sf::Music openingMusic;
 	sf::Music tutorialAreaMusic;
+	sf::Music sewerAreaMusic;
+	sf::Music battleMusic;
 
 	//vector of music tracks
 	std::vector<sf::Music*> musicTracks;
@@ -35,6 +37,12 @@ private:
 
 	sf::SoundBuffer thunderClapSoundBuffer;
 	sf::Sound thunderClap;
+
+	sf::SoundBuffer drinkSoundBuffer;
+	sf::Sound drinkSound;
+
+	sf::SoundBuffer doorSoundBuffer;
+	sf::Sound doorSound;
 
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
@@ -65,6 +73,8 @@ public:
 
 	//Fade out a sound effect and stop it from playing when volume is 0. Param is the index of the sound in the vector
 	void FadeOutSound(int soundId);
+
+	void StopMusic(int musicId);
 };
 
 #endif

@@ -38,7 +38,7 @@ PopupMessage::PopupMessage(int type, sf::Vector2f pos, float fTime)
 
 	if (type == 1)//use dpad to move
 	{
-		texture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
+		texture.loadFromFile("Assets/ControllerHints/useLeftStickToMoveHint.png");
 	}
 
 	sprite.setTexture(texture);

@@ -421,8 +421,11 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
 
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::T))
 				debugMode = !debugMode;
+
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::M))
+				showMinimap = !showMinimap;
 
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::P))
 			{
@@ -1141,6 +1144,9 @@ int main()
 				window.draw(*sewerHatch);
 				if (sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
 				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					audioManager->PlayMusicById(2);
 					areaManager->ChangeArea(SEWER);
 					p->setPosition(1325, 275);
 					testQuest->getCurrentStage()->setCompletionStatus(true);
@@ -1152,6 +1158,9 @@ int main()
 				window.draw(*sewerExit);
 				if (sewerExit->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerExit->IsOpen())
 				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(1100+sewerHatch->getTexture()->getSize().x, 1000);
 				}
@@ -1212,6 +1221,17 @@ int main()
 					//move the player out of collision
 					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
 					{
+						////get the distance between the player and the thing they hit
+						//	float distance = sqrtf((((p->getPosition().x - npcVector.at(i)->getPosition().x)*(p->getPosition().x - npcVector.at(i)->getPosition().x))
+						//		+((p->getPosition().y - npcVector.at(i)->getPosition().y)*(p->getPosition().y - npcVector.at(i)->getPosition().y))));
+						//					//get the direction between them
+						//	sf::Vector2f dir = sf::Vector2f((p->getPosition().x - npcVector.at(i)->getPosition().x) / distance,
+						//		(p->getPosition().y - npcVector.at(i)->getPosition().y) / distance);
+						////move the player out of collision
+						//if (npcVector.at(i)->getBehaviour() != "follow")
+						//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+
+
 
 						if (p->getCurrentDirection() == 0)//up
 						{
@@ -1247,6 +1267,8 @@ int main()
 
 				if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true) && testQuest->getCurrentStageIndex() == 2)
 				{
+					audioManager->StopMusic(1);
+					audioManager->PlayMusicById(3);
 					gState = COMBAT;
 				}
 
@@ -1292,10 +1314,10 @@ int main()
 				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap, p->getHealth());
 			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
 
-			if (gamepad->Back())
-			{
-				showMinimap = !showMinimap;
-			}
+			//if (gamepad->Back())
+			//{
+			//	showMinimap = !showMinimap;
+			//}
 
 			//drawing the minimap
 			if (showMinimap)
@@ -1306,9 +1328,15 @@ int main()
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 					window.draw(tutorialAreaLowPolyMap);//do I need this? or could I make something nicer to show
 				else if (areaManager->GetCurrentArea() == SEWER)
+				{
 					window.draw(sewerAreaMap);
-				if(areaManager->GetCurrentArea() == TUTORIAL)
+					window.draw(*sewerExit);
+				}
+				if (areaManager->GetCurrentArea() == TUTORIAL)
+				{
 					window.draw(*testChest);
+					window.draw(*sewerHatch);
+				}
 				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);
 
@@ -1502,6 +1530,8 @@ int main()
 				popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 2), 5);
 				//testQuest->getCurrentStage()->setCompletionStatus(true);
 				//testQuest->setCompletionStatus(true);
+				audioManager->StopMusic(3);
+				audioManager->PlayMusicById(1);
 				gState = GAME;//return to free roam
 			}
 
@@ -1547,7 +1577,7 @@ int main()
 				{
 					if (testInv->getCanSelect())
 					{
-						testInv->UseItem(*p);
+						testInv->UseItem(*p, *audioManager);
 						testInv->setCanSelect(false);
 					}
 				}

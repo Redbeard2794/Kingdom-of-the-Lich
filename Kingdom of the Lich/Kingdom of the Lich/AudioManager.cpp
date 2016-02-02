@@ -9,16 +9,28 @@ AudioManager::AudioManager()
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
 	openingMusic.setLoop(true);
-	openingMusic.setVolume(0);
+	openingMusic.setVolume(40);
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
 	tutorialAreaMusic.setLoop(true);
-	tutorialAreaMusic.setVolume(0);
+	tutorialAreaMusic.setVolume(40);
+
+	if (sewerAreaMusic.openFromFile("Assets/Audio/Music/magical_theme.ogg")) {}
+	else std::cout << "Failed to open 'Assets/Audio/Music/magical_theme.ogg'" << std::endl;
+	sewerAreaMusic.setLoop(true);
+	sewerAreaMusic.setVolume(40);
+
+	if (battleMusic.openFromFile("Assets/Audio/Music/Battle.ogg")) {}
+	else std::cout << "Failed to open 'Assets/Audio/Music/Battle.ogg'" << std::endl;
+	battleMusic.setLoop(true);
+	battleMusic.setVolume(40);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0
 	musicTracks.push_back(&tutorialAreaMusic);//1
+	musicTracks.push_back(&sewerAreaMusic);//2
+	musicTracks.push_back(&battleMusic);//3
 
 	//load sound effects
 	if (charCreationOpeningSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Unrolling Parchment.wav")) {}
@@ -53,6 +65,14 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/rock_breaking.wav'" << std::endl;
 	thunderClap.setBuffer(thunderClapSoundBuffer);
 
+	if (drinkSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/bottle.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/bottle.wav'" << std::endl;
+	drinkSound.setBuffer(drinkSoundBuffer);
+
+	if (doorSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/door.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/door.wav'" << std::endl;
+	doorSound.setBuffer(doorSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -62,6 +82,8 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&chestLockedSound);//5
 	soundEffects.push_back(&crunchSound);//6
 	soundEffects.push_back(&thunderClap);//7
+	soundEffects.push_back(&drinkSound);//8
+	soundEffects.push_back(&doorSound);//9
 }
 
 //destructor
@@ -117,4 +139,9 @@ void AudioManager::FadeOutSound(int soundId)
 		}
 		else soundEffects.at(soundId)->stop();
 	}
+}
+
+void AudioManager::StopMusic(int musicId)
+{
+	musicTracks.at(musicId)->stop();
 }

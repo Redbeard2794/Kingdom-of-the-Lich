@@ -272,7 +272,7 @@ void Inventory::RemoveItemFromInventory(std::string itemToRemoveFrom, int quanti
 Use an item from the inventory
 parameter is the itme to use
 */
-void Inventory::UseItem(Player& p)
+void Inventory::UseItem(Player& p, AudioManager& audioManager)
 {
 	std::string itemToUse = itemSlots.at(currentlySelectedItem)->GetCurrentItemKey();
 	if (canMove == true)
@@ -281,6 +281,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_healthPotion.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(8, false);
 				std::cout << "Using a health potion now" << std::endl;
 				RemoveItemFromInventory(i_healthPotion.key, 1);
 				std::cout << "Healing the player" << std::endl;
@@ -329,6 +330,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_gems.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(1, false);
 				std::cout << "Now is not the time to use these gems." << std::endl;
 			}
 		}
@@ -337,6 +339,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_baracksKey.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(1, false);
 				std::cout << "Now is not the time to use this key." << std::endl;
 			}
 		}
@@ -345,6 +348,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_parchment.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(1, false);
 				std::cout << "Now is not the time to use this parchment." << std::endl;
 			}
 		}
@@ -353,6 +357,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_inkBottle.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(1, false);
 				std::cout << "Now is not the time to use the ink in this bottle." << std::endl;
 			}
 		}
@@ -361,6 +366,7 @@ void Inventory::UseItem(Player& p)
 		{
 			if (inventoryItems[i_quill.key] > 0)
 			{
+				audioManager.PlaySoundEffectById(1, false);
 				std::cout << "Now is not the time to write a novel." << std::endl;
 			}
 		}

@@ -107,7 +107,7 @@ public:
 	Use an item from the inventory
 	parameter is a pointer to the player
 	*/
-	void UseItem(Player& p);
+	void UseItem(Player& p, AudioManager& audioManager);
 
 	/*Figure out how many item slots are filled*/
 	void CalculateFilledSlots();
