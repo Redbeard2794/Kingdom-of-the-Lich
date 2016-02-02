@@ -1269,6 +1269,8 @@ int main()
 				{
 					audioManager->StopMusic(1);
 					audioManager->PlayMusicById(3);
+					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 5);
+					combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
 					gState = COMBAT;
 				}
 
@@ -1354,11 +1356,16 @@ int main()
 		case COMBAT:
 			window.setView(window.getDefaultView());
 
+			popupMessageHandler.UpdateMessages();
+
+			if (popupMessageHandler.GetActiveMessageCount() == 0 && combatMenu->GetTurnCount() == 0)
+				combatMenu->SetPlayersTurn(true);
+
 			if (useController == true)//if we are using a controller
 			{
 				gamepad->CheckAllButtons();
 
-				if (combatMenu->GetCurrentMenuState() == 0)
+				if (combatMenu->GetCurrentMenuState() == 0 && combatMenu->IsPlayersTurn())
 				{
 					if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
@@ -1383,7 +1390,7 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
-				else if (combatMenu->GetCurrentMenuState() == 1 || combatMenu->GetCurrentMenuState() == 2)
+				else if ((combatMenu->GetCurrentMenuState() == 1 || combatMenu->GetCurrentMenuState() == 2) && combatMenu->IsPlayersTurn())
 				{
 					if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
@@ -1408,7 +1415,7 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
-				if (combatMenu->GetCurrentMenuState() != 0)
+				if (combatMenu->GetCurrentMenuState() != 0 && combatMenu->IsPlayersTurn())
 				{
 					if (gamepad->B())
 					{
@@ -1425,7 +1432,7 @@ int main()
 					}
 				}
 
-				if (gamepad->A() == true)
+				if (gamepad->A() == true && combatMenu->IsPlayersTurn())
 				{
 					audioManager->PlaySoundEffectById(2, true);
 					
@@ -1466,7 +1473,7 @@ int main()
 
 			else//we are using a keyboard
 			{
-				if (combatMenu->GetCurrentMenuState() == 0)
+				if (combatMenu->GetCurrentMenuState() == 0 && combatMenu->IsPlayersTurn())
 				{
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 					{
@@ -1491,7 +1498,7 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && combatMenu->IsPlayersTurn())
 				{
 					audioManager->PlaySoundEffectById(2, true);
 
@@ -1537,6 +1544,7 @@ int main()
 
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
+			popupMessageHandler.DrawMessages(*pWindow);
 			break;
 #pragma endregion
 

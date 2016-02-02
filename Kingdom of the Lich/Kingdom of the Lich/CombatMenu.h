@@ -80,12 +80,19 @@ private:
 	int screenW;
 	int screenH;
 
+	bool playersTurn;
+
+	int turnCount;
+	sf::Text turnText;
+
 public:
 	/*constructor*/
 	CombatMenu(sf::Font f, std::string ePath, int sw, int sh);
 
 	/*destructor*/
 	~CombatMenu();
+
+	void SetPlayerRepSprite(int race, int gender);
 
 	//move right through the menu(for choosing action)
 	void MoveSelectionRight();
@@ -131,6 +138,12 @@ public:
 	bool getCanSelect() { return canSelect; }
 
 	void setCanSelect(bool cas) { canSelect = cas; }
+
+	bool IsPlayersTurn();
+
+	void SetPlayersTurn(bool t);
+
+	int GetTurnCount();
 
 	/*gets & sets end*/
 };

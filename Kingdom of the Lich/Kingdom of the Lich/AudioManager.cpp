@@ -9,12 +9,12 @@ AudioManager::AudioManager()
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
 	openingMusic.setLoop(true);
-	openingMusic.setVolume(40);
+	openingMusic.setVolume(0);
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
 	tutorialAreaMusic.setLoop(true);
-	tutorialAreaMusic.setVolume(40);
+	tutorialAreaMusic.setVolume(0);
 
 	if (sewerAreaMusic.openFromFile("Assets/Audio/Music/magical_theme.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/magical_theme.ogg'" << std::endl;
@@ -24,7 +24,7 @@ AudioManager::AudioManager()
 	if (battleMusic.openFromFile("Assets/Audio/Music/Battle.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Battle.ogg'" << std::endl;
 	battleMusic.setLoop(true);
-	battleMusic.setVolume(40);
+	battleMusic.setVolume(0);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0

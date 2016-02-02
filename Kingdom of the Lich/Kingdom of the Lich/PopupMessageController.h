@@ -41,6 +41,8 @@ public:
 
 	//draw all active messages
 	void DrawMessages(sf::RenderTarget& window);
+
+	int GetActiveMessageCount();
 };
 
 #endif

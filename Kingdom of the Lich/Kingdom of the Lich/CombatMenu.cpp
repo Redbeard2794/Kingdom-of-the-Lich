@@ -4,6 +4,15 @@
 /*constructor*/
 CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 {
+	playersTurn = false;
+	turnCount = 0;
+
+	turnText.setFont(font);
+	turnText.setString("Completed turns: ");
+	turnText.setColor(sf::Color::Black);
+	turnText.setCharacterSize(20);
+	turnText.setPosition(sf::Vector2f(25, 25));
+
 	screenW = sw;
 	screenH = sh;
 
@@ -97,30 +106,30 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	item3->setPosition(sf::Vector2f(260, 125));
 	itemOptions.push_back(item3);
 
-	playerRepTexture.loadFromFile("Assets/Icons/goldskull.png");
-	playerRepSprite.setTexture(playerRepTexture);
-	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
-	playerRepSprite.setScale(5, 5);
-	playerRepSprite.setPosition(screenW / 6, screenH / 3);
+	//playerRepTexture.loadFromFile("Assets/Icons/goldskull.png");
+	//playerRepSprite.setTexture(playerRepTexture);
+	//playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
+	//playerRepSprite.setScale(5, 5);
+	//playerRepSprite.setPosition(screenW / 6, screenH / 3);
 
 	playerHealthText.setFont(font);
-	playerHealthText.setString("Health: ");
+	playerHealthText.setString("Player Health: ");
 	playerHealthText.setColor(sf::Color::Blue);
 	playerHealthText.setCharacterSize(30);
-	playerHealthText.setPosition(10, 400);
+	playerHealthText.setPosition(10, screenH/1.6);
 
 	enemyTexture.loadFromFile(ePath);
 	enemySprite.setTexture(enemyTexture);
 	enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
-	enemySprite.setScale(5, 3);
-	enemySprite.setPosition(650, 225);
+	enemySprite.setScale(5, 5);
+	enemySprite.setPosition(screenW/ 1.2, screenH/4);
 
 	
 	enemyHealthText.setFont(font);
-	enemyHealthText.setString("Health: ");
+	enemyHealthText.setString("Stone Golem Health: ");
 	enemyHealthText.setColor(sf::Color::Red);
 	enemyHealthText.setCharacterSize(30);
-	enemyHealthText.setPosition(250, 100);
+	enemyHealthText.setPosition(screenW/1.5, screenH/3);
 
 	currentOption = 0;
 	currentAction = 0;
@@ -138,17 +147,17 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	moveSelectionHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
 	moveSelectionHintSprite.setTexture(moveSelectionHintTexture);
 	moveSelectionHintSprite.setScale(0.5, 0.4);
-	moveSelectionHintSprite.setPosition(50, 465);
+	moveSelectionHintSprite.setPosition(50, screenH/ 1.42);
 
 	selectHintTexture.loadFromFile("Assets/ControllerHints/pressAtoSelectHint.png");
 	selectHintSprite.setTexture(selectHintTexture);
 	selectHintSprite.setScale(0.7, 0.7);
-	selectHintSprite.setPosition(325, 465);
+	selectHintSprite.setPosition(screenW/2.5, screenH / 1.42);
 
 	goBackHintTexture.loadFromFile("Assets/ControllerHints/pressBtoGoBack.png");
 	goBackHintSprite.setTexture(goBackHintTexture);
 	goBackHintSprite.setScale(0.7, 0.7);
-	goBackHintSprite.setPosition(600, 465);
+	goBackHintSprite.setPosition(screenW / 1.4, screenH / 1.42);
 
 	canSelect = false;
 }
@@ -156,6 +165,32 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 /*destructor*/
 CombatMenu::~CombatMenu()
 {
+
+}
+
+void CombatMenu::SetPlayerRepSprite(int race, int gender)
+{
+	std::string filePath = "Assets/Player/";
+
+	if (race == 0)//Human
+		filePath+="Human/";
+	else if (race == 1)//Elf
+		filePath+="Elf/";
+	else if (race == 2)//Dwarf
+		filePath+="Dwarf/";
+
+	if (gender == 0)//male
+		filePath += "Male/";
+	else if (gender == 1)//female
+		filePath += "Female/";
+
+	filePath += "Idle/upIdle.png";
+
+	playerRepTexture.loadFromFile(filePath);
+	playerRepSprite.setTexture(playerRepTexture);
+	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
+	playerRepSprite.setScale(5, 5);
+	playerRepSprite.setPosition(screenW / 6, screenH / 1.9);
 
 }
 
@@ -294,11 +329,14 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	window.draw(selectHintSprite);
 	window.draw(goBackHintSprite);
 
+	turnText.setString("Completed turns: " + std::to_string(turnCount));
+	window.draw(turnText);
+
 	window.draw(playerRepSprite);
-	playerHealthText.setString("Health: " + std::to_string(playerCurrentHealth));
+	playerHealthText.setString("Player Health: " + std::to_string(playerCurrentHealth));
 	window.draw(playerHealthText);
 	window.draw(enemySprite);
-	enemyHealthText.setString("Health: " + std::to_string(enemyCurrentHealth));
+	enemyHealthText.setString("Stone Golem Health: " + std::to_string(enemyCurrentHealth));
 	window.draw(enemyHealthText);
 
 	if (currentState == SelectAction)
@@ -427,6 +465,21 @@ bool CombatMenu::IsCombatOver()
 void CombatMenu::setCombatOver(bool co)
 {
 	combatOver = co;
+}
+
+bool CombatMenu::IsPlayersTurn()
+{
+	return playersTurn;
+}
+
+void CombatMenu::SetPlayersTurn(bool t)
+{
+	playersTurn = t;
+}
+
+int CombatMenu::GetTurnCount()
+{
+	return turnCount;
 }
 
 /*gets & sets end*/

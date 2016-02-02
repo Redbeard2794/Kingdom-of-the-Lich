@@ -72,3 +72,8 @@ void PopupMessageHandler::DrawMessages(sf::RenderTarget & window)
 		messages.at(i)->Draw(window);
 	}
 }
+
+int PopupMessageHandler::GetActiveMessageCount()
+{
+	return activeMessages;
+}
