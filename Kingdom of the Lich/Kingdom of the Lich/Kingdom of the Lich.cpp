@@ -543,7 +543,7 @@ int main()
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
 						enterPressed = false;
-						audioManager->PlaySoundEffectById(0, true);
+						//audioManager->PlaySoundEffectById(0, true);
 						prevState = gState;
 						gState = CHOOSERACEGENDER;
 					}
@@ -605,7 +605,7 @@ int main()
 
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
-						audioManager->PlaySoundEffectById(0, true);
+						//audioManager->PlaySoundEffectById(0, true);
 						prevState = gState;
 						gState = CHOOSERACEGENDER;
 					}
@@ -634,7 +634,7 @@ int main()
 
 #pragma region ChooseRaceAndGender
 		case CHOOSERACEGENDER:
-			audioManager->FadeOutMusic(0);
+			audioManager->StopMusic(0);
 
 			raceAndGenderMenu->Draw(window);
 
@@ -1270,7 +1270,7 @@ int main()
 				{
 					audioManager->StopMusic(1);
 					audioManager->PlayMusicById(3);
-					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 1.5, sf::Color::Black);
+					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 1, sf::Color::Black);
 					combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
 					prevState = gState;
 					gState = COMBAT;
@@ -1588,10 +1588,10 @@ int main()
 				testQuest->setCurrentStageIndex(3);
 				sewerHatch->SetOpen(true);
 				if(p->getHealth() > 0)
-					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::Black);
+					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
 				else
 				{
-					popupMessageHandler.AddCustomMessage("You were beaten! Go to the sewers and get out of my sight.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::Black);
+					popupMessageHandler.AddCustomMessage("You were beaten! Go to the sewers and get out of my sight.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
 				}
 				//testQuest->getCurrentStage()->setCompletionStatus(true);
 				//testQuest->setCompletionStatus(true);

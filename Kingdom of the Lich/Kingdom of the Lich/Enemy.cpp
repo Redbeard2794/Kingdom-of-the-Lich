@@ -145,7 +145,7 @@ std::string Enemy::TakeTurn(Player* p)
 		{
 			numHealingItems -= 1;
 			health += 25;
-			return "Enemy healed themselves";
+			return "Enemy healed itself";
 		}
 		else
 		{

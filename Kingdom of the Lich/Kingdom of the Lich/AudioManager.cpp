@@ -24,7 +24,7 @@ AudioManager::AudioManager()
 	if (battleMusic.openFromFile("Assets/Audio/Music/Battle.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Battle.ogg'" << std::endl;
 	battleMusic.setLoop(true);
-	battleMusic.setVolume(60);
+	battleMusic.setVolume(40);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0
