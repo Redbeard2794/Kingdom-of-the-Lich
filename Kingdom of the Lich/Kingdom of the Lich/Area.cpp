@@ -228,6 +228,26 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 		if (p->getGlobalBounds().intersects(npcs.at(i)->getGlobalBounds()))
 		{
 			npcs.at(i)->setColliding(true);
+
+			//should the player be able to push the npc out of the way?
+			//if (p->getCurrentDirection() == 0)//up
+			//{
+			//	npcs.at(i)->setPosition(npcs.at(i)->getPosition().x, npcs.at(i)->getPosition().y - 2);//2
+			//}
+			//else if (p->getCurrentDirection() == 1)//down
+			//{
+			//	npcs.at(i)->setPosition(npcs.at(i)->getPosition().x, npcs.at(i)->getPosition().y + 2);//2
+			//}
+			//else if (p->getCurrentDirection() == 2)//right
+			//{
+			//	npcs.at(i)->setPosition(npcs.at(i)->getPosition().x + 2, npcs.at(i)->getPosition().y);//2
+			//}
+			//else if (p->getCurrentDirection() == 3)//left
+			//{
+			//	npcs.at(i)->setPosition(npcs.at(i)->getPosition().x - 2, npcs.at(i)->getPosition().y);//2
+			//}
+
+			npcs.at(i)->setColliding(false);
 			if (npcs.at(i)->getBehaviour() == "follow")
 				return std::make_pair(true, 2);
 			if (npcs.at(i)->doesNpcHaveQuest())

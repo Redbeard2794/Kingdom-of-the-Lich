@@ -106,17 +106,11 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	item3->setPosition(sf::Vector2f(260, 125));
 	itemOptions.push_back(item3);
 
-	//playerRepTexture.loadFromFile("Assets/Icons/goldskull.png");
-	//playerRepSprite.setTexture(playerRepTexture);
-	//playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
-	//playerRepSprite.setScale(5, 5);
-	//playerRepSprite.setPosition(screenW / 6, screenH / 3);
-
 	playerHealthText.setFont(font);
 	playerHealthText.setString("Player Health: ");
 	playerHealthText.setColor(sf::Color::Blue);
 	playerHealthText.setCharacterSize(30);
-	playerHealthText.setPosition(10, screenH/1.6);
+	playerHealthText.setPosition(30, screenH/1.6);
 
 	enemyTexture.loadFromFile(ePath);
 	enemySprite.setTexture(enemyTexture);
@@ -143,21 +137,20 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	combatBackgroundSprite.setPosition(0, 0);
 
 	//hints
-
-	moveSelectionHintTexture.loadFromFile("Assets/ControllerHints/useDpadToMoveHint.png");
+	moveSelectionHintTexture.loadFromFile("Assets/ControllerHints/useLeftStickToMoveHint.png");
 	moveSelectionHintSprite.setTexture(moveSelectionHintTexture);
-	moveSelectionHintSprite.setScale(0.5, 0.4);
+	//moveSelectionHintSprite.setScale(0.8, 0.4);
 	moveSelectionHintSprite.setPosition(50, screenH/ 1.42);
 
 	selectHintTexture.loadFromFile("Assets/ControllerHints/pressAtoSelectHint.png");
 	selectHintSprite.setTexture(selectHintTexture);
-	selectHintSprite.setScale(0.7, 0.7);
-	selectHintSprite.setPosition(screenW/2.5, screenH / 1.42);
+	//selectHintSprite.setScale(0.8, 0.7);
+	selectHintSprite.setPosition(screenW/2.5, screenH / 1.38);
 
 	goBackHintTexture.loadFromFile("Assets/ControllerHints/pressBtoGoBack.png");
 	goBackHintSprite.setTexture(goBackHintTexture);
-	goBackHintSprite.setScale(0.7, 0.7);
-	goBackHintSprite.setPosition(screenW / 1.4, screenH / 1.42);
+	//goBackHintSprite.setScale(0.8, 0.7);
+	goBackHintSprite.setPosition(screenW / 1.4, screenH / 1.38);
 
 	canSelect = false;
 }
@@ -410,6 +403,14 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	}
 }
 
+void CombatMenu::MovePlayerToAttack()
+{
+	if (playerRepSprite.getPosition().x < enemySprite.getPosition().x-100)
+		playerRepSprite.setPosition(playerRepSprite.getPosition().x + 1, playerRepSprite.getPosition().y);
+	if (playerRepSprite.getPosition().y > enemySprite.getPosition().y + 100)
+		playerRepSprite.setPosition(playerRepSprite.getPosition().x, playerRepSprite.getPosition().y - 1);
+}
+
 /*gets & sets start*/
 
 int CombatMenu::getCurrentAction()
@@ -480,6 +481,11 @@ void CombatMenu::SetPlayersTurn(bool t)
 int CombatMenu::GetTurnCount()
 {
 	return turnCount;
+}
+
+void CombatMenu::IncrementTurnCount()
+{
+	turnCount += 1;
 }
 
 /*gets & sets end*/

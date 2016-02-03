@@ -28,7 +28,7 @@ public:
 	Add a new custom text message.
 	params: message text, position to draw it at, how long the message will be displayed for
 	*/
-	void AddCustomMessage(std::string message, sf::Vector2f position, float displayTime);
+	void AddCustomMessage(std::string message, sf::Vector2f position, float displayTime, sf::Color col);
 
 	/*
 	Add a new pre-built picture message.

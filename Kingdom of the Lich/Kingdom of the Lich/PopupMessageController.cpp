@@ -33,9 +33,9 @@ void PopupMessageHandler::UpdateMessages()
 Add a new custom text message.
 params: message text, position to draw it at, how long the message will be displayed for
 */
-void PopupMessageHandler::AddCustomMessage(std::string message, sf::Vector2f position, float displayTime)
+void PopupMessageHandler::AddCustomMessage(std::string message, sf::Vector2f position, float displayTime, sf::Color col)
 {
-	PopupMessage* p = new PopupMessage(font, message, position, displayTime);
+	PopupMessage* p = new PopupMessage(font, message, position, displayTime, col);
 	messages.push_back(p);
 }
 

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AttackList>
+  
+  <Attack name='Punch'>
+    <damageValue>20</damageValue>
+  </Attack>
+  
+  <Attack name='Headbutt'>
+    <damageValue>15</damageValue>
+  </Attack>
+  
+  <Attack name='Scratch'>
+    <damageValue>10</damageValue>
+  </Attack>
+
+</AttackList>

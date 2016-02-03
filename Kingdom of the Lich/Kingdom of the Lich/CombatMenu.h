@@ -111,6 +111,8 @@ public:
 	/*Draw all elements of the menu*/
 	void Draw(sf::RenderTarget& window);
 
+	void MovePlayerToAttack();
+
 	/*gets & sets start*/
 
 	int getCurrentAction();
@@ -144,6 +146,8 @@ public:
 	void SetPlayersTurn(bool t);
 
 	int GetTurnCount();
+
+	void IncrementTurnCount();
 
 	/*gets & sets end*/
 };

@@ -20,3 +20,24 @@
   <interact>false</interact>
   <behaviour>follow</behaviour>
 </npc>
+
+<npc name='Alvin the Drunkard'>
+	<id>4</id>
+	<race>Human</race>
+	<gender>Male</gender>
+	<idleUpPath>Assets/Npcs/maleTownFolk1/Idle/upIdle.png</idleUpPath>
+	<idleDownPath>Assets/Npcs/maleTownFolk1/Idle/downIdle.png</idleDownPath>
+	<idleLeftPath>Assets/Npcs/maleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+	<idleRightPath>Assets/Npcs/maleTownFolk1/Idle/rightIdle.png</idleRightPath>
+	<numberOfFrames>3</numberOfFrames>
+	<walkUpPath>Assets/Npcs/maleTownFolk1/Moving/upSheet.png</walkUpPath>
+	<walkDownPath>Assets/Npcs/maleTownFolk1/Moving/downSheet.png</walkDownPath>
+	<walkLeftPath>Assets/Npcs/maleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+	<walkRightPath>Assets/Npcs/maleTownFolk1/Moving/rightSheet.png</walkRightPath>
+	<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+	<x>1500</x>
+	<y>800</y>
+	<hasQuest>false</hasQuest>
+	<interact>false</interact>
+	<behaviour>walkPattern</behaviour>
+</npc>

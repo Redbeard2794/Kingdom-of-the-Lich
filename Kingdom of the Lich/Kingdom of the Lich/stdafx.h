@@ -60,6 +60,7 @@
 #include "Area.h"
 #include "AreaManager.h"
 #include "Door.h"
+#include "Attack.h"
 
 
 #endif

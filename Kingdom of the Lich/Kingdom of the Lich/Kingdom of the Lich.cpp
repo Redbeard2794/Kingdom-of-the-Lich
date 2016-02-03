@@ -108,8 +108,8 @@ int main()
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
-	//window.setVerticalSyncEnabled(true);
+	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
+	window.setVerticalSyncEnabled(true);
 
 	//text by cooltext.com
 	//splash screen
@@ -157,6 +157,8 @@ int main()
 		CREDITS
 	};
 	int gState = SPLASH;//current state
+	int prevState = SPLASH;
+
 	std::cout << "Current game state: " << gState << std::endl;
 
 	Gamepad* gamepad = new Gamepad();
@@ -393,7 +395,7 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
 
-	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 25, 20, 0, sf::Vector2f(800, 1600));
+	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 100, 20, 0, sf::Vector2f(800, 1600));
 
 	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png", screenW, screenH);
 
@@ -483,6 +485,7 @@ int main()
 				if (gamepad->Start() == true)
 				{
 					audioManager->PlaySoundEffectById(2, true);
+					prevState = gState;
 					gState = MAINMENU;
 					gamepad->Rumble(800, 0);
 				}
@@ -541,6 +544,7 @@ int main()
 					{
 						enterPressed = false;
 						audioManager->PlaySoundEffectById(0, true);
+						prevState = gState;
 						gState = CHOOSERACEGENDER;
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
@@ -556,6 +560,7 @@ int main()
 					else if (mainMenu->getSelectedOption() == 3)//credits
 					{
 						enterPressed = false;
+						prevState = gState;
 						gState = CREDITS;
 					}
 					else if (mainMenu->getSelectedOption() == 4)//quit
@@ -601,6 +606,7 @@ int main()
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
 						audioManager->PlaySoundEffectById(0, true);
+						prevState = gState;
 						gState = CHOOSERACEGENDER;
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
@@ -613,6 +619,7 @@ int main()
 					}
 					else if (mainMenu->getSelectedOption() == 3)//credits
 					{
+						prevState = gState;
 						gState = CREDITS;
 					}
 					else if (mainMenu->getSelectedOption() == 4)//quit
@@ -748,14 +755,15 @@ int main()
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								prevState = gState;
 								gState = GAME;
-								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25);
+								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -773,7 +781,8 @@ int main()
 								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
 								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 4), 5, sf::Color::Black);
+								prevState = gState;
 								gState = GAME;
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -909,15 +918,16 @@ int main()
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
+								prevState = gState;
 								gState = GAME;
-								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25);
+								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::White);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(2, true);
 								audioManager->PlayMusicById(1);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 2), 5);
-								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
+								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 2);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -934,7 +944,8 @@ int main()
 								p->setClass(raceAndGenderMenu->getCurrentlySelectedClass());
 								std::cout << p->getRace() << ", " << p->getGender() << ", " << p->getClass() << std::endl;
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 18, screenH / 4), 5, sf::Color::Black);
+								prevState = gState;
 								gState = GAME;
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
@@ -1006,6 +1017,7 @@ int main()
 				if (gamepad->B())
 				{
 					//testInv->OpenInventory();
+					prevState = gState;
 					gState = INVENTORY;
 					audioManager->PlaySoundEffectById(3, true);
 				}
@@ -1027,8 +1039,8 @@ int main()
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 								if (useController)
-									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
-								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
 							}
 							else
 							{
@@ -1073,6 +1085,7 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
 				{
 					audioManager->PlaySoundEffectById(3, true);
+					prevState = gState;
 					gState = INVENTORY;
 				}
 
@@ -1091,8 +1104,8 @@ int main()
 								//testQuest->setCompletionStatus(true);
 								//std::cout << "You completed your first quest!" << std::endl;
 								if (useController)
-									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
-								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 2), 5);
+									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
 							}
@@ -1212,8 +1225,10 @@ int main()
 							testQuest->getCurrentStage()->setCompletionStatus(true);
 							testQuest->setCurrentStageIndex(1);
 							if (useController)
-								popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'A'", sf::Vector2f(screenW / 6, screenH / 2), 5);
-							else popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'E'", sf::Vector2f(screenW / 6, screenH / 2), 5);
+								popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'A'", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+							else popupMessageHandler.AddCustomMessage("Go and open that chest and retrieve the items within. Walk up to it and press 'E'", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+
+							popupMessageHandler.AddCustomMessage("Hold 'RT' to run", sf::Vector2f(screenW / 2.5, screenH / 3), 2, sf::Color::Black);
 						}
 						
 					}
@@ -1221,37 +1236,23 @@ int main()
 					//move the player out of collision
 					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
 					{
-						////get the distance between the player and the thing they hit
-						//	float distance = sqrtf((((p->getPosition().x - npcVector.at(i)->getPosition().x)*(p->getPosition().x - npcVector.at(i)->getPosition().x))
-						//		+((p->getPosition().y - npcVector.at(i)->getPosition().y)*(p->getPosition().y - npcVector.at(i)->getPosition().y))));
-						//					//get the direction between them
-						//	sf::Vector2f dir = sf::Vector2f((p->getPosition().x - npcVector.at(i)->getPosition().x) / distance,
-						//		(p->getPosition().y - npcVector.at(i)->getPosition().y) / distance);
-						////move the player out of collision
-						//if (npcVector.at(i)->getBehaviour() != "follow")
-						//	p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
-
-
-
 						if (p->getCurrentDirection() == 0)//up
 						{
-							p->setPosition(p->getPosition().x, p->getPosition().y + 5);//2
+							p->setPosition(p->getPosition().x, p->getPosition().y + 2);//2
 						}
 						else if (p->getCurrentDirection() == 1)//down
 						{
-							p->setPosition(p->getPosition().x, p->getPosition().y - 5);//2
+							p->setPosition(p->getPosition().x, p->getPosition().y - 2);//2
 						}
 						else if (p->getCurrentDirection() == 2)//right
 						{
-							p->setPosition(p->getPosition().x - 5, p->getPosition().y);//2
+							p->setPosition(p->getPosition().x - 2, p->getPosition().y);//2
 						}
 						else if (p->getCurrentDirection() == 3)//left
 						{
-							p->setPosition(p->getPosition().x + 5, p->getPosition().y);//2
+							p->setPosition(p->getPosition().x + 2, p->getPosition().y);//2
 						}
 					}
-
-					break;
 				}
 				else
 				{
@@ -1269,8 +1270,9 @@ int main()
 				{
 					audioManager->StopMusic(1);
 					audioManager->PlayMusicById(3);
-					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 5);
+					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 1.5, sf::Color::Black);
 					combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
+					prevState = gState;
 					gState = COMBAT;
 				}
 
@@ -1361,11 +1363,26 @@ int main()
 			if (popupMessageHandler.GetActiveMessageCount() == 0 && combatMenu->GetTurnCount() == 0)
 				combatMenu->SetPlayersTurn(true);
 
+			testEnemy->Update();
+
+			if (!combatMenu->IsPlayersTurn() && combatMenu->GetTurnCount() > 0 && popupMessageHandler.GetActiveMessageCount() == 0)
+			{
+				popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p), sf::Vector2f(screenW / 2.5, screenH/2.5), 0.7, sf::Color::Red);
+
+				int soundCoin = rand() % 2;
+				if (soundCoin == 0)
+					audioManager->PlaySoundEffectById(14, false);
+				else audioManager->PlaySoundEffectById(15, false);
+
+				combatMenu->SetPlayersTurn(true);
+				combatMenu->IncrementTurnCount();
+			}
+
 			if (useController == true)//if we are using a controller
 			{
 				gamepad->CheckAllButtons();
 
-				if (combatMenu->GetCurrentMenuState() == 0 && combatMenu->IsPlayersTurn())
+				if (combatMenu->GetCurrentMenuState() == 0 && combatMenu->IsPlayersTurn() && popupMessageHandler.GetActiveMessageCount() == 0)
 				{
 					if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
@@ -1390,7 +1407,7 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
-				else if ((combatMenu->GetCurrentMenuState() == 1 || combatMenu->GetCurrentMenuState() == 2) && combatMenu->IsPlayersTurn())
+				else if ((combatMenu->GetCurrentMenuState() == 1 || combatMenu->GetCurrentMenuState() == 2) && combatMenu->IsPlayersTurn() && popupMessageHandler.GetActiveMessageCount() == 0)
 				{
 					if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 					{
@@ -1415,7 +1432,7 @@ int main()
 					else combatMenu->setCanMove(true);
 				}
 
-				if (combatMenu->GetCurrentMenuState() != 0 && combatMenu->IsPlayersTurn())
+				if (combatMenu->GetCurrentMenuState() != 0 && combatMenu->IsPlayersTurn() && popupMessageHandler.GetActiveMessageCount() == 0)
 				{
 					if (gamepad->B())
 					{
@@ -1432,9 +1449,9 @@ int main()
 					}
 				}
 
-				if (gamepad->A() == true && combatMenu->IsPlayersTurn())
+				if (gamepad->A() == true && combatMenu->IsPlayersTurn() && popupMessageHandler.GetActiveMessageCount() == 0)
 				{
-					audioManager->PlaySoundEffectById(2, true);
+					//audioManager->PlaySoundEffectById(2, true);
 					
 
 						if (combatMenu->GetCurrentMenuState() == 0)
@@ -1446,8 +1463,16 @@ int main()
 							}
 							else if (combatMenu->getCurrentAction() == 1)//we are now choosing to use an item
 							{
-								combatMenu->SetCurrentMenuState(2);
-								combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 3, screenH / 16.3));//525, 45
+								//combatMenu->SetCurrentMenuState(2);
+								prevState = gState;
+								gState = INVENTORY;
+								testInv->setCurrentlySelectedItem(0);
+								combatMenu->SetCurrentMenuState(0);
+								combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 4.7, screenH - 100));
+
+								combatMenu->SetPlayersTurn(false);
+								combatMenu->IncrementTurnCount();
+								//combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 3, screenH / 16.3));//525, 45
 							}
 							else if (combatMenu->getCurrentAction() == 2)//we are now choosing to flee
 							{
@@ -1456,12 +1481,34 @@ int main()
 						}
 						else if (combatMenu->GetCurrentMenuState() == 1 && combatMenu->getCanSelect() == true)
 						{
-							combatMenu->SetCurrentMenuState(0);
-							combatMenu->SetSelectorPosition(sf::Vector2f(225, SCREENHEIGHT - 70));
-							while (testEnemy->GetHealth() != 0)
+							
+							if (combatMenu->getCurrentOption() == 0)
 							{
-								testEnemy->setHealth(testEnemy->GetHealth() - 0.5f);
+								audioManager->PlaySoundEffectById(10, false);
+								popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+								testEnemy->setHealth(testEnemy->GetHealth() - 15);
 							}
+							else if (combatMenu->getCurrentOption() == 1)
+							{
+								audioManager->PlaySoundEffectById(11, false);
+								popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH/2.5), 0.7, sf::Color::Blue);
+								testEnemy->setHealth(testEnemy->GetHealth() - 20);
+							}
+							else if (combatMenu->getCurrentOption() == 2)
+							{
+								audioManager->PlaySoundEffectById(12, false);
+								popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+								testEnemy->setHealth(testEnemy->GetHealth() - 25);
+							}
+							combatMenu->SetCurrentMenuState(0);
+							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 4.7, screenH - 100));
+							
+							combatMenu->SetPlayersTurn(false);
+							combatMenu->IncrementTurnCount();
+
+						}
+						else if (combatMenu->GetCurrentMenuState() == 2 && combatMenu->getCanSelect() == true)
+						{
 
 						}
 
@@ -1528,17 +1575,29 @@ int main()
 				audioManager->PlaySoundEffectById(6, true);
 			}
 
+			if (p->getHealth() <= 0)
+			{
+				combatMenu->setCombatOver(true);
+				audioManager->PlaySoundEffectById(13, true);
+			}
+
 			if (combatMenu->IsCombatOver() == true)//if combat is over
 			{
 				combatMenu->setCombatOver(false);
 				testQuest->getCurrentStage()->setCompletionStatus(true);
 				testQuest->setCurrentStageIndex(3);
 				sewerHatch->SetOpen(true);
-				popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 2), 5);
+				if(p->getHealth() > 0)
+					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::Black);
+				else
+				{
+					popupMessageHandler.AddCustomMessage("You were beaten! Go to the sewers and get out of my sight.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::Black);
+				}
 				//testQuest->getCurrentStage()->setCompletionStatus(true);
 				//testQuest->setCompletionStatus(true);
 				audioManager->StopMusic(3);
 				audioManager->PlayMusicById(1);
+				prevState = gState;
 				gState = GAME;//return to free roam
 			}
 
@@ -1564,7 +1623,10 @@ int main()
 			{
 				gamepad->CheckAllButtons();
 				if (gamepad->Back())
-					gState = GAME;
+				{
+					gState = prevState;
+					prevState = INVENTORY;
+				}
 
 				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
@@ -1598,8 +1660,11 @@ int main()
 			}
 			else if (useController == false)
 			{
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				{
+					prevState = gState;
 					gState = GAME;
+				}
 			}
 
 			break;
@@ -1614,13 +1679,19 @@ int main()
 			{
 				gamepad->CheckAllButtons();
 				if (gamepad->B())
+				{
+					prevState = gState;
 					gState = MAINMENU;
+				}
 			}
 
 			else
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
+				{
+					prevState = gState;
 					gState = MAINMENU;
+				}
 			}
 			break;
 #pragma endregion

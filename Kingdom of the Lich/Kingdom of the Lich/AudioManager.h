@@ -44,6 +44,24 @@ private:
 	sf::SoundBuffer doorSoundBuffer;
 	sf::Sound doorSound;
 
+	sf::SoundBuffer stabSoundBuffer;
+	sf::Sound stabSound;
+
+	sf::SoundBuffer chopAttackSoundBuffer;
+	sf::Sound chopAttackSound;
+
+	sf::SoundBuffer sliceSoundBuffer;
+	sf::Sound sliceSound;
+
+	sf::SoundBuffer playerCombatDealthSoundBuffer;
+	sf::Sound playerCombatDeathSound;
+
+	sf::SoundBuffer stoneGolemHitSoundBuffer;
+	sf::Sound stoneGolemHitSound;
+
+	sf::SoundBuffer stoneGolemPunchSoundBuffer;
+	sf::Sound stoneGolemPunchSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 

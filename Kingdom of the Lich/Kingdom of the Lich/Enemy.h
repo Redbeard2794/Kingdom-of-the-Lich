@@ -1,6 +1,13 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+//rapidxml stuff
+#include "rapidxml_utils.hpp"
+using namespace rapidxml;
+#include <sstream> // std::stringstream
+
+#include "Attack.h"
+
 class Enemy : public sf::Sprite
 {
 private:
@@ -25,11 +32,27 @@ private:
 	sf::Texture minimapTexture;
 	sf::Sprite minimapSprite;
 
+	enum State
+	{
+		Healthy,
+		Hurt,
+		HurtBadly
+	};
+	int currentState;
+
+	std::vector<Attack*> attacks;
+
+	int numHealingItems;
+
 public:
 	/*Constructor, params are assetPath, health, how rare the enemy is, the enemy type*/
 	Enemy(std::string assetPath, float h, float r, int t, sf::Vector2f pos);
 
 	~Enemy();
+
+	void Update();
+
+	std::string TakeTurn(Player* p);
 
 	void DrawBoundingBox(sf::RenderTarget& window);
 

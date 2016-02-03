@@ -9,22 +9,22 @@ AudioManager::AudioManager()
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
 	openingMusic.setLoop(true);
-	openingMusic.setVolume(0);
+	openingMusic.setVolume(60);
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
 	tutorialAreaMusic.setLoop(true);
-	tutorialAreaMusic.setVolume(0);
+	tutorialAreaMusic.setVolume(70);
 
 	if (sewerAreaMusic.openFromFile("Assets/Audio/Music/magical_theme.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/magical_theme.ogg'" << std::endl;
 	sewerAreaMusic.setLoop(true);
-	sewerAreaMusic.setVolume(40);
+	sewerAreaMusic.setVolume(70);
 
 	if (battleMusic.openFromFile("Assets/Audio/Music/Battle.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Battle.ogg'" << std::endl;
 	battleMusic.setLoop(true);
-	battleMusic.setVolume(0);
+	battleMusic.setVolume(60);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0
@@ -73,6 +73,30 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/door.wav'" << std::endl;
 	doorSound.setBuffer(doorSoundBuffer);
 
+	if (stabSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/sword-clash-01.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/sword-clash-01.wav'" << std::endl;
+	stabSound.setBuffer(stabSoundBuffer);
+
+	if (chopAttackSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/metal-knife-scrape-03.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/metal-knife-scrape-03'" << std::endl;
+	chopAttackSound.setBuffer(chopAttackSoundBuffer);
+
+	if (sliceSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/sword-clash-03.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/sword-clash-03.wav'" << std::endl;
+	sliceSound.setBuffer(sliceSoundBuffer);
+
+	if (playerCombatDealthSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/qubodup-PowerDrain.ogg")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/qubodup-PowerDrain.ogg'" << std::endl;
+	playerCombatDeathSound.setBuffer(playerCombatDealthSoundBuffer);
+
+	if (stoneGolemHitSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/qubodupImpactMeat02.ogg")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/qubodupImpactMeat02.ogg'" << std::endl;
+	stoneGolemHitSound.setBuffer(stoneGolemHitSoundBuffer);
+
+	if (stoneGolemPunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/qubodupPunch01.ogg")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/qubodupPunch01.ogg'" << std::endl;
+	stoneGolemPunchSound.setBuffer(stoneGolemPunchSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -84,6 +108,12 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&thunderClap);//7
 	soundEffects.push_back(&drinkSound);//8
 	soundEffects.push_back(&doorSound);//9
+	soundEffects.push_back(&stabSound);//10
+	soundEffects.push_back(&chopAttackSound);//11
+	soundEffects.push_back(&sliceSound);//12
+	soundEffects.push_back(&playerCombatDeathSound);//13
+	soundEffects.push_back(&stoneGolemHitSound);//14
+	soundEffects.push_back(&stoneGolemPunchSound);//15
 }
 
 //destructor

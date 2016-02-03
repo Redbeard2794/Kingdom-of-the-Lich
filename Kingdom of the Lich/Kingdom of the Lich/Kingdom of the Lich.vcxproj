@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Area.h" />
     <ClInclude Include="AreaManager.h" />
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="AreaManager.cpp" />
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />

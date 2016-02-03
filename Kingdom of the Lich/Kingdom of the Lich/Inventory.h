@@ -61,6 +61,12 @@ private:
 	bool showControllerHints;
 	sf::Sprite exitHintSprite;
 	sf::Texture exitHintTexture;
+
+	sf::Texture moveHintTexture;
+	sf::Sprite moveHintSprite;
+
+	sf::Texture selectHintTexture;
+	sf::Sprite selectHintSprite;
 public:
 	//these need to be visible in other classes....Is there a better way of doing this?
 	struct items
@@ -132,6 +138,7 @@ public:
 
 	int getCurrentlySelectedItem();
 
+	void setCurrentlySelectedItem(int i);
 };
 
 #endif

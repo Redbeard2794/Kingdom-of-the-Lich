@@ -134,6 +134,16 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	exitHintSprite.setOrigin(exitHintTexture.getSize().x / 2, exitHintTexture.getSize().y / 2);
 	exitHintSprite.setPosition(screenW/2.1, screenH/1.05);
 
+	moveHintTexture.loadFromFile("Assets/ControllerHints/useLeftStickToMoveHintWhite.png");
+	moveHintSprite.setTexture(moveHintTexture);
+	moveHintSprite.setOrigin(moveHintTexture.getSize().x / 2, moveHintTexture.getSize().y / 2);
+	moveHintSprite.setPosition(screenW / 10, screenH / 1.05);
+
+	selectHintTexture.loadFromFile("Assets/ControllerHints/pressAtoSelectHintWhite.png");
+	selectHintSprite.setTexture(selectHintTexture);
+	selectHintSprite.setOrigin(selectHintTexture.getSize().x / 2, selectHintTexture.getSize().y / 2);
+	selectHintSprite.setPosition(screenW / 1.13, screenH / 1.05);
+
 }
 
 /*Destructor*/
@@ -279,7 +289,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 	{
 		if (itemToUse == i_healthPotion.key)
 		{
-			if (inventoryItems[i_healthPotion.key] > 0)
+			if (inventoryItems[i_healthPotion.key] > 0 && p.getHealth() <100)
 			{
 				audioManager.PlaySoundEffectById(8, false);
 				std::cout << "Using a health potion now" << std::endl;
@@ -287,7 +297,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Healing the player" << std::endl;
 				p.setHealth(p.getHealth() + 25);
 			}
-			else std::cout << "you do not have any Health Potions" << std::endl;
+			else std::cout << "you do not have any Health Potions or already have max health." << std::endl;
 		}
 
 		if (itemToUse == i_ale.key)
@@ -499,6 +509,8 @@ void Inventory::Draw(sf::RenderTarget& window)
 	}
 
 	window.draw(exitHintSprite);
+	window.draw(moveHintSprite);
+	window.draw(selectHintSprite);
 }
 
 bool Inventory::getCanMove()
@@ -524,4 +536,9 @@ void Inventory::setCanSelect(bool cs)
 int Inventory::getCurrentlySelectedItem()
 {
 	return currentlySelectedItem;
+}
+
+void Inventory::setCurrentlySelectedItem(int i)
+{
+	currentlySelectedItem = i;
 }

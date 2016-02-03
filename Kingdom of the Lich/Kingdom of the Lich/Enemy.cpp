@@ -22,11 +22,150 @@ Enemy::Enemy(std::string assetPath, float h, float r, int t, sf::Vector2f pos)
 	minimapSprite.setTexture(minimapTexture);
 	minimapSprite.setScale(5, 3);
 	minimapSprite.setOrigin(minimapTexture.getSize().x / 2, minimapTexture.getSize().y / 2);
+
+	currentState = Healthy;
+
+	numHealingItems = 2;
+
+	if (type == 0)
+	{
+		xml_document<> doc;
+		std::ifstream file("Assets/AttackLists/stoneGolemAttacks.xml");
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<> *pRoot = doc.first_node();
+		std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
+
+		xml_node<>* attackList = doc.first_node("AttackList");
+		xml_node<>* attack = attackList->first_node("Attack");
+
+		//load in each attacks's information and then create them
+		while (attack != NULL)
+		{
+			std::string name = "";
+			int damageValue = 0;
+
+			/*Get the attacks's name*/
+			std::cout << "Name: " << attack->first_attribute("name")->value() << std::endl;
+			name = attack->first_attribute("name")->value();
+
+			/*Get the attacks's damage value*/
+			std::cout << "Damage Value: " << attack->first_node("damageValue")->value() << std::endl;
+			damageValue = atoi(attack->first_node("damageValue")->value());
+
+			std::cout << "------------------------------------------------------------" << std::endl;
+			/*Move onto the next npc tag*/
+			attack = attack->next_sibling("Attack");
+
+			Attack* a = new Attack(name, damageValue);
+			attacks.push_back(a);
+		}
+	}
 }
 
 Enemy::~Enemy()
 {
 
+}
+
+void Enemy::Update()
+{
+	if (health > 40)
+	{
+		if (currentState != Healthy)
+		{
+			std::cout << "Changing state to Healthy." << std::endl;
+			currentState = Healthy;
+		}
+	}
+	else if (health < 40 && health > 15)
+	{
+		if (currentState != Hurt)
+		{
+			std::cout << "Changing state to Hurt." << std::endl;
+			currentState = Hurt;
+		}
+	}
+	else
+	{
+		if (currentState != HurtBadly)
+		{
+			std::cout << "Changing state to HurtBadly." << std::endl;
+			currentState = HurtBadly;
+		}
+	}
+}
+
+std::string Enemy::TakeTurn(Player* p)
+{
+	std::cout << "Taking my turn now." << std::endl;
+	if (currentState == Healthy)
+	{
+		//attack the player with a random attack
+		int a = rand() % attacks.size();
+		p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
+		return "Enemy attacked with a " + attacks.at(a)->GetName();
+	}
+	else if (currentState == Hurt)
+	{
+		//check for a healing item and use it if one exists
+		if (numHealingItems > 0)
+		{
+			numHealingItems -= 1;
+			health += 25;
+			return "Enemy healed itself";
+		}
+		else
+		{
+			//attack the player with a stronger attack
+			int a = rand() % attacks.size();
+
+			for (int i = 0; i < attacks.size(); i++)
+			{
+				if (attacks.at(i)->GetDamageValue() > attacks.at(a)->GetDamageValue())
+				{
+					a = i;
+					break;
+				}
+			}
+
+			p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
+			return "Enemy attacked with a " + attacks.at(a)->GetName();
+		}
+	}
+	else if (currentState == HurtBadly)
+	{
+		//scream
+		//check for a healing item and use it if one exists
+		if (numHealingItems > 0)
+		{
+			numHealingItems -= 1;
+			health += 25;
+			return "Enemy healed themselves";
+		}
+		else
+		{
+			//attack the player with strongest attack
+			int dmg = attacks.at(0)->GetDamageValue();
+			int strongestIndex = 0;
+
+			for (int i = 0; i < attacks.size(); i++)
+			{
+				if (attacks.at(i)->GetDamageValue() > dmg)
+				{
+					dmg = attacks.at(i)->GetDamageValue();
+					strongestIndex = i;
+				}
+			}
+
+			p->setHealth(p->getHealth() - attacks.at(strongestIndex)->GetDamageValue());
+			return "Enemy attacked with a " + attacks.at(strongestIndex)->GetName();
+		}
+	}
 }
 
 void Enemy::DrawBoundingBox(sf::RenderTarget & window)

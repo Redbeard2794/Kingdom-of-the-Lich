@@ -44,7 +44,7 @@ public:
 	Use this constructor if you want to display a custom message with just text.
 	params: font, your message, position to draw at, how long it is displayed for.
 	*/
-	PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fTime);
+	PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fTime, sf::Color col);
 
 	/*
 	Use this constructor if you want to use a pre-built message that use's a texture(e.g: press 'A' to open).

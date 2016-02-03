@@ -81,3 +81,13 @@ credit: remaxim. http://opengameart.org/users/remaxim
 
 Battle music: http://opengameart.org/content/battle-theme-2
 credit: DJ K-ManZ, K-ManZ, Kevin O'Ryan or my OGA Tag.
+
+Attack sounds vs stone golem
+http://opengameart.org/content/fantasy-sound-effects-tinysized-sfx
+credit: http://opengameart.org/users/vehicle
+
+player dies in combat sound: http://opengameart.org/content/energy-drain
+
+stone golem attack hit sound: http://opengameart.org/content/impact
+
+stone golem punch sound: http://opengameart.org/content/punch

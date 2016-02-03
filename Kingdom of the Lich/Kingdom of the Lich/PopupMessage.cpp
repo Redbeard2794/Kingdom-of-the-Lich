@@ -5,7 +5,7 @@
 Use this constructor if you want to display a custom message with just text.
 params: font, your message, position to draw at, how long it is displayed for.
 */
-PopupMessage::PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fTime) : font(f)
+PopupMessage::PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fTime, sf::Color col) : font(f)
 {
 	customMessage = true;
 	removeable = false;
@@ -20,7 +20,7 @@ PopupMessage::PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fT
 
 	text.setFont(font);
 	text.setString(message);
-	text.setColor(sf::Color::Black);
+	text.setColor(col);
 	text.setCharacterSize(30);
 	text.setPosition(position);
 }
