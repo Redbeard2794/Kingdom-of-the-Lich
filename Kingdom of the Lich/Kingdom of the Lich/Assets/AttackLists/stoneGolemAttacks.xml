@@ -14,4 +14,8 @@
     <damageValue>10</damageValue>
   </Attack>
 
+  <Attack name='Rock Smash'>
+    <damageValue>25</damageValue>
+  </Attack>
+
 </AttackList>

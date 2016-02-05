@@ -10,7 +10,7 @@ AreaManager::AreaManager()
 	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/generalStore1NpcList.xml", "Assets/generalStore1CollidableObjects.xml");
 	areas.push_back(generalStore1Area);
 
-	currentArea = GENERALSTORE1;
+	currentArea = TUTORIAL;
 }
 
 AreaManager::~AreaManager()

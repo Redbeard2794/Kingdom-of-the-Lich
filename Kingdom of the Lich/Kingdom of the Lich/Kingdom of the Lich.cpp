@@ -51,6 +51,8 @@ int main()
 
 	Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false);
 	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true);
+	Door* generalStoreDoor = new Door(1, sf::Vector2f(500, 350), true);
+	//each area should have its own door there?
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -1160,6 +1162,7 @@ int main()
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
 				window.draw(*sewerHatch);
+				window.draw(*generalStoreDoor);
 				if (sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
@@ -1169,6 +1172,14 @@ int main()
 					p->setPosition(1325, 275);
 					testQuest->getCurrentStage()->setCompletionStatus(true);
 					testQuest->setCompletionStatus(true);
+				}
+
+				if (generalStoreDoor->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(GENERALSTORE1);
+					p->setPosition(300, 300);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1345,6 +1356,7 @@ int main()
 				{
 					window.draw(*testChest);
 					window.draw(*sewerHatch);
+					window.draw(*generalStoreDoor);
 				}
 				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);

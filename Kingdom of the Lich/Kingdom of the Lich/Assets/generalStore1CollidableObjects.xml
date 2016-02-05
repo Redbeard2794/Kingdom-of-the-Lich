@@ -5,8 +5,64 @@
     <id>1</id>
     <x>0</x>
     <y>0</y>
-    <w>5</w>
-    <h>5</h>
+    <w>500</w>
+    <h>50</h>
+  </collidableObject>
+
+  <collidableObject name='wall2'>
+    <id>2</id>
+    <x>0</x>
+    <y>450</y>
+    <w>400</w>
+    <h>50</h>
+  </collidableObject>
+
+  <collidableObject name='wall3'>
+    <id>3</id>
+    <x>0</x>
+    <y>0</y>
+    <w>50</w>
+    <h>500</h>
+  </collidableObject>
+
+  <collidableObject name='wall4'>
+    <id>4</id>
+    <x>450</x>
+    <y>0</y>
+    <w>50</w>
+    <h>500</h>
+  </collidableObject>
+
+  <collidableObject name='table1'>
+    <id>5</id>
+    <x>50</x>
+    <y>100</y>
+    <w>100</w>
+    <h>50</h>
+  </collidableObject>
+
+  <collidableObject name='table2'>
+    <id>6</id>
+    <x>200</x>
+    <y>100</y>
+    <w>100</w>
+    <h>50</h>
+  </collidableObject>
+
+  <collidableObject name='table3'>
+    <id>7</id>
+    <x>350</x>
+    <y>100</y>
+    <w>100</w>
+    <h>50</h>
+  </collidableObject>
+
+  <collidableObject name='chair'>
+    <id>8</id>
+    <x>215</x>
+    <y>60</y>
+    <w>18</w>
+    <h>30</h>
   </collidableObject>
 
 </collidableObjectsList>
