@@ -9,7 +9,8 @@ private:
 	enum Areas
 	{
 		TUTORIAL,
-		SEWER
+		SEWER,
+		GENERALSTORE1
 	};
 	int currentArea;
 

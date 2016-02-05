@@ -44,7 +44,8 @@ int main()
 	enum Areas
 	{
 		TUTORIAL,
-		SEWER
+		SEWER,
+		GENERALSTORE1
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
@@ -56,6 +57,8 @@ int main()
 	tmx::TileMap tutorialAreaLowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
 	tmx::TileMap sewerAreaMap("Assets/50x50SewerArea.tmx");
+
+	tmx::TileMap generalStoreMap("Assets/generalStore1.tmx");
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
@@ -1138,6 +1141,8 @@ int main()
 				window.draw(tutorialAreaMap);
 			else if (areaManager->GetCurrentArea() == SEWER)
 				window.draw(sewerAreaMap);
+			else if (areaManager->GetCurrentArea() == GENERALSTORE1)
+				window.draw(generalStoreMap);
 			
 			//update the player
 			p->Update();

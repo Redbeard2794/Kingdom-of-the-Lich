@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="50" tileheight="50" nextobjectid="1">
+ <tileset firstgid="1" name="wallFront50x50Sheet" tilewidth="50" tileheight="50" tilecount="3">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/wallFront50x50Sheet.png" width="150" height="50"/>
+ </tileset>
+ <tileset firstgid="4" name="wallSide50x50Sheet" tilewidth="50" tileheight="50" tilecount="3">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/wallSide50x50Sheet.png" width="50" height="150"/>
+ </tileset>
+ <tileset firstgid="7" name="stoneFloor50x50Sheet" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/floors/stoneFloor50x50Sheet.png" width="100" height="100"/>
+ </tileset>
+ <tileset firstgid="11" name="shopTableSheet" tilewidth="50" tileheight="50" tilecount="6">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets2/shopTableSheet.png" width="300" height="50"/>
+ </tileset>
+ <tileset firstgid="17" name="wallDecorSheet" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/wallDecorSheet.png" width="200" height="50"/>
+ </tileset>
+ <tileset firstgid="21" name="door50x50" tilewidth="50" tileheight="50" tilecount="1">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/doors/door50x50.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="22" name="chairOnStoneSheet" tilewidth="50" tileheight="50" tilecount="4">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/chairOnStoneSheet.png" width="200" height="50"/>
+ </tileset>
+ <tileset firstgid="26" name="carpetsOnStone" tilewidth="50" tileheight="50" tilecount="3">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/carpets/carpetsOnStone.png" width="150" height="50"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyFjksOgCAMRDESKjX+0YXe/57OYkiahujiBWhfZkghhAMUsIHdnIW7RMRwmbuSSG8CMxjACFbuF85jI+8hamYtr/Zl4j11GfLjZf5TTKbv9Xny4fn+23g96Qz1fdJ5ASypA4k=
+  </data>
+ </layer>
+</map>
