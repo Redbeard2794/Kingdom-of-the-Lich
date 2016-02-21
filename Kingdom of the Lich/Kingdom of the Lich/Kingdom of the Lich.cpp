@@ -51,7 +51,10 @@ int main()
 
 	Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false);
 	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true);
-	Door* generalStoreDoor = new Door(1, sf::Vector2f(500, 350), true);
+	Door* generalStoreDoor = new Door(1, sf::Vector2f(500, 300), true);
+
+	Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
+	Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
 	//each area should have its own door there?
 
 	//https://github.com/edoren/STP
@@ -61,6 +64,9 @@ int main()
 	tmx::TileMap sewerAreaMap("Assets/50x50SewerArea.tmx");
 
 	tmx::TileMap generalStoreMap("Assets/generalStore1.tmx");
+	tmx::TileMap houseOne("Assets/house1.tmx");
+	tmx::TileMap houseTwo("Assets/house2.tmx");
+	tmx::TileMap pubOne("Assets/pub1.tmx");
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.

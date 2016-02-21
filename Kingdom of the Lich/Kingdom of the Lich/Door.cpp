@@ -7,9 +7,13 @@ Door::Door(int t, sf::Vector2f pos, bool o) : type(t), open(o)
 	{
 		texture.loadFromFile("Assets/Tiles/sewerLevel/entrances and exits/entranceHatch50x50.png");
 	}
-	else if (type == Doorway)
+	else if (type == StoneDoorway)
 	{
 		texture.loadFromFile("Assets/Tiles/sewerLevel/entrances and exits/entranceExitWall50x50.png");
+	}
+	else if (type == HouseDoorOne)
+	{
+		texture.loadFromFile("Assets/Tiles/tutorialHouseDoor2.png");
 	}
 
 	setTexture(texture);

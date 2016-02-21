@@ -7,7 +7,8 @@ private:
 	enum DoorType
 	{
 		TrapDoor,
-		Doorway
+		StoneDoorway,
+		HouseDoorOne
 	};
 	int type;
 	sf::Texture texture;

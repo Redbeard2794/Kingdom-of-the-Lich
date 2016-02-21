@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="13" height="7" tilewidth="50" tileheight="50" nextobjectid="1">
+ <tileset firstgid="1" name="wallFront50x50Sheet" tilewidth="50" tileheight="50" tilecount="3">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/wallFront50x50Sheet.png" width="150" height="50"/>
+ </tileset>
+ <tileset firstgid="4" name="wallSide50x50Sheet" tilewidth="50" tileheight="50" tilecount="3">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/wallSide50x50Sheet.png" width="50" height="150"/>
+ </tileset>
+ <tileset firstgid="7" name="door50x50" tilewidth="50" tileheight="50" tilecount="1">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/doors/door50x50.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="8" name="woodTile50x50" tilewidth="50" tileheight="50" tilecount="1">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/floors/woodTile50x50.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="9" name="table3Wood" tilewidth="50" tileheight="50" tilecount="2">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets2/table3Wood.png" width="100" height="50"/>
+ </tileset>
+ <tileset firstgid="11" name="barOnWoodBottles" tilewidth="50" tileheight="50" tilecount="6">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/shopStuff/barOnWoodBottles.png" width="150" height="100"/>
+ </tileset>
+ <tileset firstgid="17" name="barOnWood" tilewidth="50" tileheight="50" tilecount="6">
+  <image source="Tiles/indoorTiles/indoor assets/indoorAssets1/shopStuff/barOnWood.png" width="150" height="100"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="13" height="7">
+  <data encoding="base64" compression="zlib">
+   eJx90FkKwDAIBFDTaLrRNvc/bacwgoj042EwLiEqIg06Y1TlBm3JyXgVdwoGOxwhf8MDM+S8ZrAnz/pj3JX3VLxGiz2xv5plfN9Cnb7zGv7Oc417Xq4PAlk=
+  </data>
+ </layer>
+</map>
