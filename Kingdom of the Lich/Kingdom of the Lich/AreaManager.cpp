@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AreaManager.h"
 
-AreaManager::AreaManager()
+AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH(sh)
 {
 	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/npcList.xml", "Assets/TutorialAreaCollidableObjects.xml", "Assets/TutorialAreaDoors.xml");
 	areas.push_back(tutorialArea);
@@ -14,6 +14,11 @@ AreaManager::AreaManager()
 
 	areaToChangeTo = TUTORIAL;
 	readyToChangeArea = false;
+
+	currentAreaText.setFont(font);
+	currentAreaText.setColor(sf::Color(220, 20, 60, 255));
+	currentAreaText.setCharacterSize(20);
+	currentAreaText.setPosition(screenW-400, 15);
 }
 
 AreaManager::~AreaManager()
@@ -24,6 +29,12 @@ AreaManager::~AreaManager()
 void AreaManager::Update(sf::Vector2f playerPos)
 {
 	areas.at(currentArea)->Update(playerPos);
+	if (currentArea == TUTORIAL)
+		currentAreaText.setString("Current Area: Trainton Castle");
+	else if(currentArea == SEWER)
+		currentAreaText.setString("Current Area: Trainton Sewers");
+	else if(currentArea == LellesQualityMerchandise)
+		currentAreaText.setString("Current Area: Lelles Quality Merchandise");
 }
 
 void AreaManager::ChangeArea(int areaToChangeTo)
@@ -45,6 +56,11 @@ bool AreaManager::CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBou
 void AreaManager::Draw(sf::RenderTarget & window, bool debugMode)
 {
 	areas.at(currentArea)->Draw(window, debugMode);
+}
+
+void AreaManager::DrawCurrentAreaText(sf::RenderTarget & window)
+{
+	window.draw(currentAreaText);
 }
 
 void AreaManager::MinimapDraw(sf::RenderTarget & window)

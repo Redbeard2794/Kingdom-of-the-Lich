@@ -64,5 +64,13 @@
     <w>18</w>
     <h>30</h>
   </collidableObject>
+  
+  <collidableObject name='doorBottom'>
+    <id>9</id>
+    <x>400</x>
+    <y>500</y>
+    <w>50</w>
+    <h>2</h>
+  </collidableObject>
 
 </collidableObjectsList>

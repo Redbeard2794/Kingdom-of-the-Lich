@@ -16,6 +16,10 @@ Door::Door(int t, sf::Vector2f pos, bool o, int a, int i) : type(t), open(o), ar
 		texture.loadFromFile("Assets/Tiles/indoorTiles/indoor assets/newHouseDoor.png");
 		scale(1.3, 1.4);
 	}
+	else if (type == HouseExitDoor)
+	{
+		texture.loadFromFile("Assets/Tiles/indoorTiles/indoor assets/indoorAssets1/doors/door50x50.png");
+	}
 
 	setTexture(texture);
 	setPosition(pos);

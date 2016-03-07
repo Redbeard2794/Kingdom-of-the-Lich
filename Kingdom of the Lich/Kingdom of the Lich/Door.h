@@ -8,7 +8,8 @@ private:
 	{
 		TrapDoor,
 		StoneDoorway,
-		HouseDoorOne
+		HouseDoorOne,
+		HouseExitDoor
 	};
 	int type;
 	sf::Texture texture;

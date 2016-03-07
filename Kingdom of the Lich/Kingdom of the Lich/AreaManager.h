@@ -10,15 +10,21 @@ private:
 	{
 		TUTORIAL,
 		SEWER,
-		GENERALSTORE1
+		LellesQualityMerchandise
 	};
 	int currentArea;
 
 	int areaToChangeTo;
 	bool readyToChangeArea;
 
+	sf::Font font;
+	sf::Text currentAreaText;
+
+	int screenW;
+	int screenH;
+
 public:
-	AreaManager();
+	AreaManager(sf::Font f, int sw, int sh);
 	~AreaManager();
 
 	void Update(sf::Vector2f playerPos);
@@ -30,6 +36,8 @@ public:
 	bool CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds);
 
 	void Draw(sf::RenderTarget& window, bool debugMode);
+
+	void DrawCurrentAreaText(sf::RenderTarget& window);
 
 	void MinimapDraw(sf::RenderTarget& window);
 

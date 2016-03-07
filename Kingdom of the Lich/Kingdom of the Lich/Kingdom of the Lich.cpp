@@ -38,9 +38,21 @@ using namespace rapidxml;
 
 int main()
 {
+	//load a font
+	sf::Font font;
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+
+	// Create the main window 
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
+	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
+	sf::RenderWindow *pWindow = &window;
+
+	int screenW = sf::VideoMode::getDesktopMode().width;
+	int screenH = sf::VideoMode::getDesktopMode().height;
+
 	/* initialize random seed: */
 	srand(time(NULL));
-	AreaManager* areaManager = new AreaManager();
+	AreaManager* areaManager = new AreaManager(font, screenW, screenH);
 	enum Areas
 	{
 		TUTORIAL,
@@ -80,14 +92,6 @@ int main()
 	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
-	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
-	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
-	sf::RenderWindow *pWindow = &window;
-
-	int screenW = sf::VideoMode::getDesktopMode().width;
-	int screenH = sf::VideoMode::getDesktopMode().height;
-
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	//player_view.zoom(1.5f);
@@ -111,9 +115,7 @@ int main()
 	}
 	minimap.zoom(6.f);//4......3(actual)
 
-	//load a font
-	sf::Font font;
-	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
@@ -1220,7 +1222,6 @@ int main()
 			if (debugMode)
 				p->DrawBoundingBox(window);
 
-
 				if (areaManager->CheckPlayerCollidableObjectsCollisions(p->getGlobalBounds()))
 				{
 					p->setCollidingStatus(true);
@@ -1346,6 +1347,7 @@ int main()
 			popupMessageHandler.DrawMessages(*pWindow);
 			
 			hud->Draw(window);
+			areaManager->DrawCurrentAreaText(window);
 			//hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
 
 			if (testQuest->getCompletionStatus() == false)
