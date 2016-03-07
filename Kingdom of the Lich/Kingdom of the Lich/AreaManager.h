@@ -14,6 +14,9 @@ private:
 	};
 	int currentArea;
 
+	int areaToChangeTo;
+	bool readyToChangeArea;
+
 public:
 	AreaManager();
 	~AreaManager();
@@ -31,6 +34,14 @@ public:
 	void MinimapDraw(sf::RenderTarget& window);
 
 	int GetCurrentArea();
+
+	void CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds);
+
+	int GetAreaToChangeTo();
+	void SetAreaToChangeTo(int atc);
+
+	bool IsReadyToChangeArea();
+	void SetReadyToChangeArea(int r);
 };
 
 #endif

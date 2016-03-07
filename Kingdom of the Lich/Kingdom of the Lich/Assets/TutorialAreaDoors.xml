@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<DoorList>
+  
+  <door name="sewerHatch">
+    <id>1</id>
+    <x>1100</x>
+    <y>1050</y>
+    <open>1</open>
+    <type>0</type>
+    <area>1</area>
+  </door>
+
+  <door name="LellesQualityMerchandiseDoor">
+    <id>2</id>
+    <x>500</x>
+    <y>350</y>
+    <open>1</open>
+    <type>2</type>
+    <area>2</area>
+  </door>
+  
+</DoorList>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Door.h"
 
-Door::Door(int t, sf::Vector2f pos, bool o) : type(t), open(o)
+Door::Door(int t, sf::Vector2f pos, bool o, int a, int i) : type(t), open(o), area(a), id(i)
 {
 	if (type == TrapDoor)
 	{
@@ -13,7 +13,8 @@ Door::Door(int t, sf::Vector2f pos, bool o) : type(t), open(o)
 	}
 	else if (type == HouseDoorOne)
 	{
-		texture.loadFromFile("Assets/Tiles/tutorialHouseDoor2.png");
+		texture.loadFromFile("Assets/Tiles/indoorTiles/indoor assets/newHouseDoor.png");
+		scale(1.3, 1.4);
 	}
 
 	setTexture(texture);
@@ -40,4 +41,9 @@ bool Door::IsOpen()
 void Door::SetOpen(bool o)
 {
 	open = o;
+}
+
+int Door::GetArea()
+{
+	return area;
 }

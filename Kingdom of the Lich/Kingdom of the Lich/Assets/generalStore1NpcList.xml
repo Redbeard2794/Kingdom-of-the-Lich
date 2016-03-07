@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <npcList>
 
-  <npc name='Old Shopkeeper'>
+  <npc name='Norbert Lelles'>
     <id>1</id>
-    <race>Human</race>
+    <race>Elf</race>
     <gender>Male</gender>
     <idleUpPath>Assets/Npcs/oldMan/Idle/upIdle.png</idleUpPath>
     <idleDownPath>Assets/Npcs/oldMan/Idle/downIdle.png</idleDownPath>

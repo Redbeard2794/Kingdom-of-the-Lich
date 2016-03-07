@@ -45,16 +45,16 @@ int main()
 	{
 		TUTORIAL,
 		SEWER,
-		GENERALSTORE1
+		LellesQualityMerchandise
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false);
-	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true);
-	Door* generalStoreDoor = new Door(1, sf::Vector2f(500, 300), true);
+	//Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false, 1);
+	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
+	/*Door* generalStoreDoor = new Door(2, sf::Vector2f(500, 300), true, 2,69);*/
 
-	Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
-	Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
+	//Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
+	//Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
 	//each area should have its own door there?
 
 	//https://github.com/edoren/STP
@@ -1149,7 +1149,7 @@ int main()
 				window.draw(tutorialAreaMap);
 			else if (areaManager->GetCurrentArea() == SEWER)
 				window.draw(sewerAreaMap);
-			else if (areaManager->GetCurrentArea() == GENERALSTORE1)
+			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
 				window.draw(generalStoreMap);
 			
 			//update the player
@@ -1164,12 +1164,13 @@ int main()
 					testChest->DrawBoundingBox(window);
 			}
 			
+			areaManager->CheckDoors(p->getPosition(), p->getGlobalBounds());
 
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
-				window.draw(*sewerHatch);
-				window.draw(*generalStoreDoor);
-				if (sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
+				//window.draw(*sewerHatch);
+				//window.draw(*generalStoreDoor);
+				if (areaManager->GetAreaToChangeTo() == SEWER && gamepad->A())//(sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
@@ -1180,11 +1181,11 @@ int main()
 					testQuest->setCompletionStatus(true);
 				}
 
-				if (generalStoreDoor->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && generalStoreDoor->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
-					areaManager->ChangeArea(GENERALSTORE1);
+					areaManager->ChangeArea(LellesQualityMerchandise);
 					p->setPosition(300, 300);
 				}
 			}
@@ -1197,7 +1198,7 @@ int main()
 					audioManager->StopMusic(2);
 					audioManager->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
-					p->setPosition(1100+sewerHatch->getTexture()->getSize().x, 1000);
+					p->setPosition(1100+50, 1000);
 				}
 			}
 
@@ -1361,8 +1362,8 @@ int main()
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 				{
 					window.draw(*testChest);
-					window.draw(*sewerHatch);
-					window.draw(*generalStoreDoor);
+					//window.draw(*sewerHatch);
+					//window.draw(*generalStoreDoor);
 				}
 				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);
@@ -1609,7 +1610,7 @@ int main()
 				combatMenu->setCombatOver(false);
 				testQuest->getCurrentStage()->setCompletionStatus(true);
 				testQuest->setCurrentStageIndex(3);
-				sewerHatch->SetOpen(true);
+				//sewerHatch->SetOpen(true);
 				if(p->getHealth() > 0)
 					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
 				else
