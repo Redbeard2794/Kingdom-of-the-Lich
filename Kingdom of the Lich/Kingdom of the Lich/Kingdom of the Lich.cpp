@@ -50,7 +50,7 @@ int main()
 	int currentArea = areaManager->GetCurrentArea();
 
 	//Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false, 1);
-	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
+	//Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
 	/*Door* generalStoreDoor = new Door(2, sf::Vector2f(500, 300), true, 2,69);*/
 
 	//Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
@@ -1191,14 +1191,25 @@ int main()
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
 			{
-				window.draw(*sewerExit);
-				if (sewerExit->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerExit->IsOpen())
+				//window.draw(*sewerExit);
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(2);
 					audioManager->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(1100+50, 1000);
+				}
+			}
+			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(500, 400);
 				}
 			}
 
@@ -1357,7 +1368,7 @@ int main()
 				else if (areaManager->GetCurrentArea() == SEWER)
 				{
 					window.draw(sewerAreaMap);
-					window.draw(*sewerExit);
+					//window.draw(*sewerExit);
 				}
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 				{
