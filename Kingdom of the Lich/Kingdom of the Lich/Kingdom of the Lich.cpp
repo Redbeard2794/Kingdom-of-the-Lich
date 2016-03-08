@@ -58,7 +58,8 @@ int main()
 		TUTORIAL,
 		SEWER,
 		LellesQualityMerchandise,
-		House1
+		House1,
+		House2
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
@@ -1156,6 +1157,8 @@ int main()
 				window.draw(generalStoreMap);
 			else if (areaManager->GetCurrentArea() == House1)
 				window.draw(houseOne);
+			else if (areaManager->GetCurrentArea() == House2)
+				window.draw(houseTwo);
 			
 			//update the player
 			p->Update();
@@ -1199,6 +1202,13 @@ int main()
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
 					areaManager->ChangeArea(House1);
+					p->setPosition(80, 300);
+				}
+				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(House2);
 					p->setPosition(80, 300);
 				}
 			}

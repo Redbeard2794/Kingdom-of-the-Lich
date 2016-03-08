@@ -11,7 +11,8 @@ private:
 		TUTORIAL,
 		SEWER,
 		LellesQualityMerchandise,
-		House1
+		House1,
+		House2
 	};
 	int currentArea;
 

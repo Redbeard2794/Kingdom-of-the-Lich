@@ -28,5 +28,14 @@
     <type>2</type>
     <area>3</area>
   </door>
+
+  <door name="House2Door">
+    <id>2</id>
+    <x>835</x>
+    <y>350</y>
+    <open>1</open>
+    <type>2</type>
+    <area>4</area>
+  </door>
   
 </DoorList>
