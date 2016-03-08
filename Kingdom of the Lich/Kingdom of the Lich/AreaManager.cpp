@@ -13,8 +13,11 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml");
 	areas.push_back(house1);
 
-	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml");
+	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml");
 	areas.push_back(house2);
+
+	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml");
+	areas.push_back(pub1);
 
 	currentArea = TUTORIAL;
 
@@ -43,6 +46,10 @@ void AreaManager::Update(sf::Vector2f playerPos)
 		currentAreaText.setString("Current Area: Lelles Quality Merchandise");
 	else if (currentArea == House1)
 		currentAreaText.setString("Current Area: House 1");
+	else if (currentArea == House2)
+		currentAreaText.setString("Current Area: House 2");
+	else if (currentArea == TheDrunkenDragonInn)
+		currentAreaText.setString("Current Area: The Drunken Dragon Inn");
 }
 
 void AreaManager::ChangeArea(int areaToChangeTo)

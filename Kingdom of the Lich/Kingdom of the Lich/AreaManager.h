@@ -12,7 +12,8 @@ private:
 		SEWER,
 		LellesQualityMerchandise,
 		House1,
-		House2
+		House2,
+		TheDrunkenDragonInn
 	};
 	int currentArea;
 

@@ -21,7 +21,7 @@
   </door>
   
   <door name="House1Door">
-    <id>2</id>
+    <id>3</id>
     <x>685</x>
     <y>350</y>
     <open>1</open>
@@ -30,12 +30,21 @@
   </door>
 
   <door name="House2Door">
-    <id>2</id>
+    <id>4</id>
     <x>835</x>
     <y>350</y>
     <open>1</open>
     <type>2</type>
     <area>4</area>
+  </door>
+
+  <door name="TheDrunkenDragonInn">
+    <id>5</id>
+    <x>535</x>
+    <y>1150</y>
+    <open>1</open>
+    <type>2</type>
+    <area>5</area>
   </door>
   
 </DoorList>

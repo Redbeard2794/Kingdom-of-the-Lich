@@ -21,7 +21,8 @@ private:
 		SEWER,
 		GENERALSTORE1,
 		House1,
-		House2
+		House2,
+		TheDrunkenDragonInn
 	};
 	int area;
 

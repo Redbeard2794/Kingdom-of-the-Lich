@@ -59,7 +59,8 @@ int main()
 		SEWER,
 		LellesQualityMerchandise,
 		House1,
-		House2
+		House2,
+		TheDrunkenDragonInn
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
@@ -1159,6 +1160,8 @@ int main()
 				window.draw(houseOne);
 			else if (areaManager->GetCurrentArea() == House2)
 				window.draw(houseTwo);
+			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
+				window.draw(pubOne);
 			
 			//update the player
 			p->Update();
@@ -1211,6 +1214,13 @@ int main()
 					areaManager->ChangeArea(House2);
 					p->setPosition(80, 300);
 				}
+				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(TheDrunkenDragonInn);
+					p->setPosition(80, 300);
+				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
 			{
@@ -1245,7 +1255,18 @@ int main()
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
 				}
+			}
 
+			else if (areaManager->GetCurrentArea() == House2)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(600, 400);
+				}
 			}
 
 			areaManager->Update(p->getPosition());
