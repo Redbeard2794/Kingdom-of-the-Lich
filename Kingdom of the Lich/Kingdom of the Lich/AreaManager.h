@@ -10,7 +10,8 @@ private:
 	{
 		TUTORIAL,
 		SEWER,
-		LellesQualityMerchandise
+		LellesQualityMerchandise,
+		House1
 	};
 	int currentArea;
 

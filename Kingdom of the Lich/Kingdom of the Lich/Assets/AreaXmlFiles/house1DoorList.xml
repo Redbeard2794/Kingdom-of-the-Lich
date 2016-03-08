@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<DoorList>
+
+  <door name="House1Exit">
+    <id>1</id>
+    <x>50</x>
+    <y>350</y>
+    <open>1</open>
+    <type>3</type>
+    <area>0</area>
+  </door>
+
+</DoorList>

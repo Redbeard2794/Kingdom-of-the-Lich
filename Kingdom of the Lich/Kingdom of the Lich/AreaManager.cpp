@@ -3,12 +3,15 @@
 
 AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH(sh)
 {
-	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/npcList.xml", "Assets/TutorialAreaCollidableObjects.xml", "Assets/TutorialAreaDoors.xml");
+	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/AreaXmlFiles/npcList.xml", "Assets/AreaXmlFiles/TutorialAreaCollidableObjects.xml", "Assets/AreaXmlFiles/TutorialAreaDoors.xml");
 	areas.push_back(tutorialArea);
-	Area* sewerArea = new Area("Assets/50x50SewerArea.tmx", "", "Assets/sewerAreaNpcList.xml", "Assets/SewerAreaCollidableObjects.xml", "Assets/sewerAreaDoorList.xml");
+	Area* sewerArea = new Area("Assets/50x50SewerArea.tmx", "", "Assets/AreaXmlFiles/sewerAreaNpcList.xml", "Assets/AreaXmlFiles/SewerAreaCollidableObjects.xml", "Assets/AreaXmlFiles/sewerAreaDoorList.xml");
 	areas.push_back(sewerArea);
-	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/generalStore1NpcList.xml", "Assets/generalStore1CollidableObjects.xml", "Assets/generalStore1DoorList.xml");
+	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/generalStore1CollidableObjects.xml", "Assets/AreaXmlFiles/generalStore1DoorList.xml");
 	areas.push_back(generalStore1Area);
+
+	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml");
+	areas.push_back(house1);
 
 	currentArea = TUTORIAL;
 
@@ -35,6 +38,8 @@ void AreaManager::Update(sf::Vector2f playerPos)
 		currentAreaText.setString("Current Area: Trainton Sewers");
 	else if(currentArea == LellesQualityMerchandise)
 		currentAreaText.setString("Current Area: Lelles Quality Merchandise");
+	else if (currentArea == House1)
+		currentAreaText.setString("Current Area: House 1");
 }
 
 void AreaManager::ChangeArea(int areaToChangeTo)

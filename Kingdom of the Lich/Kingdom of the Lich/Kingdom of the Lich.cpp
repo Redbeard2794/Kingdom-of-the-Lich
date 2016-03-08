@@ -57,7 +57,8 @@ int main()
 	{
 		TUTORIAL,
 		SEWER,
-		LellesQualityMerchandise
+		LellesQualityMerchandise,
+		House1
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
@@ -1153,6 +1154,8 @@ int main()
 				window.draw(sewerAreaMap);
 			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
 				window.draw(generalStoreMap);
+			else if (areaManager->GetCurrentArea() == House1)
+				window.draw(houseOne);
 			
 			//update the player
 			p->Update();
@@ -1183,12 +1186,20 @@ int main()
 					testQuest->setCompletionStatus(true);
 				}
 
-				if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
+				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
 					areaManager->ChangeArea(LellesQualityMerchandise);
-					p->setPosition(300, 300);
+					p->setPosition(415, 400);
+				}
+
+				else if (areaManager->GetAreaToChangeTo() == House1 && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(House1);
+					p->setPosition(80, 300);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1213,6 +1224,18 @@ int main()
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(500, 400);
 				}
+			}
+			else if (areaManager->GetCurrentArea() == House1)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(600, 400);
+				}
+
 			}
 
 			areaManager->Update(p->getPosition());

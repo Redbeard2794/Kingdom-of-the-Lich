@@ -19,7 +19,8 @@ private:
 	{
 		TUTORIAL,
 		SEWER,
-		GENERALSTORE1
+		GENERALSTORE1,
+		House1
 	};
 	int area;
 
