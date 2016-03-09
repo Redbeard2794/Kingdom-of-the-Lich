@@ -13,8 +13,8 @@ Door::Door(int t, sf::Vector2f pos, bool o, int a, int i) : type(t), open(o), ar
 	}
 	else if (type == HouseDoorOne)
 	{
-		texture.loadFromFile("Assets/Tiles/indoorTiles/indoor assets/newHouseDoor.png");
-		scale(1.3, 1.4);
+		texture.loadFromFile("Assets/Tiles/houseEntranceC.png");
+		scale(0.5, 1);
 	}
 	else if (type == HouseExitDoor)
 	{

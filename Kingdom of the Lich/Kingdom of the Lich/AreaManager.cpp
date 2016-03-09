@@ -16,7 +16,7 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml");
 	areas.push_back(house2);
 
-	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml");
+	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnDoorList.xml");
 	areas.push_back(pub1);
 
 	currentArea = TUTORIAL;

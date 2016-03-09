@@ -1219,7 +1219,7 @@ int main()
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
-					p->setPosition(80, 300);
+					p->setPosition(250, 175);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1266,6 +1266,18 @@ int main()
 					audioManager->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
+				}
+			}
+
+			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(530, 1200);
 				}
 			}
 
