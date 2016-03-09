@@ -95,6 +95,8 @@ int main()
 	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
+	OptionsMenu* optionsMenu = new OptionsMenu(font, screenW, screenH);
+
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 	//player_view.zoom(1.5f);
@@ -170,7 +172,8 @@ int main()
 		COMBAT,
 		CONVERSATION,
 		INVENTORY,
-		CREDITS
+		CREDITS,
+		OPTIONS
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -232,179 +235,6 @@ int main()
 	AudioManager* audioManager = new AudioManager();
 	//play the first song
 	audioManager->PlayMusicById(0);
-
-	//npcs :)
-	/*std::vector<Npc*> npcVector;*/
-
-	//xml_document<> doc;
-	//std::ifstream file("Assets/npcList.xml");
-	//std::stringstream buffer;
-	//buffer << file.rdbuf();
-	//file.close();
-	//std::string content(buffer.str());
-	//doc.parse<0>(&content[0]);
-
-	//xml_node<> *pRoot = doc.first_node();
-	////std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
-
-	//xml_node<>* npcList = doc.first_node("npcList");
-	//xml_node<>* npc = npcList->first_node("npc");
-
-	////load in each npc's information and then create them
-	//while (npc != NULL)
-	//{
-	//	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour
-	//	std::string name = "";
-	//	int id = 0;
-	//	std::string race = "";
-	//	std::string gender = "";
-	//	std::string texturePath = "";
-
-	//	std::string idleUpPath = "";
-	//	std::string idleDownPath = "";
-	//	std::string idleLeftPath = "";
-	//	std::string idleRightPath = "";
-
-	//	int numberOfFrames = 0;
-
-	//	std::string walkUpPath = "";
-	//	std::string walkDownPath = "";
-	//	std::string walkLeftPath = "";
-	//	std::string walkRightPath = "";
-
-	//	std::string mapIconTexturePath = "";
-	//	float x = 0;
-	//	float y = 0;
-	//	std::string hasQuest = "";
-	//	std::string interactable = "";
-	//	std::string behaviour = "";
-
-	//	/*Get the npc's name*/
-	//	//std::cout << "Name: " << npc->first_attribute("name")->value() << std::endl;
-	//	name = npc->first_attribute("name")->value();
-
-	//	/*Get the npc's id*/
-	//	//std::cout << "I.D: " << npc->first_node("id")->value() << std::endl;
-	//	id = atoi(npc->first_node("id")->value());
-
-	//	/*Get the npc's race*/
-	//	//std::cout << "Race: " << npc->first_node("race")->value() << std::endl;
-	//	race = npc->first_node("race")->value();
-
-	//	/*Get the npc's gender*/
-	//	//std::cout << "Gender: " << npc->first_node("gender")->value() << std::endl;
-	//	gender = npc->first_node("gender")->value();
-
-	//	/*get paths for idle sprites*/
-	//	//std::cout << "Idle up path: " << npc->first_node("idleUpPath")->value() << std::endl;
-	//	idleUpPath = npc->first_node("idleUpPath")->value();
-
-	//	//std::cout << "Idle down path: " << npc->first_node("idleDownPath")->value() << std::endl;
-	//	idleDownPath = npc->first_node("idleDownPath")->value();
-
-	//	//std::cout << "Idle left path: " << npc->first_node("idleLeftPath")->value() << std::endl;
-	//	idleLeftPath = npc->first_node("idleLeftPath")->value();
-
-	//	//std::cout << "Idle right path: " << npc->first_node("idleRightPath")->value() << std::endl;
-	//	idleRightPath = npc->first_node("idleRightPath")->value();
-
-	//	/*Get the number of frames*/
-	//	//std::cout << "Number of frames: " << npc->first_node("numberOfFrames")->value() << std::endl;
-	//	numberOfFrames = atoi( npc->first_node("numberOfFrames")->value());
-
-	//	/*get paths for walking sprites*/
-	//	//std::cout << "Walk up path: " << npc->first_node("walkUpPath")->value() << std::endl;
-	//	walkUpPath = npc->first_node("walkUpPath")->value();
-
-	//	//std::cout << "Walk down path: " << npc->first_node("walkDownPath")->value() << std::endl;
-	//	walkDownPath = npc->first_node("walkDownPath")->value();
-
-	//	//std::cout << "Walk left path: " << npc->first_node("walkLeftPath")->value() << std::endl;
-	//	walkLeftPath = npc->first_node("walkLeftPath")->value();
-
-	//	//std::cout << "Walk right path: " << npc->first_node("walkRightPath")->value() << std::endl;
-	//	walkRightPath = npc->first_node("walkRightPath")->value();
-
-	//	/*minimap icon path*/
-	//	//std::cout << "Map icon texture path: " << npc->first_node("mapIconTexturePath")->value() << std::endl;
-	//	mapIconTexturePath = npc->first_node("mapIconTexturePath")->value();
-
-	//	/*x position*/
-	//	//std::cout << "X: " << npc->first_node("x")->value() << std::endl;
-	//	x = atof(npc->first_node("x")->value());
-
-	//	/*y position*/
-	//	//std::cout << "Y: " << npc->first_node("y")->value() << std::endl;
-	//	y = atof(npc->first_node("y")->value());
-
-	//	/*Does the npc have a quest for the player*/
-	//	//std::cout << "Has quest: " << npc->first_node("hasQuest")->value() << std::endl;
-	//	hasQuest = npc->first_node("hasQuest")->value();
-
-	//	/*Can the npc be interacted with?*/
-	//	//std::cout << "Interactable: " << npc->first_node("interact")->value() << std::endl;
-	//	interactable = npc->first_node("interact")->value();
-
-	//	/*What behaviour do they have? e.g: wander, stand etc*/
-	//	//std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
-	//	behaviour = npc->first_node("behaviour")->value();
-
-	//	/*Create the npc*/
-	//	Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, useController);
-	//	npcVector.push_back(n);
-	//	//std::cout << "Size of npcVector: " << npcVector.size() << std::endl;
-
-	//	std::cout << "------------------------------------------------------------" << std::endl;
-	//	/*Move onto the next npc tag*/
-	//	npc = npc->next_sibling("npc");
-	//}
-	//houses
-	//CollidableObject* house1 = new CollidableObject(500, 1050, 100, 100, true, false);
-	//CollidableObject* house2 = new CollidableObject(500, 250, 100, 100, true, false);
-	//CollidableObject* house3 = new CollidableObject(650, 250, 100, 100, true, false);
-	//CollidableObject* house4 = new CollidableObject(800, 250, 100, 100, true, false);
-	//CollidableObject* house5 = new CollidableObject(950, 250, 100, 100, true, false);
-	//CollidableObject* house6 = new CollidableObject(1100, 250, 100, 100, true, false);
-	//CollidableObject* house7 = new CollidableObject(1250, 250, 100, 100, true, false);
-	//CollidableObject* house8 = new CollidableObject(1400, 250, 100, 100, true, false);
-	////walls
-	//CollidableObject* wall1 = new CollidableObject(300, 200, 1400, 50, true, false);
-	//CollidableObject* wall2 = new CollidableObject(200, 300, 50, 1400, true, false);
-	//CollidableObject* wall3 = new CollidableObject(300, 1750, 1400, 50, true, false);
-	//CollidableObject* wall4 = new CollidableObject(1750, 300, 50, 1400, true, false);
-	////towers
-	//CollidableObject* tower1 = new CollidableObject(200, 200, 100, 100, true, false);
-	//CollidableObject* tower2 = new CollidableObject(1700, 200, 100, 100, true, false);
-	//CollidableObject* tower3 = new CollidableObject(200, 1700, 100, 100, true, false);
-	//CollidableObject* tower4 = new CollidableObject(1700, 1700, 100, 100, true, false);
-	////forge
-	//CollidableObject* forge = new CollidableObject(350, 1000, 100, 100, true, false);
-	////anvil
-	//CollidableObject* anvil = new CollidableObject(363, 900, 20, 50, true, false);
-
-	//std::vector<CollidableObject*> collidableObjects;
-	//collidableObjects.push_back(house1);
-	//collidableObjects.push_back(house2);
-	//collidableObjects.push_back(house3);
-	//collidableObjects.push_back(house4);
-	//collidableObjects.push_back(house5);
-	//collidableObjects.push_back(house6);
-	//collidableObjects.push_back(house7);
-	//collidableObjects.push_back(house8);
-
-	//collidableObjects.push_back(wall1);
-	//collidableObjects.push_back(wall2);
-	//collidableObjects.push_back(wall3);
-	//collidableObjects.push_back(wall4);
-
-	//collidableObjects.push_back(tower1);
-	//collidableObjects.push_back(tower2);
-	//collidableObjects.push_back(tower3);
-	//collidableObjects.push_back(tower4);
-
-	//collidableObjects.push_back(forge);
-
-	//collidableObjects.push_back(anvil);
 
 	bool debugMode = true;
 
@@ -571,6 +401,9 @@ int main()
 					else if (mainMenu->getSelectedOption() == 2)//options
 					{
 						enterPressed = false;
+						prevState = gState;
+						optionsMenu->SetCanSelect(false);
+						gState = OPTIONS;
 						//std::cout << "Options not available yet" << std::endl;
 					}
 					else if (mainMenu->getSelectedOption() == 3)//credits
@@ -631,7 +464,11 @@ int main()
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
 					{
-						std::cout << "Options not available yet" << std::endl;
+						//std::cout << "Options not available yet" << std::endl;
+						/*optionsMenu->SetCurrentHighlighted(0);*/
+						optionsMenu->SetCanSelect(false);
+						prevState = gState;
+						gState = OPTIONS;
 					}
 					else if (mainMenu->getSelectedOption() == 3)//credits
 					{
@@ -1798,6 +1635,100 @@ int main()
 			}
 			break;
 #pragma endregion
+		case OPTIONS:
+			gamepad->CheckAllButtons();
+
+			if (optionsMenu->GetState() == 0)//navigate menu
+			{
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->MoveUp();
+					optionsMenu->SetCanMove(false);
+				}
+
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->MoveDown();
+					optionsMenu->SetCanMove(false);
+				}
+				else optionsMenu->SetCanMove(true);
+			}
+
+			else if (optionsMenu->GetState() == 1)//increase/decrease music vol
+			{
+				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->IncreaseMusicVol();
+					optionsMenu->SetCanMove(false);
+				}
+
+				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->DecreaseMusicVol();
+					optionsMenu->SetCanMove(false);
+				}
+				else optionsMenu->SetCanMove(true);
+			}
+
+			else if (optionsMenu->GetState() == 2)//increase/decrease sfx volume
+			{
+				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->IncreaseSFXVol();
+					optionsMenu->SetCanMove(false);
+				}
+
+				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					optionsMenu->DecreaseSFXVol();
+					optionsMenu->SetCanMove(false);
+				}
+				else optionsMenu->SetCanMove(true);
+			}
+
+			
+
+			if (gamepad->A())
+			{
+				if (optionsMenu->GetCanSelect() == true)
+				{
+					/*Back out of the options menu*/
+					if (optionsMenu->GetCurrentHighlighted() == 2 && optionsMenu->GetState() == 0)
+					{
+						gState = MAINMENU;
+						optionsMenu->SetCanSelect(false);
+					}
+
+					/*Adjust the music volume*/
+					else if (optionsMenu->GetCurrentHighlighted() == 0 && optionsMenu->GetState() == 0)
+					{
+						optionsMenu->SetCanSelect(false);
+						optionsMenu->SetState(1);
+					}
+
+					/*Adjust the sfx volume*/
+					else if (optionsMenu->GetCurrentHighlighted() == 1 && optionsMenu->GetState() == 0)
+					{
+						optionsMenu->SetCanSelect(false);
+						optionsMenu->SetState(2);
+					}
+				}
+			}
+			else optionsMenu->SetCanSelect(true);
+
+			if (gamepad->B())
+			{
+				if (optionsMenu->GetState() == 1)
+					optionsMenu->SetState(0);
+				else if (optionsMenu->GetState() == 2)
+					optionsMenu->SetState(0);
+				//else if (optionsMenu->GetState() == 0)
+				//	gState = MAINMENU;
+			}
+
+			optionsMenu->Update(audioManager);
+			optionsMenu->Draw(window);
+			break;
 		}
 
 

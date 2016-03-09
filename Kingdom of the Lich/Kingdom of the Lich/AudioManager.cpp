@@ -9,22 +9,22 @@ AudioManager::AudioManager()
 	if (openingMusic.openFromFile("Assets/Audio/Music/Horror Game Menu.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Horror Game Menu.ogg'" << std::endl;
 	openingMusic.setLoop(true);
-	openingMusic.setVolume(0);//60
+	openingMusic.setVolume(75);//60
 
 	if (tutorialAreaMusic.openFromFile("Assets/Audio/Music/Harp.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Harp.ogg'" << std::endl;
 	tutorialAreaMusic.setLoop(true);
-	tutorialAreaMusic.setVolume(0);//70
+	tutorialAreaMusic.setVolume(75);//70
 
 	if (sewerAreaMusic.openFromFile("Assets/Audio/Music/magical_theme.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/magical_theme.ogg'" << std::endl;
 	sewerAreaMusic.setLoop(true);
-	sewerAreaMusic.setVolume(0);//70
+	sewerAreaMusic.setVolume(75);//70
 
 	if (battleMusic.openFromFile("Assets/Audio/Music/Battle.ogg")) {}
 	else std::cout << "Failed to open 'Assets/Audio/Music/Battle.ogg'" << std::endl;
 	battleMusic.setLoop(true);
-	battleMusic.setVolume(40);
+	battleMusic.setVolume(75);
 
 	//vector of music
 	musicTracks.push_back(&openingMusic);//0
@@ -174,4 +174,20 @@ void AudioManager::FadeOutSound(int soundId)
 void AudioManager::StopMusic(int musicId)
 {
 	musicTracks.at(musicId)->stop();
+}
+
+void AudioManager::SetMusicVolume(int vol)
+{
+	for (int i = 0; i < musicTracks.size(); i++)
+	{
+		musicTracks.at(i)->setVolume(vol);
+	}
+}
+
+void AudioManager::SetSfxVolume(int vol)
+{
+	for (int i = 0; i < soundEffects.size(); i++)
+	{
+		soundEffects.at(i)->setVolume(vol);
+	}
 }
