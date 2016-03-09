@@ -61,6 +61,7 @@
 #include "AreaManager.h"
 #include "Door.h"
 #include "Attack.h"
+#include "OptionsMenu.h"
 
 
 #endif

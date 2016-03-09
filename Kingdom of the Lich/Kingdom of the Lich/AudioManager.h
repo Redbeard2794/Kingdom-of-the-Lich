@@ -93,6 +93,10 @@ public:
 	void FadeOutSound(int soundId);
 
 	void StopMusic(int musicId);
+
+	void SetMusicVolume(int vol);
+
+	void SetSfxVolume(int vol);
 };
 
 #endif

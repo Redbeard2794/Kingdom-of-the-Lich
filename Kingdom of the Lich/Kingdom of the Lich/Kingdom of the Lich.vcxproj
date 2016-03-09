@@ -172,6 +172,7 @@
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Npc.h" />
+    <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopupMessage.h" />
     <ClInclude Include="PopupMessageController.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMessage.cpp" />
     <ClCompile Include="PopupMessageController.cpp" />
