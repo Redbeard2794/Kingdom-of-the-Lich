@@ -91,3 +91,8 @@ player dies in combat sound: http://opengameart.org/content/energy-drain
 stone golem attack hit sound: http://opengameart.org/content/impact
 
 stone golem punch sound: http://opengameart.org/content/punch
+
+Audio wave for options menu:
+http://www.istockphoto.com/video/retro-audio-waves-loopable-gm104163027-8673061
+
+Possible new tiles?: http://opengameart.org/content/basic-map-32x32-by-silver-iv

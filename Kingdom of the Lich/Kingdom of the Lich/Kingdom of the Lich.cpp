@@ -1692,15 +1692,16 @@ int main()
 			{
 				if (optionsMenu->GetCanSelect() == true)
 				{
-					/*Back out of the options menu*/
-					if (optionsMenu->GetCurrentHighlighted() == 2 && optionsMenu->GetState() == 0)
-					{
-						gState = MAINMENU;
-						optionsMenu->SetCanSelect(false);
-					}
+					///*Back out of the options menu*/
+					//if (optionsMenu->GetCurrentHighlighted() == 2 && optionsMenu->GetState() == 0)
+					//{
+					//	mainMenu->ResetMenu();
+					//	gState = MAINMENU;
+					//	optionsMenu->SetCanSelect(false);
+					//}
 
 					/*Adjust the music volume*/
-					else if (optionsMenu->GetCurrentHighlighted() == 0 && optionsMenu->GetState() == 0)
+					if (optionsMenu->GetCurrentHighlighted() == 0 && optionsMenu->GetState() == 0)
 					{
 						optionsMenu->SetCanSelect(false);
 						optionsMenu->SetState(1);
@@ -1718,13 +1719,26 @@ int main()
 
 			if (gamepad->B())
 			{
-				if (optionsMenu->GetState() == 1)
-					optionsMenu->SetState(0);
-				else if (optionsMenu->GetState() == 2)
-					optionsMenu->SetState(0);
-				//else if (optionsMenu->GetState() == 0)
-				//	gState = MAINMENU;
+				if (optionsMenu->GetCanBackOut())
+				{
+					if (optionsMenu->GetState() == 1)
+					{
+						optionsMenu->SetState(0);
+						optionsMenu->SetCanBackOut(false);
+					}
+					else if (optionsMenu->GetState() == 2)
+					{
+						optionsMenu->SetState(0);
+						optionsMenu->SetCanBackOut(false);
+					}
+					else if (optionsMenu->GetState() == 0)
+					{
+						optionsMenu->SetCanBackOut(false);
+						gState = MAINMENU;
+					}
+				}
 			}
+			else optionsMenu->SetCanBackOut(true);
 
 			optionsMenu->Update(audioManager);
 			optionsMenu->Draw(window);

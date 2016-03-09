@@ -28,6 +28,8 @@ public:
 	int getSelectedOption() { return selectedOption; }
 	bool getCanMove() { return canMove; }
 	void setCanMove(bool cm) { canMove = cm; }
+
+	void ResetMenu();
 	//end gets
 private:
 	sf::Sprite background;

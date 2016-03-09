@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "OptionsMenu.h"
 
+/*constructor. params: font, screen width, screen height*/
 OptionsMenu::OptionsMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH(sh)
 {
 	audioWaveTexture.loadFromFile("Assets/audioWave.png");
@@ -15,10 +16,10 @@ OptionsMenu::OptionsMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	menuItems[1].setString("Sfx Volume: ");
 	menuItems[1].setPosition(screenW / 2.5, 300);
 
-	menuItems[2].setFont(font);
-	menuItems[2].setColor(sf::Color::White);
-	menuItems[2].setString("Back");
-	menuItems[2].setPosition(screenW/2.1, screenH-100);
+	//menuItems[2].setFont(font);
+	//menuItems[2].setColor(sf::Color::White);
+	//menuItems[2].setString("Back");
+	//menuItems[2].setPosition(screenW/2.1, screenH-100);
 
 	currentHighlighted = 0;
 	currentSelected = -1;
@@ -26,6 +27,7 @@ OptionsMenu::OptionsMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	currentMenuState = NAV;
 	canSelect = true;
 	canMove = true;
+	canBackOut = true;
 
 	musicBar.setSize(sf::Vector2f(10, 50));
 	musicBar.setFillColor(sf::Color::White);
@@ -42,26 +44,29 @@ OptionsMenu::OptionsMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	sfxBar.setTexture(&audioWaveTexture);
 }
 
+/*destructor*/
 OptionsMenu::~OptionsMenu()
 {
+	//blank for the moment
 }
 
+/*Update volume levels and change colour of selected item. param is a pointer to an audiomanager*/
 void OptionsMenu::Update(AudioManager * audioManager)
 {
 	if (currentMenuState == NAV)
 	{
 
 	}
-	else if (currentMenuState == MUSIC)
+	else if (currentMenuState == MUSIC)//if setting music volume
 	{
 		audioManager->SetMusicVolume(musicBar.getSize().x / 2);
 	}
-	else if (currentMenuState == SFX)
+	else if (currentMenuState == SFX)//if setting sfx volume
 	{
 		audioManager->SetSfxVolume(sfxBar.getSize().x / 2);
 	}
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		if (currentHighlighted == i)
 		{
@@ -74,26 +79,29 @@ void OptionsMenu::Update(AudioManager * audioManager)
 	}
 }
 
+/*navigate up*/
 void OptionsMenu::MoveUp()
 {
 	if (canMove)
 	{
 		if (currentHighlighted == 0)
-			currentHighlighted = 2;
+			currentHighlighted = 1;
 		else currentHighlighted--;
 	}
 }
 
+/*navigate down*/
 void OptionsMenu::MoveDown()
 {
 	if (canMove)
 	{
-		if (currentHighlighted == 2)
+		if (currentHighlighted == 1)
 			currentHighlighted = 0;
 		else currentHighlighted++;
 	}
 }
 
+/*increase the music volume if not already maxed out*/
 void OptionsMenu::IncreaseMusicVol()
 {
 	if (canMove)
@@ -105,6 +113,7 @@ void OptionsMenu::IncreaseMusicVol()
 	}
 }
 
+/*decrease the music volume if not already at 0*/
 void OptionsMenu::DecreaseMusicVol()
 {
 	if (canMove)
@@ -116,6 +125,7 @@ void OptionsMenu::DecreaseMusicVol()
 	}
 }
 
+/*increase the sfx volume if not already maxed out*/
 void OptionsMenu::IncreaseSFXVol()
 {
 	if (canMove)
@@ -127,6 +137,7 @@ void OptionsMenu::IncreaseSFXVol()
 	}
 }
 
+/*decrease the sfx volume if not already at 0*/
 void OptionsMenu::DecreaseSFXVol()
 {
 	if (canMove)
@@ -138,9 +149,10 @@ void OptionsMenu::DecreaseSFXVol()
 	}
 }
 
+/*Draw. param is a render target*/
 void OptionsMenu::Draw(sf::RenderTarget & window)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		window.draw(menuItems[i]);
 	}
@@ -197,4 +209,14 @@ bool OptionsMenu::GetCanSelect()
 void OptionsMenu::SetCanSelect(bool cse)
 {
 	canSelect = cse;
+}
+
+bool OptionsMenu::GetCanBackOut()
+{
+	return canBackOut;
+}
+
+void OptionsMenu::SetCanBackOut(bool cbo)
+{
+	canBackOut = cbo;
 }

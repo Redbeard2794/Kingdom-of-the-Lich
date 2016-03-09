@@ -204,3 +204,8 @@ void Menu::Draw(sf::RenderWindow &window)
 	}
 }
 
+void Menu::ResetMenu()
+{
+	selectedOption = 0;
+}
+
