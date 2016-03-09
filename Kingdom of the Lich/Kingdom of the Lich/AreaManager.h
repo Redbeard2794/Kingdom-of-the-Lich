@@ -9,12 +9,25 @@ private:
 	enum Areas
 	{
 		TUTORIAL,
-		SEWER
+		SEWER,
+		LellesQualityMerchandise,
+		House1,
+		House2,
+		TheDrunkenDragonInn
 	};
 	int currentArea;
 
+	int areaToChangeTo;
+	bool readyToChangeArea;
+
+	sf::Font font;
+	sf::Text currentAreaText;
+
+	int screenW;
+	int screenH;
+
 public:
-	AreaManager();
+	AreaManager(sf::Font f, int sw, int sh);
 	~AreaManager();
 
 	void Update(sf::Vector2f playerPos);
@@ -27,9 +40,19 @@ public:
 
 	void Draw(sf::RenderTarget& window, bool debugMode);
 
+	void DrawCurrentAreaText(sf::RenderTarget& window);
+
 	void MinimapDraw(sf::RenderTarget& window);
 
 	int GetCurrentArea();
+
+	void CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds);
+
+	int GetAreaToChangeTo();
+	void SetAreaToChangeTo(int atc);
+
+	bool IsReadyToChangeArea();
+	void SetReadyToChangeArea(int r);
 };
 
 #endif

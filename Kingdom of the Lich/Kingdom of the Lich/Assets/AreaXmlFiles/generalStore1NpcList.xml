@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<npcList>
+
+  <npc name='Norbert Lelles'>
+    <id>1</id>
+    <race>Elf</race>
+    <gender>Male</gender>
+    <idleUpPath>Assets/Npcs/oldMan/Idle/upIdle.png</idleUpPath>
+    <idleDownPath>Assets/Npcs/oldMan/Idle/downIdle.png</idleDownPath>
+    <idleLeftPath>Assets/Npcs/oldMan/Idle/leftIdle.png</idleLeftPath>
+    <idleRightPath>Assets/Npcs/oldMan/Idle/rightIdle.png</idleRightPath>
+    <numberOfFrames>3</numberOfFrames>
+    <walkUpPath>Assets/Npcs/oldMan/Moving/upSheet.png</walkUpPath>
+    <walkDownPath>Assets/Npcs/oldMan/Moving/downSheet.png</walkDownPath>
+    <walkLeftPath>Assets/Npcs/oldMan/Moving/leftSheet.png</walkLeftPath>
+    <walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
+    <mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+    <x>275</x>
+    <y>75</y>
+    <hasQuest>true</hasQuest>
+    <interact>true</interact>
+    <behaviour>stand</behaviour>
+  </npc>
+
+</npcList>

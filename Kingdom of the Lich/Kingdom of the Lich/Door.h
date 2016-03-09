@@ -7,14 +7,29 @@ private:
 	enum DoorType
 	{
 		TrapDoor,
-		Doorway
+		StoneDoorway,
+		HouseDoorOne,
+		HouseExitDoor
 	};
 	int type;
 	sf::Texture texture;
 	bool open;
 
+	enum Areas
+	{
+		TUTORIAL,
+		SEWER,
+		GENERALSTORE1,
+		House1,
+		House2,
+		TheDrunkenDragonInn
+	};
+	int area;
+
+	int id;
+
 public:
-	Door(int t, sf::Vector2f pos, bool o);
+	Door(int t, sf::Vector2f pos, bool o, int a, int i);
 
 	~Door();
 
@@ -23,6 +38,8 @@ public:
 	bool IsOpen();
 
 	void SetOpen(bool o);
+
+	int GetArea();
 };
 
 #endif

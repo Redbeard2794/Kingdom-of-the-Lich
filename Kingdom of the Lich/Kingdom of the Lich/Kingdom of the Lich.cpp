@@ -38,24 +38,50 @@ using namespace rapidxml;
 
 int main()
 {
+	//load a font
+	sf::Font font;
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+
+	// Create the main window 
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
+	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
+	sf::RenderWindow *pWindow = &window;
+
+	int screenW = sf::VideoMode::getDesktopMode().width;
+	int screenH = sf::VideoMode::getDesktopMode().height;
+
 	/* initialize random seed: */
 	srand(time(NULL));
-	AreaManager* areaManager = new AreaManager();
+	AreaManager* areaManager = new AreaManager(font, screenW, screenH);
 	enum Areas
 	{
 		TUTORIAL,
-		SEWER
+		SEWER,
+		LellesQualityMerchandise,
+		House1,
+		House2,
+		TheDrunkenDragonInn
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false);
-	Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true);
+	//Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false, 1);
+	//Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
+	/*Door* generalStoreDoor = new Door(2, sf::Vector2f(500, 300), true, 2,69);*/
+
+	//Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
+	//Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
+	//each area should have its own door there?
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
 	tmx::TileMap tutorialAreaLowPolyMap("Assets/lowPolyTutorialArea.tmx");
 
 	tmx::TileMap sewerAreaMap("Assets/50x50SewerArea.tmx");
+
+	tmx::TileMap generalStoreMap("Assets/generalStore1.tmx");
+	tmx::TileMap houseOne("Assets/house1.tmx");
+	tmx::TileMap houseTwo("Assets/house2.tmx");
+	tmx::TileMap pubOne("Assets/pub1.tmx");
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
@@ -68,14 +94,6 @@ int main()
 	//}
 	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
-
-	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
-	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
-	sf::RenderWindow *pWindow = &window;
-
-	int screenW = sf::VideoMode::getDesktopMode().width;
-	int screenH = sf::VideoMode::getDesktopMode().height;
 
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -100,9 +118,7 @@ int main()
 	}
 	minimap.zoom(6.f);//4......3(actual)
 
-	//load a font
-	sf::Font font;
-	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
@@ -1138,6 +1154,14 @@ int main()
 				window.draw(tutorialAreaMap);
 			else if (areaManager->GetCurrentArea() == SEWER)
 				window.draw(sewerAreaMap);
+			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
+				window.draw(generalStoreMap);
+			else if (areaManager->GetCurrentArea() == House1)
+				window.draw(houseOne);
+			else if (areaManager->GetCurrentArea() == House2)
+				window.draw(houseTwo);
+			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
+				window.draw(pubOne);
 			
 			//update the player
 			p->Update();
@@ -1151,11 +1175,13 @@ int main()
 					testChest->DrawBoundingBox(window);
 			}
 			
+			areaManager->CheckDoors(p->getPosition(), p->getGlobalBounds());
 
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
-				window.draw(*sewerHatch);
-				if (sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
+				//window.draw(*sewerHatch);
+				//window.draw(*generalStoreDoor);
+				if (areaManager->GetAreaToChangeTo() == SEWER && gamepad->A())//(sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(1);
@@ -1165,17 +1191,93 @@ int main()
 					testQuest->getCurrentStage()->setCompletionStatus(true);
 					testQuest->setCompletionStatus(true);
 				}
+
+				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(LellesQualityMerchandise);
+					p->setPosition(415, 400);
+				}
+
+				else if (areaManager->GetAreaToChangeTo() == House1 && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(House1);
+					p->setPosition(80, 300);
+				}
+				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(House2);
+					p->setPosition(80, 300);
+				}
+				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(1);
+					areaManager->ChangeArea(TheDrunkenDragonInn);
+					p->setPosition(250, 175);
+				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
 			{
-				window.draw(*sewerExit);
-				if (sewerExit->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerExit->IsOpen())
+				//window.draw(*sewerExit);
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
 					audioManager->PlaySoundEffectById(9, false);
 					audioManager->StopMusic(2);
 					audioManager->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
-					p->setPosition(1100+sewerHatch->getTexture()->getSize().x, 1000);
+					p->setPosition(1100+50, 1000);
+				}
+			}
+			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(500, 400);
+				}
+			}
+			else if (areaManager->GetCurrentArea() == House1)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(600, 400);
+				}
+			}
+
+			else if (areaManager->GetCurrentArea() == House2)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(600, 400);
+				}
+			}
+
+			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
+			{
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				{
+					audioManager->PlaySoundEffectById(9, false);
+					audioManager->StopMusic(2);
+					audioManager->PlayMusicById(1);
+					areaManager->ChangeArea(TUTORIAL);
+					p->setPosition(530, 1200);
 				}
 			}
 
@@ -1185,7 +1287,6 @@ int main()
 			window.draw(*p);
 			if (debugMode)
 				p->DrawBoundingBox(window);
-
 
 				if (areaManager->CheckPlayerCollidableObjectsCollisions(p->getGlobalBounds()))
 				{
@@ -1312,6 +1413,7 @@ int main()
 			popupMessageHandler.DrawMessages(*pWindow);
 			
 			hud->Draw(window);
+			areaManager->DrawCurrentAreaText(window);
 			//hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap);
 
 			if (testQuest->getCompletionStatus() == false)
@@ -1334,12 +1436,13 @@ int main()
 				else if (areaManager->GetCurrentArea() == SEWER)
 				{
 					window.draw(sewerAreaMap);
-					window.draw(*sewerExit);
+					//window.draw(*sewerExit);
 				}
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 				{
 					window.draw(*testChest);
-					window.draw(*sewerHatch);
+					//window.draw(*sewerHatch);
+					//window.draw(*generalStoreDoor);
 				}
 				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 					testEnemy->MinimapDraw(window);
@@ -1586,7 +1689,7 @@ int main()
 				combatMenu->setCombatOver(false);
 				testQuest->getCurrentStage()->setCompletionStatus(true);
 				testQuest->setCurrentStageIndex(3);
-				sewerHatch->SetOpen(true);
+				//sewerHatch->SetOpen(true);
 				if(p->getHealth() > 0)
 					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
 				else
