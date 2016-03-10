@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Particle.h"
 
-/*constructor. params are the time to live and the type*/
-Particle::Particle(float ttl, int t, sf::Vector2f pos) : timeToLive(ttl), type(t)
+/*constructor. params are the time to live, the type, the position to draw them at and the rotation*/
+Particle::Particle(float ttl, int t, sf::Vector2f pos, float r) : timeToLive(ttl), type(t)
 {
 	lifeClock.restart();//start the clock
 
@@ -11,6 +11,8 @@ Particle::Particle(float ttl, int t, sf::Vector2f pos) : timeToLive(ttl), type(t
 	removable = false;
 
 	setPosition(pos);
+
+	setRotation(r);
 }
 
 /*destructor*/
@@ -50,11 +52,10 @@ void Particle::Update()
 		removable = true;
 	}
 
-
-
 	if (type == LeftFootPrint || type == RightFootPrint)
 	{
 		//fade out slowly
+		setColor(sf::Color(getColor().r, getColor().g, getColor().b, getColor().a - 0.5));
 	}
 	else if (type == Blood)
 	{
@@ -66,4 +67,10 @@ void Particle::Update()
 bool Particle::IsRemovable()
 {
 	return removable;
+}
+
+/*Get what type of particle this is*/
+int Particle::GetType()
+{
+	return type;
 }

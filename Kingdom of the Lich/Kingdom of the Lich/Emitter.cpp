@@ -34,7 +34,8 @@ void Emitter::Update(int dir)
 	{
 		for (int i = 0; i < numParticlesPerSecond; i++)//add numParticlesPerSecond number of particles
 		{
-			AddParticle();
+			if (particleType == LeftFootPrint || particleType == RightFootPrint)
+				AddFootprintParticle(dir);
 			//std::cout << "Added a new Particle." << std::endl;
 		}
 		spawnClock.restart();//restart the spawn clock
@@ -50,22 +51,48 @@ void Emitter::Update(int dir)
 	}
 }
 
-/*Add a new particle*/
-void Emitter::AddParticle()
+/*Add a new footprint particle*/
+void Emitter::AddFootprintParticle(int dir)
 {
-	if (lastAddedPrint == 1)
-	{
-		Particle* p = new Particle(2, 0, getPosition());
-		particles.push_back(p);
-		lastAddedPrint = 2;
-	}
-	else if (lastAddedPrint == 2)
-	{
+	float r = 0;
+	sf::Vector2f pos = getPosition();
 
-		Particle* p = new Particle(2, 1, getPosition());
-		particles.push_back(p);
-		lastAddedPrint = 1;
+	switch (dir)
+	{
+	case NORTH:
+		r = 270;
+		pos = sf::Vector2f(getPosition().x - 3, getPosition().y + 5);
+		break;
+	case SOUTH:
+		r = 90;
+		pos = sf::Vector2f(getPosition().x, getPosition().y + 5);
+		break;
+	case EAST:
+		r = 0;
+		pos = sf::Vector2f(getPosition().x - 10, getPosition().y + 17);
+		break;
+	case WEST:
+		r = 180;
+		pos = sf::Vector2f(getPosition().x + 10, getPosition().y + 23);
+		break;
+	case NOTMOVING:
+
+		break;
 	}
+
+		if (lastAddedPrint == 1)
+		{
+			Particle* p = new Particle(2, 0, pos, r);
+			particles.push_back(p);
+			lastAddedPrint = 2;
+		}
+		else if (lastAddedPrint == 2)
+		{
+
+			Particle* p = new Particle(2, 1, pos, r);
+			particles.push_back(p);
+			lastAddedPrint = 1;
+		}
 }
 
 /*Remove any particles that are tagged as removable*/

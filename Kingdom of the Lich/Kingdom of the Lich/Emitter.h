@@ -29,6 +29,13 @@ private:
 	sf::Texture texture;
 	int lastAddedPrint;
 
+	enum Types
+	{
+		LeftFootPrint,
+		RightFootPrint,
+		Blood
+	};
+
 public:
 	/*constructor. params: position, type of particles to spawn, number of particles to spawn per second*/
 	Emitter(sf::Vector2f pos, int t, int numPs);
@@ -39,8 +46,11 @@ public:
 	/*Update. param is direction to move particles in*/
 	void Update(int dir);
 
-	/*Add a new particle*/
-	void AddParticle();
+	/*Add a new footprint particle*/
+	void AddFootprintParticle(int dir);
+
+	/*Add a new blood drop particle*/
+	void AddBloodParticle();
 
 	/*Remove any particles that are tagged as removable*/
 	void RemoveParticles();

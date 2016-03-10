@@ -997,8 +997,8 @@ int main()
 			//update the player
 			p->Update();
 
-			testEmitter->setPosition(sf::Vector2f(p->getPosition().x-10, p->getPosition().y+20));
-			testEmitter->Update(0);
+			testEmitter->setPosition(sf::Vector2f(p->getPosition().x, p->getPosition().y));
+			testEmitter->Update(p->getCurrentDirection());
 			if (debugMode)
 				window.draw(*testEmitter);
 			testEmitter->DrawParticles(window);

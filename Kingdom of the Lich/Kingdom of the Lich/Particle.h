@@ -20,9 +20,18 @@ private:
 
 	bool removable;
 
+	enum Directions
+	{
+		NORTH,//0
+		SOUTH,//1
+		EAST,//2
+		WEST,//3
+		NOTMOVING//4
+	};
+
 public:
-	/*constructor. params are the time to live, the type and the position to draw them at*/
-	Particle(float ttl, int t, sf::Vector2f pos);
+	/*constructor. params are the time to live, the type, the position to draw them at and the rotation*/
+	Particle(float ttl, int t, sf::Vector2f pos, float r);
 
 	/*destructor*/
 	~Particle();
@@ -35,6 +44,9 @@ public:
 
 	/*Is the particle removable?*/
 	bool IsRemovable();
+
+	/*Get what type of particle this is*/
+	int GetType();
 };
 
 #endif
