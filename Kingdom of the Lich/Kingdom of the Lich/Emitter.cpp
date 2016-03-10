@@ -16,6 +16,8 @@ Emitter::Emitter(sf::Vector2f pos, int t, int numPs) : particleType(t), numParti
 	spawnClock.restart();
 
 	emit = true;
+
+	lastAddedPrint = 1;
 }
 
 /*destructor*/
@@ -28,7 +30,7 @@ Emitter::~Emitter()
 void Emitter::Update(int dir)
 {
 	//particle spawning
-	if (spawnClock.getElapsedTime().asSeconds() >= .2 && emit == true)//if a second has passed and emitter currently emitting
+	if (spawnClock.getElapsedTime().asSeconds() >= .3 && emit == true)//if a second has passed and emitter currently emitting
 	{
 		for (int i = 0; i < numParticlesPerSecond; i++)//add numParticlesPerSecond number of particles
 		{
@@ -51,8 +53,19 @@ void Emitter::Update(int dir)
 /*Add a new particle*/
 void Emitter::AddParticle()
 {
-	Particle* p = new Particle(2, particleType, getPosition());
-	particles.push_back(p);
+	if (lastAddedPrint == 1)
+	{
+		Particle* p = new Particle(2, 0, getPosition());
+		particles.push_back(p);
+		lastAddedPrint = 2;
+	}
+	else if (lastAddedPrint == 2)
+	{
+
+		Particle* p = new Particle(2, 1, getPosition());
+		particles.push_back(p);
+		lastAddedPrint = 1;
+	}
 }
 
 /*Remove any particles that are tagged as removable*/

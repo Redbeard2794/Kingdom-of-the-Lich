@@ -27,6 +27,7 @@ private:
 	bool emit;
 
 	sf::Texture texture;
+	int lastAddedPrint;
 
 public:
 	/*constructor. params: position, type of particles to spawn, number of particles to spawn per second*/
