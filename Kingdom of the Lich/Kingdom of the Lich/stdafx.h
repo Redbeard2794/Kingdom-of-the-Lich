@@ -62,6 +62,8 @@
 #include "Door.h"
 #include "Attack.h"
 #include "OptionsMenu.h"
+#include "Emitter.h"
+#include "Particle.h"
 
 
 #endif

@@ -64,13 +64,7 @@ int main()
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	//Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false, 1);
-	//Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
-	/*Door* generalStoreDoor = new Door(2, sf::Vector2f(500, 300), true, 2,69);*/
-
-	//Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
-	//Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
-	//each area should have its own door there?
+	Emitter* testEmitter = new Emitter(sf::Vector2f(0, 0), 0, 1);
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -1002,6 +996,13 @@ int main()
 			
 			//update the player
 			p->Update();
+
+			testEmitter->setPosition(p->getPosition());
+			testEmitter->Update(0);
+			if (debugMode)
+				window.draw(*testEmitter);
+			testEmitter->DrawParticles(window);
+
 
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
