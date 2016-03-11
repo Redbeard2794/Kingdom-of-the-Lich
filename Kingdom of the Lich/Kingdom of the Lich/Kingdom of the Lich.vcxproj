@@ -166,6 +166,7 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FootprintEmitter.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Inventory.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FootprintEmitter.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Inventory.cpp" />

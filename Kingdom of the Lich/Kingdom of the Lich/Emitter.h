@@ -44,7 +44,7 @@ public:
 	~Emitter();
 
 	/*Update. param is direction to move particles in*/
-	void Update(int dir);
+	void Update(int dir = -1);
 
 	/*Add a new footprint particle*/
 	void AddFootprintParticle(int dir);
@@ -52,11 +52,17 @@ public:
 	/*Add a new blood drop particle*/
 	void AddBloodParticle();
 
+	virtual void AddParticle() {}
+
 	/*Remove any particles that are tagged as removable*/
 	void RemoveParticles();
 
 	/*Draw the particles controlled by the emitter*/
 	void DrawParticles(sf::RenderTarget& window);
+
+	bool IsEmitting();
+
+	void SetEmit(bool e);
 };
 
 #endif

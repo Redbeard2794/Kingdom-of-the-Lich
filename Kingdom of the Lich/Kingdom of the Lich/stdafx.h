@@ -63,6 +63,7 @@
 #include "Attack.h"
 #include "OptionsMenu.h"
 #include "Emitter.h"
+#include "FootprintEmitter.h"
 #include "Particle.h"
 
 

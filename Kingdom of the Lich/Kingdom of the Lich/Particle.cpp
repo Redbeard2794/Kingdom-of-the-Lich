@@ -39,6 +39,38 @@ void Particle::LoadTexture()
 	else if (type == Blood)
 	{
 		//blank for now
+		int randomTextureNum = rand() % 7 + 1;
+
+		if (randomTextureNum == 1)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle1.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
+		else if (randomTextureNum == 2)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle2.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
+		else if (randomTextureNum == 3)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle3.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
+		else if (randomTextureNum == 4)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle4.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
+		else if (randomTextureNum == 5)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle5.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
+		else if (randomTextureNum == 6)
+		{
+			if (texture.loadFromFile("Assets/Particles/Blood/bloodParticle6.png")) {}
+			else texture.loadFromFile("Assets/Debug.png");
+		}
 	}
 	//set the texture
 	setTexture(texture);
@@ -60,6 +92,7 @@ void Particle::Update()
 	else if (type == Blood)
 	{
 		//fall downwards
+		setPosition(sf::Vector2f(getPosition().x, getPosition().y + 0.1));
 	}
 }
 

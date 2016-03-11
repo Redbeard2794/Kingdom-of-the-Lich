@@ -26,7 +26,7 @@ Emitter::~Emitter()
 	//blank for now
 }
 
-/*Update. param is direction to move particles in*/
+/*Update. param is direction to move particles in, defaults to -1*/
 void Emitter::Update(int dir)
 {
 	//particle spawning
@@ -36,6 +36,8 @@ void Emitter::Update(int dir)
 		{
 			if (particleType == LeftFootPrint || particleType == RightFootPrint)
 				AddFootprintParticle(dir);
+			else if (particleType == Blood)
+				AddBloodParticle();
 			//std::cout << "Added a new Particle." << std::endl;
 		}
 		spawnClock.restart();//restart the spawn clock
@@ -95,6 +97,12 @@ void Emitter::AddFootprintParticle(int dir)
 		}
 }
 
+void Emitter::AddBloodParticle()
+{
+	Particle* p = new Particle(2, 2, getPosition(), 0);
+	particles.push_back(p);
+}
+
 /*Remove any particles that are tagged as removable*/
 void Emitter::RemoveParticles()
 {
@@ -117,4 +125,14 @@ void Emitter::DrawParticles(sf::RenderTarget & window)
 	{
 		window.draw(*particles.at(i));
 	}
+}
+
+bool Emitter::IsEmitting()
+{
+	return emit;
+}
+
+void Emitter::SetEmit(bool e)
+{
+	emit = e;
 }
