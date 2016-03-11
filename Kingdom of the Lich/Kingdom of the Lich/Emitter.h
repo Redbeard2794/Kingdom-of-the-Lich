@@ -5,52 +5,36 @@
 
 class Emitter : public sf::Sprite
 {
-private:
+protected:
 	std::vector<Particle*> particles;
 
 	int particleType;
 
-	int numParticlesPerSecond;//the number of particles to spaw each second
+	int numParticlesPerSpawn;//the number of particles to spaw each second
 
 	sf::Clock spawnClock;
 
-	enum Directions
-	{
-		NORTH,//0
-		SOUTH,//1
-		EAST,//2
-		WEST,//3
-		NOTMOVING//4
-	};
-	int direction;
+	float spawnTime;
 
 	bool emit;
 
 	sf::Texture texture;
-	int lastAddedPrint;
-
-	enum Types
-	{
-		LeftFootPrint,
-		RightFootPrint,
-		Blood
-	};
 
 public:
 	/*constructor. params: position, type of particles to spawn, number of particles to spawn per second*/
-	Emitter(sf::Vector2f pos, int t, int numPs);
+	Emitter(sf::Vector2f pos, float spawnT, int numPs);
 
 	/*destructor*/
 	~Emitter();
 
 	/*Update. param is direction to move particles in*/
-	void Update(int dir = -1);
+	void Update();// int dir = -1);
 
-	/*Add a new footprint particle*/
-	void AddFootprintParticle(int dir);
+	///*Add a new footprint particle*/
+	//void AddFootprintParticle(int dir);
 
-	/*Add a new blood drop particle*/
-	void AddBloodParticle();
+	///*Add a new blood drop particle*/
+	//void AddBloodParticle();
 
 	virtual void AddParticle() {}
 

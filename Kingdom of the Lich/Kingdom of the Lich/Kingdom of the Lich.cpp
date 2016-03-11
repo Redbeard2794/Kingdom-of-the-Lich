@@ -64,9 +64,9 @@ int main()
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	Emitter* playerFootprintEmitter = new Emitter(sf::Vector2f(0, 0), 0, 1);
+	FootprintEmitter* playerFootprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
-	Emitter* bloodTestEmitter = new Emitter(sf::Vector2f(300, 300), 2, 1);
+	BloodEmitter* bloodTestEmitter = new BloodEmitter(sf::Vector2f(300, 300), 1, 1);
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -1000,7 +1000,8 @@ int main()
 			p->Update();
 
 			playerFootprintEmitter->setPosition(sf::Vector2f(p->getPosition().x, p->getPosition().y));
-			playerFootprintEmitter->Update(p->getCurrentDirection());
+			playerFootprintEmitter->SetDirection(p->getCurrentDirection());
+			playerFootprintEmitter->Update();// p->getCurrentDirection());
 			if (debugMode)
 				window.draw(*playerFootprintEmitter);
 			playerFootprintEmitter->DrawParticles(window);

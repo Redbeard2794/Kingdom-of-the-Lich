@@ -16,6 +16,12 @@
     <Filter Include="Header Files\rapidxml">
       <UniqueIdentifier>{51240a61-3885-422b-834e-973851e6a675}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Particles">
+      <UniqueIdentifier>{1e7101ee-41ab-46e0-89a2-e3306073ec9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{477f6462-2bfd-457e-9482-c97902b3e2ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -126,14 +132,23 @@
     <ClInclude Include="OptionsMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Emitter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
     <ClInclude Include="FootprintEmitter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="FootprintParticle.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodParticle.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodEmitter.h">
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,14 +239,23 @@
     <ClCompile Include="OptionsMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Emitter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
     <ClCompile Include="FootprintEmitter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="FootprintParticle.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodParticle.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodEmitter.cpp">
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

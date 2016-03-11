@@ -155,6 +155,8 @@
     <ClInclude Include="AreaManager.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BloodEmitter.h" />
+    <ClInclude Include="BloodParticle.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="CollidableObject.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FootprintEmitter.h" />
+    <ClInclude Include="FootprintParticle.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Inventory.h" />
@@ -195,6 +198,8 @@
     <ClCompile Include="AreaManager.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BloodEmitter.cpp" />
+    <ClCompile Include="BloodParticle.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="CollidableObject.cpp" />
@@ -207,6 +212,7 @@
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FootprintEmitter.cpp" />
+    <ClCompile Include="FootprintParticle.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Inventory.cpp" />
