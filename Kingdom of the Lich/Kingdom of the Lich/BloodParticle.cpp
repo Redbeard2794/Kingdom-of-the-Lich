@@ -1,10 +1,31 @@
 #include "stdafx.h"
 #include "BloodParticle.h"
 
-BloodParticle::BloodParticle(float ttl, sf::Vector2f pos)
+BloodParticle::BloodParticle(float ttl, sf::Vector2f pos, int wType)
 	:Particle(ttl, pos)
 {
+	type = wType;
 	LoadTexture();
+
+	if (type == MAJOR)
+	{
+		int div = rand() % 100 + 10;
+		speed = rand() % 2;
+		speed /= div;
+		int negCoin = rand() % 2;
+		if (negCoin == 1)
+			speed = -speed;
+	}
+	else if (type == FATAL)
+	{
+		int div = rand() % 100 + 10;
+		speed = rand() % 6 + 3;
+		speed /= div;
+		int negCoin = rand() % 2;
+		if (negCoin == 1)
+			speed = -speed;
+	}
+
 }
 
 void BloodParticle::LoadTexture()
@@ -51,5 +72,19 @@ void BloodParticle::Update()
 	{
 		removable = true;
 	}
-	else setPosition(sf::Vector2f(getPosition().x, getPosition().y + 0.1));
+	else
+	{
+		if (type == MINOR)
+		{
+			setPosition(sf::Vector2f(getPosition().x, getPosition().y + 0.1));
+		}
+		else if (type == MAJOR)
+		{
+			setPosition(sf::Vector2f(getPosition().x + speed, getPosition().y + 0.25));
+		}
+		else if (type == FATAL)
+		{
+			setPosition(sf::Vector2f(getPosition().x + speed, getPosition().y + 0.25));
+		}
+	}
 }

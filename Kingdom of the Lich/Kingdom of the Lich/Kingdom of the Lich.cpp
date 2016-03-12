@@ -66,7 +66,12 @@ int main()
 
 	FootprintEmitter* playerFootprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
-	BloodEmitter* bloodTestEmitter = new BloodEmitter(sf::Vector2f(300, 300), 1, 1);
+	BloodEmitter* enemyMinorWoundEmitter = new BloodEmitter(sf::Vector2f(1000, 150), 3, 1, 0);
+	enemyMinorWoundEmitter->SetEmit(false);
+	BloodEmitter* enemyMajorWoundEmitter = new BloodEmitter(sf::Vector2f(1050, 100), .7, 5, 1);
+	enemyMajorWoundEmitter->SetEmit(false);
+	BloodEmitter* enemyFatalWoundEmitter = new BloodEmitter(sf::Vector2f(1100, 125), .5, 6, 2);
+	enemyFatalWoundEmitter->SetEmit(false);
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -1006,12 +1011,6 @@ int main()
 				window.draw(*playerFootprintEmitter);
 			playerFootprintEmitter->DrawParticles(window);
 
-			//bloodTestEmitter->setPosition(sf::Vector2f(p->getPosition().x, p->getPosition().y));
-			bloodTestEmitter->Update();
-			if (debugMode)
-				window.draw(*bloodTestEmitter);
-			bloodTestEmitter->DrawParticles(window);
-
 
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
@@ -1553,6 +1552,31 @@ int main()
 
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
+
+			if (testEnemy->GetHealth() <= 75)
+				enemyMinorWoundEmitter->SetEmit(true);
+			if (testEnemy->GetHealth() <= 50)
+				enemyMajorWoundEmitter->SetEmit(true);
+			if (testEnemy->GetHealth() <= 25)
+				enemyFatalWoundEmitter->SetEmit(true);
+
+
+			enemyMinorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyMinorWoundEmitter);
+			enemyMinorWoundEmitter->DrawParticles(window);
+
+			enemyMajorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyMajorWoundEmitter);
+			enemyMajorWoundEmitter->DrawParticles(window);
+
+			enemyFatalWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyFatalWoundEmitter);
+			enemyFatalWoundEmitter->DrawParticles(window);
+
+
 			popupMessageHandler.DrawMessages(*pWindow);
 			break;
 #pragma endregion
