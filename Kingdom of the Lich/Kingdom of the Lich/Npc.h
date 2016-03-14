@@ -1,6 +1,9 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include "Emitter.h"
+#include "FootprintEmitter.h"
+
 class Npc : public sf::Sprite
 {
 private:
@@ -75,6 +78,8 @@ private:
 	bool showHint;
 
 	bool interactable;
+
+	FootprintEmitter* footprintEmitter;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
