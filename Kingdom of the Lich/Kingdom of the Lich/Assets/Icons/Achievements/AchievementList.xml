@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AchievementList>
+  
+  <Achievement name="Open the chest!">
+    <id>1</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/openChestAchievementIcon.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="A refreshing drink">
+    <id>2</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/firstPotionAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="Fight!">
+    <id>3</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/completeFirstCombatAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="To the sewers!">
+    <id>4</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/enterSewersAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="Pub?">
+    <id>5</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/GoPubForFirstTimeAchievement.png</iconTexturePath>
+  </Achievement>
+  
+</AchievementList>

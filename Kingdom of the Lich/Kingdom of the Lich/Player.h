@@ -2,7 +2,8 @@
 #define PLAYER_H
 #include "Compass.h"
 #include "Npc.h"
-class Player : public sf::Sprite
+#include "Subject.h"
+class Player : public sf::Sprite, public Subject
 {
 private:
 	sf::Vector2f velocity;
@@ -90,6 +91,7 @@ private:
 	/*clock for moving through the sheet*/
 	sf::Clock animationClock;
 
+	int openedChests;
 
 public:
 	//constructor(param is a font)
@@ -133,6 +135,7 @@ public:
 
 	bool IsColliding() { return colliding; }
 	sf::Vector2f GetPreCollisionPosition() { return preCollisionPosition; }
+	int GetOpenedChests() { return openedChests; }
 	//end gets
 	//start sets
 	void setHealth(float h) { health = h; }
@@ -149,6 +152,7 @@ public:
 
 	void setCollidingStatus(bool c) { colliding = c; }
 	void setCollisionSeparation(sf::Vector2f sep) { collisionSeparation = sep; }
+	void IncreaseOpenedChests(int c) { openedChests += c; }
 	//end sets
 #pragma endregion
 

@@ -17,6 +17,7 @@ Player::Player(sf::Font f) : font(f)
 	boundingBox.setFillColor(sf::Color::Transparent);
 
 	health = 75;
+	openedChests = 0;
 }
 
 //destructor
