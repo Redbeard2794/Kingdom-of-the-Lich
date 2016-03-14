@@ -98,3 +98,5 @@ http://www.istockphoto.com/video/retro-audio-waves-loopable-gm104163027-8673061
 Possible new tiles?: http://opengameart.org/content/basic-map-32x32-by-silver-iv
 
 Foot prints: http://www.clipartpanda.com/categories/dinosaur-footprint-outline
+
+blood particles: http://opengameart.org/content/sparks-fire-ice-blood

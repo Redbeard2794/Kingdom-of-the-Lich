@@ -62,6 +62,12 @@
 #include "Door.h"
 #include "Attack.h"
 #include "OptionsMenu.h"
+#include "Emitter.h"
+#include "FootprintEmitter.h"
+#include "BloodEmitter.h"
+#include "Particle.h"
+#include "FootprintParticle.h"
+#include "BloodParticle.h"
 
 
 #endif

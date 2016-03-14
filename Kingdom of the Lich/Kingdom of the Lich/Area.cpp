@@ -347,6 +347,7 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
+		npcs.at(i)->draw(window);
 		window.draw(*npcs.at(i));
 		if (debugMode)
 			npcs.at(i)->DrawBoundingBox(window);

@@ -82,6 +82,8 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	if (quest == "true")
 		hasQuest = true;
 	else hasQuest = false;
+
+	footprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 }
 
 //Load the correct texture for the interact hint
@@ -179,6 +181,20 @@ void Npc::Update(sf::Vector2f playerPos)
 		}
 	}
 
+	footprintEmitter->setPosition(sf::Vector2f(getPosition().x, getPosition().y));
+	if (!idle)
+	{
+		if(currentDirection == RIGHT)
+			footprintEmitter->SetDirection(LEFT);
+		else if(currentDirection == LEFT)
+			footprintEmitter->SetDirection(RIGHT);
+		else footprintEmitter->SetDirection(currentDirection);
+	}
+	else
+	{
+		footprintEmitter->SetDirection(4);
+	}
+	footprintEmitter->Update();
 }
 
 /*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds. 
@@ -497,6 +513,7 @@ void Npc::draw(sf::RenderTarget& window)
 {
 	if(interactable)
 		window.draw(interactHintSprite);
+	footprintEmitter->DrawParticles(window);
 }
 
 /*Draw the npc on the minimap as an icon*/

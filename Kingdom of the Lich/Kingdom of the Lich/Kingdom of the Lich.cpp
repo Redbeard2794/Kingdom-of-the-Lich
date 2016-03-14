@@ -64,13 +64,45 @@ int main()
 	};
 	int currentArea = areaManager->GetCurrentArea();
 
-	//Door* sewerHatch = new Door(0, sf::Vector2f(1100, 1000), false, 1);
-	//Door* sewerExit = new Door(1, sf::Vector2f(1300, 200), true, 0, 69);
-	/*Door* generalStoreDoor = new Door(2, sf::Vector2f(500, 300), true, 2,69);*/
+	FootprintEmitter* playerFootprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
-	//Door* houseOneDoor = new Door(1, sf::Vector2f(700, 350), true);
-	//Door* houseTwoDoor = new Door(1, sf::Vector2f(900, 350), true);
-	//each area should have its own door there?
+	BloodEmitter* enemyMinorWoundEmitter = new BloodEmitter(sf::Vector2f(1000, 150), 3, 1, 0);
+	enemyMinorWoundEmitter->SetEmit(false);
+	BloodEmitter* enemyMajorWoundEmitter = new BloodEmitter(sf::Vector2f(1050, 100), .7, 5, 1);
+	enemyMajorWoundEmitter->SetEmit(false);
+	BloodEmitter* enemyFatalWoundEmitter = new BloodEmitter(sf::Vector2f(1100, 125), .5, 6, 2);
+	enemyFatalWoundEmitter->SetEmit(false);
+
+	BloodEmitter* playerMinorWoundEmitter = new BloodEmitter(sf::Vector2f(200, 550), 3, 1, 0);
+	playerMinorWoundEmitter->SetEmit(false);
+	BloodEmitter* playerMajorWoundEmitter = new BloodEmitter(sf::Vector2f(250, 525), .7, 5, 1);
+	playerMajorWoundEmitter->SetEmit(false);
+	BloodEmitter* playerFatalWoundEmitter = new BloodEmitter(sf::Vector2f(300, 500), .5, 6, 2);
+	playerFatalWoundEmitter->SetEmit(false);
+
+	if (screenW == 1366 && screenH == 768)
+	{
+		//laptop
+		enemyMinorWoundEmitter->setPosition(sf::Vector2f(1000, 150));
+		enemyMajorWoundEmitter->setPosition(sf::Vector2f(1050, 100));
+		enemyFatalWoundEmitter->setPosition(sf::Vector2f(1100, 125));
+
+		//adjust these later
+		playerMinorWoundEmitter->setPosition(sf::Vector2f(1000, 150));
+		playerMajorWoundEmitter->setPosition(sf::Vector2f(1050, 100));
+		playerFatalWoundEmitter->setPosition(sf::Vector2f(1100, 125));
+	}
+	else if (screenW == 1600 && screenH == 900)
+	{
+		//college pc
+		enemyMinorWoundEmitter->setPosition(sf::Vector2f(1200, 150));
+		enemyMajorWoundEmitter->setPosition(sf::Vector2f(1250, 100));
+		enemyFatalWoundEmitter->setPosition(sf::Vector2f(1300, 125));
+
+		playerMinorWoundEmitter->setPosition(sf::Vector2f(250, 450));
+		playerMajorWoundEmitter->setPosition(sf::Vector2f(250, 525));
+		playerFatalWoundEmitter->setPosition(sf::Vector2f(300, 500));
+	}
 
 	//https://github.com/edoren/STP
 	tmx::TileMap tutorialAreaMap("Assets/tutorialArea.tmx");
@@ -1003,6 +1035,14 @@ int main()
 			//update the player
 			p->Update();
 
+			playerFootprintEmitter->setPosition(sf::Vector2f(p->getPosition().x, p->getPosition().y));
+			playerFootprintEmitter->SetDirection(p->getCurrentDirection());
+			playerFootprintEmitter->Update();// p->getCurrentDirection());
+			if (debugMode)
+				window.draw(*playerFootprintEmitter);
+			playerFootprintEmitter->DrawParticles(window);
+
+
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 			{
 				testChest->Update(p->getPosition());
@@ -1543,6 +1583,60 @@ int main()
 
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
+
+			if (testEnemy->GetHealth() <= 75)
+				enemyMinorWoundEmitter->SetEmit(true);
+			else enemyMinorWoundEmitter->SetEmit(false);
+			if (testEnemy->GetHealth() <= 50)
+				enemyMajorWoundEmitter->SetEmit(true);
+			else enemyMajorWoundEmitter->SetEmit(false);
+			if (testEnemy->GetHealth() <= 25)
+				enemyFatalWoundEmitter->SetEmit(true);
+			else enemyFatalWoundEmitter->SetEmit(false);
+
+
+			enemyMinorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyMinorWoundEmitter);
+			enemyMinorWoundEmitter->DrawParticles(window);
+
+			enemyMajorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyMajorWoundEmitter);
+			enemyMajorWoundEmitter->DrawParticles(window);
+
+			enemyFatalWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*enemyFatalWoundEmitter);
+			enemyFatalWoundEmitter->DrawParticles(window);
+
+			if (p->getHealth() <= 75)
+				playerMinorWoundEmitter->SetEmit(true);
+			else playerMinorWoundEmitter->SetEmit(false);
+			if (p->getHealth() <= 50)
+				playerMajorWoundEmitter->SetEmit(true);
+			else playerMajorWoundEmitter->SetEmit(false);
+			if (p->getHealth() <= 25)
+				playerFatalWoundEmitter->SetEmit(true);
+			else playerFatalWoundEmitter->SetEmit(false);
+
+
+			playerMinorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*playerMinorWoundEmitter);
+			playerMinorWoundEmitter->DrawParticles(window);
+
+			playerMajorWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*playerMajorWoundEmitter);
+			playerMajorWoundEmitter->DrawParticles(window);
+
+			playerFatalWoundEmitter->Update();
+			if (debugMode)
+				window.draw(*playerFatalWoundEmitter);
+			playerFatalWoundEmitter->DrawParticles(window);
+
+
 			popupMessageHandler.DrawMessages(*pWindow);
 			break;
 #pragma endregion
