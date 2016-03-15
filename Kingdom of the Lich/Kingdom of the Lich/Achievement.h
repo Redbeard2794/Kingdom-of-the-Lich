@@ -8,6 +8,7 @@ private:
 	int id;
 	bool locked;//is it the achievement unlocked or not
 	sf::Texture texture;
+	bool displayed;
 public:
 	/*constructor. params: name, id, locked or not, path for texture to load*/
 	Achievement(std::string n, int i, bool l, std::string filePath);
@@ -29,6 +30,9 @@ public:
 
 	/*retireve the achievement name*/
 	std::string GetName();
+
+	bool HasBeenDisplayed();
+	void SetDisplayStatus(bool d);
 };
 
 #endif

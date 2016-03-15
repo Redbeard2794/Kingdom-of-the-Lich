@@ -12,10 +12,21 @@ private:
 	std::vector<Achievement*> unlockedAchievements;
 
 	Player* player;
+
+	sf::Clock displayClock;
+
+	sf::Text unlockText;
+	sf::Font font;
+
 public:
-	AchievementTracker(Player* p);
+	AchievementTracker(Player* p, sf::Font f);
 	~AchievementTracker();
+
+	void LoadAchievements();
+
 	void Update();
+
+	void DisplayAchievement(sf::RenderTarget& window);
 };
 
 #endif

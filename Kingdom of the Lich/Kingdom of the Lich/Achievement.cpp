@@ -8,6 +8,9 @@ Achievement::Achievement(std::string n, int i, bool l, std::string filePath) : n
 	else texture.loadFromFile("Assets/Debug.png");
 	setTexture(texture);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+	displayed = false;
+	setPosition(400, 400);
+	scale(2, 2);
 }
 
 /*destructor*/
@@ -44,4 +47,14 @@ int Achievement::GetId()
 std::string Achievement::GetName()
 {
 	return name;
+}
+
+bool Achievement::HasBeenDisplayed()
+{
+	return displayed;
+}
+
+void Achievement::SetDisplayStatus(bool d)
+{
+	displayed = d;
 }

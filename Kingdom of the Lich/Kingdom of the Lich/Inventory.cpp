@@ -296,6 +296,8 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				RemoveItemFromInventory(i_healthPotion.key, 1);
 				std::cout << "Healing the player" << std::endl;
 				p.setHealth(p.getHealth() + 25);
+				p.IncreasePotionsDrank(1);
+				p.Notify();
 			}
 			else std::cout << "you do not have any Health Potions or already have max health." << std::endl;
 		}

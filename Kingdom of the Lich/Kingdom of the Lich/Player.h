@@ -92,6 +92,7 @@ private:
 	sf::Clock animationClock;
 
 	int openedChests;
+	int potionsUsed;
 
 public:
 	//constructor(param is a font)
@@ -136,6 +137,7 @@ public:
 	bool IsColliding() { return colliding; }
 	sf::Vector2f GetPreCollisionPosition() { return preCollisionPosition; }
 	int GetOpenedChests() { return openedChests; }
+	int GetPotionsDrank() { return potionsUsed; }
 	//end gets
 	//start sets
 	void setHealth(float h) { health = h; }
@@ -153,6 +155,7 @@ public:
 	void setCollidingStatus(bool c) { colliding = c; }
 	void setCollisionSeparation(sf::Vector2f sep) { collisionSeparation = sep; }
 	void IncreaseOpenedChests(int c) { openedChests += c; }
+	void IncreasePotionsDrank(int p) { potionsUsed += p; }
 	//end sets
 #pragma endregion
 

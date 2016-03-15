@@ -158,7 +158,7 @@ int main()
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	AchievementTracker* achievementTracker = new AchievementTracker(p);
+	AchievementTracker* achievementTracker = new AchievementTracker(p, font);
 
 	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
 	window.setVerticalSyncEnabled(true);
@@ -1300,6 +1300,8 @@ int main()
 			if (testQuest->getCompletionStatus() == false)
 				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap, p->getHealth());
 			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
+
+			achievementTracker->DisplayAchievement(window);
 
 			//if (gamepad->Back())
 			//{
