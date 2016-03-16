@@ -93,6 +93,8 @@ private:
 
 	int openedChests;
 	int potionsUsed;
+	bool enteredPubFirstTime;
+	bool enteredSewerFirstTime;
 
 public:
 	//constructor(param is a font)
@@ -138,6 +140,8 @@ public:
 	sf::Vector2f GetPreCollisionPosition() { return preCollisionPosition; }
 	int GetOpenedChests() { return openedChests; }
 	int GetPotionsDrank() { return potionsUsed; }
+	bool HasPlayerGonePub() { return enteredPubFirstTime; }
+	bool HasPlayerGoneSewers() { return enteredSewerFirstTime; }
 	//end gets
 	//start sets
 	void setHealth(float h) { health = h; }
@@ -156,6 +160,8 @@ public:
 	void setCollisionSeparation(sf::Vector2f sep) { collisionSeparation = sep; }
 	void IncreaseOpenedChests(int c) { openedChests += c; }
 	void IncreasePotionsDrank(int p) { potionsUsed += p; }
+	void SetPlayerGonePub(bool pub) { enteredPubFirstTime = pub; }
+	void SetPlayerGoneSewer(bool sewer) { enteredSewerFirstTime = sewer; }
 	//end sets
 #pragma endregion
 

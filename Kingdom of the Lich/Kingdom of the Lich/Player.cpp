@@ -19,6 +19,8 @@ Player::Player(sf::Font f) : font(f)
 	health = 75;
 	openedChests = 0;
 	potionsUsed = 0;
+	enteredPubFirstTime = false;
+	enteredSewerFirstTime = false;
 }
 
 //destructor

@@ -97,12 +97,24 @@ void AchievementTracker::Update()
 		//else if it is the 'To the sewers!' achievement and it hasn't already been unlocked
 		else if (lockedAchievements.at(i)->GetName() == "To the sewers!" && lockedAchievements.at(i)->GetLockedStatus())
 		{
-
+			if (player->HasPlayerGoneSewers() == true)
+			{
+				std::cout << "Player has unlocked the 'To the sewers!' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+			}
 		}
 		//else if it is the 'Pub?' achievement and it hasn't already been unlocked
 		else if (lockedAchievements.at(i)->GetName() == "Pub?" && lockedAchievements.at(i)->GetLockedStatus())
 		{
-
+			if (player->HasPlayerGonePub() == true)
+			{
+				std::cout << "Player has unlocked the 'Pub?' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+			}
 		}
 	}
 }
@@ -111,11 +123,16 @@ void AchievementTracker::DisplayAchievement(sf::RenderTarget & window)
 {
 	for (int i = 0; i < unlockedAchievements.size(); i++)
 	{
-		if (lockedAchievements.at(i)->HasBeenDisplayed() == false && displayClock.getElapsedTime().asSeconds() < 5)
+		if (unlockedAchievements.at(i)->HasBeenDisplayed() == false && displayClock.getElapsedTime().asSeconds() < 5)
 		{
-			unlockText.setString("Achievement unlocked: " + lockedAchievements.at(i)->GetName());
+			unlockText.setString("Achievement unlocked: " + unlockedAchievements.at(i)->GetName());
 			window.draw(unlockText);
 			window.draw(*unlockedAchievements.at(i));
+		}
+
+		if (displayClock.getElapsedTime().asSeconds() >= 5 && unlockedAchievements.at(i)->HasBeenDisplayed() == false)
+		{
+			unlockedAchievements.at(i)->SetDisplayStatus(true);
 		}
 	}
 }

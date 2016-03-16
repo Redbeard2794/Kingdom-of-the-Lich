@@ -1071,6 +1071,11 @@ int main()
 					p->setPosition(1325, 275);
 					testQuest->getCurrentStage()->setCompletionStatus(true);
 					testQuest->setCompletionStatus(true);
+					if (p->HasPlayerGoneSewers() == false)
+					{
+						p->SetPlayerGoneSewer(true);
+						p->Notify();
+					}
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1101,6 +1106,11 @@ int main()
 					audioManager->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
 					p->setPosition(250, 175);
+					if (p->HasPlayerGonePub() == false)
+					{
+						p->SetPlayerGonePub(true);
+						p->Notify();
+					}
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
