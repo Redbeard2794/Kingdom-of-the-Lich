@@ -21,6 +21,7 @@ Player::Player(sf::Font f) : font(f)
 	potionsUsed = 0;
 	enteredPubFirstTime = false;
 	enteredSewerFirstTime = false;
+	combatsComplete = 0;
 }
 
 //destructor

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AchievementTracker.h"
 
-AchievementTracker::AchievementTracker(Player* p, sf::Font f) : player(p), font(f)
+AchievementTracker::AchievementTracker(Player* p, sf::Font f, int sw, int sh, AudioManager* am) : player(p), font(f), screenW(sw), screenH(sh)
 {
 	player->addObserver(this);
 	LoadAchievements();
@@ -11,7 +11,8 @@ AchievementTracker::AchievementTracker(Player* p, sf::Font f) : player(p), font(
 	unlockText.setString("Achievement unlocked: ");
 	unlockText.setColor(sf::Color(255, 215, 0, 255));
 	unlockText.setCharacterSize(30);
-	unlockText.setPosition(400, 300);
+	unlockText.setPosition(screenW/3, 25);
+	audioManager = am;
 }
 
 AchievementTracker::~AchievementTracker()
@@ -53,7 +54,7 @@ void AchievementTracker::LoadAchievements()
 		texturePath = achievement->first_node("iconTexturePath")->value();
 
 		/*Create the npc*/
-		Achievement* n = new Achievement(name, id, locked, texturePath);
+		Achievement* n = new Achievement(name, id, locked, texturePath, screenW, screenH);
 		lockedAchievements.push_back(n);
 
 		/*Move onto the next achievement tag*/
@@ -75,6 +76,7 @@ void AchievementTracker::Update()
 				lockedAchievements.at(i)->Unlock();
 				unlockedAchievements.push_back(lockedAchievements.at(i));
 				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
 				break;
 			}
 		}
@@ -87,12 +89,20 @@ void AchievementTracker::Update()
 				lockedAchievements.at(i)->Unlock();
 				unlockedAchievements.push_back(lockedAchievements.at(i));
 				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
 			}
 		}
 		//if it is the 'Fight!' achievement and it hasn't already been unlocked
 		else if (lockedAchievements.at(i)->GetName() == "Fight!" && lockedAchievements.at(i)->GetLockedStatus())
 		{
-
+			if (player->GetNumberCompletedCombats() == 1)
+			{
+				std::cout << "Player has unlocked the 'Fight!' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
+			}
 		}
 		//else if it is the 'To the sewers!' achievement and it hasn't already been unlocked
 		else if (lockedAchievements.at(i)->GetName() == "To the sewers!" && lockedAchievements.at(i)->GetLockedStatus())
@@ -103,6 +113,7 @@ void AchievementTracker::Update()
 				lockedAchievements.at(i)->Unlock();
 				unlockedAchievements.push_back(lockedAchievements.at(i));
 				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
 			}
 		}
 		//else if it is the 'Pub?' achievement and it hasn't already been unlocked
@@ -114,6 +125,7 @@ void AchievementTracker::Update()
 				lockedAchievements.at(i)->Unlock();
 				unlockedAchievements.push_back(lockedAchievements.at(i));
 				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
 			}
 		}
 	}

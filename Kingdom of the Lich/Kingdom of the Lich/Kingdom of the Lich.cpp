@@ -152,13 +152,13 @@ int main()
 	}
 	minimap.zoom(6.f);//4......3(actual)
 
-
+	AudioManager* audioManager = new AudioManager();
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	AchievementTracker* achievementTracker = new AchievementTracker(p, font);
+	AchievementTracker* achievementTracker = new AchievementTracker(p, font, screenW, screenH, audioManager);
 
 	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
 	window.setVerticalSyncEnabled(true);
@@ -266,7 +266,7 @@ int main()
 
 	bool showQuestComplete = false;
 
-	AudioManager* audioManager = new AudioManager();
+	
 	//play the first song
 	audioManager->PlayMusicById(0);
 
@@ -1594,6 +1594,8 @@ int main()
 				audioManager->StopMusic(3);
 				audioManager->PlayMusicById(1);
 				prevState = gState;
+				p->IncreaseCombatsComplete(1);
+				p->Notify();
 				gState = GAME;//return to free roam
 			}
 

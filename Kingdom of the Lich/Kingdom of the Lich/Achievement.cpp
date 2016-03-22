@@ -2,14 +2,14 @@
 #include "Achievement.h"
 
 /*constructor. params: name, id, locked or not, path for texture to load*/
-Achievement::Achievement(std::string n, int i, bool l, std::string filePath) : name(n), id(i), locked(l)
+Achievement::Achievement(std::string n, int i, bool l, std::string filePath, int sw, int sh) : name(n), id(i), locked(l), screenW(sw), screenH(sh)
 {
 	if (texture.loadFromFile(filePath)) {}
 	else texture.loadFromFile("Assets/Debug.png");
 	setTexture(texture);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	displayed = false;
-	setPosition(400, 400);
+	setPosition(screenW/2, 150);
 	scale(2, 2);
 }
 

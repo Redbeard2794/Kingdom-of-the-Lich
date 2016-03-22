@@ -95,6 +95,7 @@ private:
 	int potionsUsed;
 	bool enteredPubFirstTime;
 	bool enteredSewerFirstTime;
+	int combatsComplete;
 
 public:
 	//constructor(param is a font)
@@ -142,6 +143,7 @@ public:
 	int GetPotionsDrank() { return potionsUsed; }
 	bool HasPlayerGonePub() { return enteredPubFirstTime; }
 	bool HasPlayerGoneSewers() { return enteredSewerFirstTime; }
+	int GetNumberCompletedCombats() { return combatsComplete; }
 	//end gets
 	//start sets
 	void setHealth(float h) { health = h; }
@@ -162,6 +164,7 @@ public:
 	void IncreasePotionsDrank(int p) { potionsUsed += p; }
 	void SetPlayerGonePub(bool pub) { enteredPubFirstTime = pub; }
 	void SetPlayerGoneSewer(bool sewer) { enteredSewerFirstTime = sewer; }
+	void IncreaseCombatsComplete(int c) { combatsComplete += c; }
 	//end sets
 #pragma endregion
 
