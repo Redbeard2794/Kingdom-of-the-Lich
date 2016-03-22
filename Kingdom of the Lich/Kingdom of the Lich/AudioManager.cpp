@@ -97,6 +97,10 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/qubodupPunch01.ogg'" << std::endl;
 	stoneGolemPunchSound.setBuffer(stoneGolemPunchSoundBuffer);
 
+	if (achievementUnlockedSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/achievementUnlockSounds/Metal Hit.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/achievementUnlockSounds/Metal Hit.wav'" << std::endl;
+	achievementUnlockedSound.setBuffer(achievementUnlockedSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -114,6 +118,7 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&playerCombatDeathSound);//13
 	soundEffects.push_back(&stoneGolemHitSound);//14
 	soundEffects.push_back(&stoneGolemPunchSound);//15
+	soundEffects.push_back(&achievementUnlockedSound);//16
 }
 
 //destructor

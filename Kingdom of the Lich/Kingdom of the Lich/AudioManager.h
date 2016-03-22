@@ -62,6 +62,9 @@ private:
 	sf::SoundBuffer stoneGolemPunchSoundBuffer;
 	sf::Sound stoneGolemPunchSound;
 
+	sf::SoundBuffer achievementUnlockedSoundBuffer;
+	sf::Sound achievementUnlockedSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 

@@ -152,11 +152,13 @@ int main()
 	}
 	minimap.zoom(6.f);//4......3(actual)
 
-
+	AudioManager* audioManager = new AudioManager();
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
+
+	AchievementTracker* achievementTracker = new AchievementTracker(p, font, screenW, screenH, audioManager);
 
 	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
 	window.setVerticalSyncEnabled(true);
@@ -264,7 +266,7 @@ int main()
 
 	bool showQuestComplete = false;
 
-	AudioManager* audioManager = new AudioManager();
+	
 	//play the first song
 	audioManager->PlayMusicById(0);
 
@@ -920,6 +922,8 @@ int main()
 								testQuest->getCurrentStage()->setCompletionStatus(true);
 								//testQuest->setCompletionStatus(true);
 								testQuest->setCurrentStageIndex(2);
+								p->IncreaseOpenedChests(1);
+								p->Notify();
 								//std::cout << "You completed your first quest!" << std::endl;
 								splashClock->restart();
 								audioManager->PlaySoundEffectById(4, true);
@@ -1067,6 +1071,11 @@ int main()
 					p->setPosition(1325, 275);
 					testQuest->getCurrentStage()->setCompletionStatus(true);
 					testQuest->setCompletionStatus(true);
+					if (p->HasPlayerGoneSewers() == false)
+					{
+						p->SetPlayerGoneSewer(true);
+						p->Notify();
+					}
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1097,6 +1106,11 @@ int main()
 					audioManager->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
 					p->setPosition(250, 175);
+					if (p->HasPlayerGonePub() == false)
+					{
+						p->SetPlayerGonePub(true);
+						p->Notify();
+					}
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1296,6 +1310,8 @@ int main()
 			if (testQuest->getCompletionStatus() == false)
 				hud->Update(testQuest->getCurrentStage()->getObjective(), testInv->CheckQuantity(testInv->i_gems.key, false), testQuest->getCurrentStage()->getObjectiveLocation(), p->getPosition(), showMinimap, p->getHealth());
 			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
+
+			achievementTracker->DisplayAchievement(window);
 
 			//if (gamepad->Back())
 			//{
@@ -1578,6 +1594,8 @@ int main()
 				audioManager->StopMusic(3);
 				audioManager->PlayMusicById(1);
 				prevState = gState;
+				p->IncreaseCombatsComplete(1);
+				p->Notify();
 				gState = GAME;//return to free roam
 			}
 

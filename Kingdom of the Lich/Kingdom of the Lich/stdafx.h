@@ -68,6 +68,10 @@
 #include "Particle.h"
 #include "FootprintParticle.h"
 #include "BloodParticle.h"
+#include "Subject.h"
+#include "Observer.h"
+#include "Achievement.h"
+#include "AchievementTracker.h"
 
 
 #endif
