@@ -16,10 +16,10 @@
     <walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
     <mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
     <x>275</x>
-    <y>75</y>
-    <hasQuest>true</hasQuest>
+    <y>150</y>
+    <hasQuest>false</hasQuest>
     <interact>true</interact>
-    <behaviour>stand</behaviour>
+    <behaviour>shopkeeper</behaviour>
   </npc>
 
 </npcList>

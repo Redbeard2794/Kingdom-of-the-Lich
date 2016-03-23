@@ -115,6 +115,8 @@ int main()
 	tmx::TileMap houseTwo("Assets/house2.tmx");
 	tmx::TileMap pubOne("Assets/pub1.tmx");
 
+	ShopInventory* LellesQualityMerchandiseStock = new ShopInventory(5, "Norbert Lelles", 50, "Assets/LellesQualityMerchandiseStock.xml");
+
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
 
@@ -207,7 +209,8 @@ int main()
 		CONVERSATION,
 		INVENTORY,
 		CREDITS,
-		OPTIONS
+		OPTIONS,
+		SHOPPING
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -1225,6 +1228,12 @@ int main()
 						
 					}
 
+					else if (areaManager->CheckCollisionPlayerNpcs(p).second == 3 && gamepad->A() == true)
+					{
+						prevState = gState;
+						gState = SHOPPING;
+					}
+
 					//move the player out of collision
 					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
 					{
@@ -1855,6 +1864,12 @@ int main()
 			optionsMenu->Update(audioManager);
 			optionsMenu->Draw(window);
 			break;
+
+			case SHOPPING:
+
+				LellesQualityMerchandiseStock->Draw(window);
+
+				break;
 		}
 
 
