@@ -1866,6 +1866,40 @@ int main()
 			break;
 
 			case SHOPPING:
+				gamepad->CheckAllButtons();
+
+				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (LellesQualityMerchandiseStock->GetCanMove() == true)
+					{
+						audioManager->PlaySoundEffectById(1, false);
+						LellesQualityMerchandiseStock->NavRight();
+						LellesQualityMerchandiseStock->SetCanMove(false);
+					}
+				}
+
+				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (LellesQualityMerchandiseStock->GetCanMove() == true)
+					{
+						audioManager->PlaySoundEffectById(1, false);
+						LellesQualityMerchandiseStock->NavLeft();
+						LellesQualityMerchandiseStock->SetCanMove(false);
+					}
+				}
+
+				else LellesQualityMerchandiseStock->SetCanMove(true);
+
+
+				if (gamepad->A())
+				{
+					if (LellesQualityMerchandiseStock->GetCanSelect() == true)
+					{
+						LellesQualityMerchandiseStock->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
+						LellesQualityMerchandiseStock->SetCanSelect(false);
+					}
+				}
+				else LellesQualityMerchandiseStock->SetCanSelect(true);
 
 				LellesQualityMerchandiseStock->Draw(window);
 

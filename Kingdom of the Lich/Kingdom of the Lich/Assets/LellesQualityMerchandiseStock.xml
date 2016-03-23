@@ -4,35 +4,42 @@
     <key>Health Potion</key>
     <texturePath>Assets/Icons/Items/healthPotionIcon.png</texturePath>
     <quantity>5</quantity>
+    <value>5</value>
   </Item>
   <Item>
     <key>Bottle of Ale</key>
     <texturePath>Assets/Icons/Items/ale.png</texturePath>
     <quantity>3</quantity>
+    <value>2</value>
   </Item>
   <Item>
     <key>Loaf of Bread</key>
     <texturePath>Assets/Icons/Items/loafOfBread.png</texturePath>
     <quantity>2</quantity>
+    <value>3</value>
   </Item>
   <Item>
     <key>Apple</key>
     <texturePath>Assets/Icons/Items/apple.png</texturePath>
     <quantity>2</quantity>
+    <value>1</value>
   </Item>
   <Item>
     <key>Parchment</key>
     <texturePath>Assets/Icons/Items/parchmentIcon.png</texturePath>
     <quantity>4</quantity>
+    <value>1</value>
   </Item>
   <Item>
     <key>Ink Bottle</key>
     <texturePath>Assets/Icons/Items/inkBottle.png</texturePath>
     <quantity>2</quantity>
+    <value>2</value>
   </Item>
   <Item>
     <key>Quill</key>
     <texturePath>Assets/Icons/Items/quill.png</texturePath>
     <quantity>2</quantity>
+    <value>1</value>
   </Item>
 </StockList>

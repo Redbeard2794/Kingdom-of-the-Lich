@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Item.h"
 
-Item::Item(std::string key, std::string texturePath)
+Item::Item(std::string key, std::string texturePath, int val)
 {
 	itemKey = key;
 
@@ -10,9 +10,22 @@ Item::Item(std::string key, std::string texturePath)
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	setTexture(texture);
 	setPosition(50, 50);
+	scale(3, 3);
+
+	value = val;
 }
 
 Item::~Item()
 {
 	texture.~Texture();
+}
+
+std::string Item::RetrieveKey()
+{
+	return itemKey;
+}
+
+int Item::GetValue()
+{
+	return value;
 }
