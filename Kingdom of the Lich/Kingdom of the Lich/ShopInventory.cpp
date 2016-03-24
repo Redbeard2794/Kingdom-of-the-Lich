@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShopInventory.h"
 
-ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std::string sfp)
+ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std::string sfp, int sw, int sh, sf::Font f) : screenW(sw), screenH(sh), font(f)
 {
 	numItemsInStock = niStock;
 	ownersName = oName;
@@ -11,10 +11,28 @@ ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std:
 	canMove = true;
 
 	LoadStock();
+
+	if (tableTexture.loadFromFile("Assets/CharacterCreation/table/table" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")) {}
+	else tableTexture.loadFromFile("Assets/CharacterCreation/table/table1.png");	//if it fails load placeholder
+	tableSprite.setTexture(tableTexture);
+	tableSprite.setPosition(0, 5);
+
+	shopMoneyText.setFont(font);
+	shopMoneyText.setColor(sf::Color::White);
+	shopMoneyText.setString("Shop Gems: " + std::to_string(availableGems));
+	shopMoneyText.setPosition(screenW / 5, screenH - 50);
+
+	playersMoney = 0;
+	playerMoneyText.setFont(font);
+	playerMoneyText.setColor(sf::Color::White);
+	playerMoneyText.setString("Your Gems: " + std::to_string(playersMoney));
+	playerMoneyText.setPosition(screenW / 1.3, screenH - 50);
 }
 
 ShopInventory::~ShopInventory()
 {
+	stock.clear();//redo this so its proper
+	itemQuantityTexts.clear();
 }
 
 void ShopInventory::LoadStock()
@@ -47,9 +65,28 @@ void ShopInventory::LoadStock()
 
 	for (int i = 0; i < numItemsInStock; i++)
 	{
-		stock.at(i).first->setPosition(sf::Vector2f(50 * ((i + 1)*2), 100));
+		stock.at(i).first->setPosition(sf::Vector2f(100 * ((i + 1)), 100));
 	}
 	stock.at(currentSelected).first->setColor(sf::Color::Blue);
+
+	for (int i = 0; i < numItemsInStock; i++)
+	{
+		sf::Text* text = new sf::Text();
+		text->setFont(font);
+		text->setColor(sf::Color::White);
+		text->setString(std::to_string(stock.at(i).second));
+		text->setPosition(stock.at(i).first->getPosition().x + 30, stock.at(i).first->getPosition().y - 45);
+		text->setCharacterSize(20);
+		itemQuantityTexts.push_back(text);
+
+		sf::Text* text2 = new sf::Text();
+		text2->setFont(font);
+		text2->setColor(sf::Color::White);
+		text2->setString("Gems: "+std::to_string(stock.at(i).first->GetValue()));
+		text2->setPosition(stock.at(i).first->getPosition().x-15, stock.at(i).first->getPosition().y+45);
+		text2->setCharacterSize(20);
+		itemPriceTexts.push_back(text2);
+	}
 }
 
 void ShopInventory::NavRight()
@@ -84,11 +121,29 @@ void ShopInventory::NavLeft()
 	}
 }
 
+void ShopInventory::Update(int playerG)
+{
+	if (playersMoney != playerG)
+		playersMoney = playerG;
+	shopMoneyText.setString("Shop Gems: " + std::to_string(availableGems));
+	playerMoneyText.setString("Your Gems: " + std::to_string(playersMoney));
+	for (int i = 0; i < numItemsInStock; i++)
+	{
+		itemQuantityTexts.at(i)->setString("x"+std::to_string(stock.at(i).second));
+		itemPriceTexts.at(i)->setString("Gems: " + std::to_string(stock.at(i).first->GetValue()));
+	}
+}
+
 void ShopInventory::Draw(sf::RenderTarget & window)
 {
+	window.draw(tableSprite);
+	window.draw(shopMoneyText);
+	window.draw(playerMoneyText);
 	for (int i = 0; i < numItemsInStock; i++)
 	{
 		window.draw(*stock.at(i).first);
+		window.draw(*itemQuantityTexts.at(i));
+		window.draw(*itemPriceTexts.at(i));
 	}
 }
 
@@ -104,6 +159,7 @@ void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 			playerInv->AddItemToInventory(purchaseKey, 1);
 			stock.at(currentSelected).second -= 1;
 			playerInv->RemoveItemFromInventory("Gems", cost);
+			availableGems += cost;
 		}
 		else std::cout << purchaseKey << " is out of stock at the moment." << std::endl;
 	}

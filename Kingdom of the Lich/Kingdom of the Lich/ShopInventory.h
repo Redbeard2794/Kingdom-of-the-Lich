@@ -21,14 +21,33 @@ private:
 	std::vector<std::pair<Item*, int>> stock;
 
 	std::string stockFilePath;
+
+	sf::Texture tableTexture;
+	sf::Sprite tableSprite;
+
+	int screenW;
+	int screenH;
+
+	int playersMoney;
+
+	sf::Font font;
+
+	sf::Text playerMoneyText;
+	sf::Text shopMoneyText;
+
+	std::vector<sf::Text*> itemQuantityTexts;
+	std::vector<sf::Text*> itemPriceTexts;
+
 public:
-	ShopInventory(int niStock, std::string oName, int availGems, std::string sfp);
+	ShopInventory(int niStock, std::string oName, int availGems, std::string sfp, int sw, int sh, sf::Font f);
 	~ShopInventory();
 
 	void LoadStock();
 
 	void NavRight();
 	void NavLeft();
+
+	void Update(int playerG);
 
 	void Draw(sf::RenderTarget& window);
 

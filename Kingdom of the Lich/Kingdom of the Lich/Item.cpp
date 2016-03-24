@@ -10,7 +10,7 @@ Item::Item(std::string key, std::string texturePath, int val)
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	setTexture(texture);
 	setPosition(50, 50);
-	scale(3, 3);
+	scale(2, 2);
 
 	value = val;
 }

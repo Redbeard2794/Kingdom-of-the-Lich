@@ -115,7 +115,11 @@ int main()
 	tmx::TileMap houseTwo("Assets/house2.tmx");
 	tmx::TileMap pubOne("Assets/pub1.tmx");
 
-	ShopInventory* LellesQualityMerchandiseStock = new ShopInventory(5, "Norbert Lelles", 50, "Assets/LellesQualityMerchandiseStock.xml");
+	ShopInventory* LellesQualityMerchandiseStock = new ShopInventory(5, "Norbert Lelles", 50, "Assets/LellesQualityMerchandiseStock.xml", screenW, screenH, font);
+
+	//map shops to the area they are in
+	std::map<int, ShopInventory*> areaShops;
+	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
@@ -1865,43 +1869,46 @@ int main()
 			optionsMenu->Draw(window);
 			break;
 
+			/*SHOPPING!!!*/
 			case SHOPPING:
+				window.setView(window.getDefaultView());
 				gamepad->CheckAllButtons();
 
 				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
-					if (LellesQualityMerchandiseStock->GetCanMove() == true)
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
 					{
 						audioManager->PlaySoundEffectById(1, false);
-						LellesQualityMerchandiseStock->NavRight();
-						LellesQualityMerchandiseStock->SetCanMove(false);
+						areaShops[areaManager->GetCurrentArea()]->NavRight();
+						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
 					}
 				}
 
 				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
-					if (LellesQualityMerchandiseStock->GetCanMove() == true)
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
 					{
 						audioManager->PlaySoundEffectById(1, false);
-						LellesQualityMerchandiseStock->NavLeft();
-						LellesQualityMerchandiseStock->SetCanMove(false);
+						areaShops[areaManager->GetCurrentArea()]->NavLeft();
+						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
 					}
 				}
 
-				else LellesQualityMerchandiseStock->SetCanMove(true);
+				else areaShops[areaManager->GetCurrentArea()]->SetCanMove(true);
 
 
 				if (gamepad->A())
 				{
-					if (LellesQualityMerchandiseStock->GetCanSelect() == true)
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanSelect() == true)
 					{
-						LellesQualityMerchandiseStock->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
-						LellesQualityMerchandiseStock->SetCanSelect(false);
+						areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
+						areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
 					}
 				}
-				else LellesQualityMerchandiseStock->SetCanSelect(true);
+				else areaShops[areaManager->GetCurrentArea()]->SetCanSelect(true);
 
-				LellesQualityMerchandiseStock->Draw(window);
+				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
+				areaShops[areaManager->GetCurrentArea()]->Draw(window);
 
 				break;
 		}
