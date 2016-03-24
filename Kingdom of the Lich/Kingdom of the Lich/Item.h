@@ -5,6 +5,7 @@ class Item : public sf::Sprite
 {
 private:
 	std::string itemKey;
+	std::string texPath;
 	sf::Texture texture;
 	int value;
 public:
@@ -13,6 +14,7 @@ public:
 
 	std::string RetrieveKey();
 	int GetValue();
+	std::string GetTextPath();
 };
 
 #endif

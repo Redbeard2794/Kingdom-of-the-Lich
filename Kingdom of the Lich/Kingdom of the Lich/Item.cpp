@@ -13,6 +13,7 @@ Item::Item(std::string key, std::string texturePath, int val)
 	scale(2, 2);
 
 	value = val;
+	texPath = texturePath;
 }
 
 Item::~Item()
@@ -28,4 +29,9 @@ std::string Item::RetrieveKey()
 int Item::GetValue()
 {
 	return value;
+}
+
+std::string Item::GetTextPath()
+{
+	return texPath;
 }

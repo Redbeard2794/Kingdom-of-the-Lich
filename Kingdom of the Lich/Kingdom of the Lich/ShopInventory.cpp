@@ -27,6 +27,18 @@ ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std:
 	playerMoneyText.setColor(sf::Color::White);
 	playerMoneyText.setString("Your Gems: " + std::to_string(playersMoney));
 	playerMoneyText.setPosition(screenW / 1.3, screenH - 50);
+
+	currentState = CHOICE;
+
+	choices[0].setFont(font);
+	choices[0].setColor(sf::Color::Cyan);
+	choices[0].setString("Buy");
+	choices[0].setPosition(screenW / 4, screenH / 2);
+
+	choices[1].setFont(font);
+	choices[1].setColor(sf::Color::Black);
+	choices[1].setString("Sell");
+	choices[1].setPosition(screenW / 1.6, screenH / 2);
 }
 
 ShopInventory::~ShopInventory()
@@ -93,15 +105,47 @@ void ShopInventory::NavRight()
 {
 	if (canMove == true)
 	{
-		if (currentSelected == numItemsInStock-1)
-			currentSelected = 0;
-		else currentSelected += 1;
-
-		for (int i = 0; i < numItemsInStock; i++)
+		if (currentState == CHOICE)//if we are deciding between buying or selling stuff
 		{
-			stock.at(i).first->setColor(sf::Color::White);
+			if (currentSelected == 1)
+			{
+				currentSelected = 0;
+				choices[0].setColor(sf::Color::Cyan);
+				choices[1].setColor(sf::Color::Black);
+			}
+			else
+			{
+				currentSelected = 1;
+				choices[1].setColor(sf::Color::Cyan);
+				choices[0].setColor(sf::Color::Black);
+			}
 		}
-		stock.at(currentSelected).first->setColor(sf::Color::Blue);
+
+		else if (currentState == BUY)//if we are buying stuff
+		{
+			if (currentSelected == numItemsInStock - 1)
+				currentSelected = 0;
+			else currentSelected += 1;
+
+			for (int i = 0; i < numItemsInStock; i++)
+			{
+				stock.at(i).first->setColor(sf::Color::White);
+			}
+			stock.at(currentSelected).first->setColor(sf::Color::Blue);
+		}
+
+		else if (currentState == SELL)//if we are selling stuff
+		{
+			if (currentSelected == playerInvItems.size() - 1)
+				currentSelected = 0;
+			else currentSelected += 1;
+
+			for (int i = 0; i < playerInvItems.size(); i++)
+			{
+				playerInvItems.at(i).first->setColor(sf::Color::White);
+			}
+			playerInvItems.at(currentSelected).first->setColor(sf::Color::Blue);
+		}
 	}
 }
 
@@ -109,15 +153,47 @@ void ShopInventory::NavLeft()
 {
 	if (canMove == true)
 	{
-		if (currentSelected == 0)
-			currentSelected = numItemsInStock - 1;
-		else currentSelected -= 1;
-
-		for (int i = 0; i < numItemsInStock; i++)
+		if (currentState == CHOICE)//if we are deciding between buying or selling stuff
 		{
-			stock.at(i).first->setColor(sf::Color::White);
+			if (currentSelected == 0)
+			{
+				currentSelected = 1;
+				choices[1].setColor(sf::Color::Cyan);
+				choices[0].setColor(sf::Color::Black);
+			}
+			else
+			{
+				currentSelected = 0;
+				choices[0].setColor(sf::Color::Cyan);
+				choices[1].setColor(sf::Color::Black);
+			}
 		}
-		stock.at(currentSelected).first->setColor(sf::Color::Blue);
+
+		else if (currentState == BUY)//if we are buying stuff
+		{
+			if (currentSelected == 0)
+				currentSelected = numItemsInStock - 1;
+			else currentSelected -= 1;
+
+			for (int i = 0; i < numItemsInStock; i++)
+			{
+				stock.at(i).first->setColor(sf::Color::White);
+			}
+			stock.at(currentSelected).first->setColor(sf::Color::Blue);
+		}
+
+		else if (currentState == SELL)//if we are selling stuff
+		{
+			if (currentSelected == 0)
+				currentSelected = playerInvItems.size() - 1;
+			else currentSelected -= 1;
+
+			for (int i = 0; i < playerInvItems.size(); i++)
+			{
+				playerInvItems.at(i).first->setColor(sf::Color::White);
+			}
+			playerInvItems.at(currentSelected).first->setColor(sf::Color::Blue);
+		}
 	}
 }
 
@@ -127,10 +203,22 @@ void ShopInventory::Update(int playerG)
 		playersMoney = playerG;
 	shopMoneyText.setString("Shop Gems: " + std::to_string(availableGems));
 	playerMoneyText.setString("Your Gems: " + std::to_string(playersMoney));
-	for (int i = 0; i < numItemsInStock; i++)
+
+	if (currentState == BUY)
 	{
-		itemQuantityTexts.at(i)->setString("x"+std::to_string(stock.at(i).second));
-		itemPriceTexts.at(i)->setString("Gems: " + std::to_string(stock.at(i).first->GetValue()));
+		for (int i = 0; i < numItemsInStock; i++)
+		{
+			itemQuantityTexts.at(i)->setString("x" + std::to_string(stock.at(i).second));
+			itemPriceTexts.at(i)->setString("Gems: " + std::to_string(stock.at(i).first->GetValue()));
+		}
+	}
+	else if (currentState == SELL)
+	{
+		for (int i = 0; i < playerInvItems.size(); i++)
+		{
+			itemQuantityTexts.at(i)->setString("x" + std::to_string(playerInvItems.at(i).second));
+			itemPriceTexts.at(i)->setString("Gems: " + std::to_string(playerInvItems.at(i).first->GetValue()));
+		}
 	}
 }
 
@@ -139,11 +227,46 @@ void ShopInventory::Draw(sf::RenderTarget & window)
 	window.draw(tableSprite);
 	window.draw(shopMoneyText);
 	window.draw(playerMoneyText);
-	for (int i = 0; i < numItemsInStock; i++)
+
+	if (currentState == CHOICE)//if we are deciding between buying or selling stuff
 	{
-		window.draw(*stock.at(i).first);
-		window.draw(*itemQuantityTexts.at(i));
-		window.draw(*itemPriceTexts.at(i));
+		for (int i = 0; i < 2; i++)
+		{
+			window.draw(choices[i]);
+		}
+	}
+	else if (currentState == BUY)//if we are buying stuff
+	{
+		for (int i = 0; i < numItemsInStock; i++)
+		{
+			window.draw(*stock.at(i).first);
+			window.draw(*itemQuantityTexts.at(i));
+			window.draw(*itemPriceTexts.at(i));
+		}
+	}
+	else if (currentState == SELL)//if we are selling stuff
+	{
+		for (int i = 0; i < playerInvItems.size(); i++)
+		{
+			window.draw(*playerInvItems.at(i).first);
+			window.draw(*itemQuantityTexts.at(i));
+			window.draw(*itemPriceTexts.at(i));
+		}
+	}
+}
+
+void ShopInventory::MakeChoice(Inventory* inv)
+{
+	if (currentSelected == 0)
+	{
+		currentSelected = 0;
+		currentState = BUY;
+	}
+	else if (currentSelected == 1)
+	{
+		currentSelected = 0;
+		currentState = SELL;
+		SetPlayerSellableItems(inv);
 	}
 }
 
@@ -164,6 +287,64 @@ void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 		else std::cout << purchaseKey << " is out of stock at the moment." << std::endl;
 	}
 	else std::cout << "You do not possess enough gems to buy " << purchaseKey << std::endl;
+}
+
+void ShopInventory::SellItem(int playerGems, Inventory * playerInv)
+{
+	if (playerInvItems.size() > 0)
+	{
+		std::string sellKey = playerInvItems.at(currentSelected).first->RetrieveKey();
+		int price = playerInvItems.at(currentSelected).first->GetValue();
+
+		if (availableGems >= price)
+		{
+			if (playerInvItems.at(currentSelected).second > 0)
+			{
+				playerInv->RemoveItemFromInventory(sellKey, 1);
+				playerInvItems.at(currentSelected).second -= 1;
+				playerInv->AddItemToInventory("Gems", price);
+				availableGems -= price;
+				playerInvItems.clear();
+				SetPlayerSellableItems(playerInv);
+			}
+		}
+	}
+}
+
+void ShopInventory::SetPlayerSellableItems(Inventory * playerInv)
+{
+	std::vector<std::string> keys;
+	for (int i = 0; i < playerInv->itemSlots.size(); i++)
+	{
+		keys.push_back(playerInv->itemSlots.at(i)->GetCurrentItemKey());
+	}
+
+	for (int i = 0; i < keys.size(); i++)
+	{
+		int v = 0;
+		std::string texPath;
+
+		for (int j = 0; j < stock.size(); j++)
+		{
+			if (keys.at(i) == stock.at(j).first->RetrieveKey())
+			{
+				v = stock.at(j).first->GetValue();
+				texPath = stock.at(j).first->GetTextPath();
+				break;
+			}
+		}
+		if (v != 0)
+		{
+			Item* it = new Item(keys.at(i), texPath, v);
+			playerInvItems.push_back(std::make_pair(it, playerInv->CheckQuantity(keys.at(i), false)));
+
+			for (int i = 0; i < playerInvItems.size(); i++)
+			{
+				playerInvItems.at(i).first->setPosition(sf::Vector2f(100 * ((i + 1)), 100));
+			}
+			playerInvItems.at(0).first->setColor(sf::Color::Blue);
+		}
+	}
 }
 
 std::string ShopInventory::GetKeyOfCurrentItem()
@@ -224,4 +405,14 @@ bool ShopInventory::GetCanSelect()
 void ShopInventory::SetCanSelect(bool sel)
 {
 	canSelect = sel;
+}
+
+int ShopInventory::GetCurrentState()
+{
+	return currentState;
+}
+
+void ShopInventory::SetCurrentState(int s)
+{
+	currentState = s;
 }

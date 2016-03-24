@@ -20,6 +20,8 @@ private:
 	//vector of pairs: item and quantity? when zero show out of stock
 	std::vector<std::pair<Item*, int>> stock;
 
+	std::vector<std::pair<Item*, int>> playerInvItems;
+
 	std::string stockFilePath;
 
 	sf::Texture tableTexture;
@@ -38,6 +40,16 @@ private:
 	std::vector<sf::Text*> itemQuantityTexts;
 	std::vector<sf::Text*> itemPriceTexts;
 
+	enum States
+	{
+		CHOICE,
+		BUY,
+		SELL
+	};
+	int currentState;
+
+	sf::Text choices[2];//choices, choices, choices
+
 public:
 	ShopInventory(int niStock, std::string oName, int availGems, std::string sfp, int sw, int sh, sf::Font f);
 	~ShopInventory();
@@ -51,7 +63,13 @@ public:
 
 	void Draw(sf::RenderTarget& window);
 
+	void MakeChoice(Inventory* inv);
+
 	void PurchaseItem(int playerGems, Inventory* playerInv);
+
+	void SellItem(int playerGems, Inventory* playerInv);
+
+	void SetPlayerSellableItems(Inventory* playerInv);
 
 	std::string GetKeyOfCurrentItem();
 	int GetPriceOfCurrentItem();
@@ -71,6 +89,9 @@ public:
 	void SetCanMove(bool sel);
 	bool GetCanSelect();
 	void SetCanSelect(bool sel);
+
+	int GetCurrentState();
+	void SetCurrentState(int s);
 };
 
 #endif

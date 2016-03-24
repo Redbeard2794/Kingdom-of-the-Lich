@@ -266,6 +266,8 @@ int main()
 	Inventory* testInv = new Inventory(font, useController, screenW, screenH);
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
+	testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
+	testInv->AddItemToInventory(testInv->i_ale.key, 1);
 
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
@@ -1901,8 +1903,23 @@ int main()
 				{
 					if (areaShops[areaManager->GetCurrentArea()]->GetCanSelect() == true)
 					{
-						areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
-						areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 0)//if we are deciding between buying or selling stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->MakeChoice(testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
+
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 1)//if we are buying stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
+
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 2)//if we are selling stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->SellItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
 					}
 				}
 				else areaShops[areaManager->GetCurrentArea()]->SetCanSelect(true);
