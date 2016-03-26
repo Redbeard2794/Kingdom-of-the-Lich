@@ -115,6 +115,12 @@ int main()
 	tmx::TileMap houseTwo("Assets/house2.tmx");
 	tmx::TileMap pubOne("Assets/pub1.tmx");
 
+	ShopInventory* LellesQualityMerchandiseStock = new ShopInventory(5, "Norbert Lelles", 50, "Assets/LellesQualityMerchandiseStock.xml", screenW, screenH, font);
+
+	//map shops to the area they are in
+	std::map<int, ShopInventory*> areaShops;
+	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
+
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
 
@@ -207,7 +213,8 @@ int main()
 		CONVERSATION,
 		INVENTORY,
 		CREDITS,
-		OPTIONS
+		OPTIONS,
+		SHOPPING
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -259,6 +266,8 @@ int main()
 	Inventory* testInv = new Inventory(font, useController, screenW, screenH);
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
+	testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
+	testInv->AddItemToInventory(testInv->i_ale.key, 1);
 
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
@@ -815,6 +824,13 @@ int main()
 								audioManager->PlayMusicById(1);
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 2);
+
+								std::map<int, ShopInventory*>::iterator it;
+
+								for (it = areaShops.begin(); it != areaShops.end(); ++it)
+								{
+									it->second->SetChoiceTexture(p->getRace(), p->getGender());
+								}
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -1223,6 +1239,12 @@ int main()
 							popupMessageHandler.AddCustomMessage("Hold 'RT' to run", sf::Vector2f(screenW / 2.5, screenH / 3), 2, sf::Color::Black);
 						}
 						
+					}
+
+					else if (areaManager->CheckCollisionPlayerNpcs(p).second == 3 && gamepad->A() == true)
+					{
+						prevState = gState;
+						gState = SHOPPING;
 					}
 
 					//move the player out of collision
@@ -1855,6 +1877,88 @@ int main()
 			optionsMenu->Update(audioManager);
 			optionsMenu->Draw(window);
 			break;
+
+			/*SHOPPING!!!*/
+			case SHOPPING:
+				window.setView(window.getDefaultView());
+				gamepad->CheckAllButtons();
+
+				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
+					{
+						audioManager->PlaySoundEffectById(1, false);
+						areaShops[areaManager->GetCurrentArea()]->NavRight();
+						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
+					}
+				}
+
+				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
+					{
+						audioManager->PlaySoundEffectById(1, false);
+						areaShops[areaManager->GetCurrentArea()]->NavLeft();
+						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
+					}
+				}
+
+				else areaShops[areaManager->GetCurrentArea()]->SetCanMove(true);
+
+
+				if (gamepad->A())
+				{
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanSelect() == true)
+					{
+						if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 0)//if we are deciding between buying or selling stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->MakeChoice(testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
+
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 1)//if we are buying stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
+
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 2)//if we are selling stuff
+						{
+							areaShops[areaManager->GetCurrentArea()]->SellItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
+						}
+					}
+				}
+				else areaShops[areaManager->GetCurrentArea()]->SetCanSelect(true);
+				
+				if (gamepad->B())
+				{
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanBackOut())
+					{
+						if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 1)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCurrentState(0);
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+						}
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 2)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCurrentState(0);
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+						}
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 0)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+							prevState = gState;
+							gState = GAME;
+						}
+					}
+				}
+				else areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(true);
+
+				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
+				areaShops[areaManager->GetCurrentArea()]->Draw(window);
+
+				break;
 		}
 
 

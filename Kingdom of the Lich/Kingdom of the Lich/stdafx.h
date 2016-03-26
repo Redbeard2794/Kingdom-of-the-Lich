@@ -72,6 +72,8 @@
 #include "Observer.h"
 #include "Achievement.h"
 #include "AchievementTracker.h"
+#include "Item.h"
+#include "ShopInventory.h"
 
 
 #endif

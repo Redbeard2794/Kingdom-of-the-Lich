@@ -300,9 +300,13 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 			npcs.at(i)->setColliding(false);
 			if (npcs.at(i)->getBehaviour() == "follow")
 				return std::make_pair(true, 2);
-			if (npcs.at(i)->doesNpcHaveQuest())
+			else if (npcs.at(i)->doesNpcHaveQuest())
 			{
 				return std::make_pair(true, 0);
+			}
+			else if (npcs.at(i)->getBehaviour() == "shopkeeper")
+			{
+				return std::make_pair(true, 3);
 			}
 			else return std::make_pair(true, 1);
 

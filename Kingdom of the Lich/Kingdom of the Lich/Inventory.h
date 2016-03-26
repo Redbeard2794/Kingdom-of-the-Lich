@@ -27,7 +27,7 @@ private:
 	//all the item keys
 	std::vector<std::string> itemKeys;
 
-	std::vector<ItemSlot*> itemSlots;
+
 
 	//item icon stuff
 	sf::Texture healthPotTexture;
@@ -68,6 +68,7 @@ private:
 	sf::Texture selectHintTexture;
 	sf::Sprite selectHintSprite;
 public:
+	std::vector<ItemSlot*> itemSlots;
 	//these need to be visible in other classes....Is there a better way of doing this?
 	struct items
 	{
