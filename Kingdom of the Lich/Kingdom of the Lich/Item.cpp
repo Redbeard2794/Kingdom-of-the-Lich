@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Item.h"
 
+//constructor. params: item key, texture path, value of the item
 Item::Item(std::string key, std::string texturePath, int val)
 {
 	itemKey = key;
@@ -16,6 +17,7 @@ Item::Item(std::string key, std::string texturePath, int val)
 	texPath = texturePath;
 }
 
+//destructor
 Item::~Item()
 {
 	texture.~Texture();

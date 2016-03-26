@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ShopInventory.h"
 
+//constructor. params: number of items in stock, owners name, gems owned by shop, path to stock file, screen width, screen height, font
 ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std::string sfp, int sw, int sh, sf::Font f) : screenW(sw), screenH(sh), font(f)
 {
 	numItemsInStock = niStock;
@@ -34,19 +35,31 @@ ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std:
 	choices[0].setColor(sf::Color::Cyan);
 	choices[0].setString("Buy");
 	choices[0].setPosition(screenW / 4, screenH / 2);
+	choices[0].setCharacterSize(50);
 
 	choices[1].setFont(font);
 	choices[1].setColor(sf::Color::Black);
 	choices[1].setString("Sell");
 	choices[1].setPosition(screenW / 1.6, screenH / 2);
+	choices[1].setCharacterSize(50);
+
+	shopGreetText.setFont(font);
+	shopGreetText.setColor(sf::Color::White);
+	shopGreetText.setString("Hello, I am " + ownersName + ". Welcome to my shop.\n How can I help you?");
+	shopGreetText.setPosition(screenW / 10, screenH / 5);
+	shopGreetText.setCharacterSize(50);
+
+	canBackOut = true;
 }
 
+//destructor
 ShopInventory::~ShopInventory()
 {
 	stock.clear();//redo this so its proper
 	itemQuantityTexts.clear();
 }
 
+//load the shops stock from an xml file
 void ShopInventory::LoadStock()
 {
 	xml_document<> doc;
@@ -75,12 +88,14 @@ void ShopInventory::LoadStock()
 		item = item->next_sibling("Item");
 	}
 
+	//position the items to be displayed
 	for (int i = 0; i < numItemsInStock; i++)
 	{
-		stock.at(i).first->setPosition(sf::Vector2f(100 * ((i + 1)), 100));
+		stock.at(i).first->setPosition(sf::Vector2f(100 * ((i + 2.75)), screenH/2));
 	}
 	stock.at(currentSelected).first->setColor(sf::Color::Blue);
 
+	//set up the quantity text and price text
 	for (int i = 0; i < numItemsInStock; i++)
 	{
 		sf::Text* text = new sf::Text();
@@ -101,6 +116,7 @@ void ShopInventory::LoadStock()
 	}
 }
 
+//nav right in the menus
 void ShopInventory::NavRight()
 {
 	if (canMove == true)
@@ -149,6 +165,7 @@ void ShopInventory::NavRight()
 	}
 }
 
+//nav left in menus
 void ShopInventory::NavLeft()
 {
 	if (canMove == true)
@@ -197,22 +214,25 @@ void ShopInventory::NavLeft()
 	}
 }
 
+//Update. param: players gems
 void ShopInventory::Update(int playerG)
 {
+	//update the text showing the players and shops gems
 	if (playersMoney != playerG)
 		playersMoney = playerG;
 	shopMoneyText.setString("Shop Gems: " + std::to_string(availableGems));
 	playerMoneyText.setString("Your Gems: " + std::to_string(playersMoney));
 
-	if (currentState == BUY)
+	if (currentState == BUY)//if we are buying
 	{
+		//show the quantity and price of each item
 		for (int i = 0; i < numItemsInStock; i++)
 		{
 			itemQuantityTexts.at(i)->setString("x" + std::to_string(stock.at(i).second));
 			itemPriceTexts.at(i)->setString("Gems: " + std::to_string(stock.at(i).first->GetValue()));
 		}
 	}
-	else if (currentState == SELL)
+	else if (currentState == SELL)//if we are selling
 	{
 		for (int i = 0; i < playerInvItems.size(); i++)
 		{
@@ -222,14 +242,16 @@ void ShopInventory::Update(int playerG)
 	}
 }
 
+//draw. param is a render target
 void ShopInventory::Draw(sf::RenderTarget & window)
 {
-	window.draw(tableSprite);
 	window.draw(shopMoneyText);
 	window.draw(playerMoneyText);
 
 	if (currentState == CHOICE)//if we are deciding between buying or selling stuff
 	{
+		window.draw(choiceBackgroundSprite);
+		window.draw(shopGreetText);
 		for (int i = 0; i < 2; i++)
 		{
 			window.draw(choices[i]);
@@ -237,6 +259,7 @@ void ShopInventory::Draw(sf::RenderTarget & window)
 	}
 	else if (currentState == BUY)//if we are buying stuff
 	{
+		window.draw(tableSprite);
 		for (int i = 0; i < numItemsInStock; i++)
 		{
 			window.draw(*stock.at(i).first);
@@ -246,6 +269,7 @@ void ShopInventory::Draw(sf::RenderTarget & window)
 	}
 	else if (currentState == SELL)//if we are selling stuff
 	{
+		window.draw(tableSprite);
 		for (int i = 0; i < playerInvItems.size(); i++)
 		{
 			window.draw(*playerInvItems.at(i).first);
@@ -255,6 +279,7 @@ void ShopInventory::Draw(sf::RenderTarget & window)
 	}
 }
 
+//choose BUY or SELL. param in a pointer to the players inventory(only used for selling as we need to grab items)
 void ShopInventory::MakeChoice(Inventory* inv)
 {
 	if (currentSelected == 0)
@@ -270,74 +295,79 @@ void ShopInventory::MakeChoice(Inventory* inv)
 	}
 }
 
+//buy an item. params are the player's gems and a pointer to the players inventory
 void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 {
 	std::string purchaseKey = GetKeyOfCurrentItem();
 	int cost = GetPriceOfCurrentItem();
 
-	if (playerGems >= cost)
+	if (playerGems >= cost)//if player has enough gems to buy the item
 	{
-		if (stock.at(currentSelected).second > 0)
+		if (stock.at(currentSelected).second > 0)//if there is at least one of these items
 		{
-			playerInv->AddItemToInventory(purchaseKey, 1);
-			stock.at(currentSelected).second -= 1;
-			playerInv->RemoveItemFromInventory("Gems", cost);
-			availableGems += cost;
+			playerInv->AddItemToInventory(purchaseKey, 1);//add item to inventorys
+			stock.at(currentSelected).second -= 1;//take 1 from the stock
+			playerInv->RemoveItemFromInventory("Gems", cost);//take the payment from the player
+			availableGems += cost;//give the shop the gems
 		}
 		else std::cout << purchaseKey << " is out of stock at the moment." << std::endl;
 	}
 	else std::cout << "You do not possess enough gems to buy " << purchaseKey << std::endl;
 }
 
+//sell an item. params are the player's gems and a pointer to the player's inventory
 void ShopInventory::SellItem(int playerGems, Inventory * playerInv)
 {
-	if (playerInvItems.size() > 0)
+	if (playerInvItems.size() > 0)//if the player has at least 1 item
 	{
 		std::string sellKey = playerInvItems.at(currentSelected).first->RetrieveKey();
 		int price = playerInvItems.at(currentSelected).first->GetValue();
 
-		if (availableGems >= price)
+		if (availableGems >= price)//if the shop keeper has enough gems to buy the item
 		{
-			if (playerInvItems.at(currentSelected).second > 0)
+			if (playerInvItems.at(currentSelected).second > 0)//if there is at least one of the items
 			{
-				playerInv->RemoveItemFromInventory(sellKey, 1);
-				playerInvItems.at(currentSelected).second -= 1;
-				playerInv->AddItemToInventory("Gems", price);
-				availableGems -= price;
+				playerInv->RemoveItemFromInventory(sellKey, 1);//remove it from the player's inventory
+				playerInvItems.at(currentSelected).second -= 1;//decrease the quantity
+				playerInv->AddItemToInventory("Gems", price);//give the player their gems
+				availableGems -= price;//take the gems from the shop keeper
 				playerInvItems.clear();
-				SetPlayerSellableItems(playerInv);
+				SetPlayerSellableItems(playerInv);//grab the player's inventory again
 			}
 		}
 	}
 }
 
+//grab the player's inventory in order to display items for them to sell. param is a pointer to the player's inventory
 void ShopInventory::SetPlayerSellableItems(Inventory * playerInv)
 {
 	std::vector<std::string> keys;
 	for (int i = 0; i < playerInv->itemSlots.size(); i++)
 	{
-		keys.push_back(playerInv->itemSlots.at(i)->GetCurrentItemKey());
+		keys.push_back(playerInv->itemSlots.at(i)->GetCurrentItemKey());//get the item key for each item
 	}
 
-	for (int i = 0; i < keys.size(); i++)
+	for (int i = 0; i < keys.size(); i++)//go through these keys
 	{
 		int v = 0;
 		std::string texPath;
 
 		for (int j = 0; j < stock.size(); j++)
 		{
-			if (keys.at(i) == stock.at(j).first->RetrieveKey())
+			if (keys.at(i) == stock.at(j).first->RetrieveKey())//if the item is one that can possibly be sold by the shop keeper
 			{
 				v = stock.at(j).first->GetValue();
 				texPath = stock.at(j).first->GetTextPath();
 				break;
 			}
 		}
-		if (v != 0)
+		if (v != 0)//if the item has a value
 		{
+			//make an item
 			Item* it = new Item(keys.at(i), texPath, v);
 			playerInvItems.push_back(std::make_pair(it, playerInv->CheckQuantity(keys.at(i), false)));
 
+			//set the positions for the items
 			for (int i = 0; i < playerInvItems.size(); i++)
 			{
 				playerInvItems.at(i).first->setPosition(sf::Vector2f(100 * ((i + 1)), 100));
@@ -355,6 +385,46 @@ std::string ShopInventory::GetKeyOfCurrentItem()
 int ShopInventory::GetPriceOfCurrentItem()
 {
 	return stock.at(currentSelected).first->GetValue();
+}
+
+void ShopInventory::SetChoiceTexture(int pRace, int pGender)
+{
+	if (pRace == 0)//human
+	{
+		if (pGender == 0)//male
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/humanMale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+		else if (pGender == 1)//female
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/humanFemale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+	}
+	else if (pRace == 1)//elf
+	{
+		if (pGender == 0)//male
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/elfMale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+		else if (pGender == 1)//female
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/elfFemale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+	}
+	else if (pRace == 2)//dwarf
+	{
+		if (pGender == 0)//male
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/dwarfMale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+		else if (pGender == 1)//female
+		{
+			choiceBackgroundTexture.loadFromFile("Assets/Shops/ChoiceBackgrounds/" + ownersName + "/dwarfFemale/ChoiceScreen" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png");
+		}
+	}
+
+	choiceBackgroundSprite.setTexture(choiceBackgroundTexture);
+	choiceBackgroundSprite.setPosition(0, 0);
 }
 
 //check how many items the shop has in stock
@@ -415,4 +485,14 @@ int ShopInventory::GetCurrentState()
 void ShopInventory::SetCurrentState(int s)
 {
 	currentState = s;
+}
+
+bool ShopInventory::GetCanBackOut()
+{
+	return canBackOut;
+}
+
+void ShopInventory::SetCanBackOut(bool c)
+{
+	canBackOut = c;
 }

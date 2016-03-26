@@ -824,6 +824,13 @@ int main()
 								audioManager->PlayMusicById(1);
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 2);
+
+								std::map<int, ShopInventory*>::iterator it;
+
+								for (it = areaShops.begin(); it != areaShops.end(); ++it)
+								{
+									it->second->SetChoiceTexture(p->getRace(), p->getGender());
+								}
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -1923,6 +1930,30 @@ int main()
 					}
 				}
 				else areaShops[areaManager->GetCurrentArea()]->SetCanSelect(true);
+				
+				if (gamepad->B())
+				{
+					if (areaShops[areaManager->GetCurrentArea()]->GetCanBackOut())
+					{
+						if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 1)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCurrentState(0);
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+						}
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 2)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCurrentState(0);
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+						}
+						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 0)
+						{
+							areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(false);
+							prevState = gState;
+							gState = GAME;
+						}
+					}
+				}
+				else areaShops[areaManager->GetCurrentArea()]->SetCanBackOut(true);
 
 				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
 				areaShops[areaManager->GetCurrentArea()]->Draw(window);

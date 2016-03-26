@@ -48,31 +48,51 @@ private:
 	};
 	int currentState;
 
+	sf::Text shopGreetText;
 	sf::Text choices[2];//choices, choices, choices
 
+	sf::Texture choiceBackgroundTexture;
+	sf::Sprite choiceBackgroundSprite;
+
+	bool canBackOut;
+
 public:
+	//constructor. params: number of items in stock, owners name, gems owned by shop, path to stock file, screen width, screen height, font
 	ShopInventory(int niStock, std::string oName, int availGems, std::string sfp, int sw, int sh, sf::Font f);
+
+	//destructor
 	~ShopInventory();
 
+	//load the shops stock from an xml file
 	void LoadStock();
 
+	//nav right in the menus
 	void NavRight();
+	//nav left in menus
 	void NavLeft();
 
+	//Update. param: players gems
 	void Update(int playerG);
 
+	//draw. param is a render target
 	void Draw(sf::RenderTarget& window);
 
+	//choose BUY or SELL. param in a pointer to the players inventory(only used for selling as we need to grab items)
 	void MakeChoice(Inventory* inv);
 
+	//buy an item. params are the player's gems and a pointer to the players inventory
 	void PurchaseItem(int playerGems, Inventory* playerInv);
 
+	//sell an item. params are the player's gems and a pointer to the player's inventory
 	void SellItem(int playerGems, Inventory* playerInv);
 
+	//grab the player's inventory in order to display items for them to sell. param is a pointer to the player's inventory
 	void SetPlayerSellableItems(Inventory* playerInv);
 
 	std::string GetKeyOfCurrentItem();
 	int GetPriceOfCurrentItem();
+
+	void SetChoiceTexture(int pRace, int pGender);
 
 	//check how many items the shop has in stock
 	int CheckNumItemsInStock();
@@ -92,6 +112,9 @@ public:
 
 	int GetCurrentState();
 	void SetCurrentState(int s);
+
+	bool GetCanBackOut();
+	void SetCanBackOut(bool c);
 };
 
 #endif
