@@ -33,15 +33,15 @@ AudioManager::AudioManager()
 	musicTracks.push_back(&battleMusic);//3
 
 	//load sound effects
-	if (charCreationOpeningSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Unrolling Parchment.wav")) {}
+	if (charCreationOpeningSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Unrolling ParchmentMono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/Unrolling Parchment.wav'" << std::endl;
 	charCreationOpeningSound.setBuffer(charCreationOpeningSoundBuffer);
 
-	if (menuNavSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/interface6.wav")) {}
+	if (menuNavSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/interface6Mono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/interface6.wav'" << std::endl;
 	menuNavSound.setBuffer(menuNavSoundBuffer);
 
-	if (menuConfirmSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/sword-unsheathe4new.wav")) {}
+	if (menuConfirmSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/sword-unsheathe4newMono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/sword-unsheathe4new.wav'" << std::endl;
 	menuConfirmSound.setBuffer(menuConfirmSoundBuffer);
 
@@ -57,19 +57,19 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/interactionSounds/chestSounds/Key Jiggle.wav'" << std::endl;
 	chestLockedSound.setBuffer(chestLockedSoundBuffer);
 
-	if (crunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/impactcrunch03.wav")) {}
+	if (crunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/impactcrunch03Mono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/impactcrunch03.wav'" << std::endl;
 	crunchSound.setBuffer(crunchSoundBuffer);
 
-	if (thunderClapSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/rock_breaking.wav")) {}
+	if (thunderClapSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/rock_breakingMono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/rock_breaking.wav'" << std::endl;
 	thunderClap.setBuffer(thunderClapSoundBuffer);
 
-	if (drinkSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/bottle.wav")) {}
+	if (drinkSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/bottleMono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/bottle.wav'" << std::endl;
 	drinkSound.setBuffer(drinkSoundBuffer);
 
-	if (doorSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/door.wav")) {}
+	if (doorSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/doorMono.wav")) {}
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/door.wav'" << std::endl;
 	doorSound.setBuffer(doorSoundBuffer);
 
@@ -101,6 +101,14 @@ AudioManager::AudioManager()
 	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/achievementUnlockSounds/Metal Hit.wav'" << std::endl;
 	achievementUnlockedSound.setBuffer(achievementUnlockedSoundBuffer);
 
+	if (blacksmithSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Pick Hitting RockMono.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/Pick Hitting RockMono.wav'" << std::endl;
+	blacksmithSound.setBuffer(blacksmithSoundBuffer);
+
+	if (blacksmithForgeSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/fire-1Mono.wav")) {}
+	else std::cout << "Failed to load 'Assets/Audio/SoundEffects/fire-1Mono.wav'" << std::endl;
+	blacksmithForgeSound.setBuffer(blacksmithForgeSoundBuffer);
+
 	//vector of sound effects
 	soundEffects.push_back(&charCreationOpeningSound);//0
 	soundEffects.push_back(&menuNavSound);//1
@@ -119,6 +127,8 @@ AudioManager::AudioManager()
 	soundEffects.push_back(&stoneGolemHitSound);//14
 	soundEffects.push_back(&stoneGolemPunchSound);//15
 	soundEffects.push_back(&achievementUnlockedSound);//16
+	soundEffects.push_back(&blacksmithSound);//17
+	soundEffects.push_back(&blacksmithForgeSound);//18
 }
 
 //destructor
@@ -181,6 +191,7 @@ void AudioManager::StopMusic(int musicId)
 	musicTracks.at(musicId)->stop();
 }
 
+//set the global music volume
 void AudioManager::SetMusicVolume(int vol)
 {
 	for (int i = 0; i < musicTracks.size(); i++)
@@ -189,10 +200,48 @@ void AudioManager::SetMusicVolume(int vol)
 	}
 }
 
+//set the global sfx volume
 void AudioManager::SetSfxVolume(int vol)
 {
 	for (int i = 0; i < soundEffects.size(); i++)
 	{
 		soundEffects.at(i)->setVolume(vol);
 	}
+}
+
+/*Audio Spatialization methods*/
+
+//set the sf listeners position. params: x co-ord, y co-ord, z co-ord. z defaults to zero as this is a 2d game
+void AudioManager::SetListenersPosition(float x, float y, float z)
+{
+	sf::Listener::setPosition(x, y, z);
+}
+
+//set the sf listeners direction. params are x direction, y direction, z direction. z defaults to 0
+void AudioManager::SetListenersDirection(float x, float y, float z)
+{
+	sf::Listener::setDirection(x, y, z);
+}
+
+//set the sf listeners global volume of the scene. param is the volume
+void AudioManager::SetListenerGlobalVolume(float vol)
+{
+	sf::Listener::setGlobalVolume(vol);
+}
+
+/*play a spatialised sound effect. params:  index of the sound in the vector, is the sound relative to the listener,
+minimum distance, attenuation value, x co-ord, y co-ord, z co-ord. z defaults to 0*/
+void AudioManager::PlaySpatializedSoundEffect(bool loop, int soundId, bool relListener, float minDistance, float attenuation, float x, float y, float z)
+{
+	soundEffects.at(soundId)->setPosition(x, y, z);
+	soundEffects.at(soundId)->setRelativeToListener(relListener);
+	soundEffects.at(soundId)->setMinDistance(minDistance);
+	soundEffects.at(soundId)->setAttenuation(attenuation);
+	soundEffects.at(soundId)->setLoop(loop);
+	soundEffects.at(soundId)->play();
+	std::cout << "Position: " << soundEffects.at(soundId)->getPosition().x << ", " << soundEffects.at(soundId)->getPosition().y << ", " << soundEffects.at(soundId)->getPosition().z << std::endl;
+	std::cout << "MinDistance: " << soundEffects.at(soundId)->getMinDistance() << std::endl;
+	std::cout << "Attenuation: " << soundEffects.at(soundId)->getAttenuation() << std::endl;
+	std::cout << "Volume: " << soundEffects.at(soundId)->getVolume() << std::endl;
+	std::cout << "Status: " << soundEffects.at(soundId)->getStatus() << std::endl;
 }

@@ -65,6 +65,12 @@ private:
 	sf::SoundBuffer achievementUnlockedSoundBuffer;
 	sf::Sound achievementUnlockedSound;
 
+	sf::SoundBuffer blacksmithSoundBuffer;
+	sf::Sound blacksmithSound;
+
+	sf::SoundBuffer blacksmithForgeSoundBuffer;
+	sf::Sound blacksmithForgeSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 
@@ -97,9 +103,26 @@ public:
 
 	void StopMusic(int musicId);
 
+	//set the global music volume
 	void SetMusicVolume(int vol);
 
+	//set the global sfx volume
 	void SetSfxVolume(int vol);
+
+	/*Audio Spatialization methods*/
+
+	//set the sf listeners position. params: x co-ord, y co-ord, z co-ord. z defaults to zero as this is a 2d game
+	void SetListenersPosition(float x, float y, float z = 0);
+
+	//set the sf listeners direction. params are x direction, y direction, z direction. z defaults to 0
+	void SetListenersDirection(float x, float y, float z = 0);
+
+	//set the sf listeners global volume of the scene. param is the volume
+	void SetListenerGlobalVolume(float vol);
+
+	/*play a spatialised sound effect. params:  index of the sound in the vector, is the sound relative to the listener, 
+		minimum distance, attenuation value, x co-ord, y co-ord, z co-ord. z defaults to 0*/
+	void PlaySpatializedSoundEffect(bool loop, int soundId, bool relListener, float minDistance, float attenuation, float x, float y, float z = 0);
 };
 
 #endif

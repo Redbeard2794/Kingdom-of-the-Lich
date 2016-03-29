@@ -133,7 +133,7 @@ int main()
 	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
-	OptionsMenu* optionsMenu = new OptionsMenu(font, screenW, screenH);
+	
 
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -159,6 +159,14 @@ int main()
 	minimap.zoom(6.f);//4......3(actual)
 
 	AudioManager* audioManager = new AudioManager();
+	//audioManager->SetListenerGlobalVolume(50.f);
+
+	
+
+	//audioManager->SetListenersDirection(15.f, 0.f, 5.f);
+	OptionsMenu* optionsMenu = new OptionsMenu(font, screenW, screenH);
+
+	optionsMenu->Update(audioManager);
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
@@ -331,7 +339,10 @@ int main()
 				//sf::String dateInfo = year + "-" + month+day+hour+minute;
 				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
 			}
-
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
+			{
+				
+			}
 			
 		}
 
@@ -831,6 +842,8 @@ int main()
 								{
 									it->second->SetChoiceTexture(p->getRace(), p->getGender());
 								}
+								audioManager->PlaySpatializedSoundEffect(true, 17, false, 5, 1, 400, 920);
+								audioManager->PlaySpatializedSoundEffect(true, 18, false, 5, 1, 400, 920);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -881,6 +894,16 @@ int main()
 
 			//set view of window to be player_view
 			window.setView(player_view);
+
+			audioManager->SetListenersPosition(p->getPosition().x, p->getPosition().y);
+			//if (p->getCurrentDirection() == 0)//up
+				audioManager->SetListenersDirection(0.f, 0.f, -1.f);
+			//else if(p->getCurrentDirection() == 1)//down
+			//	audioManager->SetListenersDirection(0.f, 1.f, 0.f);
+			//else if (p->getCurrentDirection() == 2)//right
+			//	audioManager->SetListenersDirection(1.f, 0.f, 0.f);
+			//else if (p->getCurrentDirection() == 3)//right
+			//	audioManager->SetListenersDirection(-1.f, 0.f, 0.f);
 
 			if (useController == true)//use controller
 			{
