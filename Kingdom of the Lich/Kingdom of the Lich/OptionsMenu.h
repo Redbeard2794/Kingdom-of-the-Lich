@@ -86,6 +86,9 @@ public:
 
 	bool GetCanBackOut();
 	void SetCanBackOut(bool cbo);
+
+	int GetCurrentSfxVol();
+	int GetCurrentMusicVol();
 };
 
 #endif

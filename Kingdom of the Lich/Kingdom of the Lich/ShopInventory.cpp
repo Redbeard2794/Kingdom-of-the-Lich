@@ -309,10 +309,15 @@ void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 			stock.at(currentSelected).second -= 1;//take 1 from the stock
 			playerInv->RemoveItemFromInventory("Gems", cost);//take the payment from the player
 			availableGems += cost;//give the shop the gems
+			AudioManager::GetInstance()->PlaySoundEffectById(19, false);
 		}
 		else std::cout << purchaseKey << " is out of stock at the moment." << std::endl;
 	}
-	else std::cout << "You do not possess enough gems to buy " << purchaseKey << std::endl;
+	else
+	{
+		std::cout << "You do not possess enough gems to buy " << purchaseKey << std::endl;
+		AudioManager::GetInstance()->PlaySoundEffectById(20, false);
+	}
 }
 
 //sell an item. params are the player's gems and a pointer to the player's inventory
@@ -333,7 +338,13 @@ void ShopInventory::SellItem(int playerGems, Inventory * playerInv)
 				availableGems -= price;//take the gems from the shop keeper
 				playerInvItems.clear();
 				SetPlayerSellableItems(playerInv);//grab the player's inventory again
+				AudioManager::GetInstance()->PlaySoundEffectById(19, false);
 			}
+		}
+		else
+		{
+			std::cout << "The shopkeeper does not have enough gems to buy the item." << std::endl;
+			AudioManager::GetInstance()->PlaySoundEffectById(20, false);
 		}
 	}
 }
