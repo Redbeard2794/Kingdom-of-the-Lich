@@ -62,7 +62,7 @@
 		<y>920</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>stand</behaviour>
+		<behaviour>forge</behaviour>
 	</npc>
   
 	<npc name='Misty'>

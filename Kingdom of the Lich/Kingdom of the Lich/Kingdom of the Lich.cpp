@@ -133,7 +133,7 @@ int main()
 	//std::cout<<"object 0 x: " << collisionGroup.objects_[0].GetPropertyValue("x") << std::endl;
 	//map.GetLayer("World").visible = false; // Hide a Layer named World
 
-	OptionsMenu* optionsMenu = new OptionsMenu(font, screenW, screenH);
+	
 
 	//create sf::View
 	sf::View player_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -158,13 +158,23 @@ int main()
 	}
 	minimap.zoom(6.f);//4......3(actual)
 
-	AudioManager* audioManager = new AudioManager();
+	//AudioManager* audioManager = new AudioManager();
+	//audioManager->SetListenerGlobalVolume(50.f);
+
+	
+
+	//audioManager->SetListenersDirection(15.f, 0.f, 5.f);
+	OptionsMenu* optionsMenu = new OptionsMenu(font, screenW, screenH);
+
+	//optionsMenu->Update(AudioManager::GetInstance());
+	AudioManager::GetInstance()->SetMusicVolume(optionsMenu->GetCurrentMusicVol());
+	AudioManager::GetInstance()->SetSfxVolume(optionsMenu->GetCurrentSfxVol());
 
 	//Player is created here(race,gender and maybe class will be set later)
 	Player* p = new Player(font);
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
-	AchievementTracker* achievementTracker = new AchievementTracker(p, font, screenW, screenH, audioManager);
+	AchievementTracker* achievementTracker = new AchievementTracker(p, font, screenW, screenH, AudioManager::GetInstance());
 
 	//window.setFramerateLimit(60);//is this causing the flickering in the mini map? yes, the alternative?
 	window.setVerticalSyncEnabled(true);
@@ -267,7 +277,7 @@ int main()
 	testInv->PrintAllInventory();
 	testInv->AddItemToInventory(testInv->i_gems.key, 5);
 	testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
-	testInv->AddItemToInventory(testInv->i_ale.key, 1);
+	//testInv->AddItemToInventory(testInv->i_ale.key, 1);
 
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
@@ -277,7 +287,7 @@ int main()
 
 	
 	//play the first song
-	audioManager->PlayMusicById(0);
+	AudioManager::GetInstance()->PlayMusicById(0);
 
 	bool debugMode = true;
 
@@ -331,7 +341,10 @@ int main()
 				//sf::String dateInfo = year + "-" + month+day+hour+minute;
 				screenShot.saveToFile("Assets/ScreenShots/testImg.png");
 			}
-
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
+			{
+				
+			}
 			
 		}
 
@@ -361,7 +374,7 @@ int main()
 
 			if (splashScreen->isSummoned() && playedSplashSound == false)
 			{
-				audioManager->PlaySoundEffectById(7, true);
+				AudioManager::GetInstance()->PlaySoundEffectById(7, true);
 				playedSplashSound = true;
 			}
 			
@@ -373,7 +386,7 @@ int main()
 					useController = false;
 				if (gamepad->Start() == true)
 				{
-					audioManager->PlaySoundEffectById(2, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 					prevState = gState;
 					gState = MAINMENU;
 					gamepad->Rumble(800, 0);
@@ -386,7 +399,7 @@ int main()
 					useController = true;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//up
 				{
-					audioManager->PlaySoundEffectById(2, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 					gState = MAINMENU;
 					std::cout << "Current game state: " << gState << std::endl;
 				}
@@ -398,7 +411,7 @@ int main()
 #pragma region MainMenu
 		case MAINMENU:
 			mainMenu->Draw(window);
-			audioManager->FadeOutSound(7);
+			AudioManager::GetInstance()->FadeOutSound(7);
 			//if the player is using keyboard and mouse
 			if (useController == false)
 			{
@@ -406,7 +419,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						mainMenu->MoveUp();
 						mainMenu->setCanMove(false);
 					}
@@ -416,7 +429,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						mainMenu->MoveDown();
 						mainMenu->setCanMove(false);
 					}
@@ -428,7 +441,7 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && enterPressed == false)
 				{
 					enterPressed = true;
-					audioManager->PlaySoundEffectById(2, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
 						enterPressed = false;
@@ -474,7 +487,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						mainMenu->MoveUp();
 						mainMenu->setCanMove(false);
 					}
@@ -484,7 +497,7 @@ int main()
 				{
 					if (mainMenu->getCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						mainMenu->MoveDown();
 						mainMenu->setCanMove(false);
 					}
@@ -493,7 +506,7 @@ int main()
 
 				if (gamepad->A() == true)
 				{
-					audioManager->PlaySoundEffectById(2, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 
 					if (mainMenu->getSelectedOption() == 0)//new game
 					{
@@ -530,7 +543,7 @@ int main()
 
 #pragma region ChooseRaceAndGender
 		case CHOOSERACEGENDER:
-			audioManager->StopMusic(0);
+			AudioManager::GetInstance()->StopMusic(0);
 
 			raceAndGenderMenu->Draw(window);
 
@@ -553,7 +566,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionRight();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 					}
 
@@ -569,7 +582,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionLeft();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 					}
 					else
@@ -606,7 +619,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveUp();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -617,7 +630,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveDown();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -634,13 +647,13 @@ int main()
 								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -657,8 +670,8 @@ int main()
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
-								audioManager->PlaySoundEffectById(2, true);
-								audioManager->PlayMusicById(1);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlayMusicById(1);
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							}
@@ -666,7 +679,7 @@ int main()
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -685,7 +698,7 @@ int main()
 							{
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 					}
@@ -714,7 +727,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionRight();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 					}
 
@@ -730,7 +743,7 @@ int main()
 								raceAndGenderMenu->moveClassSelectionLeft();
 
 							raceAndGenderMenu->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 					}
 					else
@@ -769,7 +782,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveUp();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -780,7 +793,7 @@ int main()
 						{
 							ConfirmationDialogBox::GetInstance()->MoveDown();
 							ConfirmationDialogBox::GetInstance()->setCanMoveSelection(false);
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						}
 
 					}
@@ -797,13 +810,13 @@ int main()
 								std::cout << "race: " << p->getRace() << std::endl;
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -820,8 +833,8 @@ int main()
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
-								audioManager->PlaySoundEffectById(2, true);
-								audioManager->PlayMusicById(1);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlayMusicById(1);
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 2);
 
@@ -831,12 +844,14 @@ int main()
 								{
 									it->second->SetChoiceTexture(p->getRace(), p->getGender());
 								}
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 
@@ -855,7 +870,7 @@ int main()
 							{
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
-								audioManager->PlaySoundEffectById(2, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
 						}
 					}
@@ -875,12 +890,22 @@ int main()
 		case GAME:
 			popupMessageHandler.UpdateMessages();
 			
-			audioManager->FadeOutSound(0);
+			AudioManager::GetInstance()->FadeOutSound(0);
 			//update sf::View center position
 			player_view.setCenter(p->getPosition());
 
 			//set view of window to be player_view
 			window.setView(player_view);
+
+			AudioManager::GetInstance()->SetListenersPosition(p->getPosition().x, p->getPosition().y);
+			//if (p->getCurrentDirection() == 0)//up
+			AudioManager::GetInstance()->SetListenersDirection(0.f, 0.f, -1.f);
+			//else if(p->getCurrentDirection() == 1)//down
+			//	audioManager->SetListenersDirection(0.f, 1.f, 0.f);
+			//else if (p->getCurrentDirection() == 2)//right
+			//	audioManager->SetListenersDirection(1.f, 0.f, 0.f);
+			//else if (p->getCurrentDirection() == 3)//right
+			//	audioManager->SetListenersDirection(-1.f, 0.f, 0.f);
 
 			if (useController == true)//use controller
 			{
@@ -922,7 +947,7 @@ int main()
 					//testInv->OpenInventory();
 					prevState = gState;
 					gState = INVENTORY;
-					audioManager->PlaySoundEffectById(3, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(3, true);
 				}
 
 				//check for collision between player and chest and update quest
@@ -942,15 +967,16 @@ int main()
 								p->Notify();
 								//std::cout << "You completed your first quest!" << std::endl;
 								splashClock->restart();
-								audioManager->PlaySoundEffectById(4, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(4, true);
 								if (useController)
 									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
 								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
 							}
 							else
 							{
 								std::cout << "You may not open this chest right now." << std::endl;
-								audioManager->PlaySoundEffectById(5, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(5, true);
 							}
 						}
 						else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
@@ -989,7 +1015,7 @@ int main()
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
 				{
-					audioManager->PlaySoundEffectById(3, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(3, true);
 					prevState = gState;
 					gState = INVENTORY;
 				}
@@ -1012,12 +1038,13 @@ int main()
 									popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'B' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
 								else popupMessageHandler.AddCustomMessage("Objective complete. You got 3 potions from the chest. Press 'I' now.", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
 								splashClock->restart();
-								audioManager->PlaySoundEffectById(4, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(4, true);
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
 							}
 							else
 							{
 								std::cout << "You may not open this chest right now." << std::endl;
-								audioManager->PlaySoundEffectById(5, true);
+								AudioManager::GetInstance()->PlaySoundEffectById(5, true);
 							}
 
 						}
@@ -1080,9 +1107,9 @@ int main()
 				//window.draw(*generalStoreDoor);
 				if (areaManager->GetAreaToChangeTo() == SEWER && gamepad->A())//(sewerHatch->IsPlayerInDoorway(p->getPosition()) && gamepad->A() && sewerHatch->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(1);
-					audioManager->PlayMusicById(2);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(1);
+					AudioManager::GetInstance()->PlayMusicById(2);
 					areaManager->ChangeArea(SEWER);
 					p->setPosition(1325, 275);
 					testQuest->getCurrentStage()->setCompletionStatus(true);
@@ -1092,34 +1119,43 @@ int main()
 						p->SetPlayerGoneSewer(true);
 						p->Notify();
 					}
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(LellesQualityMerchandise);
 					p->setPosition(415, 400);
+					//AudioManager::GetInstance()->SetListenersPosition(screenW / 2, screenH / 2);
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == House1 && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(House1);
 					p->setPosition(80, 300);
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
 				}
 				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(House2);
 					p->setPosition(80, 300);
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
 				}
 				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
 					p->setPosition(250, 175);
 					if (p->HasPlayerGonePub() == false)
@@ -1127,6 +1163,8 @@ int main()
 						p->SetPlayerGonePub(true);
 						p->Notify();
 					}
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1134,33 +1172,39 @@ int main()
 				//window.draw(*sewerExit);
 				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(2);
-					audioManager->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(1100+50, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
 			{
 				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(2);
-					audioManager->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(500, 400);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == House1)
 			{
 				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(2);
-					audioManager->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 				}
 			}
 
@@ -1168,11 +1212,13 @@ int main()
 			{
 				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(2);
-					audioManager->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 				}
 			}
 
@@ -1180,11 +1226,13 @@ int main()
 			{
 				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
 				{
-					audioManager->PlaySoundEffectById(9, false);
-					audioManager->StopMusic(2);
-					audioManager->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(530, 1200);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 				}
 			}
 
@@ -1215,7 +1263,7 @@ int main()
 					{
 						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
 					}
-
+					AudioManager::GetInstance()->PlaySoundEffectById(22, true);
 
 				}
 				else p->setCollidingStatus(false);
@@ -1282,12 +1330,15 @@ int main()
 
 				if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true) && testQuest->getCurrentStageIndex() == 2)
 				{
-					audioManager->StopMusic(1);
-					audioManager->PlayMusicById(3);
+					AudioManager::GetInstance()->StopMusic(1);
+					AudioManager::GetInstance()->PlayMusicById(3);
 					popupMessageHandler.AddCustomMessage("Fight this stone golem to complete your training!", sf::Vector2f(screenW / 4, 20), 1, sf::Color::Black);
 					combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
 					prevState = gState;
 					gState = COMBAT;
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(21);
 				}
 
 				//move the player out of collision
@@ -1389,8 +1440,8 @@ int main()
 
 				int soundCoin = rand() % 2;
 				if (soundCoin == 0)
-					audioManager->PlaySoundEffectById(14, false);
-				else audioManager->PlaySoundEffectById(15, false);
+					AudioManager::GetInstance()->PlaySoundEffectById(14, false);
+				else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
 
 				combatMenu->SetPlayersTurn(true);
 				combatMenu->IncrementTurnCount();
@@ -1406,7 +1457,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionRight();
 							combatMenu->setCanMove(false);
 						}
@@ -1416,7 +1467,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionLeft();
 							combatMenu->setCanMove(false);
 						}
@@ -1431,7 +1482,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionDown();
 							combatMenu->setCanMove(false);
 						}
@@ -1441,7 +1492,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionUp();
 							combatMenu->setCanMove(false);
 						}
@@ -1502,19 +1553,19 @@ int main()
 							
 							if (combatMenu->getCurrentOption() == 0)
 							{
-								audioManager->PlaySoundEffectById(10, false);
+								AudioManager::GetInstance()->PlaySoundEffectById(10, false);
 								popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 								testEnemy->setHealth(testEnemy->GetHealth() - 15);
 							}
 							else if (combatMenu->getCurrentOption() == 1)
 							{
-								audioManager->PlaySoundEffectById(11, false);
+								AudioManager::GetInstance()->PlaySoundEffectById(11, false);
 								popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH/2.5), 0.7, sf::Color::Blue);
 								testEnemy->setHealth(testEnemy->GetHealth() - 20);
 							}
 							else if (combatMenu->getCurrentOption() == 2)
 							{
-								audioManager->PlaySoundEffectById(12, false);
+								AudioManager::GetInstance()->PlaySoundEffectById(12, false);
 								popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 								testEnemy->setHealth(testEnemy->GetHealth() - 25);
 							}
@@ -1544,7 +1595,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionRight();
 							combatMenu->setCanMove(false);
 						}
@@ -1554,7 +1605,7 @@ int main()
 					{
 						if (combatMenu->getCanMove() == true)
 						{
-							audioManager->PlaySoundEffectById(1, false);
+							AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 							combatMenu->MoveSelectionLeft();
 							combatMenu->setCanMove(false);
 						}
@@ -1565,7 +1616,7 @@ int main()
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && combatMenu->IsPlayersTurn())
 				{
-					audioManager->PlaySoundEffectById(2, true);
+					AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 
 					if (combatMenu->GetCurrentMenuState() == 0)
 					{
@@ -1590,13 +1641,13 @@ int main()
 			if (testEnemy->GetHealth() <= 0)
 			{
 				combatMenu->setCombatOver(true);
-				audioManager->PlaySoundEffectById(6, true);
+				AudioManager::GetInstance()->PlaySoundEffectById(6, true);
 			}
 
 			if (p->getHealth() <= 0)
 			{
 				combatMenu->setCombatOver(true);
-				audioManager->PlaySoundEffectById(13, true);
+				AudioManager::GetInstance()->PlaySoundEffectById(13, true);
 			}
 
 			if (combatMenu->IsCombatOver() == true)//if combat is over
@@ -1613,16 +1664,19 @@ int main()
 				}
 				//testQuest->getCurrentStage()->setCompletionStatus(true);
 				//testQuest->setCompletionStatus(true);
-				audioManager->StopMusic(3);
-				audioManager->PlayMusicById(1);
+				AudioManager::GetInstance()->StopMusic(3);
+				AudioManager::GetInstance()->PlayMusicById(1);
 				prevState = gState;
 				p->IncreaseCombatsComplete(1);
 				p->Notify();
 				gState = GAME;//return to free roam
+				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 			}
 
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
+			achievementTracker->DisplayAchievement(window);
 
 			if (testEnemy->GetHealth() <= 75)
 				enemyMinorWoundEmitter->SetEmit(true);
@@ -1721,7 +1775,7 @@ int main()
 				{
 					if (testInv->getCanSelect())
 					{
-						testInv->UseItem(*p, *audioManager);
+						testInv->UseItem(*p, *AudioManager::GetInstance());
 						testInv->setCanSelect(false);
 					}
 				}
@@ -1740,7 +1794,7 @@ int main()
 					gState = GAME;
 				}
 			}
-
+			achievementTracker->DisplayAchievement(window);
 			break;
 #pragma endregion
 
@@ -1793,15 +1847,15 @@ int main()
 				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					optionsMenu->IncreaseMusicVol();
-					optionsMenu->SetCanMove(false);
+					//optionsMenu->SetCanMove(false);
 				}
 
 				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					optionsMenu->DecreaseMusicVol();
-					optionsMenu->SetCanMove(false);
+					//optionsMenu->SetCanMove(false);
 				}
-				else optionsMenu->SetCanMove(true);
+				//else optionsMenu->SetCanMove(true);
 			}
 
 			else if (optionsMenu->GetState() == 2)//increase/decrease sfx volume
@@ -1809,15 +1863,15 @@ int main()
 				if (gamepad->DpadRight() == true || (gamepad->getNormalisedLeftStickAxis().x > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					optionsMenu->IncreaseSFXVol();
-					optionsMenu->SetCanMove(false);
+					//optionsMenu->SetCanMove(false);
 				}
 
 				else if (gamepad->DpadLeft() == true || (gamepad->getNormalisedLeftStickAxis().x < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
 				{
 					optionsMenu->DecreaseSFXVol();
-					optionsMenu->SetCanMove(false);
+					//optionsMenu->SetCanMove(false);
 				}
-				else optionsMenu->SetCanMove(true);
+				//else optionsMenu->SetCanMove(true);
 			}
 
 			
@@ -1874,12 +1928,14 @@ int main()
 			}
 			else optionsMenu->SetCanBackOut(true);
 
-			optionsMenu->Update(audioManager);
+			optionsMenu->Update(AudioManager::GetInstance());
 			optionsMenu->Draw(window);
+			achievementTracker->DisplayAchievement(window);
 			break;
 
 			/*SHOPPING!!!*/
 			case SHOPPING:
+				
 				window.setView(window.getDefaultView());
 				gamepad->CheckAllButtons();
 
@@ -1887,7 +1943,7 @@ int main()
 				{
 					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						areaShops[areaManager->GetCurrentArea()]->NavRight();
 						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
 					}
@@ -1897,7 +1953,7 @@ int main()
 				{
 					if (areaShops[areaManager->GetCurrentArea()]->GetCanMove() == true)
 					{
-						audioManager->PlaySoundEffectById(1, false);
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
 						areaShops[areaManager->GetCurrentArea()]->NavLeft();
 						areaShops[areaManager->GetCurrentArea()]->SetCanMove(false);
 					}
@@ -1957,7 +2013,7 @@ int main()
 
 				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
 				areaShops[areaManager->GetCurrentArea()]->Draw(window);
-
+				achievementTracker->DisplayAchievement(window);
 				break;
 		}
 
