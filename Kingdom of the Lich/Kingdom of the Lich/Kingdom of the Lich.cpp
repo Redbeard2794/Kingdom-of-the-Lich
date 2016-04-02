@@ -1263,7 +1263,7 @@ int main()
 					{
 						p->setPosition(p->getPosition().x + 2, p->getPosition().y);
 					}
-
+					AudioManager::GetInstance()->PlaySoundEffectById(22, true);
 
 				}
 				else p->setCollidingStatus(false);
@@ -1336,6 +1336,9 @@ int main()
 					combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
 					prevState = gState;
 					gState = COMBAT;
+					AudioManager::GetInstance()->StopSfx(17);
+					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(21);
 				}
 
 				//move the player out of collision
@@ -1667,10 +1670,13 @@ int main()
 				p->IncreaseCombatsComplete(1);
 				p->Notify();
 				gState = GAME;//return to free roam
+				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 			}
 
 			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
 			combatMenu->Draw(window);
+			achievementTracker->DisplayAchievement(window);
 
 			if (testEnemy->GetHealth() <= 75)
 				enemyMinorWoundEmitter->SetEmit(true);
@@ -1788,7 +1794,7 @@ int main()
 					gState = GAME;
 				}
 			}
-
+			achievementTracker->DisplayAchievement(window);
 			break;
 #pragma endregion
 
@@ -1924,6 +1930,7 @@ int main()
 
 			optionsMenu->Update(AudioManager::GetInstance());
 			optionsMenu->Draw(window);
+			achievementTracker->DisplayAchievement(window);
 			break;
 
 			/*SHOPPING!!!*/
@@ -2006,7 +2013,7 @@ int main()
 
 				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
 				areaShops[areaManager->GetCurrentArea()]->Draw(window);
-
+				achievementTracker->DisplayAchievement(window);
 				break;
 		}
 

@@ -83,6 +83,12 @@ private:
 	sf::SoundBuffer golemPosSoundBuffer;
 	sf::Sound golemPosSound;
 
+	sf::SoundBuffer collideSoundBuffer;
+	sf::Sound collideSound;
+
+	sf::SoundBuffer pauseSoundBuffer;
+	sf::Sound pauseSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 
@@ -130,12 +136,12 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/Unrolling Parchment.wav'" << std::endl;
 		charCreationOpeningSound.setBuffer(charCreationOpeningSoundBuffer);
 
-		if (menuNavSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/interface6.wav")) {}
-		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/interface6.wav'" << std::endl;
+		if (menuNavSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/menuMoveSoundNew1Stereo.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/menuMoveSoundNew1Stereo.wav'" << std::endl;
 		menuNavSound.setBuffer(menuNavSoundBuffer);
 
-		if (menuConfirmSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/sword-unsheathe4new.wav")) {}
-		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/sword-unsheathe4new.wav'" << std::endl;
+		if (menuConfirmSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/menuSounds/menuConfirmStereo.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/menuSounds/menuConfirmStereo.wav'" << std::endl;
 		menuConfirmSound.setBuffer(menuConfirmSoundBuffer);
 
 		if (inventoryOpenSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/inventorySounds/cloth-heavy1.wav")) {}
@@ -150,11 +156,11 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/interactionSounds/chestSounds/Key Jiggle.wav'" << std::endl;
 		chestLockedSound.setBuffer(chestLockedSoundBuffer);
 
-		if (crunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/impactcrunch03Mono.wav")) {}
+		if (crunchSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/impactcrunch03.wav")) {}
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/impactcrunch03.wav'" << std::endl;
 		crunchSound.setBuffer(crunchSoundBuffer);
 
-		if (thunderClapSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/rock_breakingMono.wav")) {}
+		if (thunderClapSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/rock_breaking.wav")) {}
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/rock_breaking.wav'" << std::endl;
 		thunderClap.setBuffer(thunderClapSoundBuffer);
 
@@ -174,8 +180,8 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/metal-knife-scrape-03'" << std::endl;
 		chopAttackSound.setBuffer(chopAttackSoundBuffer);
 
-		if (sliceSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/sword-clash-03.wav")) {}
-		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/sword-clash-03.wav'" << std::endl;
+		if (sliceSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/Socapex - new_hits_1F.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/Socapex - new_hits_1F.wav'" << std::endl;
 		sliceSound.setBuffer(sliceSoundBuffer);
 
 		if (playerCombatDealthSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/battleSounds/qubodup-PowerDrain.ogg")) {}
@@ -190,8 +196,8 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/battleSounds/qubodupPunch01.ogg'" << std::endl;
 		stoneGolemPunchSound.setBuffer(stoneGolemPunchSoundBuffer);
 
-		if (achievementUnlockedSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/achievementUnlockSounds/Metal Hit.wav")) {}
-		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/achievementUnlockSounds/Metal Hit.wav'" << std::endl;
+		if (achievementUnlockedSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/achievementUnlockSounds/achievementSoundStereo.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/achievementUnlockSounds/achievementSoundStereo.wav'" << std::endl;
 		achievementUnlockedSound.setBuffer(achievementUnlockedSoundBuffer);
 
 		if (blacksmithSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Pick Hitting RockMono.wav")) {}
@@ -213,6 +219,14 @@ private:
 		if (golemPosSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/Goblin ScreamM.wav")) {}
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/Goblin ScreamM.wav'" << std::endl;
 		golemPosSound.setBuffer(golemPosSoundBuffer);
+
+		if (collideSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/CollideSoundS.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/CollideSoundS.wav'" << std::endl;
+		collideSound.setBuffer(collideSoundBuffer);
+
+		if (pauseSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/PauseGameSoundS.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/PauseGameSoundS.wav'" << std::endl;
+		pauseSound.setBuffer(pauseSoundBuffer);
 
 		//vector of sound effects
 		soundEffects.push_back(&charCreationOpeningSound);//0
@@ -237,6 +251,8 @@ private:
 		soundEffects.push_back(&buySellSound);//19
 		soundEffects.push_back(&notEnoughGemsSound);//20
 		soundEffects.push_back(&golemPosSound);//21
+		soundEffects.push_back(&collideSound);//22
+		soundEffects.push_back(&pauseSound);//23
 	}
 
 public:
