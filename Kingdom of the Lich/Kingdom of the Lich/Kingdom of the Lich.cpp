@@ -27,13 +27,126 @@
 #include <ctime>
 
 //rapidxml stuff
+#include "rapidxml.hpp"
+#include "rapidxml_print.hpp"
 #include "rapidxml_utils.hpp"
 using namespace rapidxml;
 #include <sstream> // std::stringstream
+#include <fstream>
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
+
+void SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, bool sewerFirstVal
+	, int combatsCompleteVal, sf::Vector2f pos, int areaVal)
+{
+	xml_document<> doc;
+	std::ifstream file("Saves/testSave.xml");
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	file.close();
+	std::string content(buffer.str());
+	//doc.parse<0>(&content[0]);
+	doc.parse<rapidxml::parse_no_data_nodes>(&content[0]);
+
+	xml_node<> *pRoot = doc.first_node();
+
+	xml_node<>* save = doc.first_node("Save");
+
+	/*race*/
+	std::cout << "Previous Race: " << save->first_node("race")->value() << std::endl;
+	std::string raceText;
+	if (raceVal == 0)
+		raceText = "human";
+	else if (raceVal == 1)
+		raceText = "elf";
+	else if (raceVal == 2)
+		raceText = "dwarf";
+	const char * rt = doc.allocate_string(raceText.c_str(), strlen(raceText.c_str()));
+	save->first_node("race")->value(rt);
+	std::cout << "New Race: " << save->first_node("race")->value() << std::endl;
+
+	/*gender*/
+	std::cout << "Previous Gender: " << save->first_node("gender")->value() << std::endl;
+	std::string genderText;
+	if (genderVal == 0)
+		genderText = "male";
+	else if (genderVal == 1)
+		genderText = "female";
+	const char * gt = doc.allocate_string(genderText.c_str(), strlen(genderText.c_str()));
+	save->first_node("gender")->value(gt);
+	std::cout << "New Gender: " << save->first_node("gender")->value() << std::endl;
+
+	/*health*/
+	std::cout << "Previous Health: " << save->first_node("health")->value() << std::endl;
+	std::string healthText = std::to_string(healthVal);
+	const char * ht = doc.allocate_string(healthText.c_str(), strlen(healthText.c_str()));
+	save->first_node("health")->value(ht);
+	std::cout << "New Health: " << save->first_node("health")->value() << std::endl;
+
+	/*number of chests opened*/
+	std::cout << "Previous numChests: " << save->first_node("numChests")->value() << std::endl;
+	std::string chestText = std::to_string(numChestsVal);
+	const char * ct = doc.allocate_string(chestText.c_str(), strlen(chestText.c_str()));
+	save->first_node("numChests")->value(ct);
+	std::cout << "New numChests: " << save->first_node("numChests")->value() << std::endl;
+
+	/*number of potions drank*/
+	std::cout << "Previous numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
+	std::string potionsText = std::to_string(numPotionsVal);
+	const char * pt = doc.allocate_string(potionsText.c_str(), strlen(potionsText.c_str()));
+	save->first_node("numPotionsUsed")->value(pt);
+	std::cout << "New numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
+
+	/*entered pub for first time*/
+	std::cout << "Previous pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
+	std::string pubText = std::to_string(pubFirstVal);
+	const char * pubt = doc.allocate_string(pubText.c_str(), strlen(pubText.c_str()));
+	save->first_node("pubFirst")->value(pubt);
+	std::cout << "New pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
+
+	/*entered sewers for first time*/
+	std::cout << "Previous sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
+	std::string sewerText = std::to_string(sewerFirstVal);
+	const char * sewt = doc.allocate_string(sewerText.c_str(), strlen(sewerText.c_str()));
+	save->first_node("sewerFirst")->value(sewt);
+	std::cout << "New sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
+
+	/*combats completed*/
+	std::cout << "Previous numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
+	std::string combatText = std::to_string(combatsCompleteVal);
+	const char * comt = doc.allocate_string(combatText.c_str(), strlen(combatText.c_str()));
+	save->first_node("numCombatsComplete")->value(comt);
+	std::cout << "New numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
+
+	/*position*/
+	std::cout << "Previous Position: " << save->first_node("x")->value() << ", " << save->first_node("y")->value() << std::endl;
+	std::string xText = std::to_string(pos.x);
+	const char * posxt = doc.allocate_string(xText.c_str(), strlen(xText.c_str()));
+	save->first_node("x")->value(posxt);
+	std::string yText = std::to_string(pos.y);
+	const char * posyt = doc.allocate_string(yText.c_str(), strlen(yText.c_str()));
+	save->first_node("y")->value(posyt);
+	std::cout << "New Position: " << save->first_node("x")->value() << ", " << save->first_node("y")->value() << std::endl;
+
+	/*area*/
+	std::cout << "Previous area: " << save->first_node("area")->value() << std::endl;
+	std::string areaText = std::to_string(areaVal);
+	const char * areat = doc.allocate_string(areaText.c_str(), strlen(areaText.c_str()));
+	save->first_node("area")->value(areat);
+	std::cout << "New area: " << save->first_node("area")->value() << std::endl;
+
+	//// Convert doc to string if needed
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), doc);
+
+	// Save to file
+	std::ofstream file_stored("Saves/testSave.xml");
+	file_stored << doc;
+	file_stored.close();
+	doc.clear();
+}
 
 
 int main()
@@ -343,7 +456,7 @@ int main()
 			}
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
 			{
-				
+				SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea());
 			}
 			
 		}
