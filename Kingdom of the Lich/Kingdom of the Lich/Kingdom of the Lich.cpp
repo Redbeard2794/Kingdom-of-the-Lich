@@ -38,116 +38,6 @@ using namespace rapidxml;
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
 
-void SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, bool sewerFirstVal
-	, int combatsCompleteVal, sf::Vector2f pos, int areaVal)
-{
-	xml_document<> doc;
-	std::ifstream file("Saves/testSave.xml");
-	std::stringstream buffer;
-	buffer << file.rdbuf();
-	file.close();
-	std::string content(buffer.str());
-	//doc.parse<0>(&content[0]);
-	doc.parse<rapidxml::parse_no_data_nodes>(&content[0]);
-
-	xml_node<> *pRoot = doc.first_node();
-
-	xml_node<>* save = doc.first_node("Save");
-
-	/*race*/
-	std::cout << "Previous Race: " << save->first_node("race")->value() << std::endl;
-	std::string raceText;
-	if (raceVal == 0)
-		raceText = "human";
-	else if (raceVal == 1)
-		raceText = "elf";
-	else if (raceVal == 2)
-		raceText = "dwarf";
-	const char * rt = doc.allocate_string(raceText.c_str(), strlen(raceText.c_str()));
-	save->first_node("race")->value(rt);
-	std::cout << "New Race: " << save->first_node("race")->value() << std::endl;
-
-	/*gender*/
-	std::cout << "Previous Gender: " << save->first_node("gender")->value() << std::endl;
-	std::string genderText;
-	if (genderVal == 0)
-		genderText = "male";
-	else if (genderVal == 1)
-		genderText = "female";
-	const char * gt = doc.allocate_string(genderText.c_str(), strlen(genderText.c_str()));
-	save->first_node("gender")->value(gt);
-	std::cout << "New Gender: " << save->first_node("gender")->value() << std::endl;
-
-	/*health*/
-	std::cout << "Previous Health: " << save->first_node("health")->value() << std::endl;
-	std::string healthText = std::to_string(healthVal);
-	const char * ht = doc.allocate_string(healthText.c_str(), strlen(healthText.c_str()));
-	save->first_node("health")->value(ht);
-	std::cout << "New Health: " << save->first_node("health")->value() << std::endl;
-
-	/*number of chests opened*/
-	std::cout << "Previous numChests: " << save->first_node("numChests")->value() << std::endl;
-	std::string chestText = std::to_string(numChestsVal);
-	const char * ct = doc.allocate_string(chestText.c_str(), strlen(chestText.c_str()));
-	save->first_node("numChests")->value(ct);
-	std::cout << "New numChests: " << save->first_node("numChests")->value() << std::endl;
-
-	/*number of potions drank*/
-	std::cout << "Previous numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
-	std::string potionsText = std::to_string(numPotionsVal);
-	const char * pt = doc.allocate_string(potionsText.c_str(), strlen(potionsText.c_str()));
-	save->first_node("numPotionsUsed")->value(pt);
-	std::cout << "New numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
-
-	/*entered pub for first time*/
-	std::cout << "Previous pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
-	std::string pubText = std::to_string(pubFirstVal);
-	const char * pubt = doc.allocate_string(pubText.c_str(), strlen(pubText.c_str()));
-	save->first_node("pubFirst")->value(pubt);
-	std::cout << "New pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
-
-	/*entered sewers for first time*/
-	std::cout << "Previous sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
-	std::string sewerText = std::to_string(sewerFirstVal);
-	const char * sewt = doc.allocate_string(sewerText.c_str(), strlen(sewerText.c_str()));
-	save->first_node("sewerFirst")->value(sewt);
-	std::cout << "New sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
-
-	/*combats completed*/
-	std::cout << "Previous numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
-	std::string combatText = std::to_string(combatsCompleteVal);
-	const char * comt = doc.allocate_string(combatText.c_str(), strlen(combatText.c_str()));
-	save->first_node("numCombatsComplete")->value(comt);
-	std::cout << "New numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
-
-	/*position*/
-	std::cout << "Previous Position: " << save->first_node("x")->value() << ", " << save->first_node("y")->value() << std::endl;
-	std::string xText = std::to_string(pos.x);
-	const char * posxt = doc.allocate_string(xText.c_str(), strlen(xText.c_str()));
-	save->first_node("x")->value(posxt);
-	std::string yText = std::to_string(pos.y);
-	const char * posyt = doc.allocate_string(yText.c_str(), strlen(yText.c_str()));
-	save->first_node("y")->value(posyt);
-	std::cout << "New Position: " << save->first_node("x")->value() << ", " << save->first_node("y")->value() << std::endl;
-
-	/*area*/
-	std::cout << "Previous area: " << save->first_node("area")->value() << std::endl;
-	std::string areaText = std::to_string(areaVal);
-	const char * areat = doc.allocate_string(areaText.c_str(), strlen(areaText.c_str()));
-	save->first_node("area")->value(areat);
-	std::cout << "New area: " << save->first_node("area")->value() << std::endl;
-
-	//// Convert doc to string if needed
-	std::string xml_as_string;
-	rapidxml::print(std::back_inserter(xml_as_string), doc);
-
-	// Save to file
-	std::ofstream file_stored("Saves/testSave.xml");
-	file_stored << doc;
-	file_stored.close();
-	doc.clear();
-}
-
 
 int main()
 {
@@ -163,8 +53,11 @@ int main()
 	int screenW = sf::VideoMode::getDesktopMode().width;
 	int screenH = sf::VideoMode::getDesktopMode().height;
 
+	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
+
 	/* initialize random seed: */
 	srand(time(NULL));
+
 	AreaManager* areaManager = new AreaManager(font, screenW, screenH);
 	enum Areas
 	{
@@ -337,7 +230,9 @@ int main()
 		INVENTORY,
 		CREDITS,
 		OPTIONS,
-		SHOPPING
+		SHOPPING,
+		SAVE,
+		LOAD
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -456,7 +351,7 @@ int main()
 			}
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
 			{
-				SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea());
+				saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea());
 			}
 			
 		}
@@ -1485,6 +1380,16 @@ int main()
 					testEnemy->DrawBoundingBox(window);
 			}
 
+			if (gamepad->Start())//if the player presses start
+			{
+				screenShot = window.capture();
+				AudioManager::GetInstance()->PlaySoundEffectById(23, false);
+				saveManager->SetCurrentState(1);
+				saveManager->SetCurrentSelected(0);
+				prevState = gState;
+				gState = SAVE;
+			}
+
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
 			popupMessageHandler.DrawMessages(*pWindow);
@@ -2127,6 +2032,66 @@ int main()
 				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
 				areaShops[areaManager->GetCurrentArea()]->Draw(window);
 				achievementTracker->DisplayAchievement(window);
+				break;
+
+
+
+				//save the game
+			case SAVE:
+				gamepad->CheckAllButtons();
+				window.setView(window.getDefaultView());
+
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavUp();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavDown();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else saveManager->SetCanMove(true);
+
+				if (gamepad->A())
+				{
+					if (saveManager->GetCanSelect() == true)
+					{
+						saveManager->UpdateState();
+
+						saveManager->SetCanSelect(false);
+					}
+				}
+				else saveManager->SetCanSelect(true);
+
+				if (saveManager->IsSaving())//if the game is currently being saved
+				{
+					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
+						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea());
+
+					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
+				}
+
+				if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
+				{
+					prevState = SAVE;
+					gState = GAME;
+				}
+
+				saveManager->Draw(window);
+				break;
+
+				//load a save
+			case LOAD:
+
 				break;
 		}
 
