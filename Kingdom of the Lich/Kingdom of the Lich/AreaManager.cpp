@@ -88,6 +88,11 @@ int AreaManager::GetCurrentArea()
 	return currentArea;
 }
 
+void AreaManager::SetCurrentArea(int a)
+{
+	currentArea = a;
+}
+
 void AreaManager::CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds)
 {
 	int a = areas.at(currentArea)->CheckDoorPlayerCollision(playerPos, playerBounds);

@@ -10,5 +10,10 @@
 	<x>0</x>
 	<y>0</y>
 	<area>0</area>
+  <healthPotionQuantity>0</healthPotionQuantity>
+  <aleQuantity>0</aleQuantity>
+  <breadQuantity>0</breadQuantity>
+  <appleQuantity>0</appleQuantity>
+  <gemQuantity>0</gemQuantity>
 </Save>
 

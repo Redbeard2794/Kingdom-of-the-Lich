@@ -45,6 +45,8 @@ public:
 	void MinimapDraw(sf::RenderTarget& window);
 
 	int GetCurrentArea();
+	//only used when loading a game
+	void SetCurrentArea(int a);
 
 	void CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds);
 

@@ -78,7 +78,8 @@ SaveManager::~SaveManager()
 	savePath.clear();
 }
 
-void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal)
+void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, 
+	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv)
 {
 	xml_document<> doc;
 	std::ifstream file(savePath);
@@ -176,6 +177,41 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	save->first_node("area")->value(areat);
 	std::cout << "New area: " << save->first_node("area")->value() << std::endl;
 
+	/*health potion quantity*/
+	std::cout << "Previous Health Potion Quantity: " << save->first_node("healthPotionQuantity")->value() << std::endl;
+	std::string healthPotionQText = std::to_string(playerInv->CheckQuantity(playerInv->i_healthPotion.key, false));
+	const char * hpqText = doc.allocate_string(healthPotionQText.c_str(), strlen(healthPotionQText.c_str()));
+	save->first_node("healthPotionQuantity")->value(hpqText);
+	std::cout << "New Health Potion Quantity: " << save->first_node("healthPotionQuantity")->value() << std::endl;
+
+	/*bottle of ale quantity*/
+	std::cout << "Previous aleQuantity: " << save->first_node("aleQuantity")->value() << std::endl;
+	std::string aleQText = std::to_string(playerInv->CheckQuantity(playerInv->i_ale.key, false));
+	const char * aqText = doc.allocate_string(aleQText.c_str(), strlen(aleQText.c_str()));
+	save->first_node("aleQuantity")->value(aqText);
+	std::cout << "New aleQuantity: " << save->first_node("aleQuantity")->value() << std::endl;
+
+	/*loaf of bread quantity*/
+	std::cout << "Previous breadQuantity: " << save->first_node("breadQuantity")->value() << std::endl;
+	std::string breadQText = std::to_string(playerInv->CheckQuantity(playerInv->i_bread.key, false));
+	const char * bqText = doc.allocate_string(breadQText.c_str(), strlen(breadQText.c_str()));
+	save->first_node("breadQuantity")->value(bqText);
+	std::cout << "New breadQuantity: " << save->first_node("breadQuantity")->value() << std::endl;
+
+	/*apple quantity*/
+	std::cout << "Previous appleQuantity: " << save->first_node("appleQuantity")->value() << std::endl;
+	std::string appleQText = std::to_string(playerInv->CheckQuantity(playerInv->i_apple.key, false));
+	const char * appqText = doc.allocate_string(appleQText.c_str(), strlen(appleQText.c_str()));
+	save->first_node("appleQuantity")->value(appqText);
+	std::cout << "New appleQuantity: " << save->first_node("appleQuantity")->value() << std::endl;
+
+	/*gem quantity*/
+	std::cout << "Previous gemQuantity: " << save->first_node("gemQuantity")->value() << std::endl;
+	std::string gemQText = std::to_string(playerInv->CheckQuantity(playerInv->i_gems.key, false));
+	const char * gemqText = doc.allocate_string(gemQText.c_str(), strlen(gemQText.c_str()));
+	save->first_node("gemQuantity")->value(gemqText);
+	std::cout << "New gemQuantity: " << save->first_node("gemQuantity")->value() << std::endl;
+
 	/*tutorial complete*/
 
 
@@ -190,6 +226,96 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	doc.clear();
 
 	saving = false;
+}
+
+//load a game. return true if the save is not empty. if it is then load a new game
+bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv)
+{
+	savePath = "Saves/save" + std::to_string(currentSelected + 1) + ".xml";
+
+	xml_document<> doc;
+	std::ifstream file(savePath);
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	file.close();
+	std::string content(buffer.str());
+	//doc.parse<0>(&content[0]);
+	doc.parse<rapidxml::parse_no_data_nodes>(&content[0]);
+
+	xml_node<> *pRoot = doc.first_node();
+
+	xml_node<>* save = doc.first_node("Save");
+
+	std::string race = save->first_node("race")->value();
+
+	if (race == "unknown")//if race = unknown then the save is empty
+		return false;
+
+	std::string gender = save->first_node("gender")->value();
+	int health = std::atoi(save->first_node("health")->value());
+	int numChests = std::atoi(save->first_node("numChests")->value());
+	int numPotionsUsed = std::atoi(save->first_node("numPotionsUsed")->value());
+	bool pubFirst = std::atoi(save->first_node("pubFirst")->value());
+	bool sewerFirst = std::atoi(save->first_node("sewerFirst")->value());
+	int numCombatsComplete = std::atoi(save->first_node("numCombatsComplete")->value());
+	float x = std::atof(save->first_node("x")->value());
+	float y = std::atof(save->first_node("y")->value());
+	int area = std::atoi(save->first_node("area")->value());
+	int healthPotionQuantity = std::atoi(save->first_node("healthPotionQuantity")->value());
+	int aleQuantity = std::atoi(save->first_node("aleQuantity")->value());
+	int breadQuantity = std::atoi(save->first_node("breadQuantity")->value());
+	int appleQuantity = std::atoi(save->first_node("appleQuantity")->value());
+	int gemQuantity = std::atoi(save->first_node("gemQuantity")->value());
+
+	//set the player's race
+	if (race == "human")
+		player->setRace(0);
+	else if (race == "elf")
+		player->setRace(1);
+	else if (race == "dwarf")
+		player->setRace(2);
+	//set the player's gender
+	if (gender == "male")
+		player->setGender(0);
+	else if (gender == "female")
+		player->setGender(1);
+	//set the player's health
+	player->setHealth(health);
+	//set the number of chests the player has opened
+	player->IncreaseOpenedChests(numChests);
+	//set the number of potions the player has drank
+	player->IncreasePotionsDrank(numPotionsUsed);
+	//set whether the player has visited a pub
+	player->SetPlayerGonePub(pubFirst);
+	//set whether the player has visited the sewers
+	player->SetPlayerGoneSewer(sewerFirst);
+	//set the number of combats the player has completed
+	player->IncreaseCombatsComplete(numCombatsComplete);
+	//set the player's position
+	player->setPosition(x, y);
+	//set the current area
+	areaManager->SetCurrentArea(area);//////////////////not working properly
+	//set health potion quantity
+	if (healthPotionQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_healthPotion.key, healthPotionQuantity);
+	//set player bottle of ale quantity
+	if (aleQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_ale.key, aleQuantity);
+	//set the loaf of bread quantity
+	if (breadQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_bread.key, breadQuantity);
+	//set the apple quantity
+	if (appleQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_apple.key, appleQuantity);
+	//set the gem quantity
+	if (gemQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_gems.key, gemQuantity);
+	/*Check quest stage for tutorial/tutorial completed*/
+
+	achievementTracker->Update();
+	achievementTracker->LoadPrevUnlockedAchievements();
+
+	return true;
 }
 
 void SaveManager::UpdateState()
