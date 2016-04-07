@@ -254,9 +254,6 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	save->first_node("quest1CurrentStage")->value(q1sT);
 	std::cout << "New quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
 
-	/*tutorial complete*/
-
-
 	//// Convert doc to string if needed
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
@@ -312,6 +309,8 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	int parchmentQuantity = std::atoi(save->first_node("parchmentQuantity")->value());
 	int inkBottleQuantity = std::atoi(save->first_node("inkBottleQuantity")->value());
 	int quillQuantity = std::atoi(save->first_node("quillQuantity")->value());
+	bool quest1Complete = std::atoi(save->first_node("quest1Complete")->value());
+	int quest1Stage = std::atoi(save->first_node("quest1CurrentStage")->value());
 
 	//set the player's race
 	if (race == "human")
@@ -368,8 +367,10 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	//set the quill quantity
 	if (quillQuantity != 0)
 		playerInv->AddItemToInventory(playerInv->i_quill.key, quillQuantity);
-
-	/*Check quest stage for tutorial/tutorial completed*/
+	//quest 1 completion status
+	q1->setCompletionStatus(quest1Complete);
+	//quest 1 current stage
+	q1->setCurrentStageIndex(quest1Stage);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -378,6 +379,166 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	achievementTracker->LoadPrevUnlockedAchievements();
 
 	return true;
+}
+
+//clear all save slots of save data
+void SaveManager::ClearAllSaveSlots()
+{
+	std::string path = "Saves/Save1.xml";
+	std::string screenShotPath = "Saves/save1ScreenShot.png";
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == 0)
+		{
+			path = "Saves/Save1.xml";
+			screenShotPath = "Saves/save1ScreenShot.png";
+		}
+		else if (i == 1)
+		{
+			path = "Saves/Save2.xml";
+			screenShotPath = "Saves/save2ScreenShot.png";
+		}
+		else if (i == 2)
+		{
+			path = "Saves/Save3.xml";
+			screenShotPath = "Saves/save3ScreenShot.png";
+		}
+
+		xml_document<> doc;
+		std::ifstream file(path);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		//doc.parse<0>(&content[0]);
+		doc.parse<rapidxml::parse_no_data_nodes>(&content[0]);
+
+		xml_node<> *pRoot = doc.first_node();
+
+		xml_node<>* save = doc.first_node("Save");
+
+		/*race*/
+		std::string raceText = "unknown";
+		const char * rt = doc.allocate_string(raceText.c_str(), strlen(raceText.c_str()));
+		save->first_node("race")->value(rt);
+
+		/*gender*/
+		std::string genderText = "unknown";
+		const char * gt = doc.allocate_string(genderText.c_str(), strlen(genderText.c_str()));
+		save->first_node("gender")->value(gt);
+
+		/*health*/
+		std::string healthText = std::to_string(0);
+		const char * ht = doc.allocate_string(healthText.c_str(), strlen(healthText.c_str()));
+		save->first_node("health")->value(ht);
+
+		/*number of chests opened*/
+		std::string chestText = std::to_string(0);
+		const char * ct = doc.allocate_string(chestText.c_str(), strlen(chestText.c_str()));
+		save->first_node("numChests")->value(ct);
+
+		/*number of potions drank*/
+		std::string potionsText = std::to_string(0);
+		const char * pt = doc.allocate_string(potionsText.c_str(), strlen(potionsText.c_str()));
+		save->first_node("numPotionsUsed")->value(pt);
+
+		/*entered pub for first time*/
+		std::string pubText = std::to_string(0);
+		const char * pubt = doc.allocate_string(pubText.c_str(), strlen(pubText.c_str()));
+		save->first_node("pubFirst")->value(pubt);
+
+		/*entered sewers for first time*/
+		std::string sewerText = std::to_string(0);
+		const char * sewt = doc.allocate_string(sewerText.c_str(), strlen(sewerText.c_str()));
+		save->first_node("sewerFirst")->value(sewt);
+
+		/*combats completed*/
+		std::string combatText = std::to_string(0);
+		const char * comt = doc.allocate_string(combatText.c_str(), strlen(combatText.c_str()));
+		save->first_node("numCombatsComplete")->value(comt);
+
+		/*position*/
+		std::string xText = std::to_string(0);
+		const char * posxt = doc.allocate_string(xText.c_str(), strlen(xText.c_str()));
+		save->first_node("x")->value(posxt);
+		std::string yText = std::to_string(0);
+		const char * posyt = doc.allocate_string(yText.c_str(), strlen(yText.c_str()));
+		save->first_node("y")->value(posyt);
+
+		/*area*/
+		std::string areaText = std::to_string(0);
+		const char * areat = doc.allocate_string(areaText.c_str(), strlen(areaText.c_str()));
+		save->first_node("area")->value(areat);
+
+		/*health potion quantity*/
+		std::string healthPotionQText = std::to_string(0);
+		const char * hpqText = doc.allocate_string(healthPotionQText.c_str(), strlen(healthPotionQText.c_str()));
+		save->first_node("healthPotionQuantity")->value(hpqText);
+
+		/*bottle of ale quantity*/
+		std::string aleQText = std::to_string(0);
+		const char * aqText = doc.allocate_string(aleQText.c_str(), strlen(aleQText.c_str()));
+		save->first_node("aleQuantity")->value(aqText);
+
+		/*loaf of bread quantity*/
+		std::string breadQText = std::to_string(0);
+		const char * bqText = doc.allocate_string(breadQText.c_str(), strlen(breadQText.c_str()));
+		save->first_node("breadQuantity")->value(bqText);
+
+		/*apple quantity*/
+		std::string appleQText = std::to_string(0);
+		const char * appqText = doc.allocate_string(appleQText.c_str(), strlen(appleQText.c_str()));
+		save->first_node("appleQuantity")->value(appqText);
+
+		/*gem quantity*/
+		std::string gemQText = std::to_string(0);
+		const char * gemqText = doc.allocate_string(gemQText.c_str(), strlen(gemQText.c_str()));
+		save->first_node("gemQuantity")->value(gemqText);
+
+		/*baracks key quantity*/
+		std::string bKeyText = std::to_string(0);
+		const char * bkText = doc.allocate_string(bKeyText.c_str(), strlen(bKeyText.c_str()));
+		save->first_node("baracksKeyQuantity")->value(bkText);
+
+		/*parchment quantity*/
+		std::string parchmentText = std::to_string(0);
+		const char * parText = doc.allocate_string(parchmentText.c_str(), strlen(parchmentText.c_str()));
+		save->first_node("parchmentQuantity")->value(parText);
+
+		/*ink bottle quantity*/
+		std::string inkText = std::to_string(0);
+		const char * inkBText = doc.allocate_string(inkText.c_str(), strlen(inkText.c_str()));
+		save->first_node("inkBottleQuantity")->value(inkBText);
+
+		/*quill quantity*/
+		std::string quillText = std::to_string(0);
+		const char * qText = doc.allocate_string(quillText.c_str(), strlen(quillText.c_str()));
+		save->first_node("quillQuantity")->value(qText);
+
+		//quest 1 complete
+		std::string quest1Text = std::to_string(0);
+		const char * q1T = doc.allocate_string(quest1Text.c_str(), strlen(quest1Text.c_str()));
+		save->first_node("quest1Complete")->value(q1T);
+
+		//quest 1 stage
+		std::cout << "Previous quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
+		std::string quest1StageText = std::to_string(0);
+		const char * q1sT = doc.allocate_string(quest1StageText.c_str(), strlen(quest1StageText.c_str()));
+		save->first_node("quest1CurrentStage")->value(q1sT);
+		std::cout << "New quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
+
+		// Save to file
+		std::ofstream file_stored(path);
+		file_stored << doc;
+		file_stored.close();
+		doc.clear();
+
+		if (remove(screenShotPath.c_str()) != 0)
+			perror("Error deleting file");
+		else
+			puts("File successfully deleted");
+	}
 }
 
 void SaveManager::UpdateState()

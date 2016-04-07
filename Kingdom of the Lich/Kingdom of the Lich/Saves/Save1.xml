@@ -21,5 +21,6 @@
 	<quillQuantity>0</quillQuantity>
 	<quest1Complete>0</quest1Complete>
 	<quest1CurrentStage>0</quest1CurrentStage>
+	<currentQuest>0</currentQuest>
 </Save>
 

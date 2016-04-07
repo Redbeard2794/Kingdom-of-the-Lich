@@ -66,6 +66,9 @@ public:
 	//load a game. return true if the save is not empty. if it is then load a new game
 	bool LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1);
 
+	//clear all save slots of save data
+	void ClearAllSaveSlots();
+
 	//update
 	void UpdateState();
 
