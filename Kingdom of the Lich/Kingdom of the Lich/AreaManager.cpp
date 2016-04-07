@@ -21,11 +21,11 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 
 	currentArea = TUTORIAL;
 
-	areaToChangeTo = TUTORIAL;
+	areaToChangeTo = NONE;
 	readyToChangeArea = false;
 
 	currentAreaText.setFont(font);
-	currentAreaText.setColor(sf::Color(220, 20, 60, 255));
+	currentAreaText.setColor(sf::Color::Cyan);
 	currentAreaText.setCharacterSize(20);
 	currentAreaText.setPosition(screenW-400, 15);
 }
@@ -86,6 +86,11 @@ void AreaManager::MinimapDraw(sf::RenderTarget & window)
 int AreaManager::GetCurrentArea()
 {
 	return currentArea;
+}
+
+void AreaManager::SetCurrentArea(int a)
+{
+	currentArea = a;
 }
 
 void AreaManager::CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds)

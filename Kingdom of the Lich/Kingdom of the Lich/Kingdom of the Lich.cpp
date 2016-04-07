@@ -27,9 +27,12 @@
 #include <ctime>
 
 //rapidxml stuff
+#include "rapidxml.hpp"
+#include "rapidxml_print.hpp"
 #include "rapidxml_utils.hpp"
 using namespace rapidxml;
 #include <sstream> // std::stringstream
+#include <fstream>
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
@@ -50,8 +53,11 @@ int main()
 	int screenW = sf::VideoMode::getDesktopMode().width;
 	int screenH = sf::VideoMode::getDesktopMode().height;
 
+	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
+
 	/* initialize random seed: */
 	srand(time(NULL));
+
 	AreaManager* areaManager = new AreaManager(font, screenW, screenH);
 	enum Areas
 	{
@@ -62,7 +68,7 @@ int main()
 		House2,
 		TheDrunkenDragonInn
 	};
-	int currentArea = areaManager->GetCurrentArea();
+	int currentArea;// = areaManager->GetCurrentArea();
 
 	FootprintEmitter* playerFootprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
@@ -224,7 +230,9 @@ int main()
 		INVENTORY,
 		CREDITS,
 		OPTIONS,
-		SHOPPING
+		SHOPPING,
+		SAVE,
+		LOAD
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -275,9 +283,6 @@ int main()
 	//for testing inventory
 	Inventory* testInv = new Inventory(font, useController, screenW, screenH);
 	testInv->PrintAllInventory();
-	testInv->AddItemToInventory(testInv->i_gems.key, 5);
-	testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
-	//testInv->AddItemToInventory(testInv->i_ale.key, 1);
 
 	//testing chest
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
@@ -343,7 +348,7 @@ int main()
 			}
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
 			{
-				
+				saveManager->ClearAllSaveSlots();
 			}
 			
 		}
@@ -448,10 +453,17 @@ int main()
 						//audioManager->PlaySoundEffectById(0, true);
 						prevState = gState;
 						gState = CHOOSERACEGENDER;
+						testInv->AddItemToInventory(testInv->i_gems.key, 5);
+						testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
 					{
 						enterPressed = false;
+						saveManager->SetCurrentState(2);
+						saveManager->SetCurrentSelected(0);
+						prevState = gState;
+						gState = LOAD;
+						//currentArea = areaManager->GetCurrentArea();
 						//std::cout << "Continue game not available yet" << std::endl;
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
@@ -513,10 +525,17 @@ int main()
 						//audioManager->PlaySoundEffectById(0, true);
 						prevState = gState;
 						gState = CHOOSERACEGENDER;
+						testInv->AddItemToInventory(testInv->i_gems.key, 5);
+						testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
 					{
-						std::cout << "Continue game not available yet" << std::endl;
+						//std::cout << "Continue game not available yet" << std::endl;
+						saveManager->SetCurrentState(2);
+						saveManager->SetCurrentSelected(0);
+						prevState = gState;
+						gState = LOAD;
+						
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
 					{
@@ -1372,6 +1391,16 @@ int main()
 					testEnemy->DrawBoundingBox(window);
 			}
 
+			if (gamepad->Start())//if the player presses start
+			{
+				screenShot = window.capture();
+				AudioManager::GetInstance()->PlaySoundEffectById(23, false);
+				saveManager->SetCurrentState(1);
+				saveManager->SetCurrentSelected(0);
+				prevState = gState;
+				gState = SAVE;
+			}
+
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
 			window.setView(window.getDefaultView());
 			popupMessageHandler.DrawMessages(*pWindow);
@@ -2014,6 +2043,129 @@ int main()
 				areaShops[areaManager->GetCurrentArea()]->Update(testInv->CheckQuantity("Gems", false));
 				areaShops[areaManager->GetCurrentArea()]->Draw(window);
 				achievementTracker->DisplayAchievement(window);
+				break;
+
+
+
+				//save the game
+			case SAVE:
+				gamepad->CheckAllButtons();
+				window.setView(window.getDefaultView());
+
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavUp();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavDown();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else saveManager->SetCanMove(true);
+
+				if (gamepad->A())
+				{
+					if (saveManager->GetCanSelect() == true)
+					{
+						saveManager->UpdateState();
+
+						saveManager->SetCanSelect(false);
+					}
+				}
+				else saveManager->SetCanSelect(true);
+
+				if (saveManager->IsSaving())//if the game is currently being saved
+				{
+					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
+						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest);
+
+					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
+				}
+
+				if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
+				{
+					prevState = SAVE;
+					gState = GAME;
+				}
+
+				saveManager->Draw(window);
+				break;
+
+				//load a save
+			case LOAD:
+
+				gamepad->CheckAllButtons();
+				window.setView(window.getDefaultView());
+
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavUp();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (saveManager->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						saveManager->NavDown();
+						saveManager->SetCanMove(false);
+					}
+				}
+				else saveManager->SetCanMove(true);
+
+				if (gamepad->A())
+				{
+					if (saveManager->GetCanSelect() == true)
+					{
+						saveManager->UpdateState();
+
+						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest) == true)//so save is not empty
+						{
+							popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
+							p->setTextures();
+
+							splashClock->restart();
+							AudioManager::GetInstance()->PlaySoundEffectById(2, true);
+							//AudioManager::GetInstance()->PlayMusicById(1);
+							AudioManager::GetInstance()->StopMusic(0);
+
+							popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
+							popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
+							if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
+							{
+								prevState = LOAD;
+								gState = GAME;
+							}
+							currentArea = areaManager->GetCurrentArea();
+						}
+						else//save slot is empty so start a new game
+						{
+							prevState = gState;
+							gState = CHOOSERACEGENDER;
+						}
+
+						saveManager->SetCanSelect(false);
+					}
+				}
+				else saveManager->SetCanSelect(true);
+
+
+
+				saveManager->Draw(window);
+
 				break;
 		}
 

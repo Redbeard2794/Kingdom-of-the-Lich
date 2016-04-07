@@ -1,0 +1,26 @@
+<Save>
+	<race>unknown</race>
+	<gender>unknown</gender>
+	<health>0</health>
+	<numChests>0</numChests>
+	<numPotionsUsed>0</numPotionsUsed>
+	<pubFirst>0</pubFirst>
+	<sewerFirst>0</sewerFirst>
+	<numCombatsComplete>0</numCombatsComplete>
+	<x>0</x>
+	<y>0</y>
+	<area>0</area>
+	<healthPotionQuantity>0</healthPotionQuantity>
+	<aleQuantity>0</aleQuantity>
+	<breadQuantity>0</breadQuantity>
+	<appleQuantity>0</appleQuantity>
+	<gemQuantity>0</gemQuantity>
+	<baracksKeyQuantity>0</baracksKeyQuantity>
+	<parchmentQuantity>0</parchmentQuantity>
+	<inkBottleQuantity>0</inkBottleQuantity>
+	<quillQuantity>0</quillQuantity>
+	<quest1Complete>0</quest1Complete>
+	<quest1CurrentStage>0</quest1CurrentStage>
+	<currentQuest>0</currentQuest>
+</Save>
+

@@ -148,3 +148,12 @@ void AchievementTracker::DisplayAchievement(sf::RenderTarget & window)
 		}
 	}
 }
+
+//make achievements unlocked in a saved game not pop up again when the game is loaded
+void AchievementTracker::LoadPrevUnlockedAchievements()
+{
+	for (int i = 0; i < unlockedAchievements.size(); i++)
+	{
+		unlockedAchievements.at(i)->SetDisplayStatus(true);
+	}
+}

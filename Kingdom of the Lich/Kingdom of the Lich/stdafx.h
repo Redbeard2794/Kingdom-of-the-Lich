@@ -74,6 +74,7 @@
 #include "AchievementTracker.h"
 #include "Item.h"
 #include "ShopInventory.h"
+#include "SaveManager.h"
 
 
 #endif

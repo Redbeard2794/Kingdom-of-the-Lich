@@ -193,6 +193,7 @@
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
+    <ClInclude Include="SaveManager.h" />
     <ClInclude Include="ShopInventory.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="stdafx.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="PopupMessageController.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestStage.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="ShopInventory.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="stdafx.cpp">

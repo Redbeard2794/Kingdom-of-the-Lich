@@ -33,6 +33,9 @@ public:
 	void Update();
 
 	void DisplayAchievement(sf::RenderTarget& window);
+
+	//make achievements unlocked in a saved game not pop up again when the game is loaded
+	void LoadPrevUnlockedAchievements();
 };
 
 #endif
