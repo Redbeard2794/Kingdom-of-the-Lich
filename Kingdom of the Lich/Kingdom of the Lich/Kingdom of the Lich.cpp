@@ -68,7 +68,7 @@ int main()
 		House2,
 		TheDrunkenDragonInn
 	};
-	int currentArea = areaManager->GetCurrentArea();
+	int currentArea;// = areaManager->GetCurrentArea();
 
 	FootprintEmitter* playerFootprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
@@ -463,6 +463,7 @@ int main()
 						saveManager->SetCurrentSelected(0);
 						prevState = gState;
 						gState = LOAD;
+						//currentArea = areaManager->GetCurrentArea();
 						//std::cout << "Continue game not available yet" << std::endl;
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
@@ -534,6 +535,7 @@ int main()
 						saveManager->SetCurrentSelected(0);
 						prevState = gState;
 						gState = LOAD;
+						
 					}
 					else if (mainMenu->getSelectedOption() == 2)//options
 					{
@@ -2084,7 +2086,7 @@ int main()
 				if (saveManager->IsSaving())//if the game is currently being saved
 				{
 					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
-						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv);
+						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest);
 
 					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
 				}
@@ -2130,14 +2132,15 @@ int main()
 					{
 						saveManager->UpdateState();
 
-						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv) == true)//so save is not empty
+						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest) == true)//so save is not empty
 						{
 							popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 							p->setTextures();
 
 							splashClock->restart();
 							AudioManager::GetInstance()->PlaySoundEffectById(2, true);
-							AudioManager::GetInstance()->PlayMusicById(1);
+							//AudioManager::GetInstance()->PlayMusicById(1);
+							AudioManager::GetInstance()->StopMusic(0);
 
 							popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 							popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
@@ -2146,6 +2149,7 @@ int main()
 								prevState = LOAD;
 								gState = GAME;
 							}
+							currentArea = areaManager->GetCurrentArea();
 						}
 						else//save slot is empty so start a new game
 						{

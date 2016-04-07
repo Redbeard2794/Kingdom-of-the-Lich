@@ -79,7 +79,7 @@ SaveManager::~SaveManager()
 }
 
 void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, 
-	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv)
+	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1)
 {
 	xml_document<> doc;
 	std::ifstream file(savePath);
@@ -212,6 +212,48 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	save->first_node("gemQuantity")->value(gemqText);
 	std::cout << "New gemQuantity: " << save->first_node("gemQuantity")->value() << std::endl;
 
+	/*baracks key quantity*/
+	std::cout << "Previous BaracksKeyQuantity: " << save->first_node("baracksKeyQuantity")->value() << std::endl;
+	std::string bKeyText = std::to_string(playerInv->CheckQuantity(playerInv->i_baracksKey.key, false));
+	const char * bkText = doc.allocate_string(bKeyText.c_str(), strlen(bKeyText.c_str()));
+	save->first_node("baracksKeyQuantity")->value(bkText);
+	std::cout << "New BaracksKeyQuantity: " << save->first_node("baracksKeyQuantity")->value() << std::endl;
+
+	/*parchment quantity*/
+	std::cout << "Previous parchmentQuantity: " << save->first_node("parchmentQuantity")->value() << std::endl;
+	std::string parchmentText = std::to_string(playerInv->CheckQuantity(playerInv->i_parchment.key, false));
+	const char * parText = doc.allocate_string(parchmentText.c_str(), strlen(parchmentText.c_str()));
+	save->first_node("parchmentQuantity")->value(parText);
+	std::cout << "New parchmentQuantity: " << save->first_node("parchmentQuantity")->value() << std::endl;
+
+	/*ink bottle quantity*/
+	std::cout << "Previous inkBottleQuantity: " << save->first_node("inkBottleQuantity")->value() << std::endl;
+	std::string inkText = std::to_string(playerInv->CheckQuantity(playerInv->i_inkBottle.key, false));
+	const char * inkBText = doc.allocate_string(inkText.c_str(), strlen(inkText.c_str()));
+	save->first_node("inkBottleQuantity")->value(inkBText);
+	std::cout << "New inkBottleQuantity: " << save->first_node("inkBottleQuantity")->value() << std::endl;
+
+	/*quill quantity*/
+	std::cout << "Previous quillQuantity: " << save->first_node("quillQuantity")->value() << std::endl;
+	std::string quillText = std::to_string(playerInv->CheckQuantity(playerInv->i_quill.key, false));
+	const char * qText = doc.allocate_string(quillText.c_str(), strlen(quillText.c_str()));
+	save->first_node("quillQuantity")->value(qText);
+	std::cout << "New quillQuantity: " << save->first_node("quillQuantity")->value() << std::endl;
+
+	//quest 1 complete
+	std::cout << "Previous quest1Complete: " << save->first_node("quest1Complete")->value() << std::endl;
+	std::string quest1Text = std::to_string(q1->getCompletionStatus());
+	const char * q1T = doc.allocate_string(quest1Text.c_str(), strlen(quest1Text.c_str()));
+	save->first_node("quest1Complete")->value(q1T);
+	std::cout << "New quest1Complete: " << save->first_node("quest1Complete")->value() << std::endl;
+
+	//quest 1 stage
+	std::cout << "Previous quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
+	std::string quest1StageText = std::to_string(q1->getCurrentStageIndex());
+	const char * q1sT = doc.allocate_string(quest1StageText.c_str(), strlen(quest1StageText.c_str()));
+	save->first_node("quest1CurrentStage")->value(q1sT);
+	std::cout << "New quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
+
 	/*tutorial complete*/
 
 
@@ -229,7 +271,7 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 }
 
 //load a game. return true if the save is not empty. if it is then load a new game
-bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv)
+bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1)
 {
 	savePath = "Saves/save" + std::to_string(currentSelected + 1) + ".xml";
 
@@ -266,6 +308,10 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	int breadQuantity = std::atoi(save->first_node("breadQuantity")->value());
 	int appleQuantity = std::atoi(save->first_node("appleQuantity")->value());
 	int gemQuantity = std::atoi(save->first_node("gemQuantity")->value());
+	int baracksKeyQuantity = std::atoi(save->first_node("baracksKeyQuantity")->value());
+	int parchmentQuantity = std::atoi(save->first_node("parchmentQuantity")->value());
+	int inkBottleQuantity = std::atoi(save->first_node("inkBottleQuantity")->value());
+	int quillQuantity = std::atoi(save->first_node("quillQuantity")->value());
 
 	//set the player's race
 	if (race == "human")
@@ -294,7 +340,7 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	//set the player's position
 	player->setPosition(x, y);
 	//set the current area
-	areaManager->SetCurrentArea(area);//////////////////not working properly
+	areaManager->SetCurrentArea(area);//////////////////not working properly??? a door is triggered?
 	//set health potion quantity
 	if (healthPotionQuantity != 0)
 		playerInv->AddItemToInventory(playerInv->i_healthPotion.key, healthPotionQuantity);
@@ -310,9 +356,25 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	//set the gem quantity
 	if (gemQuantity != 0)
 		playerInv->AddItemToInventory(playerInv->i_gems.key, gemQuantity);
+	//set baracks key quantity
+	if (baracksKeyQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_baracksKey.key, baracksKeyQuantity);
+	//set parchment quantity
+	if (parchmentQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_parchment.key, parchmentQuantity);
+	//set ink bottle quantity
+	if (inkBottleQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_inkBottle.key, inkBottleQuantity);
+	//set the quill quantity
+	if (quillQuantity != 0)
+		playerInv->AddItemToInventory(playerInv->i_quill.key, quillQuantity);
+
 	/*Check quest stage for tutorial/tutorial completed*/
 
-	achievementTracker->Update();
+	for (int i = 0; i < 5; i++)
+	{
+		achievementTracker->Update();
+	}
 	achievementTracker->LoadPrevUnlockedAchievements();
 
 	return true;

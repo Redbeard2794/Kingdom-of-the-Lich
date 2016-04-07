@@ -13,7 +13,8 @@ private:
 		LellesQualityMerchandise,
 		House1,
 		House2,
-		TheDrunkenDragonInn
+		TheDrunkenDragonInn,
+		NONE
 	};
 	int currentArea;
 

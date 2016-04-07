@@ -15,5 +15,11 @@
   <breadQuantity>0</breadQuantity>
   <appleQuantity>0</appleQuantity>
   <gemQuantity>0</gemQuantity>
+  <baracksKeyQuantity>0</baracksKeyQuantity>
+  <parchmentQuantity>0</parchmentQuantity>
+  <inkBottleQuantity>0</inkBottleQuantity>
+  <quillQuantity>0</quillQuantity>
+  <quest1Complete>0</quest1Complete>
+  <quest1CurrentStage>0</quest1CurrentStage>
 </Save>
 
