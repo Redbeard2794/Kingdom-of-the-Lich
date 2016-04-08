@@ -106,3 +106,5 @@ sword for first combat achievement: http://opengameart.org/content/fantasy-rpg-i
 achievement unlocked sound: http://opengameart.org/content/metal-hit
 http://www.marcelofernandezmusic.com
 Marcelo Fernandez
+
+combat animations: http://opengameart.org/content/16x18-attack-stances
