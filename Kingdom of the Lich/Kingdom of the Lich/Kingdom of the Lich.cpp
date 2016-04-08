@@ -695,6 +695,7 @@ int main()
 								AudioManager::GetInstance()->PlayMusicById(1);
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
+								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -867,6 +868,7 @@ int main()
 								}
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -2154,6 +2156,7 @@ int main()
 								gState = GAME;
 							}
 							currentArea = areaManager->GetCurrentArea();
+							pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 						}
 						else//save slot is empty so start a new game
 						{
