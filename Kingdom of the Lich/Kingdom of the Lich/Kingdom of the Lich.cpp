@@ -54,6 +54,7 @@ int main()
 	int screenH = sf::VideoMode::getDesktopMode().height;
 
 	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
+	PauseMenu* pauseMenu = new PauseMenu(font, screenW, screenH);
 
 	/* initialize random seed: */
 	srand(time(NULL));
@@ -232,7 +233,8 @@ int main()
 		OPTIONS,
 		SHOPPING,
 		SAVE,
-		LOAD
+		LOAD,
+		PAUSE
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -1398,7 +1400,8 @@ int main()
 				saveManager->SetCurrentState(1);
 				saveManager->SetCurrentSelected(0);
 				prevState = gState;
-				gState = SAVE;
+				//gState = SAVE;
+				gState = PAUSE;
 			}
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
@@ -1951,7 +1954,8 @@ int main()
 					else if (optionsMenu->GetState() == 0)
 					{
 						optionsMenu->SetCanBackOut(false);
-						gState = MAINMENU;
+						gState = prevState;
+						prevState = OPTIONS;
 					}
 				}
 			}
@@ -2166,6 +2170,63 @@ int main()
 
 				saveManager->Draw(window);
 
+				break;
+
+				/*Pause the game and show the pause menu*/
+			case PAUSE:
+				gamepad->CheckAllButtons();
+				window.setView(window.getDefaultView());
+
+				/*player input*/
+				if (gamepad->DpadUp() == true || (gamepad->getNormalisedLeftStickAxis().y > 0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (pauseMenu->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						pauseMenu->NavUp();
+						pauseMenu->SetCanMove(false);
+					}
+				}
+				else if (gamepad->DpadDown() == true || (gamepad->getNormalisedLeftStickAxis().y < -0.9f && gamepad->isLeftAxisOutOfDeadzone() == true))
+				{
+					if (pauseMenu->GetCanMove() == true)
+					{
+						AudioManager::GetInstance()->PlaySoundEffectById(1, false);
+						pauseMenu->NavDown();
+						pauseMenu->SetCanMove(false);
+					}
+				}
+				else pauseMenu->SetCanMove(true);
+				if (gamepad->A())
+				{
+					if (pauseMenu->GetCanSelect() == true)
+					{
+						if (pauseMenu->GetCurrentSelected() == 0)//save
+						{
+							prevState = gState;
+							gState = SAVE;
+						}
+						else if (pauseMenu->GetCurrentSelected() == 1)//options
+						{
+							prevState = gState;
+							gState = OPTIONS;
+						}
+						else if (pauseMenu->GetCurrentSelected() == 2)//quit
+						{
+							window.close();
+						}
+						pauseMenu->SetCanSelect(false);
+					}
+				}
+				else pauseMenu->SetCanSelect(true);
+				if (gamepad->B())
+				{
+					prevState = PAUSE;
+					gState = GAME;
+				}
+
+				pauseMenu->Update();
+				pauseMenu->Draw(window);
 				break;
 		}
 
