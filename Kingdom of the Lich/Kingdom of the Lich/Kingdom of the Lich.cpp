@@ -56,6 +56,8 @@ int main()
 	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
 	PauseMenu* pauseMenu = new PauseMenu(font, screenW, screenH);
 
+	WorldClock* worldClock = new WorldClock();
+
 	/* initialize random seed: */
 	srand(time(NULL));
 
@@ -356,6 +358,7 @@ int main()
 		}
 
 		window.clear();
+		worldClock->Update();
 		switch (gState)
 		{
 
