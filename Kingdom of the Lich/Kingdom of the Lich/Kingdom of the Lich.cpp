@@ -130,6 +130,25 @@ int main()
 	std::map<int, ShopInventory*> areaShops;
 	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
 
+	//std::vector<Pnode*> testNodes;
+	//for (int i = 0; i < 40; i++)
+	//{
+	//	for (int j = 0; j < 40; j++)
+	//	{
+	//		//std::string id = std::to_string(i);
+	//		//id += std::to_string(j);
+	//		//Pnode* node = new Pnode(sf::Vector2f((i * 50) + 25, (j * 50) + 25), id);
+	//		Pnode* n = new Pnode(sf::Vector2f((i * 50) + 25, (j * 50 + 25)));
+	//		testNodes.push_back(n);
+	//	}
+	//}
+
+	PathFinder* pathFinder = new PathFinder();
+	pathFinder->SetStartNodeByPosition(sf::Vector2f(525, 425));
+	pathFinder->SetGoalNodeByPosition(sf::Vector2f(675, 425));
+	pathFinder->FindPath();
+
+
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
 
@@ -1105,6 +1124,13 @@ int main()
 			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
 				window.draw(pubOne);
 			
+
+			//for (int i = 0; i < testNodes.size(); i++)
+			//{
+			//	window.draw(*testNodes.at(i));
+			//}
+			pathFinder->Draw(window);
+
 			//update the player
 			p->Update();
 
@@ -1266,6 +1292,7 @@ int main()
 			areaManager->Draw(window, debugMode);
 			
 			window.draw(*p);
+
 			if (debugMode)
 				p->DrawBoundingBox(window);
 

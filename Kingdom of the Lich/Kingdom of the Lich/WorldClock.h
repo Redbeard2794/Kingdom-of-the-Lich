@@ -4,12 +4,11 @@
 class WorldClock : public sf::Sprite
 {
 private:
-	sf::Clock secondClock;
+	sf::Clock secondClock;//clock for counting seconds
 
-	int currentSeconds;
-
-	int currentMinutes;
-	int currentHours;
+	int currentSeconds;//current number of seconds
+	int currentMinutes;//current number of minutes
+	int currentHours;//current number of hours
 
 	float timeMultiplier;
 
@@ -24,6 +23,8 @@ public:
 	void UpdateSeconds();
 	void UpdateMinutes();
 	void UpdateHours();
+
+	void DrawText();
 };
 
 #endif

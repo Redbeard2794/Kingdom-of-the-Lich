@@ -77,6 +77,7 @@
 #include "SaveManager.h"
 #include "PauseMenu.h"
 #include "WorldClock.h"
-
+#include "Pnode.h"
+#include "PathFinder.h"
 
 #endif
