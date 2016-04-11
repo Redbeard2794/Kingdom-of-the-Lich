@@ -21,6 +21,10 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>stand</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 	
 	<npc name='Mankar Shamoran'>
@@ -42,6 +46,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
+    <bedId>1</bedId>
+    <bedtimeH>21</bedtimeH>
+    <bedtimeM>30</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 	
 	<npc name='Eorlund the Blacksmith'>
@@ -63,6 +71,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>forge</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
   
 	<npc name='Misty'>
@@ -84,6 +96,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
   
 	<npc name='Ezio'>
@@ -105,6 +121,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
   
 	<npc name='Yami'>
@@ -126,6 +146,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
   
 	<npc name='Bellatrix'>
@@ -147,6 +171,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>stand</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
   
 	<npc name='Jackie'>
@@ -168,6 +196,10 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>stand</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 
 </npcList>

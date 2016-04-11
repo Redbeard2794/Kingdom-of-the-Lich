@@ -3,20 +3,20 @@
 
 AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH(sh)
 {
-	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/AreaXmlFiles/npcList.xml", "Assets/AreaXmlFiles/TutorialAreaCollidableObjects.xml", "Assets/AreaXmlFiles/TutorialAreaDoors.xml");
+	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/AreaXmlFiles/npcList.xml", "Assets/AreaXmlFiles/TutorialAreaCollidableObjects.xml", "Assets/AreaXmlFiles/TutorialAreaDoors.xml", "Assets/AreaXmlFiles/tutorialAreaBeds.xml");
 	areas.push_back(tutorialArea);
-	Area* sewerArea = new Area("Assets/50x50SewerArea.tmx", "", "Assets/AreaXmlFiles/sewerAreaNpcList.xml", "Assets/AreaXmlFiles/SewerAreaCollidableObjects.xml", "Assets/AreaXmlFiles/sewerAreaDoorList.xml");
+	Area* sewerArea = new Area("Assets/50x50SewerArea.tmx", "", "Assets/AreaXmlFiles/sewerAreaNpcList.xml", "Assets/AreaXmlFiles/SewerAreaCollidableObjects.xml", "Assets/AreaXmlFiles/sewerAreaDoorList.xml", "");
 	areas.push_back(sewerArea);
-	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/generalStore1CollidableObjects.xml", "Assets/AreaXmlFiles/generalStore1DoorList.xml");
+	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/generalStore1CollidableObjects.xml", "Assets/AreaXmlFiles/generalStore1DoorList.xml", "");
 	areas.push_back(generalStore1Area);
 
-	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml");
+	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml", "");
 	areas.push_back(house1);
 
-	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml");
+	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml", "");
 	areas.push_back(house2);
 
-	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnDoorList.xml");
+	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnDoorList.xml", "");
 	areas.push_back(pub1);
 
 	currentArea = TUTORIAL;
@@ -35,9 +35,9 @@ AreaManager::~AreaManager()
 
 }
 
-void AreaManager::Update(sf::Vector2f playerPos)
+void AreaManager::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds)
 {
-	areas.at(currentArea)->Update(playerPos);
+	areas.at(currentArea)->Update(playerPos, currentHours, currentMinutes, currentSeconds);
 	if (currentArea == TUTORIAL)
 		currentAreaText.setString("Current Area: Trainton Castle");
 	else if(currentArea == SEWER)

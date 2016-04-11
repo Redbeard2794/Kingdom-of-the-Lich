@@ -81,6 +81,14 @@ private:
 
 	FootprintEmitter* footprintEmitter;
 
+	int bedId;
+	int bedtimeH;
+	int bedtimeM;
+	int bedtimeS;
+
+	bool timeForBed;
+	sf::Vector2f bedPos;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
@@ -104,6 +112,8 @@ public:
 	/*Follow the position that is passed in. This is a modified Seek algorithm
 	(it can only move up, down, left orright but not at the same time). Only allows 4 directions of movement*/
 	void Follow(sf::Vector2f positionToFollow);
+
+	void GoToBed(sf::Vector2f bedPos);
 
 	/*Draw the interaction hint sprite*/
 	void draw(sf::RenderTarget& window);
@@ -131,6 +141,23 @@ public:
 	float CheckDistanceToPlayer();
 
 	void setShowHint(bool s);
+
+	void SetBedId(int id);
+	int GetBedId();
+
+	void SetBedtimeH(int h);
+	int GetBedtimeH();
+
+	void SetBedtimeM(int m);
+	int GetBedtimeM();
+
+	void SetBedtimeS(int s);
+	int GetBedtimeS();
+
+	bool IsTimeForBed();
+	void SetIsTimeForBed(bool b);
+
+	void SetBedPos(sf::Vector2f bpos);
 };
 
 #endif

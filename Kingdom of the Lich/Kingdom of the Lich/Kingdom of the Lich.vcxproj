@@ -157,6 +157,7 @@
     <ClInclude Include="AreaManager.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Bed.h" />
     <ClInclude Include="BloodEmitter.h" />
     <ClInclude Include="BloodParticle.h" />
     <ClInclude Include="Chest.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="AreaManager.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Bed.cpp" />
     <ClCompile Include="BloodEmitter.cpp" />
     <ClCompile Include="BloodParticle.cpp" />
     <ClCompile Include="Chest.cpp" />

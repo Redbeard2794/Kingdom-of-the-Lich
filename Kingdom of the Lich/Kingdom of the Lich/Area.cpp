@@ -2,18 +2,20 @@
 #include "Area.h"
 
 /*Constructor. params: area file path, minimap file path, npc list file path and collidable objects file path*/
-Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath)
+Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp)
 {
 	areaFilePath = afp;
 	areaMinimapFilePath = amfp;
 	areaNpcListFilePath = anlfp;
 	areaDoorListFilePath = doorPath;
 	collidableObjectsFilePath = cofp;
+	bedPath = bedsp;
 
 	LoadNpcs();
 	LoadCollidableObjects();
 
 	LoadDoors();
+	LoadBeds();
 }
 
 /*Destructor*/
@@ -138,8 +140,22 @@ void Area::LoadNpcs()
 		//std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
 		behaviour = npc->first_node("behaviour")->value();
 
+		int bedId = std::atoi(npc->first_node("bedId")->value());
+
+		int bedtimeH = std::atoi(npc->first_node("bedtimeH")->value());
+
+		int bedtimeM = std::atoi(npc->first_node("bedtimeM")->value());
+
+		int bedtimeS = std::atoi(npc->first_node("bedtimeS")->value());
+
 		/*Create the npc*/
 		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, true);
+
+		n->SetBedId(bedId);
+		n->SetBedtimeH(bedtimeH);
+		n->SetBedtimeM(bedtimeM);
+		n->SetBedtimeS(bedtimeS);
+
 		npcs.push_back(n);
 		//std::cout << "Size of npcVector: " << npcs.size() << std::endl;
 
@@ -256,10 +272,26 @@ void Area::LoadDoors()
 }
 
 /*Update the map, minimap and npcs*/
-void Area::Update(sf::Vector2f playerPos)
+void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
+
+
+		if (npcs.at(i)->GetBedtimeH() == currentHours && npcs.at(i)->GetBedtimeM() == currentMinutes && npcs.at(i)->GetBedtimeS() == currentSeconds)
+		{
+			
+			for (int j = 0; j < beds.size(); j++)
+			{
+				if (beds.at(j)->GetId() == npcs.at(i)->GetBedId())
+				{
+					npcs.at(i)->SetIsTimeForBed(true);
+					npcs.at(i)->SetBedPos(beds.at(j)->getPosition());
+				}
+			}
+		}
+
+
 		npcs.at(i)->Update(playerPos);
 
 		if (npcs.at(i)->CheckDistanceToPlayer() < 50)
@@ -346,9 +378,54 @@ bool Area::CheckPlayerCollidableObjectsCollision(sf::FloatRect playerBounds)
 	return false;
 }
 
+void Area::LoadBeds()
+{
+	if (bedPath != "")
+	{
+		xml_document<> doc;
+		std::ifstream file(bedPath);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<>* bedList = doc.first_node("BedList");
+		xml_node<>* bedObject = bedList->first_node("bed");
+
+		//load in each beds information and then create them
+		while (bedObject != NULL)
+		{
+			int id = std::atoi(bedObject->first_node("id")->value());
+
+			int x = std::atoi(bedObject->first_node("x")->value());
+
+			int y = std::atoi(bedObject->first_node("y")->value());
+
+			/*Create the bed*/
+			Bed * b = new Bed(id, sf::Vector2f(x, y));
+			beds.push_back(b);
+
+			/*Move onto the next bed object tag*/
+			bedObject = bedObject->next_sibling("bed");
+		}
+	}
+}
+
 /*Draw the npcs and collidable objects*/
 void Area::Draw(sf::RenderTarget & window, bool debugMode)
 {
+	for (int i = 0; i < doors.size(); i++)
+	{
+		window.draw(*doors.at(i));
+	}
+
+	//draw beds after npcs when sleeping
+	for (int i = 0; i < beds.size(); i++)
+	{
+		window.draw(*beds.at(i));
+	}
+
 	for (int i = 0; i < npcs.size(); i++)
 	{
 		npcs.at(i)->draw(window);
@@ -361,11 +438,6 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 	{
 		if (debugMode)
 			window.draw(*collidableObjects.at(i));
-	}
-
-	for (int i = 0; i < doors.size(); i++)
-	{
-		window.draw(*doors.at(i));
 	}
 }
 

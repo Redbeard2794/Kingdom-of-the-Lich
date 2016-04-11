@@ -21,6 +21,10 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>stand</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 	
 	<npc name='Guard2'>
@@ -42,6 +46,10 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 	
 	<npc name='Sewer Dweller 1'>
@@ -63,6 +71,10 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 	
 	<npc name='Apprentice Necromancer 1'>
@@ -84,6 +96,10 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
 		<behaviour>wander</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
 	</npc>
 
 </npcList>

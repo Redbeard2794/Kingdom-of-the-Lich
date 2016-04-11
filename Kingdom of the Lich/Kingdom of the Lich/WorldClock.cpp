@@ -5,8 +5,8 @@ WorldClock::WorldClock()
 {
 	secondClock.restart();
 	currentSeconds = 0;
-	currentMinutes = 0;
-	currentHours = 9;
+	currentMinutes = 27;
+	currentHours = 21;
 
 	timeMultiplier = 0.4;
 }
@@ -22,7 +22,7 @@ void WorldClock::Update()
 
 	if (currentSeconds != prevS)
 	{
-		//std::cout << "Current Time: " << currentHours << "::" << currentMinutes << "::" << currentSeconds << std::endl;
+		std::cout << "Current Time: " << currentHours << "::" << currentMinutes << "::" << currentSeconds << std::endl;
 	}
 }
 
@@ -66,4 +66,19 @@ void WorldClock::UpdateHours()
 	{
 		currentHours = 0;
 	}
+}
+
+int WorldClock::GetCurrentHours()
+{
+	return currentHours;
+}
+
+int WorldClock::GetCurrentMinutes()
+{
+	return currentMinutes;
+}
+
+int WorldClock::GetCurrentSeconds()
+{
+	return currentSeconds;
 }

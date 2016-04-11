@@ -79,5 +79,6 @@
 #include "WorldClock.h"
 #include "Pnode.h"
 #include "PathFinder.h"
+#include "Bed.h"
 
 #endif

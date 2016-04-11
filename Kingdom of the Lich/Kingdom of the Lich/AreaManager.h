@@ -31,7 +31,7 @@ public:
 	AreaManager(sf::Font f, int sw, int sh);
 	~AreaManager();
 
-	void Update(sf::Vector2f playerPos);
+	void Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds);
 
 	void ChangeArea(int areaToChangeTo);
 

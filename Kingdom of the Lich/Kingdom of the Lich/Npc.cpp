@@ -84,6 +84,8 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	else hasQuest = false;
 
 	footprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
+
+	timeForBed = false;
 }
 
 //Load the correct texture for the interact hint
@@ -157,28 +159,35 @@ void Npc::Update(sf::Vector2f playerPos)
 		setTextureRect(frame);
 	}
 
-	if (behaviour == "wander")
+	if (!timeForBed)
 	{
-		Wander();
-	}
-	else if (behaviour == "walkPattern")
-	{
-		walkPattern();
-	}
-	else if (behaviour == "follow")
-	{
-		if (distanceToPlayer < 300 && colliding == false)
+		if (behaviour == "wander")
 		{
-			Follow(playerPos);
+			Wander();
 		}
-		else
+		else if (behaviour == "walkPattern")
 		{
-			idle = true;
-			if (colliding == true)
+			walkPattern();
+		}
+		else if (behaviour == "follow")
+		{
+			if (distanceToPlayer < 300 && colliding == false)
 			{
-				setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
+				Follow(playerPos);
+			}
+			else
+			{
+				idle = true;
+				if (colliding == true)
+				{
+					setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
+				}
 			}
 		}
+	}
+	else
+	{
+		GoToBed(bedPos);
 	}
 
 	footprintEmitter->setPosition(sf::Vector2f(getPosition().x, getPosition().y));
@@ -508,6 +517,11 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	}
 }
 
+void Npc::GoToBed(sf::Vector2f bedPos)
+{
+	Follow(bedPos);
+}
+
 /*Draw the interaction hint sprite*/
 void Npc::draw(sf::RenderTarget& window)
 {
@@ -569,4 +583,59 @@ float Npc::CheckDistanceToPlayer()
 void Npc::setShowHint(bool s)
 {
 	showHint = s;
+}
+
+void Npc::SetBedId(int id)
+{
+	bedId = id;
+}
+
+int Npc::GetBedId()
+{
+	return bedId;
+}
+
+void Npc::SetBedtimeH(int h)
+{
+	bedtimeH = h;
+}
+
+int Npc::GetBedtimeH()
+{
+	return bedtimeH;
+}
+
+void Npc::SetBedtimeM(int m)
+{
+	bedtimeM = m;
+}
+
+int Npc::GetBedtimeM()
+{
+	return bedtimeM;
+}
+
+void Npc::SetBedtimeS(int s)
+{
+	bedtimeS = s;
+}
+
+int Npc::GetBedtimeS()
+{
+	return bedtimeS;
+}
+
+bool Npc::IsTimeForBed()
+{
+	return timeForBed;
+}
+
+void Npc::SetIsTimeForBed(bool b)
+{
+	timeForBed = b;
+}
+
+void Npc::SetBedPos(sf::Vector2f bpos)
+{
+	bedPos = bpos;
 }

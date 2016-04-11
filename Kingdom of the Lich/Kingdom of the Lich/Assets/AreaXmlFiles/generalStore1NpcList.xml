@@ -20,6 +20,10 @@
     <hasQuest>false</hasQuest>
     <interact>true</interact>
     <behaviour>shopkeeper</behaviour>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
   </npc>
 
 </npcList>

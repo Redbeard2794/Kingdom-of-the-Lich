@@ -24,6 +24,12 @@ public:
 	void UpdateMinutes();
 	void UpdateHours();
 
+	
+
+	int GetCurrentHours();
+	int GetCurrentMinutes();
+	int GetCurrentSeconds();
+
 	void DrawText();
 };
 

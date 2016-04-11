@@ -143,10 +143,10 @@ int main()
 	//	}
 	//}
 
-	PathFinder* pathFinder = new PathFinder();
-	pathFinder->SetStartNodeByPosition(sf::Vector2f(525, 425));
-	pathFinder->SetGoalNodeByPosition(sf::Vector2f(525, 575));
-	pathFinder->FindPath();
+	//PathFinder* pathFinder = new PathFinder();
+	//pathFinder->SetStartNodeByPosition(sf::Vector2f(525, 425));
+	//pathFinder->SetGoalNodeByPosition(sf::Vector2f(525, 575));
+	//pathFinder->FindPath();
 
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
@@ -1129,7 +1129,7 @@ int main()
 			//{
 			//	window.draw(*testNodes.at(i));
 			//}
-			pathFinder->Draw(window);
+			//pathFinder->Draw(window);
 
 			//update the player
 			p->Update();
@@ -1288,7 +1288,7 @@ int main()
 				}
 			}
 
-			areaManager->Update(p->getPosition());
+			areaManager->Update(p->getPosition(), worldClock->GetCurrentHours(), worldClock->GetCurrentMinutes(), worldClock->GetCurrentSeconds());
 			areaManager->Draw(window, debugMode);
 			
 			window.draw(*p);
