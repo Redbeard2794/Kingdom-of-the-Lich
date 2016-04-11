@@ -373,159 +373,162 @@ void PathFinder::FindPath()
 			if (openList.at(ass) == goalNode)
 			{
 				std::cout << "Found goal!" << std::endl;
+
 				reachedGoal = true;
 			}
 		}
 
-
-		for (int i = 0; i < 40; i++)
-		{
-			for (int j = 0; j < 40; j++)
+		//if (reachedGoal == false)
+		//{
+			for (int i = 0; i < 40; i++)
 			{
-				if (graph[i][j]->getGlobalBounds().intersects(currentNode->getGlobalBounds()))
+				for (int j = 0; j < 40; j++)
 				{
-					bool notInClosed = false;
-					for (int i = 0; i < closedList.size(); i++)
+					if (graph[i][j]->getGlobalBounds().intersects(currentNode->getGlobalBounds()))
 					{
-						if (closedList.at(i) == graph[i][j])
-							notInClosed = true;
-					}
-
-					if (notInClosed == false)
-					{
-						if (graph[i][j]->IsObstructed() == false)
+						bool notInClosed = false;
+						for (int i = 0; i < closedList.size(); i++)
 						{
-							bool notInOpen = false;
-							for (int i = 0; i < openList.size(); i++)
+							if (closedList.at(i) == graph[i][j])
+								notInClosed = true;
+						}
+
+						if (notInClosed == false)
+						{
+							if (graph[i][j]->IsObstructed() == false)
 							{
-								if (openList.at(i) == graph[i][j])
-									notInOpen = false;
-							}
-
-							if (notInOpen == false)
-							{
-								graph[i][j]->SetParent(currentNode);
-
-								if (graph[i][j]->getPosition().x > currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up right diagonal
+								bool notInOpen = false;
+								for (int i = 0; i < openList.size(); i++)
 								{
-									graph[i][j]->SetG(currentNode->GetG() + 75);
-								}
-								else if (graph[i][j]->getPosition().x > currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down right diagonal
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 75);
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down left diagonal
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 75);
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up left diagonal
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 75);
-								}
-								else if (graph[i][j]->getPosition().x > currentNode->getPosition().x)//right
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 50);
-								}
-								else if (graph[i][j]->getPosition().y > currentNode->getPosition().y)//down
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 50);
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x)//left
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 50);
-								}
-								else if (graph[i][j]->getPosition().y < currentNode->getPosition().y)//up
-								{
-									graph[i][j]->SetG(currentNode->GetG() + 50);
+									if (openList.at(i) == graph[i][j])
+										notInOpen = false;
 								}
 
-
-								graph[i][j]->setFillColor(sf::Color::Yellow);
-
-								//float hx = goalNode->getPosition().x - graph[i][j]->getPosition().x;
-								//float hy = goalNode->getPosition().y - graph[i][j]->getPosition().y;
-								//float h = hx + hy;
-
-								float h = sqrtf(((goalNode->getPosition().x - graph[i][j]->getPosition().x)*(goalNode->getPosition().x - graph[i][j]->getPosition().x)) + ((goalNode->getPosition().y - graph[i][j]->getPosition().y)*(goalNode->getPosition().y - graph[i][j]->getPosition().y)));
-
-
-								graph[i][j]->SetH(h);
-
-								graph[i][j]->SetF(graph[i][j]->GetG() + graph[i][j]->GetH());
-
-								openList.push_back(graph[i][j]);
-							}
-
-							else
-							{
-								std::cout << "Checking an already open node for better path." << std::endl;
-
-								float currentG = graph[i][j]->GetG();
-								float possibleG = 0;
-
-
-								if (graph[i][j]->getPosition().x > currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up right diagonal
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
-									possibleG = currentNode->GetG() + 75;
-								}
-								else if (graph[i][j]->getPosition().x > currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down right diagonal
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
-									possibleG = currentNode->GetG() + 75;
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down left diagonal
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
-									possibleG = currentNode->GetG() + 75;
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
-									&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up left diagonal
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
-									possibleG = currentNode->GetG() + 75;
-								}
-								else if (graph[i][j]->getPosition().x > currentNode->getPosition().x)//right
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
-									possibleG = currentNode->GetG() + 50;
-								}
-								else if (graph[i][j]->getPosition().y > currentNode->getPosition().y)//down
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
-									possibleG = currentNode->GetG() + 50;
-								}
-								else if (graph[i][j]->getPosition().x < currentNode->getPosition().x)//left
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
-									possibleG = currentNode->GetG() + 50;
-								}
-								else if (graph[i][j]->getPosition().y < currentNode->getPosition().y)//up
-								{
-									//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
-									possibleG = currentNode->GetG() + 50;
-								}
-
-
-								if (possibleG < currentG)
+								if (notInOpen == false)
 								{
 									graph[i][j]->SetParent(currentNode);
-									graph[i][j]->SetG(possibleG);
+
+									if (graph[i][j]->getPosition().x > currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up right diagonal
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 75);
+									}
+									else if (graph[i][j]->getPosition().x > currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down right diagonal
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 75);
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down left diagonal
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 75);
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up left diagonal
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 75);
+									}
+									else if (graph[i][j]->getPosition().x > currentNode->getPosition().x)//right
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 50);
+									}
+									else if (graph[i][j]->getPosition().y > currentNode->getPosition().y)//down
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 50);
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x)//left
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 50);
+									}
+									else if (graph[i][j]->getPosition().y < currentNode->getPosition().y)//up
+									{
+										graph[i][j]->SetG(currentNode->GetG() + 50);
+									}
+
+
+									graph[i][j]->setFillColor(sf::Color::Yellow);
+
+									//float hx = goalNode->getPosition().x - graph[i][j]->getPosition().x;
+									//float hy = goalNode->getPosition().y - graph[i][j]->getPosition().y;
+									//float h = hx + hy;
+
+									float h = sqrtf(((goalNode->getPosition().x - graph[i][j]->getPosition().x)*(goalNode->getPosition().x - graph[i][j]->getPosition().x)) + ((goalNode->getPosition().y - graph[i][j]->getPosition().y)*(goalNode->getPosition().y - graph[i][j]->getPosition().y)));
+
+
+									graph[i][j]->SetH(h);
+
 									graph[i][j]->SetF(graph[i][j]->GetG() + graph[i][j]->GetH());
+
+									openList.push_back(graph[i][j]);
+								}
+
+								else
+								{
+									std::cout << "Checking an already open node for better path." << std::endl;
+
+									float currentG = graph[i][j]->GetG();
+									float possibleG = 0;
+
+
+									if (graph[i][j]->getPosition().x > currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up right diagonal
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
+										possibleG = currentNode->GetG() + 75;
+									}
+									else if (graph[i][j]->getPosition().x > currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down right diagonal
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
+										possibleG = currentNode->GetG() + 75;
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y > currentNode->getPosition().y)//down left diagonal
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
+										possibleG = currentNode->GetG() + 75;
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x
+										&& graph[i][j]->getPosition().y < currentNode->getPosition().y)//up left diagonal
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 14);
+										possibleG = currentNode->GetG() + 75;
+									}
+									else if (graph[i][j]->getPosition().x > currentNode->getPosition().x)//right
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
+										possibleG = currentNode->GetG() + 50;
+									}
+									else if (graph[i][j]->getPosition().y > currentNode->getPosition().y)//down
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
+										possibleG = currentNode->GetG() + 50;
+									}
+									else if (graph[i][j]->getPosition().x < currentNode->getPosition().x)//left
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
+										possibleG = currentNode->GetG() + 50;
+									}
+									else if (graph[i][j]->getPosition().y < currentNode->getPosition().y)//up
+									{
+										//graph[i][j]->SetG(closedList.at(closedList.size() - 1)->GetG() + 10);
+										possibleG = currentNode->GetG() + 50;
+									}
+
+
+									if (possibleG < currentG)
+									{
+										graph[i][j]->SetParent(currentNode);
+										graph[i][j]->SetG(possibleG);
+										graph[i][j]->SetF(graph[i][j]->GetG() + graph[i][j]->GetH());
+									}
 								}
 							}
 						}
 					}
 				}
 			}
-		}
+		//}
 
 
 	}
@@ -533,11 +536,27 @@ void PathFinder::FindPath()
 	if (reachedGoal == true)
 	{
 		Pnode* node = goalNode;
-		while (node->getPosition() != startNode->getPosition())
+
+		bool pathEnd = false;
+
+		/*while (pathEnd == false)
 		{
-			path.push_back(node->getPosition());
-			node = node->GetParent();
-		}
+			if (node->getPosition() != startNode->getPosition())
+			{
+				path.push_back(node->getPosition());
+				node = node->GetParent();
+			}
+			else
+			{
+				pathEnd = true;
+			}
+		}*/
+
+		//while (node->getPosition() != startNode->getPosition())
+		//{
+		//	path.push_back(node->getPosition());
+		//	node = node->GetParent();
+		//}
 	}
 
 	std::cout << std::endl;
