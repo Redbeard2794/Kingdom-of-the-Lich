@@ -145,7 +145,7 @@ int main()
 
 	PathFinder* pathFinder = new PathFinder();
 	pathFinder->SetStartNodeByPosition(sf::Vector2f(525, 425));
-	pathFinder->SetGoalNodeByPosition(sf::Vector2f(675, 425));
+	pathFinder->SetGoalNodeByPosition(sf::Vector2f(525, 575));
 	pathFinder->FindPath();
 
 
