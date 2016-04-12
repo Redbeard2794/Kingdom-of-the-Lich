@@ -285,9 +285,23 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 			{
 				if (beds.at(j)->GetId() == npcs.at(i)->GetBedId())
 				{
-					npcs.at(i)->SetIsTimeForBed(true);
-					npcs.at(i)->SetBedPos(beds.at(j)->getPosition());
+					if (npcs.at(i)->IsTimeForBed() == false)
+					{
+						npcs.at(i)->SetIsTimeForBed(true);
+						npcs.at(i)->SetBedPos(beds.at(j)->getPosition());
+					}
+
+
+
 				}
+			}
+		}
+
+		for (int j = 0; j < beds.size(); j++)
+		{
+			if (npcs.at(i)->getGlobalBounds().intersects(beds.at(j)->getGlobalBounds()) && npcs.at(i)->IsTimeForBed() && beds.at(j)->GetId() == npcs.at(i)->GetBedId())
+			{
+				npcs.at(i)->SetInBed(true);
 			}
 		}
 
@@ -432,6 +446,7 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 		window.draw(*npcs.at(i));
 		if (debugMode)
 			npcs.at(i)->DrawBoundingBox(window);
+		npcs.at(i)->DrawBedCovers(window);
 	}
 
 	for (int i = 0; i < collidableObjects.size(); i++)

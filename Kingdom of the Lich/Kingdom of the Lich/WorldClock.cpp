@@ -8,7 +8,7 @@ WorldClock::WorldClock()
 	currentMinutes = 27;
 	currentHours = 21;
 
-	timeMultiplier = 0.4;
+	timeMultiplier = 0.2;
 }
 
 WorldClock::~WorldClock()

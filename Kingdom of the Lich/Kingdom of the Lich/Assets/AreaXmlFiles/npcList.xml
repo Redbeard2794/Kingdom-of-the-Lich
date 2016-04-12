@@ -66,13 +66,13 @@
 		<walkLeftPath>Assets/Npcs/oldMan/Moving/leftSheet.png</walkLeftPath>
 		<walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>400</x>
+		<x>415</x>
 		<y>920</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>forge</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
+    <bedId>3</bedId>
+    <bedtimeH>22</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
@@ -96,8 +96,8 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
+    <bedId>5</bedId>
+    <bedtimeH>23</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
@@ -121,9 +121,9 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
-    <bedtimeM>0</bedtimeM>
+    <bedId>2</bedId>
+    <bedtimeH>21</bedtimeH>
+    <bedtimeM>45</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
   
@@ -146,9 +146,9 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>wander</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
-    <bedtimeM>0</bedtimeM>
+    <bedId>8</bedId>
+    <bedtimeH>23</bedtimeH>
+    <bedtimeM>45</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
   
@@ -171,9 +171,9 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>stand</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
-    <bedtimeM>0</bedtimeM>
+    <bedId>4</bedId>
+    <bedtimeH>21</bedtimeH>
+    <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
   
@@ -196,9 +196,9 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour>stand</behaviour>
-    <bedId>0</bedId>
-    <bedtimeH>0</bedtimeH>
-    <bedtimeM>0</bedtimeM>
+    <bedId>9</bedId>
+    <bedtimeH>22</bedtimeH>
+    <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
 	</npc>
 

@@ -89,6 +89,11 @@ private:
 	bool timeForBed;
 	sf::Vector2f bedPos;
 
+	bool inBed;
+
+	sf::Texture bedTexture;
+	sf::Sprite bedSprite;
+
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
@@ -118,6 +123,8 @@ public:
 	/*Draw the interaction hint sprite*/
 	void draw(sf::RenderTarget& window);
 	
+	void DrawBedCovers(sf::RenderTarget& window);
+
 	/*Draw the npc on the minimap as an icon*/
 	void MinimapDraw(sf::RenderTarget& window);
 
@@ -158,6 +165,9 @@ public:
 	void SetIsTimeForBed(bool b);
 
 	void SetBedPos(sf::Vector2f bpos);
+
+	bool IsInBed();
+	void SetInBed(bool b);
 };
 
 #endif

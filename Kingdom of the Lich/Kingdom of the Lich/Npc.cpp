@@ -86,6 +86,12 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	footprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
 
 	timeForBed = false;
+	inBed = false;
+
+	bedTexture.loadFromFile("Assets/bedRoll.png");
+	bedSprite.setTexture(bedTexture);
+	bedSprite.setOrigin(bedTexture.getSize().x / 2, bedTexture.getSize().y / 2);
+	//bedSprite.scale(0.8, 0.8);
 }
 
 //Load the correct texture for the interact hint
@@ -187,7 +193,14 @@ void Npc::Update(sf::Vector2f playerPos)
 	}
 	else
 	{
-		GoToBed(bedPos);
+		if(!inBed)
+			GoToBed(bedPos);
+		else
+		{
+			setPosition(sf::Vector2f(bedPos.x + 5, bedPos.y - 10));
+			bedSprite.setPosition(sf::Vector2f(bedPos.x, bedPos.y + 15));
+			currentDirection = DOWN;
+		}
 	}
 
 	footprintEmitter->setPosition(sf::Vector2f(getPosition().x, getPosition().y));
@@ -530,6 +543,12 @@ void Npc::draw(sf::RenderTarget& window)
 	footprintEmitter->DrawParticles(window);
 }
 
+void Npc::DrawBedCovers(sf::RenderTarget & window)
+{
+	if (inBed)
+		window.draw(bedSprite);
+}
+
 /*Draw the npc on the minimap as an icon*/
 void Npc::MinimapDraw(sf::RenderTarget& window)
 {
@@ -638,4 +657,14 @@ void Npc::SetIsTimeForBed(bool b)
 void Npc::SetBedPos(sf::Vector2f bpos)
 {
 	bedPos = bpos;
+}
+
+bool Npc::IsInBed()
+{
+	return inBed;
+}
+
+void Npc::SetInBed(bool b)
+{
+	inBed = b;
 }
