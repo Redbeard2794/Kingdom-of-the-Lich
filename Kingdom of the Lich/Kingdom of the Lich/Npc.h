@@ -20,6 +20,9 @@ private:
 	bool hasQuest;
 
 	std::string behaviour;
+	std::string behaviour2;
+	std::string behaviour3;
+	std::string behaviour4;
 
 
 	sf::Sprite interactHintSprite;
@@ -86,6 +89,10 @@ private:
 	int bedtimeM;
 	int bedtimeS;
 
+	int wakeTimeH;
+	int wakeTimeM;
+	int wakeTimeS;
+
 	bool timeForBed;
 	sf::Vector2f bedPos;
 
@@ -93,6 +100,15 @@ private:
 
 	sf::Texture bedTexture;
 	sf::Sprite bedSprite;
+
+	sf::Vector2f patrolPoint1;
+	sf::Vector2f patrolPoint2;
+	sf::Vector2f patrolPoint3;
+	sf::Vector2f patrolPoint4;
+	bool patrolPointsPicked;
+	sf::Clock patrolWanderClock;
+	bool patrolPointReached;
+	int currentPatrolPoint;
 
 public: 
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
@@ -119,6 +135,10 @@ public:
 	void Follow(sf::Vector2f positionToFollow);
 
 	void GoToBed(sf::Vector2f bedPos);
+
+	void WakeUp();
+
+	void Patrol();
 
 	/*Draw the interaction hint sprite*/
 	void draw(sf::RenderTarget& window);
@@ -168,6 +188,13 @@ public:
 
 	bool IsInBed();
 	void SetInBed(bool b);
+
+	int GetWakeTH();
+	void SetWakeTH(int h);
+	void SetWakeTM(int m);
+	int GetWakeTM();
+	void SetWakeTS(int s);
+	int GetWakeTS();
 };
 
 #endif

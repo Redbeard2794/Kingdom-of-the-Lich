@@ -20,11 +20,29 @@
 		<y>1000</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
-		<behaviour>stand</behaviour>
+		<behaviour1>stand</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>stand</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>stand</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>stand</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
     <bedtimeH>0</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 	
 	<npc name='Mankar Shamoran'>
@@ -45,11 +63,29 @@
 		<y>380</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>wander</behaviour>
+		<behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>1</bedId>
     <bedtimeH>21</bedtimeH>
     <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>21</wakeTimeH>
+    <wakeTimeM>32</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 	
 	<npc name='Eorlund the Blacksmith'>
@@ -70,11 +106,29 @@
 		<y>920</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>forge</behaviour>
+		<behaviour1>forge</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>3</bedId>
     <bedtimeH>22</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
   
 	<npc name='Misty'>
@@ -95,11 +149,29 @@
 		<y>1000</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>wander</behaviour>
+		<behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>5</bedId>
     <bedtimeH>23</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
   
 	<npc name='Ezio'>
@@ -120,11 +192,29 @@
 		<y>1500</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>wander</behaviour>
+		<behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>2</bedId>
     <bedtimeH>21</bedtimeH>
     <bedtimeM>45</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
   
 	<npc name='Yami'>
@@ -145,11 +235,29 @@
 		<y>1500</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>wander</behaviour>
+		<behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>8</bedId>
     <bedtimeH>23</bedtimeH>
     <bedtimeM>45</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
   
 	<npc name='Bellatrix'>
@@ -170,11 +278,29 @@
 		<y>666</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>stand</behaviour>
+		<behaviour1>stand</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>4</bedId>
     <bedtimeH>21</bedtimeH>
     <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>21</wakeTimeH>
+    <wakeTimeM>32</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
   
 	<npc name='Jackie'>
@@ -195,11 +321,29 @@
 		<y>300</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour>stand</behaviour>
+		<behaviour1>stand</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>9</bedId>
     <bedtimeH>22</bedtimeH>
     <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 
 </npcList>

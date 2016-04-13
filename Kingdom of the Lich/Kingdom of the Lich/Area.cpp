@@ -138,7 +138,11 @@ void Area::LoadNpcs()
 
 		/*What behaviour do they have? e.g: wander, stand etc*/
 		//std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
-		behaviour = npc->first_node("behaviour")->value();
+		behaviour = npc->first_node("behaviour1")->value();
+
+		std::string behaviour2 = npc->first_node("behaviour2")->value();
+		std::string behaviour3 = npc->first_node("behaviour3")->value();
+		std::string behaviour4 = npc->first_node("behaviour4")->value();
 
 		int bedId = std::atoi(npc->first_node("bedId")->value());
 
@@ -148,6 +152,12 @@ void Area::LoadNpcs()
 
 		int bedtimeS = std::atoi(npc->first_node("bedtimeS")->value());
 
+		int wakeTimeH = std::atoi(npc->first_node("wakeTimeH")->value());
+
+		int wakeTimeM = std::atoi(npc->first_node("wakeTimeM")->value());
+
+		int wakeTimeS = std::atoi(npc->first_node("wakeTimeS")->value());
+
 		/*Create the npc*/
 		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, true);
 
@@ -155,6 +165,10 @@ void Area::LoadNpcs()
 		n->SetBedtimeH(bedtimeH);
 		n->SetBedtimeM(bedtimeM);
 		n->SetBedtimeS(bedtimeS);
+
+		n->SetWakeTH(wakeTimeH);
+		n->SetWakeTM(wakeTimeM);
+		n->SetWakeTS(wakeTimeS);
 
 		npcs.push_back(n);
 		//std::cout << "Size of npcVector: " << npcs.size() << std::endl;
@@ -305,6 +319,13 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 			}
 		}
 
+		if (npcs.at(i)->GetWakeTH() == currentHours && npcs.at(i)->GetWakeTM() == currentMinutes && npcs.at(i)->GetWakeTS() == currentSeconds)
+		{
+			//if (npcs.at(i)->IsInBed())
+			//	npcs.at(i)->setPosition(sf::Vector2f(npcs.at(i)->getPosition().x + 50, npcs.at(i)->getPosition().y));
+			npcs.at(i)->SetIsTimeForBed(false);
+			npcs.at(i)->SetInBed(false);
+		}
 
 		npcs.at(i)->Update(playerPos);
 

@@ -20,11 +20,29 @@
 		<y>375</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
-		<behaviour>stand</behaviour>
+    <behaviour1>stand</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
     <bedtimeH>0</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 	
 	<npc name='Guard2'>
@@ -45,11 +63,29 @@
 		<y>1500</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
-		<behaviour>wander</behaviour>
+    <behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
     <bedtimeH>0</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 	
 	<npc name='Sewer Dweller 1'>
@@ -70,11 +106,29 @@
 		<y>1500</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
-		<behaviour>wander</behaviour>
+    <behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
     <bedtimeH>0</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 	
 	<npc name='Apprentice Necromancer 1'>
@@ -95,11 +149,29 @@
 		<y>1200</y>
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
-		<behaviour>wander</behaviour>
+    <behaviour1>wander</behaviour1>
+    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>0</behaviour2>
+    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>0</behaviour3>
+    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>0</behaviour4>
+    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
     <bedtimeH>0</bedtimeH>
     <bedtimeM>0</bedtimeM>
     <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
 	</npc>
 
 </npcList>

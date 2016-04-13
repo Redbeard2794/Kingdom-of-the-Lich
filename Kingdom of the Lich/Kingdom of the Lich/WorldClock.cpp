@@ -1,14 +1,26 @@
 #include "stdafx.h"
 #include "WorldClock.h"
 
-WorldClock::WorldClock()
+WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 {
 	secondClock.restart();
 	currentSeconds = 0;
 	currentMinutes = 27;
 	currentHours = 21;
 
-	timeMultiplier = 0.2;
+	timeMultiplier = 0.15;
+
+	timeText.setFont(font);
+	timeText.setCharacterSize(20);
+	timeText.setPosition(screenW / 1.297, 75);
+	timeText.setColor(sf::Color::White);
+
+	clockTextBackground.setSize(sf::Vector2f(250, 25));
+	clockTextBackground.setFillColor(sf::Color::Blue);
+	clockTextBackground.setOutlineColor(sf::Color::Black);
+	clockTextBackground.setOutlineThickness(2);
+	clockTextBackground.setPosition(screenW / 1.3, 75);
+
 }
 
 WorldClock::~WorldClock()
@@ -22,7 +34,8 @@ void WorldClock::Update()
 
 	if (currentSeconds != prevS)
 	{
-		std::cout << "Current Time: " << currentHours << "::" << currentMinutes << "::" << currentSeconds << std::endl;
+		//std::cout << "Current Time: " << currentHours << "::" << currentMinutes << "::" << currentSeconds << std::endl;
+		timeText.setString("Current Time: " + std::to_string(currentHours) + "::" + std::to_string(currentMinutes) + "::" + std::to_string(currentSeconds));
 	}
 }
 
@@ -81,4 +94,10 @@ int WorldClock::GetCurrentMinutes()
 int WorldClock::GetCurrentSeconds()
 {
 	return currentSeconds;
+}
+
+void WorldClock::DrawClockText(sf::RenderTarget & window)
+{
+	window.draw(clockTextBackground);
+	window.draw(timeText);
 }

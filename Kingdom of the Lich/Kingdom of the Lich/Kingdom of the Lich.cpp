@@ -56,7 +56,7 @@ int main()
 	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
 	PauseMenu* pauseMenu = new PauseMenu(font, screenW, screenH);
 
-	WorldClock* worldClock = new WorldClock();
+	WorldClock* worldClock = new WorldClock(font, screenW, screenH);
 
 	/* initialize random seed: */
 	srand(time(NULL));
@@ -1449,6 +1449,7 @@ int main()
 			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
 
 			achievementTracker->DisplayAchievement(window);
+			worldClock->DrawClockText(window);
 
 			//if (gamepad->Back())
 			//{

@@ -199,7 +199,7 @@ void Npc::Update(sf::Vector2f playerPos)
 		{
 			setPosition(sf::Vector2f(bedPos.x + 5, bedPos.y - 10));
 			bedSprite.setPosition(sf::Vector2f(bedPos.x, bedPos.y + 15));
-			currentDirection = DOWN;
+			//currentDirection = DOWN;
 		}
 	}
 
@@ -535,6 +535,58 @@ void Npc::GoToBed(sf::Vector2f bedPos)
 	Follow(bedPos);
 }
 
+void Npc::Patrol()
+{
+	if (patrolPointsPicked == true)
+	{
+		if (patrolPointReached == false)
+		{
+			if (currentPatrolPoint == 1)
+			{
+				//seek to point
+			}
+			else if (currentPatrolPoint == 2)
+			{
+				//seek to point
+			}
+			else if (currentPatrolPoint == 3)
+			{
+				//seek to point
+			}
+			else if (currentPatrolPoint == 4)
+			{
+				//seek to point
+			}
+		}
+		else
+		{
+			if (patrolWanderClock.getElapsedTime().asSeconds() < 120)//2 mins
+			{
+				//wander
+			}
+			else
+			{
+				if (currentPatrolPoint < 4)
+				{
+					currentPatrolPoint += 1;
+					patrolPointReached = false;
+				}
+				else
+				{
+					//pick new patrol points
+				}
+			}
+		}
+	}
+	else
+	{
+		//pick 4 patrol points
+		patrolPointsPicked = true;
+	}
+
+
+}
+
 /*Draw the interaction hint sprite*/
 void Npc::draw(sf::RenderTarget& window)
 {
@@ -667,4 +719,34 @@ bool Npc::IsInBed()
 void Npc::SetInBed(bool b)
 {
 	inBed = b;
+}
+
+int Npc::GetWakeTH()
+{
+	return wakeTimeH;
+}
+
+void Npc::SetWakeTH(int h)
+{
+	wakeTimeH = h;
+}
+
+void Npc::SetWakeTM(int m)
+{
+	wakeTimeM = m;
+}
+
+int Npc::GetWakeTM()
+{
+	return wakeTimeM;
+}
+
+void Npc::SetWakeTS(int s)
+{
+	wakeTimeS = s;
+}
+
+int Npc::GetWakeTS()
+{
+	return wakeTimeS;
 }

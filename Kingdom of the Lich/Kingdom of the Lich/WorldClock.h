@@ -14,8 +14,10 @@ private:
 
 	sf::Font font;
 	sf::Text timeText;
+
+	sf::RectangleShape clockTextBackground;
 public:
-	WorldClock();
+	WorldClock(sf::Font f, int screenW, int screenH);
 	~WorldClock();
 
 	void Update();
@@ -30,7 +32,7 @@ public:
 	int GetCurrentMinutes();
 	int GetCurrentSeconds();
 
-	void DrawText();
+	void DrawClockText(sf::RenderTarget& window);
 };
 
 #endif
