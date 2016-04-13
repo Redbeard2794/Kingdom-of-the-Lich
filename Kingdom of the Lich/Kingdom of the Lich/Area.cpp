@@ -158,6 +158,19 @@ void Area::LoadNpcs()
 
 		int wakeTimeS = std::atoi(npc->first_node("wakeTimeS")->value());
 
+		int behaviour1H = std::atoi(npc->first_node("behaviour1TimeH")->value());
+		int behaviour1M = std::atoi(npc->first_node("behaviour1TimeM")->value());
+		int behaviour1S = std::atoi(npc->first_node("behaviour1TimeS")->value());
+		int behaviour2H = std::atoi(npc->first_node("behaviour2TimeH")->value());
+		int behaviour2M = std::atoi(npc->first_node("behaviour2TimeM")->value());
+		int behaviour2S = std::atoi(npc->first_node("behaviour2TimeS")->value());
+		int behaviour3H = std::atoi(npc->first_node("behaviour3TimeH")->value());
+		int behaviour3M = std::atoi(npc->first_node("behaviour3TimeM")->value());
+		int behaviour3S = std::atoi(npc->first_node("behaviour3TimeS")->value());
+		int behaviour4H = std::atoi(npc->first_node("behaviour4TimeH")->value());
+		int behaviour4M = std::atoi(npc->first_node("behaviour4TimeM")->value());
+		int behaviour4S = std::atoi(npc->first_node("behaviour4TimeS")->value());
+
 		/*Create the npc*/
 		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, true);
 
@@ -165,10 +178,27 @@ void Area::LoadNpcs()
 		n->SetBedtimeH(bedtimeH);
 		n->SetBedtimeM(bedtimeM);
 		n->SetBedtimeS(bedtimeS);
-
 		n->SetWakeTH(wakeTimeH);
 		n->SetWakeTM(wakeTimeM);
 		n->SetWakeTS(wakeTimeS);
+
+		n->behvaiour1H = behaviour1H;
+		n->behvaiour1M = behaviour1M;
+		n->behvaiour1S = behaviour1S;
+		n->behvaiour2H = behaviour2H;
+		n->behvaiour2M = behaviour2M;
+		n->behvaiour2S = behaviour2S;
+		n->behvaiour3H = behaviour3H;
+		n->behvaiour3M = behaviour3M;
+		n->behvaiour3S = behaviour3S;
+		n->behvaiour4H = behaviour4H;
+		n->behvaiour4M = behaviour4M;
+		n->behvaiour4S = behaviour4S;
+
+		n->behaviour1 = behaviour;
+		n->behaviour2 = behaviour2;
+		n->behaviour3 = behaviour3;
+		n->behaviour4 = behaviour4;
 
 		npcs.push_back(n);
 		//std::cout << "Size of npcVector: " << npcs.size() << std::endl;
@@ -327,6 +357,26 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 			npcs.at(i)->SetInBed(false);
 		}
 
+		//if (currentHours > npcs.at(i)->behvaiour1H && currentMinutes > npcs.at(i)->behvaiour1M && currentSeconds > npcs.at(i)->behvaiour1S
+		//	&& currentHours < npcs.at(i)->behvaiour2H && currentMinutes == npcs.at(i)->behvaiour2M && currentSeconds < npcs.at(i)->behvaiour2S)
+		//{
+		//	npcs.at(i)->SetBehaviour(1);
+		//}
+		//else if (currentHours > npcs.at(i)->behvaiour2H && currentMinutes > npcs.at(i)->behvaiour2M && currentSeconds > npcs.at(i)->behvaiour2S
+		//	&& currentHours < npcs.at(i)->behvaiour3H && currentMinutes < npcs.at(i)->behvaiour3M && currentSeconds < npcs.at(i)->behvaiour3S)
+		//{
+		//	npcs.at(i)->SetBehaviour(2);
+		//}
+		
+		if (currentHours == npcs.at(i)->behvaiour1H && currentMinutes == npcs.at(i)->behvaiour1M && currentSeconds == npcs.at(i)->behvaiour1S)
+		{
+			npcs.at(i)->SetBehaviour(1);
+		}
+		else if (currentHours == npcs.at(i)->behvaiour2H && currentMinutes == npcs.at(i)->behvaiour2M && currentSeconds == npcs.at(i)->behvaiour2S)
+		{
+			npcs.at(i)->SetBehaviour(2);
+		}
+
 		npcs.at(i)->Update(playerPos);
 
 		if (npcs.at(i)->CheckDistanceToPlayer() < 50)
@@ -365,13 +415,13 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 			//}
 
 			npcs.at(i)->setColliding(false);
-			if (npcs.at(i)->getBehaviour() == "follow")
+			if (npcs.at(i)->getCurrentBehaviour() == "follow")
 				return std::make_pair(true, 2);
 			else if (npcs.at(i)->doesNpcHaveQuest())
 			{
 				return std::make_pair(true, 0);
 			}
-			else if (npcs.at(i)->getBehaviour() == "shopkeeper")
+			else if (npcs.at(i)->getCurrentBehaviour() == "shopkeeper")
 			{
 				return std::make_pair(true, 3);
 			}

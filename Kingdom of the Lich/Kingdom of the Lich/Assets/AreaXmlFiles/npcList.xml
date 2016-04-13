@@ -63,20 +63,20 @@
 		<y>380</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour1>wander</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+		<behaviour1>patrol</behaviour1>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>stand</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
     <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
-    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeH>12</behaviour3TimeH>
+    <behaviour3TimeM>1</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
     <behaviour4>0</behaviour4>
-    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4TimeH>17</behaviour4TimeH>
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>1</bedId>

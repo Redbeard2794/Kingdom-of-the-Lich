@@ -5,8 +5,8 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 {
 	secondClock.restart();
 	currentSeconds = 0;
-	currentMinutes = 27;
-	currentHours = 21;
+	currentMinutes = 57;
+	currentHours = 11;
 
 	timeMultiplier = 0.15;
 

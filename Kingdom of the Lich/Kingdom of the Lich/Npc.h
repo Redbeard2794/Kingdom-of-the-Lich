@@ -19,10 +19,8 @@ private:
 
 	bool hasQuest;
 
-	std::string behaviour;
-	std::string behaviour2;
-	std::string behaviour3;
-	std::string behaviour4;
+	std::string currentBehaviour;
+
 
 
 	sf::Sprite interactHintSprite;
@@ -111,6 +109,25 @@ private:
 	int currentPatrolPoint;
 
 public: 
+
+	int behvaiour1H;
+	int behvaiour1M;
+	int behvaiour1S;
+	int behvaiour2H;
+	int behvaiour2M;
+	int behvaiour2S;
+	int behvaiour3H;
+	int behvaiour3M;
+	int behvaiour3S;
+	int behvaiour4H;
+	int behvaiour4M;
+	int behvaiour4S;
+
+	std::string behaviour1;
+	std::string behaviour2;
+	std::string behaviour3;
+	std::string behaviour4;
+
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
 		std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath
@@ -133,6 +150,8 @@ public:
 	/*Follow the position that is passed in. This is a modified Seek algorithm
 	(it can only move up, down, left orright but not at the same time). Only allows 4 directions of movement*/
 	void Follow(sf::Vector2f positionToFollow);
+
+	void SetBehaviour(int behaviourNum);
 
 	void GoToBed(sf::Vector2f bedPos);
 
@@ -159,7 +178,7 @@ public:
 	//hasQuest
 	bool doesNpcHaveQuest();
 	//behaviour
-	std::string getBehaviour();
+	std::string getCurrentBehaviour();
 
 	bool IsColliding();
 

@@ -5,7 +5,7 @@
 Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath,
 	int numFrames, std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
 	sf::Vector2f pos, std::string quest, std::string interact, std::string beh, bool controller)
-	: name(n), id(i), behaviour(beh), numberOfFrames(numFrames)
+	: name(n), id(i), currentBehaviour(beh), numberOfFrames(numFrames)
 {
 	//load all idle textures
 	if (downIdleTexture.loadFromFile(idleDownPath)) { }
@@ -30,7 +30,7 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	idle = true;
 	
 
-	if (behaviour == "forge")
+	if (currentBehaviour == "forge")
 	{
 		setTexture(leftIdleTexture);
 		setOrigin(leftIdleTexture.getSize().x / 2, leftIdleTexture.getSize().y / 2);
@@ -54,13 +54,13 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 
 	LoadInteractHintTexture(controller);
 
-	if (behaviour == "wander")//if the npc is to wander
+	if (currentBehaviour == "wander" || currentBehaviour == "patrol")//if the npc is to wander
 	{
 		wanderPos = sf::Vector2f(getPosition().x + (rand() % 100 + 10), getPosition().y);
 		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 		timeBetweenWander = rand() % 7 + 2;
 	}
-	else if (behaviour == "walkPattern")//if the npc is to walk around in a pattern
+	else if (currentBehaviour == "walkPattern")//if the npc is to walk around in a pattern
 	{
 		patternPoints.push_back(getPosition());
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(0).x, patternPoints.at(0).y + 400));
@@ -92,6 +92,14 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	bedSprite.setTexture(bedTexture);
 	bedSprite.setOrigin(bedTexture.getSize().x / 2, bedTexture.getSize().y / 2);
 	//bedSprite.scale(0.8, 0.8);
+
+	patrolPoint1 = sf::Vector2f(rand() % 1200 + 400, 400);
+	patrolPoint2 = sf::Vector2f(rand() % 1200 + 400, 400);
+	patrolPoint3 = sf::Vector2f(rand() % 1200 + 400, 800);
+	patrolPoint4 = sf::Vector2f(rand() % 1200 + 400, 800);
+	patrolPointsPicked = true;
+	patrolWanderClock.restart();
+	currentPatrolPoint = 1;
 }
 
 //Load the correct texture for the interact hint
@@ -167,15 +175,19 @@ void Npc::Update(sf::Vector2f playerPos)
 
 	if (!timeForBed)
 	{
-		if (behaviour == "wander")
+		if (currentBehaviour == "patrol")
+		{
+			Patrol();
+		}
+		else if (currentBehaviour == "wander")
 		{
 			Wander();
 		}
-		else if (behaviour == "walkPattern")
+		else if (currentBehaviour == "walkPattern")
 		{
 			walkPattern();
 		}
-		else if (behaviour == "follow")
+		else if (currentBehaviour == "follow")
 		{
 			if (distanceToPlayer < 300 && colliding == false)
 			{
@@ -527,7 +539,26 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
 		frame = sf::IntRect(framePosition, frameSize);
 		setTextureRect(frame);
+
+		if (currentBehaviour == "patrol")
+		{
+			patrolPointReached = true;
+			patrolWanderClock.restart();
+			behaviourClock.restart();
+		}
 	}
+}
+
+void Npc::SetBehaviour(int behaviourNum)
+{
+	if (behaviourNum == 1)
+		currentBehaviour = behaviour1;
+	else if (behaviourNum == 2)
+		currentBehaviour = behaviour2;
+	else if (behaviourNum == 3)
+		currentBehaviour = behaviour3;
+	else if (behaviourNum == 4)
+		currentBehaviour = behaviour4;
 }
 
 void Npc::GoToBed(sf::Vector2f bedPos)
@@ -544,25 +575,31 @@ void Npc::Patrol()
 			if (currentPatrolPoint == 1)
 			{
 				//seek to point
+				Follow(patrolPoint1);
 			}
 			else if (currentPatrolPoint == 2)
 			{
 				//seek to point
+				Follow(patrolPoint2);
 			}
 			else if (currentPatrolPoint == 3)
 			{
 				//seek to point
+				Follow(patrolPoint3);
 			}
 			else if (currentPatrolPoint == 4)
 			{
 				//seek to point
+				Follow(patrolPoint4);
 			}
 		}
 		else
 		{
-			if (patrolWanderClock.getElapsedTime().asSeconds() < 120)//2 mins
+			if (patrolWanderClock.getElapsedTime().asSeconds() < 60)//2 mins
 			{
 				//wander
+				std::cout << "Patrol is wandering." << std::endl;
+				Wander();
 			}
 			else
 			{
@@ -574,6 +611,13 @@ void Npc::Patrol()
 				else
 				{
 					//pick new patrol points
+					patrolPoint1 = sf::Vector2f(rand() % 1500 + 400, 400);
+					patrolPoint2 = sf::Vector2f(rand() % 1500 + 400, 400);
+					patrolPoint3 = sf::Vector2f(rand() % 1500 + 400, 800);
+					patrolPoint4 = sf::Vector2f(rand() % 1500 + 400, 800);
+					patrolPointsPicked = true;
+					currentPatrolPoint = 1;
+					patrolWanderClock.restart();
 				}
 			}
 		}
@@ -581,7 +625,13 @@ void Npc::Patrol()
 	else
 	{
 		//pick 4 patrol points
+		patrolPoint1 = sf::Vector2f(rand() % 1200 + 400, 400);
+		patrolPoint2 = sf::Vector2f(rand() % 1200 + 400, 400);
+		patrolPoint3 = sf::Vector2f(rand() % 1200 + 400, 800);
+		patrolPoint4 = sf::Vector2f(rand() % 1200 + 400, 800);
 		patrolPointsPicked = true;
+		currentPatrolPoint = 1;
+		patrolWanderClock.restart();
 	}
 
 
@@ -631,9 +681,9 @@ bool Npc::doesNpcHaveQuest()
 	return hasQuest;
 }
 
-std::string Npc::getBehaviour()
+std::string Npc::getCurrentBehaviour()
 {
-	return behaviour;
+	return currentBehaviour;
 }
 
 bool Npc::IsColliding()
