@@ -35,6 +35,12 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 		setTexture(leftIdleTexture);
 		setOrigin(leftIdleTexture.getSize().x / 2, leftIdleTexture.getSize().y / 2);
 		currentDirection = LEFT;
+		atAnvil = true;
+		atForge = false;
+		behaviourClock.restart();
+		anvilAnimTime = 0.4;
+		forgeAnimTime = 1;
+		workPoint = 0;
 	}
 	else
 	{
@@ -194,6 +200,10 @@ void Npc::Update(sf::Vector2f playerPos)
 		if (currentBehaviour == "patrol")
 		{
 			Patrol();
+		}
+		else if (currentBehaviour == "forge")
+		{
+			Forge();
 		}
 		else if (currentBehaviour == "wander")
 		{
@@ -562,6 +572,20 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 			patrolWanderClock.restart();
 			behaviourClock.restart();
 		}
+		if (currentBehaviour == "forge")
+		{
+			
+			if (workPoint == 0)//anvil
+			{
+				workPoint = 1;
+				atAnvil = true;
+			}
+			else if (workPoint == 1)//forge
+			{
+				workPoint = 0;
+				atForge = true;
+			}
+		}
 	}
 }
 
@@ -580,6 +604,46 @@ void Npc::SetBehaviour(int behaviourNum)
 void Npc::GoToBed(sf::Vector2f bedPos)
 {
 	Follow(bedPos);
+}
+
+//npcs with the forge behaviour will work at the blacksmiths forge and anvil
+void Npc::Forge()
+{
+	if (atAnvil)
+	{
+		if (behaviourClock.getElapsedTime().asSeconds() < 30)
+		{
+			//forge(play animation)
+			currentDirection = LEFT;
+		}
+		else
+		{
+			//go to forge
+			behaviourClock.restart();
+			atAnvil = false;
+		}
+	}
+	else if ((!atAnvil && !atForge))//not working at anvil or forge
+	{
+		if(workPoint == 0)
+			Follow(sf::Vector2f(425, 920));//go to anvil
+		else if(workPoint == 1)
+			Follow(sf::Vector2f(425, 980));//go to forge
+	}
+	else if (atForge)
+	{
+		if (behaviourClock.getElapsedTime().asSeconds() < 30)
+		{
+			//work(play animation
+			currentDirection = DOWN;
+		}
+		else
+		{
+			//go back to anvil
+			behaviourClock.restart();
+			atForge = false;
+		}
+	}
 }
 
 void Npc::Patrol()

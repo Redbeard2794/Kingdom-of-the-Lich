@@ -20,9 +20,13 @@ PopupMessage::PopupMessage(sf::Font f, std::string m, sf::Vector2f pos, float fT
 
 	text.setFont(font);
 	text.setString(message);
-	text.setColor(col);
+	text.setColor(sf::Color::White);
 	text.setCharacterSize(30);
 	text.setPosition(position);
+
+	messageBackground.setPosition(sf::Vector2f(position.x, position.y+6));
+	messageBackground.setSize(sf::Vector2f(text.getGlobalBounds().width, text.getGlobalBounds().height));
+	messageBackground.setFillColor(sf::Color::Black);
 }
 
 /*
@@ -67,10 +71,15 @@ void PopupMessage::Update()
 {
 	if (fadeClock.getElapsedTime().asSeconds() > displayTime)
 	{
-		if(customMessage)
+		if (customMessage)
+		{
 			text.setColor(sf::Color(text.getColor().r, text.getColor().g, text.getColor().b, text.getColor().a - 1));
+			messageBackground.setFillColor(sf::Color(messageBackground.getFillColor().r, messageBackground.getFillColor().g, messageBackground.getFillColor().b, messageBackground.getFillColor().a - 1));
+		}
 		else
+		{
 			sprite.setColor(sf::Color(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, sprite.getColor().a - 1));
+		}
 	}
 
 	//decide if the message can be removed
@@ -93,6 +102,7 @@ void PopupMessage::Draw(sf::RenderTarget & window)
 {
 	if (customMessage)
 	{
+		window.draw(messageBackground);
 		window.draw(text);
 	}
 	else

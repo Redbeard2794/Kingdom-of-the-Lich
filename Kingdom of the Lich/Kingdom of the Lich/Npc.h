@@ -119,6 +119,12 @@ private:
 	sf::Texture speechBubbleTexture;
 	sf::Sprite speechBubbleSprite;
 
+	bool atAnvil;
+	bool atForge;
+	float anvilAnimTime;
+	float forgeAnimTime;
+	int workPoint;
+
 public: 
 
 	int behvaiour1H;
@@ -167,6 +173,9 @@ public:
 	void GoToBed(sf::Vector2f bedPos);
 
 	void WakeUp();
+
+	//npcs with the forge behaviour will work at the blacksmiths forge and anvil
+	void Forge();
 
 	void Patrol();
 

@@ -107,15 +107,15 @@
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour1>forge</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>forge</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
-    <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3>stand</behaviour3>
+    <behaviour3TimeH>15</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
     <behaviour4>0</behaviour4>
