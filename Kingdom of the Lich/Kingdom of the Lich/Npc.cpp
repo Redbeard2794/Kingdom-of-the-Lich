@@ -100,6 +100,22 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	patrolPointsPicked = true;
 	patrolWanderClock.restart();
 	currentPatrolPoint = 1;
+
+	
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+	greetingText.setString("");
+	greetingText.setPosition(sf::Vector2f(getPosition().x + 20, getPosition().y - 60));
+	greetingText.setFont(font);
+	greetingText.setCharacterSize(12);
+	greetingText.setColor(sf::Color::Black);
+	displayGreeting = false;
+	greetingClock.restart();
+
+	speechBubbleTexture.loadFromFile("Assets/Greetings/speechBubble.png");
+	speechBubbleSprite.setTexture(speechBubbleTexture);
+	speechBubbleSprite.setOrigin(0, speechBubbleTexture.getSize().y / 2);
+	speechBubbleSprite.setPosition(sf::Vector2f(getPosition().x + 10, getPosition().y - 40));
+	speechBubbleSprite.scale(2, 1);
 }
 
 //Load the correct texture for the interact hint
@@ -595,7 +611,7 @@ void Npc::Patrol()
 		}
 		else
 		{
-			if (patrolWanderClock.getElapsedTime().asSeconds() < 60)//2 mins
+			if (patrolWanderClock.getElapsedTime().asSeconds() < 5)//2 mins
 			{
 				//wander
 				std::cout << "Patrol is wandering." << std::endl;
@@ -637,12 +653,74 @@ void Npc::Patrol()
 
 }
 
+//load greetings based on player race and gender
+void Npc::LoadGreetings(int pRace, int pGender)
+{
+	greetingFilePath = "Assets/Greetings/to";
+
+	if (pRace == 0)//human
+		greetingFilePath += "Human";
+	else if (pRace == 1)//elf
+		greetingFilePath += "Elf";
+	else if (pRace == 2)//dwarf
+		greetingFilePath += "Dwarf";
+
+	if (pGender == 0)//male
+		greetingFilePath += "Male";
+	else if (pGender == 1)//female
+		greetingFilePath += "Female";
+
+	greetingFilePath += ".txt";
+
+	//load in the correct greetings file
+	std::string line;
+	std::ifstream myfile(greetingFilePath);
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			greetings.push_back(line);
+		}
+		myfile.close();
+	}
+	else std::cout << "Unable to open greetings file: " << "'" << greetingFilePath << "'" << std::endl;;
+}
+
 /*Draw the interaction hint sprite*/
 void Npc::draw(sf::RenderTarget& window)
 {
 	if(interactable)
 		window.draw(interactHintSprite);
 	footprintEmitter->DrawParticles(window);
+}
+
+//choose a greeting to display
+void Npc::ChooseMessage()
+{
+	if (displayGreeting == false)//if not already showing a greeting
+	{
+		int max = greetings.size() - 1;
+		int index = rand() % max;
+		greetingText.setString(greetings.at(index));
+		displayGreeting = true;
+		greetingClock.restart();
+	}
+}
+
+//draw a greeting if the npc is interacted with
+void Npc::DrawMessage(sf::RenderTarget & window)
+{
+	if (displayGreeting == true)
+	{
+		if (greetingClock.getElapsedTime().asSeconds() < 2)
+		{
+			greetingText.setPosition(sf::Vector2f(getPosition().x + 20, getPosition().y - 50));
+			speechBubbleSprite.setPosition(sf::Vector2f(getPosition().x + 10, getPosition().y - 40));
+			window.draw(speechBubbleSprite);
+			window.draw(greetingText);
+		}
+		else displayGreeting = false;
+	}
 }
 
 void Npc::DrawBedCovers(sf::RenderTarget & window)
@@ -799,4 +877,9 @@ void Npc::SetWakeTS(int s)
 int Npc::GetWakeTS()
 {
 	return wakeTimeS;
+}
+
+bool Npc::IsInteractable()
+{
+	return interactable;
 }

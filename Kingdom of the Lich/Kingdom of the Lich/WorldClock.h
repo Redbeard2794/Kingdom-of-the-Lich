@@ -32,6 +32,11 @@ public:
 	int GetCurrentMinutes();
 	int GetCurrentSeconds();
 
+	/*manually setting the clock is only used when loading a previous save*/
+	void SetCurrentHours(int h);
+	void SetCurrentMinutes(int m);
+	void SetCurrentSecs(int s);
+
 	void DrawClockText(sf::RenderTarget& window);
 };
 

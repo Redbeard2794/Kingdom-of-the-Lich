@@ -108,6 +108,17 @@ private:
 	bool patrolPointReached;
 	int currentPatrolPoint;
 
+	std::string greetingFilePath;
+	std::vector<std::string> greetings;
+	sf::Font font;
+	sf::Text greetingText;
+
+	bool displayGreeting;
+	sf::Clock greetingClock;
+
+	sf::Texture speechBubbleTexture;
+	sf::Sprite speechBubbleSprite;
+
 public: 
 
 	int behvaiour1H;
@@ -159,9 +170,17 @@ public:
 
 	void Patrol();
 
+	//load greetings based on player race and gender
+	void LoadGreetings(int pRace, int pGender);
+
 	/*Draw the interaction hint sprite*/
 	void draw(sf::RenderTarget& window);
 	
+	//choose a greeting to display
+	void ChooseMessage();
+	//draw a greeting if the npc is interacted with
+	void DrawMessage(sf::RenderTarget& window);
+
 	void DrawBedCovers(sf::RenderTarget& window);
 
 	/*Draw the npc on the minimap as an icon*/
@@ -214,6 +233,8 @@ public:
 	int GetWakeTM();
 	void SetWakeTS(int s);
 	int GetWakeTS();
+
+	bool IsInteractable();
 };
 
 #endif

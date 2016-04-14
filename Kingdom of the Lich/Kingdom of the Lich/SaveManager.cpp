@@ -79,7 +79,7 @@ SaveManager::~SaveManager()
 }
 
 void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, 
-	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1)
+	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock)
 {
 	xml_document<> doc;
 	std::ifstream file(savePath);
@@ -254,6 +254,17 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	save->first_node("quest1CurrentStage")->value(q1sT);
 	std::cout << "New quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
 
+	//clock
+	std::string clockHText = std::to_string(clock->GetCurrentHours());
+	const char * chT = doc.allocate_string(clockHText.c_str(), strlen(clockHText.c_str()));
+	save->first_node("clockHours")->value(chT);
+	std::string clockMText = std::to_string(clock->GetCurrentMinutes());
+	const char * cmT = doc.allocate_string(clockMText.c_str(), strlen(clockMText.c_str()));
+	save->first_node("clockMins")->value(cmT);
+	std::string clockSText = std::to_string(clock->GetCurrentSeconds());
+	const char * csT = doc.allocate_string(clockSText.c_str(), strlen(clockSText.c_str()));
+	save->first_node("clockSecs")->value(csT);
+
 	//// Convert doc to string if needed
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
@@ -268,7 +279,7 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 }
 
 //load a game. return true if the save is not empty. if it is then load a new game
-bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1)
+bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1, WorldClock* clock)
 {
 	savePath = "Saves/save" + std::to_string(currentSelected + 1) + ".xml";
 
@@ -311,6 +322,9 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	int quillQuantity = std::atoi(save->first_node("quillQuantity")->value());
 	bool quest1Complete = std::atoi(save->first_node("quest1Complete")->value());
 	int quest1Stage = std::atoi(save->first_node("quest1CurrentStage")->value());
+	int clockHours = std::atoi(save->first_node("clockHours")->value());
+	int clockMins = std::atoi(save->first_node("clockMins")->value());
+	int clockSecs = std::atoi(save->first_node("clockSecs")->value());
 
 	//set the player's race
 	if (race == "human")
@@ -371,6 +385,10 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	q1->setCompletionStatus(quest1Complete);
 	//quest 1 current stage
 	q1->setCurrentStageIndex(quest1Stage);
+	//set the time
+	clock->SetCurrentHours(clockHours);
+	clock->SetCurrentMinutes(clockMins);
+	clock->SetCurrentSecs(clockSecs);
 
 	for (int i = 0; i < 5; i++)
 	{

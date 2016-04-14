@@ -51,6 +51,8 @@ public:
 
 	void CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds);
 
+	void LoadGreetings(int pRace, int pGender);
+
 	int GetAreaToChangeTo();
 	void SetAreaToChangeTo(int atc);
 

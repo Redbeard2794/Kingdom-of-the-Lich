@@ -58,6 +58,8 @@ public:
 
 	void LoadBeds();
 
+	void LoadNpcGreetings(int pRace, int pGender);
+
 	/*Draw the npcs*/
 	void Draw(sf::RenderTarget& window, bool debugMode);
 

@@ -357,22 +357,11 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 			npcs.at(i)->SetInBed(false);
 		}
 
-		//if (currentHours > npcs.at(i)->behvaiour1H && currentMinutes > npcs.at(i)->behvaiour1M && currentSeconds > npcs.at(i)->behvaiour1S
-		//	&& currentHours < npcs.at(i)->behvaiour2H && currentMinutes == npcs.at(i)->behvaiour2M && currentSeconds < npcs.at(i)->behvaiour2S)
-		//{
-		//	npcs.at(i)->SetBehaviour(1);
-		//}
-		//else if (currentHours > npcs.at(i)->behvaiour2H && currentMinutes > npcs.at(i)->behvaiour2M && currentSeconds > npcs.at(i)->behvaiour2S
-		//	&& currentHours < npcs.at(i)->behvaiour3H && currentMinutes < npcs.at(i)->behvaiour3M && currentSeconds < npcs.at(i)->behvaiour3S)
-		//{
-		//	npcs.at(i)->SetBehaviour(2);
-		//}
-		
-		if (currentHours == npcs.at(i)->behvaiour1H && currentMinutes == npcs.at(i)->behvaiour1M && currentSeconds == npcs.at(i)->behvaiour1S)
+		if (currentHours >= npcs.at(i)->behvaiour1H && currentHours < npcs.at(i)->behvaiour2H)
 		{
 			npcs.at(i)->SetBehaviour(1);
 		}
-		else if (currentHours == npcs.at(i)->behvaiour2H && currentMinutes == npcs.at(i)->behvaiour2M && currentSeconds == npcs.at(i)->behvaiour2S)
+		else if (currentHours >= npcs.at(i)->behvaiour2H && currentHours < npcs.at(i)->behvaiour3H)
 		{
 			npcs.at(i)->SetBehaviour(2);
 		}
@@ -420,6 +409,11 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 			else if (npcs.at(i)->doesNpcHaveQuest())
 			{
 				return std::make_pair(true, 0);
+			}
+			else if (!npcs.at(i)->doesNpcHaveQuest() && npcs.at(i)->IsInteractable())
+			{
+				npcs.at(i)->ChooseMessage();
+				return std::make_pair(true, 1);
 			}
 			else if (npcs.at(i)->getCurrentBehaviour() == "shopkeeper")
 			{
@@ -497,6 +491,14 @@ void Area::LoadBeds()
 	}
 }
 
+void Area::LoadNpcGreetings(int pRace, int pGender)
+{
+	for (int i = 0; i < npcs.size(); i++)
+	{
+		npcs.at(i)->LoadGreetings(pRace, pGender);
+	}
+}
+
 /*Draw the npcs and collidable objects*/
 void Area::Draw(sf::RenderTarget & window, bool debugMode)
 {
@@ -518,6 +520,7 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 		if (debugMode)
 			npcs.at(i)->DrawBoundingBox(window);
 		npcs.at(i)->DrawBedCovers(window);
+		npcs.at(i)->DrawMessage(window);
 	}
 
 	for (int i = 0; i < collidableObjects.size(); i++)

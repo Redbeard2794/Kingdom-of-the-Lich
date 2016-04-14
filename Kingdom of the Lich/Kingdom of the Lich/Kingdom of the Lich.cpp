@@ -718,6 +718,7 @@ int main()
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -891,6 +892,7 @@ int main()
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -2123,7 +2125,7 @@ int main()
 				if (saveManager->IsSaving())//if the game is currently being saved
 				{
 					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
-						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest);
+						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
 
 					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
 				}
@@ -2169,7 +2171,7 @@ int main()
 					{
 						saveManager->UpdateState();
 
-						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest) == true)//so save is not empty
+						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest, worldClock) == true)//so save is not empty
 						{
 							popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 							p->setTextures();
@@ -2188,6 +2190,7 @@ int main()
 							}
 							currentArea = areaManager->GetCurrentArea();
 							pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+							areaManager->LoadGreetings(p->getRace(), p->getGender());
 						}
 						else//save slot is empty so start a new game
 						{

@@ -103,6 +103,14 @@ void AreaManager::CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds)
 	}
 }
 
+void AreaManager::LoadGreetings(int pRace, int pGender)
+{
+	for (int i = 0; i < areas.size(); i++)
+	{
+		areas.at(i)->LoadNpcGreetings(pRace, pGender);
+	}
+}
+
 int AreaManager::GetAreaToChangeTo()
 {
 	return areaToChangeTo;
