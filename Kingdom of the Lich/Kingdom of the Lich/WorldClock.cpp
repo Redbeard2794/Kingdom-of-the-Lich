@@ -8,7 +8,7 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 	currentMinutes = 0;
 	currentHours = 9;
 
-	timeMultiplier = 0.015;
+	timeMultiplier = 0.15;
 
 	timeText.setFont(font);
 	timeText.setCharacterSize(20);

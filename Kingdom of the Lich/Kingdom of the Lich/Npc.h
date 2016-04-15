@@ -137,6 +137,8 @@ private:
 	int currentApplePoint;
 	bool spotPicked;
 
+	sf::Clock wanderClock;
+
 public: 
 
 	//fix these up later

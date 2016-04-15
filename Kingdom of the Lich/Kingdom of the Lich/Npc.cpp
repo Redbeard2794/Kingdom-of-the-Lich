@@ -136,6 +136,8 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 100));
 	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 150));
 	applePoints.push_back(appleEndPoint);
+
+	wanderClock.restart();
 }
 
 //Load the correct texture for the interact hint
@@ -291,7 +293,7 @@ void Npc::Update(sf::Vector2f playerPos)
 If we collide with something, move out of collision and choose a new place to wander to*/
 void Npc::Wander()
 {
-	if (behaviourClock.getElapsedTime().asSeconds() > timeBetweenWander)
+	if (wanderClock.getElapsedTime().asSeconds() > timeBetweenWander)
 	{
 		idle = false;
 
@@ -307,7 +309,7 @@ void Npc::Wander()
 			if(colliding)
 			{
 				std::cout << "Resetting wander pos due to collision." << std::endl;
-				behaviourClock.restart();
+				wanderClock.restart();
 
 				wanderPos = prevWanderPos;//go to the previous position
 
@@ -356,7 +358,7 @@ void Npc::Wander()
 			timeBetweenWander = rand() % 7 + 2;
 
 			//restart the clock
-			behaviourClock.restart();
+			wanderClock.restart();
 		}
 
 		//sort out orientation here
@@ -636,7 +638,7 @@ void Npc::Follow(sf::Vector2f positionToFollow, bool follow)
 		{
 			patrolPointReached = true;
 			patrolWanderClock.restart();
-			behaviourClock.restart();
+			//behaviourClock.restart();
 		}
 		else if (currentBehaviour == "forge")
 		{
@@ -779,10 +781,11 @@ void Npc::Patrol()
 		}
 		else
 		{
-			if (patrolWanderClock.getElapsedTime().asSeconds() < 5)//2 mins
+			if (patrolWanderClock.getElapsedTime().asSeconds() < 10)//2 mins
 			{
 				//wander
 				std::cout << "Patrol is wandering." << std::endl;
+				
 				Wander();
 			}
 			else
