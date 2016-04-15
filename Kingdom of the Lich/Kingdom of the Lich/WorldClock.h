@@ -1,7 +1,7 @@
 #ifndef WORLDCLOCK_H
 #define WORLDCLOCK_H
 
-class WorldClock : public sf::Sprite
+class WorldClock : public sf::CircleShape
 {
 private:
 	sf::Clock secondClock;//clock for counting seconds
@@ -16,6 +16,12 @@ private:
 	sf::Text timeText;
 
 	sf::RectangleShape clockTextBackground;
+
+	//clock hands
+	sf::RectangleShape secondHand;
+	sf::RectangleShape minuteHand;
+	sf::RectangleShape hourHand;
+
 public:
 	WorldClock(sf::Font f, int screenW, int screenH);
 	~WorldClock();

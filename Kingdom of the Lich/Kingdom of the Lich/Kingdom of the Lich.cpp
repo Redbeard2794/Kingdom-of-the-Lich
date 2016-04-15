@@ -1495,6 +1495,8 @@ int main()
 			else hud->Update("No active quest", testInv->CheckQuantity(testInv->i_gems.key, false), sf::Vector2f(0,0), p->getPosition(), showMinimap, p->getHealth());
 
 			achievementTracker->DisplayAchievement(window);
+
+			window.draw(*worldClock);
 			worldClock->DrawClockText(window);
 
 			//if (gamepad->Back())

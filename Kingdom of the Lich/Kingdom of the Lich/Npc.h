@@ -129,6 +129,14 @@ private:
 
 	bool itemStolen;
 
+	bool reachedAppleStart;
+	sf::Vector2f appleStartPoint;
+	sf::Vector2f appleEndPoint;
+
+	std::vector<sf::Vector2f> applePoints;
+	int currentApplePoint;
+	bool spotPicked;
+
 public: 
 
 	//fix these up later
@@ -183,6 +191,9 @@ public:
 	void Forge();
 
 	void Patrol();
+
+	/*walk between apple trees*/
+	void PickApples();
 
 	//actively avoid the player if they are close enough
 	void AvoidPlayer(sf::Vector2f playerPos);

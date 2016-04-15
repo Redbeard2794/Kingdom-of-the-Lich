@@ -440,7 +440,7 @@ void Inventory::SetItemToSteal()
 	int index = 0;
 
 	if(possibleItemsToSteal.size() > 1)
-		index = rand() % possibleItemsToSteal.size() - 1;
+		index = rand() % (possibleItemsToSteal.size() - 1);
 
 	itemToStealKey = possibleItemsToSteal.at(index);
 }

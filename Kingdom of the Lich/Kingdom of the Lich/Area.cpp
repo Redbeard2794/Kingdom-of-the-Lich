@@ -417,6 +417,7 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* player
 					stolenGoodsChest->SetKeyForStoredItem(playerInv->GetItemToSteal());
 					stolenGoodsChest->SetQuantityForStoredItem(playerInv->GetItemToStealQuantity());
 					stolenGoodsChest->SetOpened(false);
+					AudioManager::GetInstance()->PlaySoundEffectById(24, false);
 				}
 				return std::make_pair(true, 2);
 			}

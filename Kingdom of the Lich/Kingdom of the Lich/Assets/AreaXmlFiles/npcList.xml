@@ -232,7 +232,7 @@
 		<walkRightPath>Assets/Npcs/cultist/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1200</x>
-		<y>1500</y>
+		<y>1250</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
 		<behaviour1>steal</behaviour1>
@@ -317,16 +317,16 @@
 		<walkLeftPath>Assets/Npcs/maleGuard/Moving/leftSheet.png</walkLeftPath>
 		<walkRightPath>Assets/Npcs/maleGuard/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-		<x>1600</x>
-		<y>300</y>
+		<x>1175</x>
+		<y>1475</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour1>stand</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+		<behaviour1>pickApples</behaviour1>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>stand</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
     <behaviour3>0</behaviour3>

@@ -5,22 +5,46 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 {
 	secondClock.restart();
 	currentSeconds = 0;
-	currentMinutes = 59;
-	currentHours = 11;
+	currentMinutes = 0;
+	currentHours = 9;
 
-	timeMultiplier = 0.15;
+	timeMultiplier = 0.015;
 
 	timeText.setFont(font);
 	timeText.setCharacterSize(20);
-	timeText.setPosition(screenW / 1.297, 75);
+	timeText.setPosition(screenW -275, 175);
 	timeText.setColor(sf::Color::White);
 
 	clockTextBackground.setSize(sf::Vector2f(260, 25));
 	clockTextBackground.setFillColor(sf::Color::Blue);
 	clockTextBackground.setOutlineColor(sf::Color::Black);
 	clockTextBackground.setOutlineThickness(2);
-	clockTextBackground.setPosition(screenW / 1.3, 75);
+	clockTextBackground.setPosition(screenW -275, 175);
 
+
+	setPosition(screenW - 150, 80);
+	setRadius(60);
+	setFillColor(sf::Color(sf::Color(192, 192, 192, 255)));
+	setOutlineColor(sf::Color::Black);
+	setOutlineThickness(2);
+	setPointCount(60);
+	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
+
+	secondHand.setSize(sf::Vector2f(3, 60));
+	secondHand.setOrigin(secondHand.getSize().x / 2, secondHand.getSize().y);
+	secondHand.setFillColor(sf::Color::Red);
+	secondHand.setPosition(getPosition());
+
+	minuteHand.setSize(sf::Vector2f(5, 60));
+	minuteHand.setOrigin(minuteHand.getSize().x / 2, minuteHand.getSize().y);
+	minuteHand.setFillColor(sf::Color::Black);
+	minuteHand.setPosition(getPosition());
+
+	hourHand.setSize(sf::Vector2f(8, 60));
+	hourHand.setOrigin(hourHand.getSize().x / 2, hourHand.getSize().y);
+	hourHand.setFillColor(sf::Color::Black);
+	hourHand.setPosition(getPosition());
+	hourHand.setRotation(270);
 }
 
 WorldClock::~WorldClock()
@@ -58,6 +82,7 @@ void WorldClock::UpdateSeconds()
 		if (currentSeconds < 59)
 		{
 			currentSeconds += 1;
+			secondHand.rotate(6);
 		}
 		else
 		{
@@ -72,6 +97,7 @@ void WorldClock::UpdateMinutes()
 	if (currentMinutes < 59)
 	{
 		currentMinutes += 1;
+		minuteHand.rotate(6);
 	}
 	else
 	{
@@ -85,6 +111,7 @@ void WorldClock::UpdateHours()
 	if (currentHours < 23)
 	{
 		currentHours += 1;
+		hourHand.rotate(30);
 	}
 	else
 	{
@@ -124,6 +151,9 @@ void WorldClock::SetCurrentSecs(int s)
 
 void WorldClock::DrawClockText(sf::RenderTarget & window)
 {
+	window.draw(secondHand);
+	window.draw(minuteHand);
+	window.draw(hourHand);
 	window.draw(clockTextBackground);
 	window.draw(timeText);
 }

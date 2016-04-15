@@ -125,6 +125,17 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	speechBubbleSprite.scale(2, 1);
 
 	itemStolen = false;
+
+	appleStartPoint = sf::Vector2f(1160, 1500);
+	appleEndPoint = sf::Vector2f(1160, 1725);
+	spotPicked = false;
+	reachedAppleStart = false;
+	currentApplePoint = 0;
+	applePoints.push_back(appleStartPoint);
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 50));
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 100));
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 150));
+	applePoints.push_back(appleEndPoint);
 }
 
 //Load the correct texture for the interact hint
@@ -217,6 +228,12 @@ void Npc::Update(sf::Vector2f playerPos)
 				//evade when player is in range
 				AvoidPlayer(playerPos);
 			}
+		}
+		else if (currentBehaviour == "pickApples")
+		{
+			if(reachedAppleStart == true)
+				PickApples();
+			else Follow(applePoints.at(currentApplePoint), true);
 		}
 		else if (currentBehaviour == "wander")
 		{
@@ -649,6 +666,12 @@ void Npc::Follow(sf::Vector2f positionToFollow, bool follow)
 				//workClock.restart();
 			}
 		}
+
+		else if (currentBehaviour == "pickApples")
+		{
+			reachedAppleStart = true;
+			
+		}
 	}
 }
 
@@ -796,6 +819,39 @@ void Npc::Patrol()
 	}
 
 
+}
+
+/*walk between apple trees*/
+void Npc::PickApples()
+{
+	if (behaviourClock.getElapsedTime().asSeconds() > 5 && spotPicked == false)
+	{
+		int flip = rand() % 1;
+		if (flip == 0)
+		{
+			prevDirection = currentDirection;
+			currentDirection = LEFT;
+		}
+		else if (flip == 1)
+		{
+			prevDirection = currentDirection;
+			currentDirection = RIGHT;
+		}
+		spotPicked = true;
+		behaviourClock.restart();
+		//play sound
+		
+	}
+	else if (behaviourClock.getElapsedTime().asSeconds() > 10 && spotPicked == true)
+	{
+		//Follow(sf::Vector2f(appleStartPoint.x, appleStartPoint.y+50), true);
+		if(currentApplePoint < 4)
+			currentApplePoint += 1;
+		else currentApplePoint = 0;
+		spotPicked = false;
+		reachedAppleStart = false;
+		behaviourClock.restart();
+	}
 }
 
 //actively avoid the player if they are close enough
