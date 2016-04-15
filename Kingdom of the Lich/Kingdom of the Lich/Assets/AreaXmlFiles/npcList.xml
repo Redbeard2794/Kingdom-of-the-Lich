@@ -92,15 +92,15 @@
 		<id>3</id>
 		<race>Dwarf</race>
 		<gender>Male</gender>
-		<idleUpPath>Assets/Npcs/oldMan/Idle/upIdle.png</idleUpPath>
-		<idleDownPath>Assets/Npcs/oldMan/Idle/downIdle.png</idleDownPath>
-		<idleLeftPath>Assets/Npcs/oldMan/Idle/leftIdle.png</idleLeftPath>
-		<idleRightPath>Assets/Npcs/oldMan/Idle/rightIdle.png</idleRightPath>
+		<idleUpPath>Assets/Npcs/blacksmith/Idle/upIdle.png</idleUpPath>
+		<idleDownPath>Assets/Npcs/blacksmith/Idle/downIdle.png</idleDownPath>
+		<idleLeftPath>Assets/Npcs/blacksmith/Idle/leftIdle.png</idleLeftPath>
+		<idleRightPath>Assets/Npcs/blacksmith/Idle/rightIdle.png</idleRightPath>
 		<numberOfFrames>3</numberOfFrames>
-		<walkUpPath>Assets/Npcs/oldMan/Moving/upSheet.png</walkUpPath>
-		<walkDownPath>Assets/Npcs/oldMan/Moving/downSheet.png</walkDownPath>
-		<walkLeftPath>Assets/Npcs/oldMan/Moving/leftSheet.png</walkLeftPath>
-		<walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
+		<walkUpPath>Assets/Npcs/blacksmith/Moving/upSheet.png</walkUpPath>
+		<walkDownPath>Assets/Npcs/blacksmith/Moving/downSheet.png</walkDownPath>
+		<walkLeftPath>Assets/Npcs/blacksmith/Moving/leftSheet.png</walkLeftPath>
+		<walkRightPath>Assets/Npcs/blacksmith/Moving/rightSheet.png</walkRightPath>
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>415</x>
 		<y>920</y>
@@ -235,12 +235,12 @@
 		<y>1500</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour1>wander</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+		<behaviour1>steal</behaviour1>
+    <behaviour1TimeH>12</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>wander</behaviour2>
+    <behaviour2TimeH>15</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
     <behaviour3>0</behaviour3>

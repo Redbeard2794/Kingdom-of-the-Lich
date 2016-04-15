@@ -144,6 +144,8 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	selectHintSprite.setOrigin(selectHintTexture.getSize().x / 2, selectHintTexture.getSize().y / 2);
 	selectHintSprite.setPosition(screenW / 1.13, screenH / 1.05);
 
+	itemToStealKey = "";
+	itemToStealQuantity = 0;
 }
 
 /*Destructor*/
@@ -420,6 +422,29 @@ void Inventory::ReorderSlots()
 	}
 }
 
+/*Choose an item for a thief to steal*/
+void Inventory::SetItemToSteal()
+{
+	std::vector<std::string> possibleItemsToSteal;
+
+	//look for items with quantity > 0
+	std::map<std::string, int>::iterator it;
+	for (it = inventoryItems.begin(); it != inventoryItems.end(); ++it)
+	{
+		if (it->second > 0)
+		{
+			possibleItemsToSteal.push_back(it->first);
+		}
+	}
+
+	int index = 0;
+
+	if(possibleItemsToSteal.size() > 1)
+		index = rand() % possibleItemsToSteal.size() - 1;
+
+	itemToStealKey = possibleItemsToSteal.at(index);
+}
+
 void Inventory::NavigateUp()
 {
 	if (canMove)
@@ -543,4 +568,19 @@ int Inventory::getCurrentlySelectedItem()
 void Inventory::setCurrentlySelectedItem(int i)
 {
 	currentlySelectedItem = i;
+}
+
+std::string Inventory::GetItemToSteal()
+{
+	return itemToStealKey;
+}
+
+int Inventory::GetItemToStealQuantity()
+{
+	return itemToStealQuantity;
+}
+
+void Inventory::SetItemToStealQuantity(int q)
+{
+	itemToStealQuantity = q;
 }

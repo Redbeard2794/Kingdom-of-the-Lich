@@ -58,9 +58,9 @@ void AreaManager::ChangeArea(int areaToChangeTo)
 		currentArea = areaToChangeTo;
 }
 
-std::pair<bool, int> AreaManager::CheckCollisionPlayerNpcs(Player * p)
+std::pair<bool, int> AreaManager::CheckCollisionPlayerNpcs(Player * p, Inventory* playerInv, Chest* stolenGoodsChest)
 {
-	return areas.at(currentArea)->CheckNpcPlayerCollisions(p);
+	return areas.at(currentArea)->CheckNpcPlayerCollisions(p, playerInv, stolenGoodsChest);
 }
 
 bool AreaManager::CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds)

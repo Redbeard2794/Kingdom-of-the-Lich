@@ -41,6 +41,7 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 		anvilAnimTime = 0.4;
 		forgeAnimTime = 1;
 		workPoint = 0;
+		workAnimTexture.loadFromFile("Assets/Npcs/blacksmith/hammerSheet.png");
 	}
 	else
 	{
@@ -122,6 +123,8 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	speechBubbleSprite.setOrigin(0, speechBubbleTexture.getSize().y / 2);
 	speechBubbleSprite.setPosition(sf::Vector2f(getPosition().x + 10, getPosition().y - 40));
 	speechBubbleSprite.scale(2, 1);
+
+	itemStolen = false;
 }
 
 //Load the correct texture for the interact hint
@@ -205,6 +208,16 @@ void Npc::Update(sf::Vector2f playerPos)
 		{
 			Forge();
 		}
+		else if (currentBehaviour == "steal")
+		{
+			if(itemStolen == false)
+				Follow(playerPos, true);
+			else
+			{
+				//evade when player is in range
+				AvoidPlayer(playerPos);
+			}
+		}
 		else if (currentBehaviour == "wander")
 		{
 			Wander();
@@ -217,7 +230,7 @@ void Npc::Update(sf::Vector2f playerPos)
 		{
 			if (distanceToPlayer < 300 && colliding == false)
 			{
-				Follow(playerPos);
+				Follow(playerPos, true);
 			}
 			else
 			{
@@ -465,7 +478,7 @@ void Npc::walkPattern()
 
 /*Follow the position that is passed in. This is a modified Seek algorithm
 (it can only move up, down, left or right but can not move in more than one direction at a time). Only allows 4 directions of movement*/
-void Npc::Follow(sf::Vector2f positionToFollow)
+void Npc::Follow(sf::Vector2f positionToFollow, bool follow)
 {
 	//get the vector between the positionToFollow and our position
 	direction = sf::Vector2f(positionToFollow - getPosition());
@@ -480,7 +493,9 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	{
 		if (!colliding)
 		{
-			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+			if(follow)
+				setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+			else setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y));
 			direction.y = 0;
 		}
 	}
@@ -489,7 +504,9 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	{
 		if (!colliding)
 		{
-			setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+			if(follow)
+				setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+			else setPosition(sf::Vector2f(getPosition().x, getPosition().y - direction.y));
 			direction.x = 0;
 		}
 	}
@@ -502,8 +519,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	if (direction.x > 0)
 	{
 		idle = false;
-		currentDirection = RIGHT;
-		setTexture(rightWalkTexture);
+		if (follow)
+		{
+			currentDirection = RIGHT;
+			setTexture(rightWalkTexture);
+		}
+		else
+		{
+			currentDirection = LEFT;
+			setTexture(leftWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -513,8 +538,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	else if (direction.x < 0)
 	{
 		idle = false;
-		currentDirection = LEFT;
-		setTexture(leftWalkTexture);
+		if (follow)
+		{
+			currentDirection = LEFT;
+			setTexture(leftWalkTexture);
+		}
+		else
+		{
+			currentDirection = RIGHT;
+			setTexture(rightWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -524,8 +557,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	if (direction.y > 0)
 	{
 		idle = false;
-		currentDirection = DOWN;
-		setTexture(downWalkTexture);
+		if (follow)
+		{
+			currentDirection = DOWN;
+			setTexture(downWalkTexture);
+		}
+		else
+		{
+			currentDirection = UP;
+			setTexture(upWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -535,8 +576,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	else if (direction.y < 0)
 	{
 		idle = false;
-		currentDirection = UP;
-		setTexture(upWalkTexture);
+		if (follow)
+		{
+			currentDirection = UP;
+			setTexture(upWalkTexture);
+		}
+		else
+		{
+			currentDirection = DOWN;
+			setTexture(downWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -572,18 +621,32 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 			patrolWanderClock.restart();
 			behaviourClock.restart();
 		}
-		if (currentBehaviour == "forge")
+		else if (currentBehaviour == "forge")
 		{
 			
 			if (workPoint == 0)//anvil
 			{
 				workPoint = 1;
 				atAnvil = true;
+				//framePosition.x = 0;
+				//setTexture(workAnimTexture);
+				//numberOfFrames = 2;
+				//frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
+				//frame = sf::IntRect(framePosition, frameSize);
+				//setTextureRect(frame);
+				//workClock.restart();
 			}
 			else if (workPoint == 1)//forge
 			{
 				workPoint = 0;
 				atForge = true;
+				//framePosition.x = 0;
+				//setTexture(workAnimTexture);
+				//numberOfFrames = 2;
+				//frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
+				//frame = sf::IntRect(framePosition, frameSize);
+				//setTextureRect(frame);
+				//workClock.restart();
 			}
 		}
 	}
@@ -603,7 +666,7 @@ void Npc::SetBehaviour(int behaviourNum)
 
 void Npc::GoToBed(sf::Vector2f bedPos)
 {
-	Follow(bedPos);
+	Follow(bedPos, true);
 }
 
 //npcs with the forge behaviour will work at the blacksmiths forge and anvil
@@ -614,6 +677,15 @@ void Npc::Forge()
 		if (behaviourClock.getElapsedTime().asSeconds() < 30)
 		{
 			//forge(play animation)
+			if (workClock.getElapsedTime().asSeconds() > anvilAnimTime)
+			{
+			//	if (framePosition.x < getTexture()->getSize().x - frameSize.x)
+			//		framePosition.x += frameSize.x;
+
+			//	else framePosition.x = 0;
+
+				animationClock.restart();
+			}
 			currentDirection = LEFT;
 		}
 		else
@@ -626,15 +698,24 @@ void Npc::Forge()
 	else if ((!atAnvil && !atForge))//not working at anvil or forge
 	{
 		if(workPoint == 0)
-			Follow(sf::Vector2f(425, 920));//go to anvil
+			Follow(sf::Vector2f(425, 920), true);//go to anvil
 		else if(workPoint == 1)
-			Follow(sf::Vector2f(425, 980));//go to forge
+			Follow(sf::Vector2f(425, 980), true);//go to forge
 	}
 	else if (atForge)
 	{
-		if (behaviourClock.getElapsedTime().asSeconds() < 30)
+		if (workClock.getElapsedTime().asSeconds() < 30)
 		{
-			//work(play animation
+			//work(play animation)
+			if (animationClock.getElapsedTime().asSeconds() > forgeAnimTime)
+			{
+				//if (framePosition.x < getTexture()->getSize().x - frameSize.x)
+				//	framePosition.x += frameSize.x;
+
+				//else framePosition.x = 0;
+
+				animationClock.restart();
+			}
 			currentDirection = DOWN;
 		}
 		else
@@ -655,22 +736,22 @@ void Npc::Patrol()
 			if (currentPatrolPoint == 1)
 			{
 				//seek to point
-				Follow(patrolPoint1);
+				Follow(patrolPoint1, true);
 			}
 			else if (currentPatrolPoint == 2)
 			{
 				//seek to point
-				Follow(patrolPoint2);
+				Follow(patrolPoint2, true);
 			}
 			else if (currentPatrolPoint == 3)
 			{
 				//seek to point
-				Follow(patrolPoint3);
+				Follow(patrolPoint3, true);
 			}
 			else if (currentPatrolPoint == 4)
 			{
 				//seek to point
-				Follow(patrolPoint4);
+				Follow(patrolPoint4, true);
 			}
 		}
 		else
@@ -715,6 +796,23 @@ void Npc::Patrol()
 	}
 
 
+}
+
+//actively avoid the player if they are close enough
+void Npc::AvoidPlayer(sf::Vector2f playerPos)
+{
+	//get the euclidean distance between this npc and the player
+	float distance = sqrtf(((getPosition().x - playerPos.x) * (getPosition().x - playerPos.x)) + ((getPosition().y - playerPos.y) * (getPosition().y - playerPos.y)));
+
+	if (distance < 150)//if distance < 300 then evade
+	{
+		Follow(playerPos, false);
+	}
+	else
+	{
+		//do nothing
+		//AudioManager::GetInstance()->pla
+	}
 }
 
 //load greetings based on player race and gender
@@ -946,4 +1044,14 @@ int Npc::GetWakeTS()
 bool Npc::IsInteractable()
 {
 	return interactable;
+}
+
+bool Npc::HasStolenItem()
+{
+	return itemStolen;
+}
+
+void Npc::SetHasStolenItem(bool h)
+{
+	itemStolen = h;
 }

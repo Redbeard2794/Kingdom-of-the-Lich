@@ -124,9 +124,14 @@ private:
 	float anvilAnimTime;
 	float forgeAnimTime;
 	int workPoint;
+	sf::Texture workAnimTexture;
+	sf::Clock workClock;
+
+	bool itemStolen;
 
 public: 
 
+	//fix these up later
 	int behvaiour1H;
 	int behvaiour1M;
 	int behvaiour1S;
@@ -166,7 +171,7 @@ public:
 
 	/*Follow the position that is passed in. This is a modified Seek algorithm
 	(it can only move up, down, left orright but not at the same time). Only allows 4 directions of movement*/
-	void Follow(sf::Vector2f positionToFollow);
+	void Follow(sf::Vector2f positionToFollow, bool follow);
 
 	void SetBehaviour(int behaviourNum);
 
@@ -178,6 +183,9 @@ public:
 	void Forge();
 
 	void Patrol();
+
+	//actively avoid the player if they are close enough
+	void AvoidPlayer(sf::Vector2f playerPos);
 
 	//load greetings based on player race and gender
 	void LoadGreetings(int pRace, int pGender);
@@ -244,6 +252,9 @@ public:
 	int GetWakeTS();
 
 	bool IsInteractable();
+
+	bool HasStolenItem();
+	void SetHasStolenItem(bool h);
 };
 
 #endif

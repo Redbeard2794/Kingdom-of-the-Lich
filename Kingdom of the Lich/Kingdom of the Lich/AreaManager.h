@@ -1,6 +1,7 @@
 #ifndef AREAMANAGER_H
 #define AREAMANAGER_H
 
+
 class AreaManager
 {
 private:
@@ -35,7 +36,7 @@ public:
 
 	void ChangeArea(int areaToChangeTo);
 
-	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p);
+	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p, Inventory* playerInv, Chest* stolenGoodsChest);
 
 	bool CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds);
 

@@ -8,6 +8,7 @@ using namespace rapidxml;
 
 #include "Door.h"
 #include "Bed.h"
+#include "Inventory.h"
 
 class Area
 {
@@ -50,7 +51,7 @@ public:
 	/*Update the map, minimap and npcs*/
 	void Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds);
 
-	std::pair<bool, int> CheckNpcPlayerCollisions(Player* p);
+	std::pair<bool, int> CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest);
 
 	void HandleNpcCollidableObjectsCollisions();
 

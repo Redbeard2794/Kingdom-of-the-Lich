@@ -377,7 +377,7 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 	HandleNpcCollidableObjectsCollisions();
 }
 
-std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
+std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
@@ -406,6 +406,20 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 			npcs.at(i)->setColliding(false);
 			if (npcs.at(i)->getCurrentBehaviour() == "follow")
 				return std::make_pair(true, 2);
+			else if (npcs.at(i)->getCurrentBehaviour() == "steal")
+			{
+				if (npcs.at(i)->HasStolenItem() == false)
+				{
+					npcs.at(i)->SetHasStolenItem(true);
+					playerInv->SetItemToSteal();
+					playerInv->SetItemToStealQuantity(playerInv->CheckQuantity(playerInv->GetItemToSteal(), false));
+					playerInv->RemoveItemFromInventory(playerInv->GetItemToSteal(), playerInv->GetItemToStealQuantity());
+					stolenGoodsChest->SetKeyForStoredItem(playerInv->GetItemToSteal());
+					stolenGoodsChest->SetQuantityForStoredItem(playerInv->GetItemToStealQuantity());
+					stolenGoodsChest->SetOpened(false);
+				}
+				return std::make_pair(true, 2);
+			}
 			else if (npcs.at(i)->doesNpcHaveQuest())
 			{
 				return std::make_pair(true, 0);

@@ -67,6 +67,9 @@ private:
 
 	sf::Texture selectHintTexture;
 	sf::Sprite selectHintSprite;
+
+	std::string itemToStealKey;
+	int itemToStealQuantity;
 public:
 	std::vector<ItemSlot*> itemSlots;
 	//these need to be visible in other classes....Is there a better way of doing this?
@@ -122,6 +125,8 @@ public:
 	/*Re-order item slots after an item has been used up and its slot removed*/
 	void ReorderSlots();
 
+	/*Choose an item for a thief to steal*/
+	void SetItemToSteal();
 
 	void NavigateUp();
 
@@ -140,6 +145,10 @@ public:
 	int getCurrentlySelectedItem();
 
 	void setCurrentlySelectedItem(int i);
+
+	std::string GetItemToSteal();
+	int GetItemToStealQuantity();
+	void SetItemToStealQuantity(int q);
 };
 
 #endif

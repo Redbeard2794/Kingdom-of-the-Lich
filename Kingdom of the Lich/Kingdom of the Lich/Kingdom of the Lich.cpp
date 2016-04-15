@@ -311,6 +311,9 @@ int main()
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
 
+	Chest* stolenGoodsChest = new Chest();
+	stolenGoodsChest->LoadInteractHintTexture(useController);
+
 	bool showQuestComplete = false;
 
 	
@@ -1040,6 +1043,41 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
+
+				if (p->getGlobalBounds().intersects(stolenGoodsChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)
+				{
+					if (gamepad->A() == true)
+					{
+						if (stolenGoodsChest->getOpened() == false)
+						{
+							if (stolenGoodsChest->getOpened() == false)
+							{
+								stolenGoodsChest->OpenChest(testInv);
+								p->IncreaseOpenedChests(1);
+								p->Notify();
+								splashClock->restart();
+								AudioManager::GetInstance()->PlaySoundEffectById(4, true);
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
+							}
+							else
+							{
+								std::cout << "You may not open this chest right now." << std::endl;
+								AudioManager::GetInstance()->PlaySoundEffectById(5, true);
+							}
+						}
+						else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
+					}
+					p->setCollidingStatus(true);
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - stolenGoodsChest->getPosition().x)*(p->getPosition().x - stolenGoodsChest->getPosition().x))
+						+ ((p->getPosition().y - stolenGoodsChest->getPosition().y)*(p->getPosition().y - stolenGoodsChest->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - stolenGoodsChest->getPosition().x) / distance,
+						(p->getPosition().y - stolenGoodsChest->getPosition().y) / distance);
+					//move the player out of collision
+					p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+				}
+				else p->setCollidingStatus(false);
 			}
 
 
@@ -1151,6 +1189,12 @@ int main()
 				testChest->DrawHint(*pWindow);
 				if (debugMode)
 					testChest->DrawBoundingBox(window);
+
+				stolenGoodsChest->Update(p->getPosition());
+				//window.draw(*stolenGoodsChest);
+				stolenGoodsChest->DrawHint(*pWindow);
+				if (debugMode)
+					stolenGoodsChest->DrawBoundingBox(window);
 			}
 			
 			areaManager->CheckDoors(p->getPosition(), p->getGlobalBounds());
@@ -1211,7 +1255,7 @@ int main()
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
-					p->setPosition(250, 175);
+					p->setPosition(325, 250);
 					if (p->HasPlayerGonePub() == false)
 					{
 						p->SetPlayerGonePub(true);
@@ -1323,12 +1367,12 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
-				if (areaManager->CheckCollisionPlayerNpcs(p).first)
+				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).first)
 				{
 					p->setCollidingStatus(true);
 					//npcVector.at(i)->setColliding(true);
 
-					if (areaManager->CheckCollisionPlayerNpcs(p).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
 					{
 						if (testQuest->getCurrentStageIndex() == 0)
 						{
@@ -1344,14 +1388,14 @@ int main()
 						
 					}
 
-					else if (areaManager->CheckCollisionPlayerNpcs(p).second == 3 && gamepad->A() == true)
+					else if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 3 && gamepad->A() == true)
 					{
 						prevState = gState;
 						gState = SHOPPING;
 					}
 
 					//move the player out of collision
-					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second != 2)
 					{
 						if (p->getCurrentDirection() == 0)//up
 						{
@@ -1474,6 +1518,7 @@ int main()
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 				{
 					window.draw(*testChest);
+					//window.draw(*stolenGoodsChest);
 					//window.draw(*sewerHatch);
 					//window.draw(*generalStoreDoor);
 				}
