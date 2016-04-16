@@ -1058,6 +1058,8 @@ int main()
 								splashClock->restart();
 								AudioManager::GetInstance()->PlaySoundEffectById(4, true);
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
+								areaManager->ResetAreaStealingNpcs();
+								AudioManager::GetInstance()->StopSfx(27);
 							}
 							else
 							{
@@ -2175,6 +2177,7 @@ int main()
 						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
 
 					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
+					AudioManager::GetInstance()->PlaySoundEffectById(26, false);
 				}
 
 				if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
@@ -2238,6 +2241,7 @@ int main()
 							currentArea = areaManager->GetCurrentArea();
 							pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 							areaManager->LoadGreetings(p->getRace(), p->getGender());
+							AudioManager::GetInstance()->PlaySoundEffectById(26, false);
 						}
 						else//save slot is empty so start a new game
 						{

@@ -46,6 +46,8 @@ public:
 
 	void MinimapDraw(sf::RenderTarget& window);
 
+	void ResetAreaStealingNpcs();
+
 	int GetCurrentArea();
 	//only used when loading a game
 	void SetCurrentArea(int a);

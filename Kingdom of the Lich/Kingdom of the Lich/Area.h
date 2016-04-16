@@ -68,6 +68,8 @@ public:
 
 	/*door stuff*/
 	int CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerBounds);
+
+	void ResetStealingNpc();
 };
 
 #endif

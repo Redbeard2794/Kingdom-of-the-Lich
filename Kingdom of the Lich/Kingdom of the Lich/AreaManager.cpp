@@ -83,6 +83,11 @@ void AreaManager::MinimapDraw(sf::RenderTarget & window)
 	areas.at(currentArea)->MinimapDraw(window);
 }
 
+void AreaManager::ResetAreaStealingNpcs()
+{
+	areas.at(currentArea)->ResetStealingNpc();
+}
+
 int AreaManager::GetCurrentArea()
 {
 	return currentArea;

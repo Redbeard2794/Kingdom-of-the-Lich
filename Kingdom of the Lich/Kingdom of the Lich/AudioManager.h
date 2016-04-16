@@ -95,6 +95,12 @@ private:
 	sf::SoundBuffer pickAppleSoundBuffer;
 	sf::Sound pickAppleSound;
 
+	sf::SoundBuffer saveSoundBuffer;
+	sf::Sound saveSound;
+
+	sf::SoundBuffer laughSoundBuffer;
+	sf::Sound laughSound;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 
@@ -242,6 +248,14 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/applePick.wav'" << std::endl;
 		pickAppleSound.setBuffer(pickAppleSoundBuffer);
 
+		if (saveSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/successfulSave.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/successfulSave.wav'" << std::endl;
+		saveSound.setBuffer(saveSoundBuffer);
+
+		if (laughSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/evilLaugh.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/evilLaugh.wav'" << std::endl;
+		laughSound.setBuffer(laughSoundBuffer);
+
 		//vector of sound effects
 		soundEffects.push_back(&charCreationOpeningSound);//0
 		soundEffects.push_back(&menuNavSound);//1
@@ -269,6 +283,8 @@ private:
 		soundEffects.push_back(&pauseSound);//23
 		soundEffects.push_back(&stealSound);//24
 		soundEffects.push_back(&pickAppleSound);//25
+		soundEffects.push_back(&saveSound);//26
+		soundEffects.push_back(&laughSound);//27
 	}
 
 public:

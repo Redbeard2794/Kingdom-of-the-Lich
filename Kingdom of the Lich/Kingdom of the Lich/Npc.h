@@ -144,6 +144,8 @@ private:
 	sf::Sprite foodSprite;
 	bool eating;
 
+	sf::Vector2f preCollisionPos;
+
 public: 
 
 	//fix these up later
@@ -277,6 +279,9 @@ public:
 
 	bool HasStolenItem();
 	void SetHasStolenItem(bool h);
+
+	void SetPreCollisionPos(sf::Vector2f p);
+	sf::Vector2f GetPreCollisionPos();
 };
 
 #endif

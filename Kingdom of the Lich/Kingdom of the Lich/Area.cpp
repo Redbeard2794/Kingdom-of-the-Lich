@@ -357,6 +357,7 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 			npcs.at(i)->SetInBed(false);
 		}
 
+		//sort out which behaviour to do based on the current time and time the bahaviours should be carried out at
 		if (currentHours >= npcs.at(i)->behvaiour1H && currentHours < npcs.at(i)->behvaiour2H)
 		{
 			npcs.at(i)->SetBehaviour(1);
@@ -364,6 +365,20 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 		else if (currentHours >= npcs.at(i)->behvaiour2H && currentHours < npcs.at(i)->behvaiour3H)
 		{
 			npcs.at(i)->SetBehaviour(2);
+		}
+		else if (currentHours >= npcs.at(i)->behvaiour3H && currentHours < npcs.at(i)->behvaiour4H)
+		{
+			npcs.at(i)->SetBehaviour(3);
+		}
+		else
+		{
+			npcs.at(i)->SetBehaviour(4);
+		}
+
+
+		if (npcs.at(i)->HasStolenItem())
+		{
+			AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 27, false, 10, 1, npcs.at(i)->getPosition().x, npcs.at(i)->getPosition().y);
 		}
 
 		npcs.at(i)->Update(playerPos);
@@ -452,9 +467,14 @@ void Area::HandleNpcCollidableObjectsCollisions()
 			{
 				npcs.at(i)->setColliding(true);
 				//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
+				npcs.at(i)->setPosition(npcs.at(i)->GetPreCollisionPos());
 				break;
 			}
-			else npcs.at(i)->setColliding(false);
+			else
+			{
+				npcs.at(i)->setColliding(false);
+				npcs.at(i)->SetPreCollisionPos(npcs.at(i)->getPosition());
+			}
 		}
 	}
 
@@ -573,4 +593,12 @@ int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerB
 	}
 
 	return -100;
+}
+
+void Area::ResetStealingNpc()
+{
+	for (int i = 0; i < npcs.size(); i++)
+	{
+		npcs.at(i)->SetHasStolenItem(false);
+	}
 }

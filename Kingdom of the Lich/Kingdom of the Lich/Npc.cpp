@@ -100,10 +100,10 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	bedSprite.setOrigin(bedTexture.getSize().x / 2, bedTexture.getSize().y / 2);
 	//bedSprite.scale(0.8, 0.8);
 
-	patrolPoint1 = sf::Vector2f(rand() % 1200 + 400, 400);
-	patrolPoint2 = sf::Vector2f(rand() % 1200 + 400, 400);
-	patrolPoint3 = sf::Vector2f(rand() % 1200 + 400, 800);
-	patrolPoint4 = sf::Vector2f(rand() % 1200 + 400, 800);
+	patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+	patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+	patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+	patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
 	patrolPointsPicked = true;
 	patrolWanderClock.restart();
 	currentPatrolPoint = 1;
@@ -628,6 +628,11 @@ void Npc::Follow(sf::Vector2f positionToFollow, bool follow)
 	frame = sf::IntRect(framePosition, frameSize);
 	setTextureRect(frame);
 
+	if (direction.x > -0.5 && direction.x < 0.5)
+		direction.x = 0;
+	if (direction.y > -0.5 && direction.y < 0.5)
+		direction.y = 0;
+
 	//if we are no longer moving (i.e. we caught up to what we are following)
 	if (direction.x == 0 && direction.y == 0)
 	{
@@ -814,10 +819,10 @@ void Npc::Patrol()
 				else
 				{
 					//pick new patrol points
-					patrolPoint1 = sf::Vector2f(rand() % 1500 + 400, 400);
-					patrolPoint2 = sf::Vector2f(rand() % 1500 + 400, 400);
-					patrolPoint3 = sf::Vector2f(rand() % 1500 + 400, 800);
-					patrolPoint4 = sf::Vector2f(rand() % 1500 + 400, 800);
+					patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+					patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+					patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+					patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
 					patrolPointsPicked = true;
 					currentPatrolPoint = 1;
 					patrolWanderClock.restart();
@@ -828,10 +833,10 @@ void Npc::Patrol()
 	else
 	{
 		//pick 4 patrol points
-		patrolPoint1 = sf::Vector2f(rand() % 1200 + 400, 400);
-		patrolPoint2 = sf::Vector2f(rand() % 1200 + 400, 400);
-		patrolPoint3 = sf::Vector2f(rand() % 1200 + 400, 800);
-		patrolPoint4 = sf::Vector2f(rand() % 1200 + 400, 800);
+		patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+		patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+		patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+		patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
 		patrolPointsPicked = true;
 		currentPatrolPoint = 1;
 		patrolWanderClock.restart();
@@ -997,8 +1002,8 @@ void Npc::ChooseMessage()
 {
 	if (displayGreeting == false)//if not already showing a greeting
 	{
-		int max = greetings.size() - 1;
-		int index = rand() % max;
+		//int max = greetings.size() - 1;
+		int index = rand() % 3;
 		greetingText.setString(greetings.at(index));
 		displayGreeting = true;
 		greetingClock.restart();
@@ -1198,4 +1203,14 @@ bool Npc::HasStolenItem()
 void Npc::SetHasStolenItem(bool h)
 {
 	itemStolen = h;
+}
+
+void Npc::SetPreCollisionPos(sf::Vector2f p)
+{
+	preCollisionPos = p;
+}
+
+sf::Vector2f Npc::GetPreCollisionPos()
+{
+	return preCollisionPos;
 }
