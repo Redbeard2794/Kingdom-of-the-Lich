@@ -138,6 +138,14 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	applePoints.push_back(appleEndPoint);
 
 	wanderClock.restart();
+
+	eatClock.restart();
+	eating = true;
+	foodTexture.loadFromFile("Assets/Icons/Items/apple.png");
+	foodSprite.setTexture(foodTexture);
+	foodSprite.setOrigin(foodTexture.getSize().x / 2, foodTexture.getSize().y / 2);
+	foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y - 10));
+	foodSprite.scale(.25, .25);
 }
 
 //Load the correct texture for the interact hint
@@ -236,6 +244,10 @@ void Npc::Update(sf::Vector2f playerPos)
 			if(reachedAppleStart == true)
 				PickApples();
 			else Follow(applePoints.at(currentApplePoint), true);
+		}
+		else if (currentBehaviour == "eating")
+		{
+			Eat();
 		}
 		else if (currentBehaviour == "wander")
 		{
@@ -784,9 +796,13 @@ void Npc::Patrol()
 			if (patrolWanderClock.getElapsedTime().asSeconds() < 10)//2 mins
 			{
 				//wander
-				std::cout << "Patrol is wandering." << std::endl;
-				
-				Wander();
+				//std::cout << "Patrol is wandering." << std::endl;
+
+				/*
+				Come back to this. Bugs out the wander behaviour for some reason.
+				Doesn't make it into the section of code that limits movement direction
+				*/
+				//Wander();
 			}
 			else
 			{
@@ -857,6 +873,63 @@ void Npc::PickApples()
 	}
 }
 
+void Npc::Eat()
+{
+	if (eatClock.getElapsedTime().asSeconds() < 5)//eating/drinking
+	{
+		if (eatClock.getElapsedTime().asSeconds() > 1 && eatClock.getElapsedTime().asSeconds() < 1.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 227));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 1.5 && eatClock.getElapsedTime().asSeconds() < 2)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 199));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 2 && eatClock.getElapsedTime().asSeconds() < 2.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 171));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 2.5 && eatClock.getElapsedTime().asSeconds() < 3)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 143));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 3 && eatClock.getElapsedTime().asSeconds() < 3.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 115));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 3.5 && eatClock.getElapsedTime().asSeconds() < 4)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 87));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 4 && eatClock.getElapsedTime().asSeconds() < 4.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 59));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 4.5 && eatClock.getElapsedTime().asSeconds() < 5)
+		{
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 31));
+			foodSprite.setRotation(0);
+		}
+	}
+	else if (eatClock.getElapsedTime().asSeconds() > 5 && eatClock.getElapsedTime().asSeconds() < 15)
+	{
+		foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y +5));
+	}
+	else
+	{
+		eatClock.restart();
+		foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y -3));
+		foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 255));
+	}
+}
+
 //actively avoid the player if they are close enough
 void Npc::AvoidPlayer(sf::Vector2f playerPos)
 {
@@ -913,6 +986,10 @@ void Npc::draw(sf::RenderTarget& window)
 	if(interactable)
 		window.draw(interactHintSprite);
 	footprintEmitter->DrawParticles(window);
+	if (currentBehaviour == "eating")
+	{
+		window.draw(foodSprite);
+	}
 }
 
 //choose a greeting to display
@@ -963,6 +1040,14 @@ void Npc::DrawBoundingBox(sf::RenderTarget& window)
 	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
 	boundingBox.setRotation(getRotation());
 	window.draw(boundingBox);
+}
+
+void Npc::DrawFood(sf::RenderTarget & window)
+{
+	if (currentBehaviour == "eating")
+	{
+		window.draw(foodSprite);
+	}
 }
 
 std::string Npc::getNpcName()

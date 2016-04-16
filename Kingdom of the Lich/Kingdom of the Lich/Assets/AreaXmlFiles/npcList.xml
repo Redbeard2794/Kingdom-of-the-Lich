@@ -149,8 +149,8 @@
 		<y>1000</y>
 		<hasQuest>false</hasQuest>
 		<interact>false</interact>
-		<behaviour1>wander</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+		<behaviour1>eating</behaviour1>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
     <behaviour2>0</behaviour2>

@@ -139,6 +139,11 @@ private:
 
 	sf::Clock wanderClock;
 
+	sf::Clock eatClock;
+	sf::Texture foodTexture;
+	sf::Sprite foodSprite;
+	bool eating;
+
 public: 
 
 	//fix these up later
@@ -197,6 +202,8 @@ public:
 	/*walk between apple trees*/
 	void PickApples();
 
+	void Eat();
+
 	//actively avoid the player if they are close enough
 	void AvoidPlayer(sf::Vector2f playerPos);
 
@@ -217,6 +224,8 @@ public:
 	void MinimapDraw(sf::RenderTarget& window);
 
 	void DrawBoundingBox(sf::RenderTarget& window);
+
+	void DrawFood(sf::RenderTarget& window);
 
 	//gets
 

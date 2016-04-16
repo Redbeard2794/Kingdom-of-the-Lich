@@ -536,6 +536,7 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 			npcs.at(i)->DrawBoundingBox(window);
 		npcs.at(i)->DrawBedCovers(window);
 		npcs.at(i)->DrawMessage(window);
+		npcs.at(i)->DrawFood(window);
 	}
 
 	for (int i = 0; i < collidableObjects.size(); i++)
