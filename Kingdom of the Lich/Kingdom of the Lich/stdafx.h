@@ -80,5 +80,6 @@
 #include "Pnode.h"
 #include "PathFinder.h"
 #include "Bed.h"
+#include "StoryPopup.h"
 
 #endif

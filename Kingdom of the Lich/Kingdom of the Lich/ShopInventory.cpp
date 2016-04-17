@@ -381,7 +381,7 @@ void ShopInventory::SetPlayerSellableItems(Inventory * playerInv)
 			//set the positions for the items
 			for (int i = 0; i < playerInvItems.size(); i++)
 			{
-				playerInvItems.at(i).first->setPosition(sf::Vector2f(100 * ((i + 1)), 100));
+				playerInvItems.at(i).first->setPosition(sf::Vector2f(100 * ((i + 2.75)), screenH / 2));
 			}
 			playerInvItems.at(0).first->setColor(sf::Color::Blue);
 		}

@@ -39,7 +39,10 @@ PauseMenu::PauseMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH
 	animationTime = 0.25;
 	animationClock.restart();
 	numFrames = 4;
-	punchAnimSprite.setPosition(screenW / 1.93, 90);
+	if (screenW == 1600 && screenH == 900)//college pc
+		punchAnimSprite.setPosition(screenW / 1.93, 90);
+	else if (screenW == 1366 && screenH == 768)//laptop
+		punchAnimSprite.setPosition(screenW / 1.85, 90);
 	punchAnimSprite.scale(3, 3);
 
 	if(backgroundTexture.loadFromFile("Assets/Splash Screen/circle5a.png")) {}

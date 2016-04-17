@@ -51,7 +51,7 @@ public:
 	/*Update the map, minimap and npcs*/
 	void Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds);
 
-	std::pair<bool, int> CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest);
+	std::pair<bool, int> CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed);
 
 	void HandleNpcCollidableObjectsCollisions();
 

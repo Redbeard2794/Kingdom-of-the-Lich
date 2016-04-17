@@ -201,6 +201,7 @@
     <ClInclude Include="ShopInventory.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoryPopup.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WorldClock.h" />
@@ -256,6 +257,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StoryPopup.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="WorldClock.cpp" />
   </ItemGroup>

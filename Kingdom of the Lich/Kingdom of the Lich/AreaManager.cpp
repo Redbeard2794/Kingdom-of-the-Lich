@@ -10,13 +10,13 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	Area* generalStore1Area = new Area("Assets/generalStore1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/generalStore1CollidableObjects.xml", "Assets/AreaXmlFiles/generalStore1DoorList.xml", "");
 	areas.push_back(generalStore1Area);
 
-	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml", "");
+	Area* house1 = new Area("Assets/house1.tmx", "", "Assets/AreaXmlFiles/house1NpcList.xml", "Assets/AreaXmlFiles/house1CollidableObjects.xml", "Assets/AreaXmlFiles/house1DoorList.xml", "");
 	areas.push_back(house1);
 
-	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml", "");
+	Area* house2 = new Area("Assets/house2.tmx", "", "Assets/AreaXmlFiles/house2NpcList.xml", "Assets/AreaXmlFiles/house2CollidableObjects.xml", "Assets/AreaXmlFiles/house2DoorList.xml", "");
 	areas.push_back(house2);
 
-	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/generalStore1NpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnDoorList.xml", "");
+	Area* pub1 = new Area("Assets/pub1.tmx", "", "Assets/AreaXmlFiles/TheDrunkenDragonInnNpcList.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnCollidableObjects.xml", "Assets/AreaXmlFiles/TheDrunkenDragonInnDoorList.xml", "");
 	areas.push_back(pub1);
 
 	currentArea = TUTORIAL;
@@ -58,9 +58,9 @@ void AreaManager::ChangeArea(int areaToChangeTo)
 		currentArea = areaToChangeTo;
 }
 
-std::pair<bool, int> AreaManager::CheckCollisionPlayerNpcs(Player * p, Inventory* playerInv, Chest* stolenGoodsChest)
+std::pair<bool, int> AreaManager::CheckCollisionPlayerNpcs(Player * p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed)
 {
-	return areas.at(currentArea)->CheckNpcPlayerCollisions(p, playerInv, stolenGoodsChest);
+	return areas.at(currentArea)->CheckNpcPlayerCollisions(p, playerInv, stolenGoodsChest, aPressed);
 }
 
 bool AreaManager::CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds)

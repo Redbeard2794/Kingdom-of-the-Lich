@@ -36,7 +36,7 @@ public:
 
 	void ChangeArea(int areaToChangeTo);
 
-	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p, Inventory* playerInv, Chest* stolenGoodsChest);
+	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed);
 
 	bool CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds);
 

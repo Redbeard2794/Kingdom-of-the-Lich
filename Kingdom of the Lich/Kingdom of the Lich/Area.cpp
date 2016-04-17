@@ -392,7 +392,7 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 	HandleNpcCollidableObjectsCollisions();
 }
 
-std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest)
+std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
@@ -440,14 +440,16 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* player
 			{
 				return std::make_pair(true, 0);
 			}
-			else if (!npcs.at(i)->doesNpcHaveQuest() && npcs.at(i)->IsInteractable())
-			{
-				npcs.at(i)->ChooseMessage();
-				return std::make_pair(true, 1);
-			}
+
 			else if (npcs.at(i)->getCurrentBehaviour() == "shopkeeper")
 			{
 				return std::make_pair(true, 3);
+			}
+			else if (!npcs.at(i)->doesNpcHaveQuest() && npcs.at(i)->IsInteractable() 
+				&& npcs.at(i)->getCurrentBehaviour() != "shopkeeper" && aPressed)//if npcs doesn't have a quest, is interactable, is not a shopkeeper and 'A' was pressed
+			{
+				npcs.at(i)->ChooseMessage();
+				return std::make_pair(true, 1);
 			}
 			else return std::make_pair(true, 1);
 

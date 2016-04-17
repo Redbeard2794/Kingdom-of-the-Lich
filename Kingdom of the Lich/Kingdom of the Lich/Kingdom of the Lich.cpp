@@ -58,6 +58,8 @@ int main()
 
 	WorldClock* worldClock = new WorldClock(font, screenW, screenH);
 
+	StoryPopup* storyPopup = new StoryPopup(screenW, screenH);
+
 	/* initialize random seed: */
 	srand(time(NULL));
 
@@ -255,7 +257,8 @@ int main()
 		SHOPPING,
 		SAVE,
 		LOAD,
-		PAUSE
+		PAUSE,
+		STORY
 	};
 	int gState = SPLASH;//current state
 	int prevState = SPLASH;
@@ -711,7 +714,8 @@ int main()
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								prevState = gState;
-								gState = GAME;
+								gState = STORY;
+								storyPopup->SetStory(0);
 								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
@@ -876,13 +880,14 @@ int main()
 								raceAndGenderMenu->setCurrentState(2);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								prevState = gState;
-								gState = GAME;
+								gState = STORY;
+								storyPopup->SetStory(0);
 								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::White);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
 								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
-								AudioManager::GetInstance()->PlayMusicById(1);
+								/*AudioManager::GetInstance()->PlayMusicById(1);*/
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 2);
 
@@ -892,8 +897,8 @@ int main()
 								{
 									it->second->SetChoiceTexture(p->getRace(), p->getGender());
 								}
-								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
-								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+								//AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+								//AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
@@ -1369,12 +1374,12 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
-				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).first)
+				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).first)
 				{
 					p->setCollidingStatus(true);
 					//npcVector.at(i)->setColliding(true);
 
-					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
 					{
 						if (testQuest->getCurrentStageIndex() == 0)
 						{
@@ -1390,14 +1395,14 @@ int main()
 						
 					}
 
-					else if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 3 && gamepad->A() == true)
+					else if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).second == 3 && gamepad->A() == true)
 					{
 						prevState = gState;
 						gState = SHOPPING;
 					}
 
 					//move the player out of collision
-					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second != 2)
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).second != 2)
 					{
 						if (p->getCurrentDirection() == 0)//up
 						{
@@ -2230,6 +2235,7 @@ int main()
 							AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							//AudioManager::GetInstance()->PlayMusicById(1);
 							AudioManager::GetInstance()->StopMusic(0);
+							AudioManager::GetInstance()->PlayMusicById(1);
 
 							popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 							popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
@@ -2315,6 +2321,39 @@ int main()
 
 				pauseMenu->Update();
 				pauseMenu->Draw(window);
+				break;
+
+			case STORY:
+				gamepad->CheckAllButtons();
+				window.setView(window.getDefaultView());
+
+				storyPopup->Update();
+
+				if (storyPopup->IsAllInfoRevealed())//if all info was revealed
+				{
+					if (prevState == CHOOSERACEGENDER)
+					{
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+						AudioManager::GetInstance()->PlayMusicById(1);
+					}
+					prevState = STORY;
+					gState = GAME;
+				}
+
+				if (gamepad->A())
+				{
+					if (prevState == CHOOSERACEGENDER)
+					{
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+						AudioManager::GetInstance()->PlayMusicById(1);
+					}
+					prevState = STORY;
+					gState = GAME;
+				}
+
+				window.draw(*storyPopup);
 				break;
 		}
 

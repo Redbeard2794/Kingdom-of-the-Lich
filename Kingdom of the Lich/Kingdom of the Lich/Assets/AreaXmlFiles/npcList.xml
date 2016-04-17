@@ -105,7 +105,7 @@
 		<x>415</x>
 		<y>920</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>forge</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
@@ -148,7 +148,7 @@
 		<x>700</x>
 		<y>1000</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>eating</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
@@ -191,7 +191,7 @@
 		<x>400</x>
 		<y>1500</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>wander</behaviour1>
     <behaviour1TimeH>0</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
@@ -234,7 +234,7 @@
 		<x>1200</x>
 		<y>1250</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>steal</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
@@ -277,7 +277,7 @@
 		<x>666</x>
 		<y>666</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>stand</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
@@ -320,7 +320,7 @@
 		<x>1175</x>
 		<y>1475</y>
 		<hasQuest>false</hasQuest>
-		<interact>false</interact>
+		<interact>true</interact>
 		<behaviour1>pickApples</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
