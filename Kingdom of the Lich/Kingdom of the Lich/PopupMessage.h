@@ -38,6 +38,8 @@ private:
 	//can the message be safely removed
 	bool removeable;
 
+	sf::RectangleShape messageBackground;
+
 public:
 
 	/*

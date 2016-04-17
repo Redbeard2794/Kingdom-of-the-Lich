@@ -25,6 +25,8 @@ public:
 	/*Constructor*/
 	Chest(std::string itemKey, int quantity);
 
+	Chest();
+
 	/*Destructor*/
 	~Chest();
 
@@ -43,8 +45,16 @@ public:
 
 	//gets
 	std::string getKeyForStoredItem() { return keyForStoredItem; }
+	int GetQuantityForStoredItem() { return quantityOfStoredItem; }
+
+	void SetKeyForStoredItem(std::string k);
+	void SetQuantityForStoredItem(int q);
+
 	sf::Sprite getSprite() { return sprite; }
 	bool getOpened() { return opened; }
+
+	void SetOpened(bool o);
+
 	void setShowHint(bool s) { showHint = s; }
 };
 

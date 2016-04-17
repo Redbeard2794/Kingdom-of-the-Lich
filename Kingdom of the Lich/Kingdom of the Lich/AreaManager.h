@@ -1,6 +1,7 @@
 #ifndef AREAMANAGER_H
 #define AREAMANAGER_H
 
+
 class AreaManager
 {
 private:
@@ -31,11 +32,11 @@ public:
 	AreaManager(sf::Font f, int sw, int sh);
 	~AreaManager();
 
-	void Update(sf::Vector2f playerPos);
+	void Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds);
 
 	void ChangeArea(int areaToChangeTo);
 
-	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p);
+	std::pair<bool, int> CheckCollisionPlayerNpcs(Player* p, Inventory* playerInv, Chest* stolenGoodsChest);
 
 	bool CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds);
 
@@ -45,11 +46,15 @@ public:
 
 	void MinimapDraw(sf::RenderTarget& window);
 
+	void ResetAreaStealingNpcs();
+
 	int GetCurrentArea();
 	//only used when loading a game
 	void SetCurrentArea(int a);
 
 	void CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds);
+
+	void LoadGreetings(int pRace, int pGender);
 
 	int GetAreaToChangeTo();
 	void SetAreaToChangeTo(int atc);

@@ -19,6 +19,23 @@ Chest::Chest(std::string itemKey, int quantity) : keyForStoredItem(itemKey), qua
 	showHint = false;
 }
 
+Chest::Chest()
+{
+	//set up the texture and sprite
+	texture.loadFromFile("Assets/Chests/plainChest.png");
+	setTexture(texture);
+	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+	setPosition(sf::Vector2f(1725, 325));//setPosition rather than sprite.setPosition?
+
+	opened = true;//The chest is not open yet
+
+	boundingBox.setOutlineThickness(2);
+	boundingBox.setOutlineColor(sf::Color::Yellow);
+	boundingBox.setFillColor(sf::Color::Transparent);
+
+	showHint = false;
+}
+
 /*Destructor*/
 Chest::~Chest()
 {
@@ -89,4 +106,19 @@ void Chest::DrawBoundingBox(sf::RenderTarget & window)
 	boundingBox.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
 	boundingBox.setRotation(getRotation());
 	window.draw(boundingBox);
+}
+
+void Chest::SetKeyForStoredItem(std::string k)
+{
+	keyForStoredItem = k;
+}
+
+void Chest::SetQuantityForStoredItem(int q)
+{
+	quantityOfStoredItem = q;
+}
+
+void Chest::SetOpened(bool o)
+{
+	opened = o;
 }

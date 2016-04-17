@@ -157,6 +157,7 @@
     <ClInclude Include="AreaManager.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Bed.h" />
     <ClInclude Include="BloodEmitter.h" />
     <ClInclude Include="BloodParticle.h" />
     <ClInclude Include="Chest.h" />
@@ -179,6 +180,8 @@
     <ClInclude Include="ItemSlot.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="Pnode.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="OptionsMenu.h" />
@@ -200,6 +203,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WorldClock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Achievement.cpp" />
@@ -208,6 +212,7 @@
     <ClCompile Include="AreaManager.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Bed.cpp" />
     <ClCompile Include="BloodEmitter.cpp" />
     <ClCompile Include="BloodParticle.cpp" />
     <ClCompile Include="Chest.cpp" />
@@ -230,6 +235,8 @@
     <ClCompile Include="ItemSlot.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="Pnode.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
@@ -250,6 +257,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="WorldClock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

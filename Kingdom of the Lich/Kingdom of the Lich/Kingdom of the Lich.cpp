@@ -56,6 +56,8 @@ int main()
 	SaveManager* saveManager = new SaveManager(font, screenW, screenH);
 	PauseMenu* pauseMenu = new PauseMenu(font, screenW, screenH);
 
+	WorldClock* worldClock = new WorldClock(font, screenW, screenH);
+
 	/* initialize random seed: */
 	srand(time(NULL));
 
@@ -127,6 +129,25 @@ int main()
 	//map shops to the area they are in
 	std::map<int, ShopInventory*> areaShops;
 	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
+
+	//std::vector<Pnode*> testNodes;
+	//for (int i = 0; i < 40; i++)
+	//{
+	//	for (int j = 0; j < 40; j++)
+	//	{
+	//		//std::string id = std::to_string(i);
+	//		//id += std::to_string(j);
+	//		//Pnode* node = new Pnode(sf::Vector2f((i * 50) + 25, (j * 50) + 25), id);
+	//		Pnode* n = new Pnode(sf::Vector2f((i * 50) + 25, (j * 50 + 25)));
+	//		testNodes.push_back(n);
+	//	}
+	//}
+
+	//PathFinder* pathFinder = new PathFinder();
+	//pathFinder->SetStartNodeByPosition(sf::Vector2f(525, 425));
+	//pathFinder->SetGoalNodeByPosition(sf::Vector2f(525, 575));
+	//pathFinder->FindPath();
+
 
 	//Area area("Assets/tutorialArea.tmx", "", "Assets/npcList.xml", "");
 	//map.ShowObjects(); // Display all the layer objects.
@@ -290,6 +311,9 @@ int main()
 	Chest* testChest = new Chest(testInv->i_healthPotion.key, 3);
 	testChest->LoadInteractHintTexture(useController);
 
+	Chest* stolenGoodsChest = new Chest();
+	stolenGoodsChest->LoadInteractHintTexture(useController);
+
 	bool showQuestComplete = false;
 
 	
@@ -356,6 +380,7 @@ int main()
 		}
 
 		window.clear();
+		worldClock->Update();
 		switch (gState)
 		{
 
@@ -696,6 +721,7 @@ int main()
 								popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 								popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -869,6 +895,7 @@ int main()
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
 							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
 							{
@@ -1016,6 +1043,43 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
+
+				if (p->getGlobalBounds().intersects(stolenGoodsChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)
+				{
+					if (gamepad->A() == true)
+					{
+						if (stolenGoodsChest->getOpened() == false)
+						{
+							if (stolenGoodsChest->getOpened() == false)
+							{
+								stolenGoodsChest->OpenChest(testInv);
+								p->IncreaseOpenedChests(1);
+								p->Notify();
+								splashClock->restart();
+								AudioManager::GetInstance()->PlaySoundEffectById(4, true);
+								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
+								areaManager->ResetAreaStealingNpcs();
+								AudioManager::GetInstance()->StopSfx(27);
+							}
+							else
+							{
+								std::cout << "You may not open this chest right now." << std::endl;
+								AudioManager::GetInstance()->PlaySoundEffectById(5, true);
+							}
+						}
+						else std::cout << "This chest has already been opened. There is nothing in it." << std::endl;
+					}
+					p->setCollidingStatus(true);
+					//get the distance between the player and the thing they hit
+					float distance = sqrtf((((p->getPosition().x - stolenGoodsChest->getPosition().x)*(p->getPosition().x - stolenGoodsChest->getPosition().x))
+						+ ((p->getPosition().y - stolenGoodsChest->getPosition().y)*(p->getPosition().y - stolenGoodsChest->getPosition().y))));
+					//get the direction between them
+					sf::Vector2f dir = sf::Vector2f((p->getPosition().x - stolenGoodsChest->getPosition().x) / distance,
+						(p->getPosition().y - stolenGoodsChest->getPosition().y) / distance);
+					//move the player out of collision
+					p->setPosition(sf::Vector2f(p->GetPreCollisionPosition().x + dir.x * 3, p->GetPreCollisionPosition().y + dir.y * 3));
+				}
+				else p->setCollidingStatus(false);
 			}
 
 
@@ -1102,6 +1166,13 @@ int main()
 			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
 				window.draw(pubOne);
 			
+
+			//for (int i = 0; i < testNodes.size(); i++)
+			//{
+			//	window.draw(*testNodes.at(i));
+			//}
+			//pathFinder->Draw(window);
+
 			//update the player
 			p->Update();
 
@@ -1120,6 +1191,12 @@ int main()
 				testChest->DrawHint(*pWindow);
 				if (debugMode)
 					testChest->DrawBoundingBox(window);
+
+				stolenGoodsChest->Update(p->getPosition());
+				//window.draw(*stolenGoodsChest);
+				stolenGoodsChest->DrawHint(*pWindow);
+				if (debugMode)
+					stolenGoodsChest->DrawBoundingBox(window);
 			}
 			
 			areaManager->CheckDoors(p->getPosition(), p->getGlobalBounds());
@@ -1180,7 +1257,7 @@ int main()
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(1);
 					areaManager->ChangeArea(TheDrunkenDragonInn);
-					p->setPosition(250, 175);
+					p->setPosition(325, 250);
 					if (p->HasPlayerGonePub() == false)
 					{
 						p->SetPlayerGonePub(true);
@@ -1259,10 +1336,11 @@ int main()
 				}
 			}
 
-			areaManager->Update(p->getPosition());
+			areaManager->Update(p->getPosition(), worldClock->GetCurrentHours(), worldClock->GetCurrentMinutes(), worldClock->GetCurrentSeconds());
 			areaManager->Draw(window, debugMode);
 			
 			window.draw(*p);
+
 			if (debugMode)
 				p->DrawBoundingBox(window);
 
@@ -1291,12 +1369,12 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
-				if (areaManager->CheckCollisionPlayerNpcs(p).first)
+				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).first)
 				{
 					p->setCollidingStatus(true);
 					//npcVector.at(i)->setColliding(true);
 
-					if (areaManager->CheckCollisionPlayerNpcs(p).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
 					{
 						if (testQuest->getCurrentStageIndex() == 0)
 						{
@@ -1312,14 +1390,14 @@ int main()
 						
 					}
 
-					else if (areaManager->CheckCollisionPlayerNpcs(p).second == 3 && gamepad->A() == true)
+					else if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second == 3 && gamepad->A() == true)
 					{
 						prevState = gState;
 						gState = SHOPPING;
 					}
 
 					//move the player out of collision
-					if (areaManager->CheckCollisionPlayerNpcs(p).second != 2)
+					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest).second != 2)
 					{
 						if (p->getCurrentDirection() == 0)//up
 						{
@@ -1420,6 +1498,9 @@ int main()
 
 			achievementTracker->DisplayAchievement(window);
 
+			window.draw(*worldClock);
+			worldClock->DrawClockText(window);
+
 			//if (gamepad->Back())
 			//{
 			//	showMinimap = !showMinimap;
@@ -1441,6 +1522,7 @@ int main()
 				if (areaManager->GetCurrentArea() == TUTORIAL)
 				{
 					window.draw(*testChest);
+					//window.draw(*stolenGoodsChest);
 					//window.draw(*sewerHatch);
 					//window.draw(*generalStoreDoor);
 				}
@@ -2092,9 +2174,10 @@ int main()
 				if (saveManager->IsSaving())//if the game is currently being saved
 				{
 					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
-						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest);
+						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
 
 					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
+					AudioManager::GetInstance()->PlaySoundEffectById(26, false);
 				}
 
 				if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
@@ -2138,7 +2221,7 @@ int main()
 					{
 						saveManager->UpdateState();
 
-						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest) == true)//so save is not empty
+						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest, worldClock) == true)//so save is not empty
 						{
 							popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 							p->setTextures();
@@ -2157,6 +2240,8 @@ int main()
 							}
 							currentArea = areaManager->GetCurrentArea();
 							pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
+							areaManager->LoadGreetings(p->getRace(), p->getGender());
+							AudioManager::GetInstance()->PlaySoundEffectById(26, false);
 						}
 						else//save slot is empty so start a new game
 						{
