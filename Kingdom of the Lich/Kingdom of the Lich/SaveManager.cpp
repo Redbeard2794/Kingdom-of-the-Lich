@@ -162,7 +162,7 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 
 	/*Steal from a Thief completed*/
 	std::cout << "Previous stealFromAThief: " << save->first_node("stealFromAThief")->value() << std::endl;
-	std::string thiefText = std::to_string(stealFromAThief);
+	std::string thiefText = std::to_string(combatsCompleteVal);
 	const char * tt = doc.allocate_string(thiefText.c_str(), strlen(thiefText.c_str()));
 	save->first_node("stealFromAThief")->value(tt);
 	std::cout << "New stealFromAThief: " << save->first_node("stealFromAThief")->value() << std::endl;
