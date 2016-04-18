@@ -106,9 +106,9 @@ int main()
 	else if (screenW == 1600 && screenH == 900)
 	{
 		//college pc
-		enemyMinorWoundEmitter->setPosition(sf::Vector2f(1200, 150));
-		enemyMajorWoundEmitter->setPosition(sf::Vector2f(1250, 100));
-		enemyFatalWoundEmitter->setPosition(sf::Vector2f(1300, 125));
+		enemyMinorWoundEmitter->setPosition(sf::Vector2f(1350, 185));
+		enemyMajorWoundEmitter->setPosition(sf::Vector2f(1325, 210));
+		enemyFatalWoundEmitter->setPosition(sf::Vector2f(1360, 225));
 
 		playerMinorWoundEmitter->setPosition(sf::Vector2f(250, 450));
 		playerMajorWoundEmitter->setPosition(sf::Vector2f(250, 525));
@@ -328,9 +328,9 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
 
-	Enemy* testEnemy = new Enemy("Assets/trainingTarget.png", 100, 20, 0, sf::Vector2f(800, 1600));
+	Enemy* testEnemy = new Enemy("Assets/Enemy/golemDownAttack1.png", 100, 20, 0, sf::Vector2f(800, 1600));
 
-	CombatMenu* combatMenu = new CombatMenu(font, "Assets/trainingTarget.png", screenW, screenH);
+	CombatMenu* combatMenu = new CombatMenu(font, "Assets/Enemy/StoneGolemAttack.png", screenW, screenH);
 
 	DamageCalculator* damageCalc = new DamageCalculator();
 
@@ -716,7 +716,7 @@ int main()
 								prevState = gState;
 								gState = STORY;
 								storyPopup->SetStory(0);
-								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
+								//popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
@@ -882,7 +882,7 @@ int main()
 								prevState = gState;
 								gState = STORY;
 								storyPopup->SetStory(0);
-								popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::White);
+								//popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::White);
 								p->setTextures();
 								std::cout << "Race: " << p->getRace() << ", " << "Gender: " << p->getGender() << std::endl;
 								splashClock->restart();
@@ -1237,6 +1237,7 @@ int main()
 					//AudioManager::GetInstance()->SetListenersPosition(screenW / 2, screenH / 2);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					showMinimap = false;
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == House1 && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1247,6 +1248,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
@@ -1256,6 +1258,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
 				{
@@ -1270,6 +1273,7 @@ int main()
 					}
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					showMinimap = false;
 				}
 			}
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1297,6 +1301,7 @@ int main()
 					p->setPosition(500, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					showMinimap = true;
 				}
 			}
 			else if (areaManager->GetCurrentArea() == House1)
@@ -1310,6 +1315,7 @@ int main()
 					p->setPosition(600, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					showMinimap = true;
 				}
 			}
 
@@ -1324,6 +1330,7 @@ int main()
 					p->setPosition(600, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					showMinimap = true;
 				}
 			}
 
@@ -1338,6 +1345,7 @@ int main()
 					p->setPosition(530, 1200);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					showMinimap = true;
 				}
 			}
 
@@ -1555,14 +1563,34 @@ int main()
 
 			testEnemy->Update();
 
+			combatMenu->PlayerAttackAnimation();
+			combatMenu->EnemyAttackAnimation();
+
 			if (!combatMenu->IsPlayersTurn() && combatMenu->GetTurnCount() > 0 && popupMessageHandler.GetActiveMessageCount() == 0)
 			{
-				popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p), sf::Vector2f(screenW / 2.5, screenH/2.5), 0.7, sf::Color::Red);
-
-				int soundCoin = rand() % 2;
-				if (soundCoin == 0)
-					AudioManager::GetInstance()->PlaySoundEffectById(14, false);
-				else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+				int chance = rand() % 10;
+				if (chance < 8 && chance > 2)//hit
+				{
+					popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p, false), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
+					combatMenu->SetUpAttackAnimations(false);
+					int soundCoin = rand() % 2;
+					if (soundCoin == 0)
+						AudioManager::GetInstance()->PlaySoundEffectById(14, false);
+					else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+				}
+				else if (chance == 1)//critical hit
+				{
+					popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p, true), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
+					combatMenu->SetUpAttackAnimations(false);
+					int soundCoin = rand() % 2;
+					if (soundCoin == 0)
+						AudioManager::GetInstance()->PlaySoundEffectById(14, false);
+					else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+				}
+				else if (chance > 8)//miss
+				{
+					popupMessageHandler.AddCustomMessage("The golem missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+				}
 
 				combatMenu->SetPlayersTurn(true);
 				combatMenu->IncrementTurnCount();
@@ -1675,20 +1703,65 @@ int main()
 							if (combatMenu->getCurrentOption() == 0)
 							{
 								AudioManager::GetInstance()->PlaySoundEffectById(10, false);
-								popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-								testEnemy->setHealth(testEnemy->GetHealth() - 15);
+								int chance = rand() % 10;
+								if (chance < 8 && chance > 3)//hit
+								{
+									popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 15);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if (chance < 3)//critical hit
+								{
+									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 18);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if (chance > 8)//miss
+								{
+									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+								}
 							}
 							else if (combatMenu->getCurrentOption() == 1)
 							{
 								AudioManager::GetInstance()->PlaySoundEffectById(11, false);
-								popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH/2.5), 0.7, sf::Color::Blue);
-								testEnemy->setHealth(testEnemy->GetHealth() - 20);
+								int chance = rand() % 10;
+								if (chance < 8 && chance > 3)//hit
+								{
+									popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 20);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if (chance < 3)//critical hit
+								{
+									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 25);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if (chance > 8)//miss
+								{
+									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+								}
 							}
 							else if (combatMenu->getCurrentOption() == 2)
 							{
 								AudioManager::GetInstance()->PlaySoundEffectById(12, false);
-								popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-								testEnemy->setHealth(testEnemy->GetHealth() - 25);
+								int chance = rand() % 10;
+								if (chance < 8 && chance > 3)//hit
+								{
+									popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 25);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if (chance < 3)//critical hit
+								{
+									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									testEnemy->setHealth(testEnemy->GetHealth() - 31);
+									combatMenu->SetUpAttackAnimations(true);
+								}
+								else if(chance > 8)//miss
+								{
+									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+								}
 							}
 							combatMenu->SetCurrentMenuState(0);
 							combatMenu->SetSelectorPosition(sf::Vector2f(screenW / 4.7, screenH - 100));
@@ -2228,7 +2301,7 @@ int main()
 
 						if (saveManager->LoadGame(p, achievementTracker, areaManager, testInv, testQuest, worldClock) == true)//so save is not empty
 						{
-							popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
+							//popupMessageHandler.AddCustomMessage("TUTORIAL", sf::Vector2f(screenW / 2.3, 50), 25, sf::Color::Black);
 							p->setTextures();
 
 							splashClock->restart();
@@ -2237,8 +2310,8 @@ int main()
 							AudioManager::GetInstance()->StopMusic(0);
 							AudioManager::GetInstance()->PlayMusicById(1);
 
-							popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
-							popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
+							//popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
+							//popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
 							if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
 							{
 								prevState = LOAD;

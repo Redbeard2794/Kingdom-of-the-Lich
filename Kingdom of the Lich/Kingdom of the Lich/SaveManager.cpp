@@ -546,6 +546,17 @@ void SaveManager::ClearAllSaveSlots()
 		save->first_node("quest1CurrentStage")->value(q1sT);
 		std::cout << "New quest1CurrentStage: " << save->first_node("quest1CurrentStage")->value() << std::endl;
 
+		//clock
+		std::string clockHText = std::to_string(0);
+		const char * chT = doc.allocate_string(clockHText.c_str(), strlen(clockHText.c_str()));
+		save->first_node("clockHours")->value(chT);
+		std::string clockMText = std::to_string(0);
+		const char * cmT = doc.allocate_string(clockMText.c_str(), strlen(clockMText.c_str()));
+		save->first_node("clockMins")->value(cmT);
+		std::string clockSText = std::to_string(0);
+		const char * csT = doc.allocate_string(clockSText.c_str(), strlen(clockSText.c_str()));
+		save->first_node("clockSecs")->value(csT);
+
 		// Save to file
 		std::ofstream file_stored(path);
 		file_stored << doc;

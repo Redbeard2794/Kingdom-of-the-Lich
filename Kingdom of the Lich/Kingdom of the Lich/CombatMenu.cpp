@@ -114,10 +114,22 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 
 	enemyTexture.loadFromFile(ePath);
 	enemySprite.setTexture(enemyTexture);
-	enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
-	enemySprite.setScale(5, 5);
-	enemySprite.setPosition(screenW/ 1.2, screenH/4);
 
+	enemyFramePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	enemyFrameSize.x = enemyTexture.getSize().x / numFrames;
+	enemyFrameSize.y = enemyTexture.getSize().y;
+	enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+	enemyAnimationTime = 0.2f;
+	enemySprite.setTextureRect(enemyFrame);
+
+
+	enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+
+
+	//enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
+	enemySprite.setScale(8, 8);
+	enemySprite.setPosition(screenW/ 1.2, screenH/4);
 	
 	enemyHealthText.setFont(font);
 	enemyHealthText.setString("Stone Golem Health: ");
@@ -153,6 +165,9 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	goBackHintSprite.setPosition(screenW / 1.4, screenH / 1.38);
 
 	canSelect = false;
+
+	finishedAttackAnim = false;
+	enemyFinishedAttackAnim = false;
 }
 
 /*destructor*/
@@ -177,12 +192,24 @@ void CombatMenu::SetPlayerRepSprite(int race, int gender)
 	else if (gender == 1)//female
 		filePath += "Female/";
 
-	filePath += "Idle/upIdle.png";
+	filePath += "Combat/upAttackSheet.png";
+
 
 	playerRepTexture.loadFromFile(filePath);
 	playerRepSprite.setTexture(playerRepTexture);
-	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
-	playerRepSprite.setScale(5, 5);
+
+	framePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	frameSize.x = playerRepTexture.getSize().x / numFrames;
+	frameSize.y = playerRepTexture.getSize().y;
+	frame = sf::IntRect(framePosition, frameSize);
+	animationTime = 0.2f;
+
+	playerRepSprite.setTextureRect(frame);
+
+	
+	playerRepSprite.setOrigin(frameSize.x / 2, frameSize.y / 2);
+	playerRepSprite.setScale(8, 8);
 	playerRepSprite.setPosition(screenW / 6, screenH / 1.9);
 
 }
@@ -325,12 +352,13 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	turnText.setString("Completed turns: " + std::to_string(turnCount));
 	window.draw(turnText);
 
-	window.draw(playerRepSprite);
-	playerHealthText.setString("Player Health: " + std::to_string(playerCurrentHealth));
-	window.draw(playerHealthText);
 	window.draw(enemySprite);
 	enemyHealthText.setString("Stone Golem Health: " + std::to_string(enemyCurrentHealth));
 	window.draw(enemyHealthText);
+	window.draw(playerRepSprite);
+	playerHealthText.setString("Player Health: " + std::to_string(playerCurrentHealth));
+	window.draw(playerHealthText);
+
 
 	if (currentState == SelectAction)
 	{
@@ -409,6 +437,77 @@ void CombatMenu::MovePlayerToAttack()
 		playerRepSprite.setPosition(playerRepSprite.getPosition().x + 1, playerRepSprite.getPosition().y);
 	if (playerRepSprite.getPosition().y > enemySprite.getPosition().y + 100)
 		playerRepSprite.setPosition(playerRepSprite.getPosition().x, playerRepSprite.getPosition().y - 1);
+}
+
+void CombatMenu::SetUpAttackAnimations(bool player)
+{
+	if (player)
+	{
+		animationClock.restart();
+		finishedAttackAnim = false;
+		playerRepSprite.setPosition(screenW / 1.3, screenH / 4);
+	}
+	else
+	{
+		enemyAnimationClock.restart();
+		enemyFinishedAttackAnim = false;
+		enemySprite.setPosition(screenW / 6, screenH / 2.1);
+	}
+}
+
+void CombatMenu::PlayerAttackAnimation()
+{
+	if (!finishedAttackAnim)
+	{
+		if (animationClock.getElapsedTime().asSeconds() > animationTime)
+		{
+			if (framePosition.x < playerRepTexture.getSize().x - frameSize.x)
+				framePosition.x += frameSize.x;//move the frame forward
+
+			else
+			{
+				framePosition.x = 0;
+				finishedAttackAnim = true;
+				playerRepSprite.setPosition(screenW / 6, screenH / 1.9);
+			}
+
+			animationClock.restart();
+		}
+
+		//reset the texture rectangle
+		frameSize = sf::Vector2i(playerRepTexture.getSize().x / numFrames, playerRepTexture.getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		playerRepSprite.setTextureRect(frame);
+		playerRepSprite.setOrigin(frameSize.x / 2, frameSize.y / 2);
+	}
+}
+
+void CombatMenu::EnemyAttackAnimation()
+{
+	if (!enemyFinishedAttackAnim)
+	{
+		if (enemyAnimationClock.getElapsedTime().asSeconds() > enemyAnimationTime)
+		{
+			if (enemyFramePosition.x < enemyTexture.getSize().x - enemyFrameSize.x)
+				enemyFramePosition.x += enemyFrameSize.x;//move the frame forward
+
+			else
+			{
+				enemyFramePosition.x = 0;
+				enemyFinishedAttackAnim = true;
+				
+				enemySprite.setPosition(screenW / 1.2, screenH / 4);
+			}
+
+			enemyAnimationClock.restart();
+		}
+
+		//reset the texture rectangle
+		enemyFrameSize = sf::Vector2i(enemyTexture.getSize().x / numFrames, enemyTexture.getSize().y);
+		enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+		enemySprite.setTextureRect(enemyFrame);
+		enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+	}
 }
 
 /*gets & sets start*/

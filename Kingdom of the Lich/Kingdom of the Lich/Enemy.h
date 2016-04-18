@@ -52,7 +52,7 @@ public:
 
 	void Update();
 
-	std::string TakeTurn(Player* p);
+	std::string TakeTurn(Player* p, bool crit);
 
 	void DrawBoundingBox(sf::RenderTarget& window);
 

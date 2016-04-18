@@ -22,8 +22,8 @@
 	<quest1Complete>0</quest1Complete>
 	<quest1CurrentStage>0</quest1CurrentStage>
 	<currentQuest>0</currentQuest>
-	<clockHours>9</clockHours>
+	<clockHours>0</clockHours>
 	<clockMins>0</clockMins>
-	<clockSecs>42</clockSecs>
+	<clockSecs>0</clockSecs>
 </Save>
 

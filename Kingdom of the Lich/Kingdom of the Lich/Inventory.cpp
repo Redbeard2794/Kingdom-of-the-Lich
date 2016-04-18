@@ -72,7 +72,7 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 
 	//load item textures(maybe take these from a file too?)
 	healthPotTexture.loadFromFile("Assets/Icons/Items/healthPotionIcon.png");
-	aleBottleTexture.loadFromFile("Assets/Icons/Items/ale.png");
+	aleBottleTexture.loadFromFile("Assets/Tiles/indoorTiles/indoor assets/indoorAssets2/clutterObjects/bottles/bottle2.png");
 	loafOfBreadTexture.loadFromFile("Assets/Icons/Items/loafOfBread.png");
 	baracksKeyTexture.loadFromFile("Assets/Icons/Items/key.png");
 	parchmentTexture.loadFromFile("Assets/Icons/Items/parchmentIcon.png");
@@ -88,7 +88,7 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 
 	aleBottleSprite.setTexture(aleBottleTexture);
 	aleBottleSprite.setOrigin(aleBottleTexture.getSize().x / 2, aleBottleTexture.getSize().y / 2);
-	aleBottleSprite.setScale(2, 1.7f);
+	aleBottleSprite.setScale(3, 2.7f);
 	aleBottleSprite.setPosition(screenW / 10, 200);
 
 	loafOfBreadSprite.setTexture(loafOfBreadTexture);

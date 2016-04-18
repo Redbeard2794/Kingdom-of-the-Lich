@@ -37,12 +37,26 @@ private:
 	//player representation
 	sf::Texture playerRepTexture;
 	sf::Sprite playerRepSprite;
+	sf::Vector2i framePosition;
+	sf::Vector2i frameSize;
+	sf::IntRect frame;
+	int numFrames;
+	float animationTime;
+	sf::Clock animationClock;
+	bool finishedAttackAnim;
 
 	//player health
 	sf::Text playerHealthText;
 
 	sf::Texture enemyTexture;
 	sf::Sprite enemySprite;
+	sf::Vector2i enemyFramePosition;
+	sf::Vector2i enemyFrameSize;
+	sf::IntRect enemyFrame;
+	int enemyNumFrames;
+	float enemyAnimationTime;
+	sf::Clock enemyAnimationClock;
+	bool enemyFinishedAttackAnim;
 
 	//enemy health
 	sf::Text enemyHealthText;
@@ -112,6 +126,12 @@ public:
 	void Draw(sf::RenderTarget& window);
 
 	void MovePlayerToAttack();
+
+	void SetUpAttackAnimations(bool player);
+
+	void PlayerAttackAnimation();
+
+	void EnemyAttackAnimation();
 
 	/*gets & sets start*/
 

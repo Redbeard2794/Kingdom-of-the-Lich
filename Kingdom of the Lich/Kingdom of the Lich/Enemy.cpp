@@ -100,15 +100,23 @@ void Enemy::Update()
 	}
 }
 
-std::string Enemy::TakeTurn(Player* p)
+std::string Enemy::TakeTurn(Player* p, bool crit)
 {
 	std::cout << "Taking my turn now." << std::endl;
 	if (currentState == Healthy)
 	{
 		//attack the player with a random attack
 		int a = rand() % attacks.size();
-		p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
-		return "Enemy attacked with a " + attacks.at(a)->GetName();
+		if (crit)
+		{
+			p->setHealth(p->getHealth() - (attacks.at(a)->GetDamageValue() + (attacks.at(a)->GetDamageValue()*.25)));
+			return "Enemy attacked with a critical" + attacks.at(a)->GetName();
+		}
+		else
+		{
+			p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
+			return "Enemy attacked with a " + attacks.at(a)->GetName();
+		}
 	}
 	else if (currentState == Hurt)
 	{
@@ -133,8 +141,17 @@ std::string Enemy::TakeTurn(Player* p)
 				}
 			}
 
-			p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
-			return "Enemy attacked with a " + attacks.at(a)->GetName();
+			if (crit)
+			{
+				p->setHealth(p->getHealth() - (attacks.at(a)->GetDamageValue() + (attacks.at(a)->GetDamageValue()*.25)));
+				return "Enemy attacked with a critical" + attacks.at(a)->GetName();
+			}
+			else
+			{
+				p->setHealth(p->getHealth() - attacks.at(a)->GetDamageValue());
+				return "Enemy attacked with a " + attacks.at(a)->GetName();
+			}
+			
 		}
 	}
 	else if (currentState == HurtBadly)
@@ -161,9 +178,17 @@ std::string Enemy::TakeTurn(Player* p)
 					strongestIndex = i;
 				}
 			}
-
-			p->setHealth(p->getHealth() - attacks.at(strongestIndex)->GetDamageValue());
-			return "Enemy attacked with a " + attacks.at(strongestIndex)->GetName();
+			if (crit)
+			{
+				p->setHealth(p->getHealth() - (attacks.at(strongestIndex)->GetDamageValue() + (attacks.at(strongestIndex)->GetDamageValue()*.25)));
+				return "Enemy attacked with a critical" + attacks.at(strongestIndex)->GetName();
+			}
+			else
+			{
+				p->setHealth(p->getHealth() - attacks.at(strongestIndex)->GetDamageValue());
+				return "Enemy attacked with a " + attacks.at(strongestIndex)->GetName();
+			}
+			
 		}
 	}
 }

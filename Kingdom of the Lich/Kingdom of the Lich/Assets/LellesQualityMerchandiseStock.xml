@@ -8,7 +8,7 @@
   </Item>
   <Item>
     <key>Bottle of Ale</key>
-    <texturePath>Assets/Icons/Items/ale.png</texturePath>
+    <texturePath>Assets/Tiles/indoorTiles/indoor assets/indoorAssets2/clutterObjects/bottles/bottle2.png</texturePath>
     <quantity>3</quantity>
     <value>2</value>
   </Item>
