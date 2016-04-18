@@ -31,5 +31,29 @@
     <locked>1</locked>
     <iconTexturePath>Assets/Icons/Achievements/GoPubForFirstTimeAchievement.png</iconTexturePath>
   </Achievement>
+
+  <Achievement name="Steal from a Thief">
+    <id>6</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/stealFromAThiefAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="Capitalism">
+    <id>7</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/capitalismAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="Chatterbox">
+    <id>8</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/chatterBoxAchievement.png</iconTexturePath>
+  </Achievement>
+
+  <Achievement name="A weeks wages">
+    <id>9</id>
+    <locked>1</locked>
+    <iconTexturePath>Assets/Icons/Achievements/aWeeksWagesAchievement.png</iconTexturePath>
+  </Achievement>
   
 </AchievementList>

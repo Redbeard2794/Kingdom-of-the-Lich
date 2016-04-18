@@ -110,3 +110,5 @@ Marcelo Fernandez
 combat animations: http://opengameart.org/content/16x18-attack-stances
 
 apple tree: http://opengameart.org/content/forest-tiles
+
+capitalism achievement icon: http://opengameart.org/content/gold-treasure-icons

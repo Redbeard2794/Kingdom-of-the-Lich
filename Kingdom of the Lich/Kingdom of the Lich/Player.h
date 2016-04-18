@@ -96,6 +96,11 @@ private:
 	bool enteredPubFirstTime;
 	bool enteredSewerFirstTime;
 	int combatsComplete;
+	bool stoleStuffBack;
+	bool hasPlayerBoughtSomething;
+	bool hasPlayerSoldSomething;
+	int numPeopleTalkedTo;
+	int numGems;
 
 public:
 	//constructor(param is a font)
@@ -144,6 +149,11 @@ public:
 	bool HasPlayerGonePub() { return enteredPubFirstTime; }
 	bool HasPlayerGoneSewers() { return enteredSewerFirstTime; }
 	int GetNumberCompletedCombats() { return combatsComplete; }
+	bool HasPlayerStoleStuffBack() { return stoleStuffBack; }
+	bool HasPlayerBoughtSomething() { return hasPlayerBoughtSomething; }
+	bool HasPlayerSoldSomething() { return hasPlayerSoldSomething; }
+	int GetNumPeopleTalkedTo() { return numPeopleTalkedTo; }
+	int GetGems() {return numGems; }
 	//end gets
 	//start sets
 	void setHealth(float h) { health = h; }
@@ -165,6 +175,11 @@ public:
 	void SetPlayerGonePub(bool pub) { enteredPubFirstTime = pub; }
 	void SetPlayerGoneSewer(bool sewer) { enteredSewerFirstTime = sewer; }
 	void IncreaseCombatsComplete(int c) { combatsComplete += c; }
+	void SetStoleStuffBack(bool s) { stoleStuffBack = s; }
+	void SetPlayerBoughtSomething(bool b) { hasPlayerBoughtSomething = b; }
+	void SetPlayerSellSomething(bool b) { hasPlayerSoldSomething = b; }
+	void IncreaseNumPeopleTalkedTo(int t) { numPeopleTalkedTo += t; }
+	void SetGems(int g) { numGems = g; }
 	//end sets
 #pragma endregion
 

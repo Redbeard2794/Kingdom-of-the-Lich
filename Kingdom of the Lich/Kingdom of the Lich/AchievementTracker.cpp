@@ -128,6 +128,54 @@ void AchievementTracker::Update()
 				audioManager->PlaySoundEffectById(16, false);
 			}
 		}
+		//else if it is the 'Steal from a Thief' achievement and it hasn't already been unlocked
+		else if (lockedAchievements.at(i)->GetName() == "Steal from a Thief" && lockedAchievements.at(i)->GetLockedStatus())
+		{
+			if (player->HasPlayerStoleStuffBack() == true)
+			{
+				std::cout << "Player has unlocked the 'Steal from a Thief' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
+			}
+		}
+		//else if it is the 'Capitalism' achievement and it hasn't already been unlocked
+		else if (lockedAchievements.at(i)->GetName() == "Capitalism" && lockedAchievements.at(i)->GetLockedStatus())
+		{
+			if (player->HasPlayerBoughtSomething() == true && player->HasPlayerSoldSomething() == true)
+			{
+				std::cout << "Player has unlocked the 'Capitalism' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
+			}
+		}
+		//else if it is the 'Chatterbox' achievement and it hasn't already been unlocked
+		else if (lockedAchievements.at(i)->GetName() == "Chatterbox" && lockedAchievements.at(i)->GetLockedStatus())
+		{
+			if (player->GetNumPeopleTalkedTo() >= 5)
+			{
+				std::cout << "Player has unlocked the 'Chatterbox' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
+			}
+		}
+		//else if it is the 'A weeks wages' achievement and it hasn't already been unlocked
+		else if (lockedAchievements.at(i)->GetName() == "A weeks wages" && lockedAchievements.at(i)->GetLockedStatus())
+		{
+			if (player->GetGems() >= 20)
+			{
+				std::cout << "Player has unlocked the 'A weeks wages' achievement." << std::endl;
+				lockedAchievements.at(i)->Unlock();
+				unlockedAchievements.push_back(lockedAchievements.at(i));
+				displayClock.restart();
+				audioManager->PlaySoundEffectById(16, false);
+			}
+		}
 	}
 }
 

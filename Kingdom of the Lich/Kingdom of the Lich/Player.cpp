@@ -22,6 +22,10 @@ Player::Player(sf::Font f) : font(f)
 	enteredPubFirstTime = false;
 	enteredSewerFirstTime = false;
 	combatsComplete = 0;
+	stoleStuffBack = false;
+	hasPlayerBoughtSomething = false;
+	hasPlayerSoldSomething = false;
+	numPeopleTalkedTo = 0;
 }
 
 //destructor

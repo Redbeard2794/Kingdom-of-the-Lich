@@ -1065,6 +1065,11 @@ int main()
 								AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 21, false, 50, 5, 800, 1600);
 								areaManager->ResetAreaStealingNpcs();
 								AudioManager::GetInstance()->StopSfx(27);
+								if (p->HasPlayerStoleStuffBack() == false)
+								{
+									p->SetStoleStuffBack(true);
+									p->Notify();
+								}
 							}
 							else
 							{
@@ -1409,6 +1414,9 @@ int main()
 						gState = SHOPPING;
 					}
 
+					p->IncreaseNumPeopleTalkedTo(1);
+					p->Notify();
+
 					//move the player out of collision
 					if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).second != 2)
 					{
@@ -1495,6 +1503,12 @@ int main()
 				prevState = gState;
 				//gState = SAVE;
 				gState = PAUSE;
+			}
+
+			if (testInv->CheckQuantity(testInv->i_gems.key, false) != p->GetGems())
+			{
+				p->SetGems(testInv->CheckQuantity(testInv->i_gems.key, false));
+				p->Notify();
 			}
 
 			//draw hints based on time(fade in/out) on the default view so they are not affected by other views
@@ -2169,13 +2183,13 @@ int main()
 
 						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 1)//if we are buying stuff
 						{
-							areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->PurchaseItem(testInv->CheckQuantity("Gems", false), testInv, p);
 							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
 						}
 
 						else if (areaShops[areaManager->GetCurrentArea()]->GetCurrentState() == 2)//if we are selling stuff
 						{
-							areaShops[areaManager->GetCurrentArea()]->SellItem(testInv->CheckQuantity("Gems", false), testInv);
+							areaShops[areaManager->GetCurrentArea()]->SellItem(testInv->CheckQuantity("Gems", false), testInv, p);
 							areaShops[areaManager->GetCurrentArea()]->SetCanSelect(false);
 						}
 					}

@@ -3,6 +3,7 @@
 
 #include "Item.h"
 #include "Inventory.h"
+#include "Player.h"
 
 class ShopInventory
 {
@@ -81,10 +82,10 @@ public:
 	void MakeChoice(Inventory* inv);
 
 	//buy an item. params are the player's gems and a pointer to the players inventory
-	void PurchaseItem(int playerGems, Inventory* playerInv);
+	void PurchaseItem(int playerGems, Inventory* playerInv, Player* p);
 
 	//sell an item. params are the player's gems and a pointer to the player's inventory
-	void SellItem(int playerGems, Inventory* playerInv);
+	void SellItem(int playerGems, Inventory* playerInv, Player* p);
 
 	//grab the player's inventory in order to display items for them to sell. param is a pointer to the player's inventory
 	void SetPlayerSellableItems(Inventory* playerInv);

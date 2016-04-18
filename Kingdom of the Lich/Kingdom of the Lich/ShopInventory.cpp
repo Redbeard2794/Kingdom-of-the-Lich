@@ -296,7 +296,7 @@ void ShopInventory::MakeChoice(Inventory* inv)
 }
 
 //buy an item. params are the player's gems and a pointer to the players inventory
-void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
+void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv, Player* p)
 {
 	std::string purchaseKey = GetKeyOfCurrentItem();
 	int cost = GetPriceOfCurrentItem();
@@ -310,6 +310,11 @@ void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 			playerInv->RemoveItemFromInventory("Gems", cost);//take the payment from the player
 			availableGems += cost;//give the shop the gems
 			AudioManager::GetInstance()->PlaySoundEffectById(19, false);
+			if (p->HasPlayerBoughtSomething() == false)
+			{
+				p->SetPlayerBoughtSomething(true);
+				p->Notify();
+			}
 		}
 		else std::cout << purchaseKey << " is out of stock at the moment." << std::endl;
 	}
@@ -321,7 +326,7 @@ void ShopInventory::PurchaseItem(int playerGems, Inventory * playerInv)
 }
 
 //sell an item. params are the player's gems and a pointer to the player's inventory
-void ShopInventory::SellItem(int playerGems, Inventory * playerInv)
+void ShopInventory::SellItem(int playerGems, Inventory * playerInv, Player* p)
 {
 	if (playerInvItems.size() > 0)//if the player has at least 1 item
 	{
@@ -339,6 +344,11 @@ void ShopInventory::SellItem(int playerGems, Inventory * playerInv)
 				playerInvItems.clear();
 				SetPlayerSellableItems(playerInv);//grab the player's inventory again
 				AudioManager::GetInstance()->PlaySoundEffectById(19, false);
+				if (p->HasPlayerSoldSomething() == false)
+				{
+					p->SetPlayerSellSomething(true);
+					p->Notify();
+				}
 			}
 		}
 		else
