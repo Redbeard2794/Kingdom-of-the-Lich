@@ -112,3 +112,5 @@ combat animations: http://opengameart.org/content/16x18-attack-stances
 apple tree: http://opengameart.org/content/forest-tiles
 
 capitalism achievement icon: http://opengameart.org/content/gold-treasure-icons
+
+sewer combat background: http://opengameart.org/node/45590

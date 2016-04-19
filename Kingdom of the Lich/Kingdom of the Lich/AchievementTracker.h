@@ -24,6 +24,8 @@ private:
 
 	AudioManager* audioManager;
 
+	sf::RectangleShape messageBackground;
+
 public:
 	AchievementTracker(Player* p, sf::Font f, int sw, int sh, AudioManager* am);
 	~AchievementTracker();

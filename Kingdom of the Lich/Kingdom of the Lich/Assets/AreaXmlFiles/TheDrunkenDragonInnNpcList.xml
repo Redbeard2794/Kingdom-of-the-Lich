@@ -5,19 +5,19 @@
   <npc name='Delphine'>
     <id>1</id>
     <race>Human</race>
-    <gender>Female</gender>
-    <idleUpPath>Assets/Npcs/femaleTownFolk1/Idle/upIdle.png</idleUpPath>
-    <idleDownPath>Assets/Npcs/femaleTownFolk1/Idle/downIdle.png</idleDownPath>
-    <idleLeftPath>Assets/Npcs/femaleTownFolk1/Idle/leftIdle.png</idleLeftPath>
-    <idleRightPath>Assets/Npcs/femaleTownFolk1/Idle/rightIdle.png</idleRightPath>
+    <gender>Male</gender>
+    <idleUpPath>Assets/Npcs/maleTownFolk1/Idle/upIdle.png</idleUpPath>
+    <idleDownPath>Assets/Npcs/maleTownFolk1/Idle/downIdle.png</idleDownPath>
+    <idleLeftPath>Assets/Npcs/maleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+    <idleRightPath>Assets/Npcs/maleTownFolk1/Idle/rightIdle.png</idleRightPath>
     <numberOfFrames>3</numberOfFrames>
-    <walkUpPath>Assets/Npcs/femaleTownFolk1/Moving/upSheet.png</walkUpPath>
-    <walkDownPath>Assets/Npcs/femaleTownFolk1/Moving/downSheet.png</walkDownPath>
-    <walkLeftPath>Assets/Npcs/femaleTownFolk1/Moving/leftSheet.png</walkLeftPath>
-    <walkRightPath>Assets/Npcs/femaleTownFolk1/Moving/rightSheet.png</walkRightPath>
+    <walkUpPath>Assets/Npcs/maleTownFolk1/Moving/upSheet.png</walkUpPath>
+    <walkDownPath>Assets/Npcs/maleTownFolk1/Moving/downSheet.png</walkDownPath>
+    <walkLeftPath>Assets/Npcs/maleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+    <walkRightPath>Assets/Npcs/maleTownFolk1/Moving/rightSheet.png</walkRightPath>
     <mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
-    <x>500</x>
-    <y>100</y>
+    <x>325</x>
+    <y>150</y>
     <hasQuest>false</hasQuest>
     <interact>true</interact>
     <behaviour1>shopkeeper</behaviour1>

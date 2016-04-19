@@ -21,19 +21,19 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
     <behaviour1>stand</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>stand</behaviour2>
+    <behaviour2TimeH>13</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
-    <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3>stand</behaviour3>
+    <behaviour3TimeH>21</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
-    <behaviour4>0</behaviour4>
-    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4>stand</behaviour4>
+    <behaviour4TimeH>5</behaviour4TimeH>
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
@@ -64,19 +64,19 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
     <behaviour1>wander</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>wander</behaviour2>
+    <behaviour2TimeH>14</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
-    <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3>wander</behaviour3>
+    <behaviour3TimeH>20</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
-    <behaviour4>0</behaviour4>
-    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4>wander</behaviour4>
+    <behaviour4TimeH>6</behaviour4TimeH>
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
@@ -107,19 +107,19 @@
 		<hasQuest>true</hasQuest>
 		<interact>true</interact>
     <behaviour1>wander</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>eating</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
-    <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3>wander</behaviour3>
+    <behaviour3TimeH>13</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
-    <behaviour4>0</behaviour4>
-    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4>wander</behaviour4>
+    <behaviour4TimeH>21</behaviour4TimeH>
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>
@@ -150,19 +150,19 @@
 		<hasQuest>1</hasQuest>
 		<interact>1</interact>
     <behaviour1>stand</behaviour1>
-    <behaviour1TimeH>0</behaviour1TimeH>
+    <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>0</behaviour2>
-    <behaviour2TimeH>0</behaviour2TimeH>
+    <behaviour2>stand</behaviour2>
+    <behaviour2TimeH>13</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
-    <behaviour3>0</behaviour3>
-    <behaviour3TimeH>0</behaviour3TimeH>
+    <behaviour3>stand</behaviour3>
+    <behaviour3TimeH>20</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
-    <behaviour4>0</behaviour4>
-    <behaviour4TimeH>0</behaviour4TimeH>
+    <behaviour4>stand</behaviour4>
+    <behaviour4TimeH>1</behaviour4TimeH>
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>0</bedId>

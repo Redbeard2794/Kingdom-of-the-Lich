@@ -13,6 +13,10 @@ AchievementTracker::AchievementTracker(Player* p, sf::Font f, int sw, int sh, Au
 	unlockText.setCharacterSize(30);
 	unlockText.setPosition(screenW/3, 25);
 	audioManager = am;
+
+	messageBackground.setPosition(sf::Vector2f(unlockText.getPosition().x, unlockText.getPosition().y + 6));
+	messageBackground.setSize(sf::Vector2f(unlockText.getGlobalBounds().width, unlockText.getGlobalBounds().height));
+	messageBackground.setFillColor(sf::Color::Black);
 }
 
 AchievementTracker::~AchievementTracker()
@@ -186,6 +190,8 @@ void AchievementTracker::DisplayAchievement(sf::RenderTarget & window)
 		if (unlockedAchievements.at(i)->HasBeenDisplayed() == false && displayClock.getElapsedTime().asSeconds() < 5)
 		{
 			unlockText.setString("Achievement unlocked: " + unlockedAchievements.at(i)->GetName());
+			messageBackground.setSize(sf::Vector2f(unlockText.getGlobalBounds().width, unlockText.getGlobalBounds().height));
+			window.draw(messageBackground);
 			window.draw(unlockText);
 			window.draw(*unlockedAchievements.at(i));
 		}

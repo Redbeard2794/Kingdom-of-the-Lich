@@ -127,10 +127,12 @@ int main()
 	tmx::TileMap pubOne("Assets/pub1.tmx");
 
 	ShopInventory* LellesQualityMerchandiseStock = new ShopInventory(5, "Norbert Lelles", 50, "Assets/LellesQualityMerchandiseStock.xml", screenW, screenH, font);
+	ShopInventory* DrunkenDragonInnMerchandiseStock = new ShopInventory(4, "Andreas Draconis", 50, "Assets/DrunkenDragonInnMerchandiseStock.xml", screenW, screenH, font);
 
 	//map shops to the area they are in
 	std::map<int, ShopInventory*> areaShops;
 	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
+	areaShops[TheDrunkenDragonInn] = DrunkenDragonInnMerchandiseStock;
 
 	//std::vector<Pnode*> testNodes;
 	//for (int i = 0; i < 40; i++)

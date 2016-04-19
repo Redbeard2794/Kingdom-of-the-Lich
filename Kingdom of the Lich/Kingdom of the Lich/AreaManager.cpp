@@ -27,7 +27,7 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	currentAreaText.setFont(font);
 	currentAreaText.setColor(sf::Color::Cyan);
 	currentAreaText.setCharacterSize(20);
-	currentAreaText.setPosition(screenW-400, 15);
+	currentAreaText.setPosition(screenW/8, screenH - 125);
 }
 
 AreaManager::~AreaManager()
