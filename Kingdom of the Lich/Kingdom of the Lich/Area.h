@@ -70,6 +70,9 @@ public:
 	int CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerBounds);
 
 	void ResetStealingNpc();
+
+	/*unlock a door based on its id. param: id of door to unlock*/
+	void UnlockDoorById(int doorId);
 };
 
 #endif

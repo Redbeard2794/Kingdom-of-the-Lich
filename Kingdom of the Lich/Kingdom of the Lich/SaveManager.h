@@ -61,8 +61,7 @@ public:
 	~SaveManager();
 
 	//save game
-	void SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, bool sewerFirstVal,
-		int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock);
+	void SaveGame(Player* p, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock);
 
 	//load a game. return true if the save is not empty. if it is then load a new game
 	bool LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1, WorldClock* clock);

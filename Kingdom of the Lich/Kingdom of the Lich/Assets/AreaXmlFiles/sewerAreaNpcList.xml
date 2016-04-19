@@ -147,9 +147,9 @@
 		<mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
 		<x>1300</x>
 		<y>1200</y>
-		<hasQuest>true</hasQuest>
-		<interact>true</interact>
-    <behaviour1>wander</behaviour1>
+		<hasQuest>1</hasQuest>
+		<interact>1</interact>
+    <behaviour1>stand</behaviour1>
     <behaviour1TimeH>0</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>

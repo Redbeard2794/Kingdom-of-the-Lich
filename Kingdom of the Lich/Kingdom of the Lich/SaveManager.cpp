@@ -78,8 +78,7 @@ SaveManager::~SaveManager()
 	savePath.clear();
 }
 
-void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChestsVal, int numPotionsVal, bool pubFirstVal, 
-	bool sewerFirstVal, int combatsCompleteVal, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock)
+void SaveManager::SaveGame(Player* p, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock)
 {
 	xml_document<> doc;
 	std::ifstream file(savePath);
@@ -97,11 +96,11 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	/*race*/
 	std::cout << "Previous Race: " << save->first_node("race")->value() << std::endl;
 	std::string raceText;
-	if (raceVal == 0)
+	if (p->getRace() == 0)
 		raceText = "human";
-	else if (raceVal == 1)
+	else if (p->getRace() == 1)
 		raceText = "elf";
-	else if (raceVal == 2)
+	else if (p->getRace() == 2)
 		raceText = "dwarf";
 	const char * rt = doc.allocate_string(raceText.c_str(), strlen(raceText.c_str()));
 	save->first_node("race")->value(rt);
@@ -110,9 +109,9 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 	/*gender*/
 	std::cout << "Previous Gender: " << save->first_node("gender")->value() << std::endl;
 	std::string genderText;
-	if (genderVal == 0)
+	if (p->getGender() == 0)
 		genderText = "male";
-	else if (genderVal == 1)
+	else if (p->getGender() == 1)
 		genderText = "female";
 	const char * gt = doc.allocate_string(genderText.c_str(), strlen(genderText.c_str()));
 	save->first_node("gender")->value(gt);
@@ -120,52 +119,75 @@ void SaveManager::SaveGame(int raceVal, int genderVal, int healthVal, int numChe
 
 	/*health*/
 	std::cout << "Previous Health: " << save->first_node("health")->value() << std::endl;
-	std::string healthText = std::to_string(healthVal);
+	std::string healthText = std::to_string(p->getHealth());
 	const char * ht = doc.allocate_string(healthText.c_str(), strlen(healthText.c_str()));
 	save->first_node("health")->value(ht);
 	std::cout << "New Health: " << save->first_node("health")->value() << std::endl;
 
 	/*number of chests opened*/
 	std::cout << "Previous numChests: " << save->first_node("numChests")->value() << std::endl;
-	std::string chestText = std::to_string(numChestsVal);
+	std::string chestText = std::to_string(p->GetOpenedChests());
 	const char * ct = doc.allocate_string(chestText.c_str(), strlen(chestText.c_str()));
 	save->first_node("numChests")->value(ct);
 	std::cout << "New numChests: " << save->first_node("numChests")->value() << std::endl;
 
 	/*number of potions drank*/
 	std::cout << "Previous numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
-	std::string potionsText = std::to_string(numPotionsVal);
+	std::string potionsText = std::to_string(p->GetPotionsDrank());
 	const char * pt = doc.allocate_string(potionsText.c_str(), strlen(potionsText.c_str()));
 	save->first_node("numPotionsUsed")->value(pt);
 	std::cout << "New numPotionsUsed: " << save->first_node("numPotionsUsed")->value() << std::endl;
 
 	/*entered pub for first time*/
 	std::cout << "Previous pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
-	std::string pubText = std::to_string(pubFirstVal);
+	std::string pubText = std::to_string(p->HasPlayerGonePub());
 	const char * pubt = doc.allocate_string(pubText.c_str(), strlen(pubText.c_str()));
 	save->first_node("pubFirst")->value(pubt);
 	std::cout << "New pubFirst: " << save->first_node("pubFirst")->value() << std::endl;
 
 	/*entered sewers for first time*/
 	std::cout << "Previous sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
-	std::string sewerText = std::to_string(sewerFirstVal);
+	std::string sewerText = std::to_string(p->HasPlayerGoneSewers());
 	const char * sewt = doc.allocate_string(sewerText.c_str(), strlen(sewerText.c_str()));
 	save->first_node("sewerFirst")->value(sewt);
 	std::cout << "New sewerFirst: " << save->first_node("sewerFirst")->value() << std::endl;
 
 	/*combats completed*/
 	std::cout << "Previous numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
-	std::string combatText = std::to_string(combatsCompleteVal);
+	std::string combatText = std::to_string(p->GetNumberCompletedCombats());
 	const char * comt = doc.allocate_string(combatText.c_str(), strlen(combatText.c_str()));
 	save->first_node("numCombatsComplete")->value(comt);
 	std::cout << "New numCombatsComplete: " << save->first_node("numCombatsComplete")->value() << std::endl;
 
 	/*Steal from a Thief completed*/
 	std::cout << "Previous stealFromAThief: " << save->first_node("stealFromAThief")->value() << std::endl;
-	std::string thiefText = std::to_string(combatsCompleteVal);
+	std::string thiefText = std::to_string(p->HasPlayerStoleStuffBack());
 	const char * tt = doc.allocate_string(thiefText.c_str(), strlen(thiefText.c_str()));
 	save->first_node("stealFromAThief")->value(tt);
 	std::cout << "New stealFromAThief: " << save->first_node("stealFromAThief")->value() << std::endl;
+
+	/*capitalism achievement*/
+	std::cout << "Previous capitalism: " << save->first_node("capitalism")->value() << std::endl;
+	std::string capText = "0";
+	if (p->HasPlayerBoughtSomething() && p->HasPlayerSoldSomething())
+		capText = "1";
+	const char * capt = doc.allocate_string(capText.c_str(), strlen(capText.c_str()));
+	save->first_node("capitalism")->value(capt);
+	std::cout << "New capitalism: " << save->first_node("capitalism")->value() << std::endl;
+
+	/*chatterbox achievement*/
+	std::cout << "Previous chatterbox: " << save->first_node("chatterbox")->value() << std::endl;
+	std::string chatText = std::to_string(p->GetNumPeopleTalkedTo());
+	const char * chatt = doc.allocate_string(chatText.c_str(), strlen(chatText.c_str()));
+	save->first_node("chatterbox")->value(chatt);
+	std::cout << "New chatterbox: " << save->first_node("chatterbox")->value() << std::endl;
+
+	/*weeks wages achievement*/
+	std::cout << "Previous weeksWages: " << save->first_node("weeksWages")->value() << std::endl;
+	std::string wagesText = std::to_string(p->GetGems());
+	const char * wagest = doc.allocate_string(wagesText.c_str(), strlen(wagesText.c_str()));
+	save->first_node("weeksWages")->value(wagest);
+	std::cout << "New weeksWages: " << save->first_node("weeksWages")->value() << std::endl;
 
 	/*position*/
 	std::cout << "Previous Position: " << save->first_node("x")->value() << ", " << save->first_node("y")->value() << std::endl;
@@ -315,6 +337,10 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	bool pubFirst = std::atoi(save->first_node("pubFirst")->value());
 	bool sewerFirst = std::atoi(save->first_node("sewerFirst")->value());
 	int numCombatsComplete = std::atoi(save->first_node("numCombatsComplete")->value());
+	bool stealFromAThief = std::atoi(save->first_node("stealFromAThief")->value());
+	bool capitalism = std::atoi(save->first_node("capitalism")->value());
+	int chatterbox = std::atoi(save->first_node("chatterbox")->value());
+	int weeksWages = std::atoi(save->first_node("weeksWages")->value());
 	float x = std::atof(save->first_node("x")->value());
 	float y = std::atof(save->first_node("y")->value());
 	int area = std::atoi(save->first_node("area")->value());
@@ -357,6 +383,15 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	player->SetPlayerGoneSewer(sewerFirst);
 	//set the number of combats the player has completed
 	player->IncreaseCombatsComplete(numCombatsComplete);
+	//set whether the player stole stuff back from a thief
+	player->SetStoleStuffBack(stealFromAThief);
+	//set whether the player bought and sold something
+	player->SetPlayerBoughtSomething(capitalism);
+	player->SetPlayerSellSomething(capitalism);
+	//set the number of people the player talked to
+	player->IncreaseNumPeopleTalkedTo(chatterbox);
+	//set the players number of gems
+	player->SetGems(weeksWages);
 	//set the player's position
 	player->setPosition(x, y);
 	//set the current area
@@ -397,7 +432,7 @@ bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracke
 	clock->SetCurrentMinutes(clockMins);
 	clock->SetCurrentSecs(clockSecs);
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		achievementTracker->Update();
 	}
@@ -482,6 +517,26 @@ void SaveManager::ClearAllSaveSlots()
 		std::string combatText = std::to_string(0);
 		const char * comt = doc.allocate_string(combatText.c_str(), strlen(combatText.c_str()));
 		save->first_node("numCombatsComplete")->value(comt);
+
+		/*Steal from a Thief completed*/
+		std::string thiefText = std::to_string(0);
+		const char * tt = doc.allocate_string(thiefText.c_str(), strlen(thiefText.c_str()));
+		save->first_node("stealFromAThief")->value(tt);
+
+		/*capitalism achievement*/
+		std::string capText = std::to_string(0);
+		const char * capt = doc.allocate_string(capText.c_str(), strlen(capText.c_str()));
+		save->first_node("capitalism")->value(capt);
+
+		/*chatterbox achievement*/
+		std::string chatText = std::to_string(0);
+		const char * chatt = doc.allocate_string(chatText.c_str(), strlen(chatText.c_str()));
+		save->first_node("chatterbox")->value(chatt);
+
+		/*weeks wages achievement*/
+		std::string wagesText = std::to_string(0);
+		const char * wagest = doc.allocate_string(wagesText.c_str(), strlen(wagesText.c_str()));
+		save->first_node("weeksWages")->value(wagest);
 
 		/*position*/
 		std::string xText = std::to_string(0);

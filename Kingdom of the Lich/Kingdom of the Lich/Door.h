@@ -40,6 +40,8 @@ public:
 	void SetOpen(bool o);
 
 	int GetArea();
+
+	int GetId();
 };
 
 #endif

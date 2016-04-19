@@ -22,6 +22,10 @@ Quest::Quest(int numStages, std::string qName, std::string qGiverName, sf::Vecto
 	stages.push_back(stageTwo);
 	QuestStage* stageThree = new QuestStage("Go to the sewer", 3, sf::Vector2f(1100, 1000));
 	stages.push_back(stageThree);
+	QuestStage* stageFour = new QuestStage("Talk to the sewer guard", 4, sf::Vector2f(1325, 375));
+	stages.push_back(stageFour);
+	QuestStage* stageFive = new QuestStage("To kill a necromancer", 4, sf::Vector2f(1300, 1200));
+	stages.push_back(stageFive);
 }
 
 Quest::~Quest()

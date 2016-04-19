@@ -48,7 +48,11 @@ public:
 
 	void ResetAreaStealingNpcs();
 
+	//unlock a door in the current area. param: id of door to unlock
+	void UnlockDoorInCurrentArea(int id);
+
 	int GetCurrentArea();
+
 	//only used when loading a game
 	void SetCurrentArea(int a);
 

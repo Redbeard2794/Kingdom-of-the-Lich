@@ -99,6 +99,8 @@ private:
 	int turnCount;
 	sf::Text turnText;
 
+	std::string enemyName;
+
 public:
 	/*constructor*/
 	CombatMenu(sf::Font f, std::string ePath, int sw, int sh);
@@ -132,6 +134,8 @@ public:
 	void PlayerAttackAnimation();
 
 	void EnemyAttackAnimation();
+
+	void ResetForNextCombat(std::string ePath, std::string eName);
 
 	/*gets & sets start*/
 
@@ -168,6 +172,8 @@ public:
 	int GetTurnCount();
 
 	void IncrementTurnCount();
+
+	std::string GetEnemyName();
 
 	/*gets & sets end*/
 };

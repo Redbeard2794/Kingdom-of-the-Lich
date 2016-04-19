@@ -88,6 +88,11 @@ void AreaManager::ResetAreaStealingNpcs()
 	areas.at(currentArea)->ResetStealingNpc();
 }
 
+void AreaManager::UnlockDoorInCurrentArea(int id)
+{
+	areas.at(currentArea)->UnlockDoorById(id);
+}
+
 int AreaManager::GetCurrentArea()
 {
 	return currentArea;

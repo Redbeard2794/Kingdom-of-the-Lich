@@ -65,6 +65,45 @@ Enemy::Enemy(std::string assetPath, float h, float r, int t, sf::Vector2f pos)
 			attacks.push_back(a);
 		}
 	}
+
+	else if (type == 1)
+	{
+		xml_document<> doc;
+		std::ifstream file("Assets/AttackLists/necromancerAttacks.xml");
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<> *pRoot = doc.first_node();
+		std::cout << "Name of root node is: " << doc.first_node()->name() << "\n" << std::endl;
+
+		xml_node<>* attackList = doc.first_node("AttackList");
+		xml_node<>* attack = attackList->first_node("Attack");
+
+		//load in each attacks's information and then create them
+		while (attack != NULL)
+		{
+			std::string name = "";
+			int damageValue = 0;
+
+			/*Get the attacks's name*/
+			std::cout << "Name: " << attack->first_attribute("name")->value() << std::endl;
+			name = attack->first_attribute("name")->value();
+
+			/*Get the attacks's damage value*/
+			std::cout << "Damage Value: " << attack->first_node("damageValue")->value() << std::endl;
+			damageValue = atoi(attack->first_node("damageValue")->value());
+
+			std::cout << "------------------------------------------------------------" << std::endl;
+			/*Move onto the next npc tag*/
+			attack = attack->next_sibling("Attack");
+
+			Attack* a = new Attack(name, damageValue);
+			attacks.push_back(a);
+		}
+	}
 }
 
 Enemy::~Enemy()
@@ -110,7 +149,7 @@ std::string Enemy::TakeTurn(Player* p, bool crit)
 		if (crit)
 		{
 			p->setHealth(p->getHealth() - (attacks.at(a)->GetDamageValue() + (attacks.at(a)->GetDamageValue()*.25)));
-			return "Enemy attacked with a critical" + attacks.at(a)->GetName();
+			return "Enemy attacked with a critical " + attacks.at(a)->GetName();
 		}
 		else
 		{
@@ -144,7 +183,7 @@ std::string Enemy::TakeTurn(Player* p, bool crit)
 			if (crit)
 			{
 				p->setHealth(p->getHealth() - (attacks.at(a)->GetDamageValue() + (attacks.at(a)->GetDamageValue()*.25)));
-				return "Enemy attacked with a critical" + attacks.at(a)->GetName();
+				return "Enemy attacked with a critical " + attacks.at(a)->GetName();
 			}
 			else
 			{
@@ -181,7 +220,7 @@ std::string Enemy::TakeTurn(Player* p, bool crit)
 			if (crit)
 			{
 				p->setHealth(p->getHealth() - (attacks.at(strongestIndex)->GetDamageValue() + (attacks.at(strongestIndex)->GetDamageValue()*.25)));
-				return "Enemy attacked with a critical" + attacks.at(strongestIndex)->GetName();
+				return "Enemy attacked with a critical " + attacks.at(strongestIndex)->GetName();
 			}
 			else
 			{

@@ -328,7 +328,15 @@ int main()
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
 
-	Enemy* testEnemy = new Enemy("Assets/Enemy/golemDownAttack1.png", 100, 20, 0, sf::Vector2f(800, 1600));
+	Enemy* stoneGolem = new Enemy("Assets/Enemy/golemDownAttack1.png", 100, 20, 0, sf::Vector2f(800, 1600));
+	Enemy* necromancer1 = new Enemy("Assets/Npcs/cultist/downAttack.png", 70, 40, 1, sf::Vector2f(1300, 1200));
+
+	std::vector<Enemy*> enemies;
+	enemies.push_back(stoneGolem);
+	enemies.push_back(necromancer1);
+
+	int currentEnemy = 0;
+
 
 	CombatMenu* combatMenu = new CombatMenu(font, "Assets/Enemy/StoneGolemAttack.png", screenW, screenH);
 
@@ -378,6 +386,11 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::K))
 			{
 				saveManager->ClearAllSaveSlots();
+			}
+
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::C))
+			{
+				gState = COMBAT;
 			}
 			
 		}
@@ -1222,8 +1235,10 @@ int main()
 					AudioManager::GetInstance()->PlayMusicById(2);
 					areaManager->ChangeArea(SEWER);
 					p->setPosition(1325, 275);
+
 					testQuest->getCurrentStage()->setCompletionStatus(true);
-					testQuest->setCompletionStatus(true);
+					testQuest->setCurrentStageIndex(4);
+					//testQuest->setCompletionStatus(true); 
 					if (p->HasPlayerGoneSewers() == false)
 					{
 						p->SetPlayerGoneSewer(true);
@@ -1405,7 +1420,15 @@ int main()
 
 							popupMessageHandler.AddCustomMessage("Hold 'RT' to run", sf::Vector2f(screenW / 2.5, screenH / 3), 2, sf::Color::Black);
 						}
-						
+						else if (testQuest->getCurrentStageIndex() == 4)
+						{
+							testQuest->getCurrentStage()->setCompletionStatus(true);
+							testQuest->setCurrentStageIndex(5);
+							if (useController)
+								popupMessageHandler.AddCustomMessage("Go kill the necromancer skulking around the bridge. Walk up to it and press 'A' to start combat", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+							else popupMessageHandler.AddCustomMessage("Go kill the necromancer skulking around the bridge. Walk up to it and press 'E' to start combat", sf::Vector2f(screenW / 6, screenH / 4), 5, sf::Color::Black);
+						}
+
 					}
 
 					else if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).second == 3 && gamepad->A() == true)
@@ -1446,7 +1469,7 @@ int main()
 			//}
 
 			//player and enemy
-			if (p->getGlobalBounds().intersects(testEnemy->getGlobalBounds()) && testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
+			if (p->getGlobalBounds().intersects(stoneGolem->getGlobalBounds()) && stoneGolem->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 			{
 				p->setCollidingStatus(true);
 
@@ -1482,16 +1505,53 @@ int main()
 					p->setPosition(p->getPosition().x + 3, p->getPosition().y);
 				}
 			}
+			else if (p->getGlobalBounds().intersects(necromancer1->getGlobalBounds()) && necromancer1->GetHealth() > 0 && areaManager->GetCurrentArea() == SEWER)
+			{
+				p->setCollidingStatus(true);
+				if (testQuest->getCurrentStageIndex() == 5)
+				{
+					if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E) || gamepad->A() == true))
+					{
+						AudioManager::GetInstance()->StopMusic(1);
+						AudioManager::GetInstance()->PlayMusicById(3);
+						combatMenu->SetPlayerRepSprite(p->getRace(), p->getGender());
+						prevState = gState;
+						gState = COMBAT;
+						AudioManager::GetInstance()->StopSfx(17);
+						AudioManager::GetInstance()->StopSfx(18);
+						AudioManager::GetInstance()->StopSfx(21);
+					}
+				}
+
+				//move the player out of collision
+
+				if (p->getCurrentDirection() == 0)//up
+				{
+					p->setPosition(p->getPosition().x, p->getPosition().y + 3);
+				}
+				else if (p->getCurrentDirection() == 1)//down
+				{
+					p->setPosition(p->getPosition().x, p->getPosition().y - 3);
+				}
+				else if (p->getCurrentDirection() == 2)//right
+				{
+					p->setPosition(p->getPosition().x - 3, p->getPosition().y);
+				}
+				else if (p->getCurrentDirection() == 3)//left
+				{
+					p->setPosition(p->getPosition().x + 3, p->getPosition().y);
+				}
+			}
 			else
 			{
 				p->setCollidingStatus(false);
 			}
 			
-			if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
+			if (stoneGolem->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
 			{
-				window.draw(*testEnemy);
+				window.draw(*stoneGolem);
 				if (debugMode)
-					testEnemy->DrawBoundingBox(window);
+					stoneGolem->DrawBoundingBox(window);
 			}
 
 			if (gamepad->Start())//if the player presses start
@@ -1553,8 +1613,8 @@ int main()
 					//window.draw(*sewerHatch);
 					//window.draw(*generalStoreDoor);
 				}
-				if (testEnemy->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
-					testEnemy->MinimapDraw(window);
+				if (stoneGolem->GetHealth() > 0 && areaManager->GetCurrentArea() == TUTORIAL)
+					stoneGolem->MinimapDraw(window);
 
 				areaManager->MinimapDraw(window);
 
@@ -1575,7 +1635,7 @@ int main()
 			if (popupMessageHandler.GetActiveMessageCount() == 0 && combatMenu->GetTurnCount() == 0)
 				combatMenu->SetPlayersTurn(true);
 
-			testEnemy->Update();
+			enemies.at(currentEnemy)->Update();
 
 			combatMenu->PlayerAttackAnimation();
 			combatMenu->EnemyAttackAnimation();
@@ -1585,25 +1645,27 @@ int main()
 				int chance = rand() % 10;
 				if (chance < 8 && chance > 2)//hit
 				{
-					popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p, false), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
+					popupMessageHandler.AddCustomMessage(enemies.at(currentEnemy)->TakeTurn(p, false), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
 					combatMenu->SetUpAttackAnimations(false);
 					int soundCoin = rand() % 2;
 					if (soundCoin == 0)
 						AudioManager::GetInstance()->PlaySoundEffectById(14, false);
 					else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+					gamepad->Rumble(800, 300);
 				}
-				else if (chance == 1)//critical hit
+				else if (chance <= 1)//critical hit
 				{
-					popupMessageHandler.AddCustomMessage(testEnemy->TakeTurn(p, true), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
+					popupMessageHandler.AddCustomMessage(enemies.at(currentEnemy)->TakeTurn(p, true), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
 					combatMenu->SetUpAttackAnimations(false);
 					int soundCoin = rand() % 2;
 					if (soundCoin == 0)
 						AudioManager::GetInstance()->PlaySoundEffectById(14, false);
 					else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+					gamepad->Rumble(1600, 300);
 				}
 				else if (chance > 8)//miss
 				{
-					popupMessageHandler.AddCustomMessage("The golem missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+					popupMessageHandler.AddCustomMessage("The " + combatMenu->GetEnemyName() + "missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 				}
 
 				combatMenu->SetPlayersTurn(true);
@@ -1721,13 +1783,13 @@ int main()
 								if (chance < 8 && chance > 3)//hit
 								{
 									popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 15);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 15);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if (chance < 3)//critical hit
 								{
 									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 18);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 18);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if (chance > 8)//miss
@@ -1742,13 +1804,13 @@ int main()
 								if (chance < 8 && chance > 3)//hit
 								{
 									popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 20);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 20);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if (chance < 3)//critical hit
 								{
 									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 25);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 25);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if (chance > 8)//miss
@@ -1763,13 +1825,13 @@ int main()
 								if (chance < 8 && chance > 3)//hit
 								{
 									popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 25);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 25);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if (chance < 3)//critical hit
 								{
 									popupMessageHandler.AddCustomMessage("Critical Hit!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
-									testEnemy->setHealth(testEnemy->GetHealth() - 31);
+									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 31);
 									combatMenu->SetUpAttackAnimations(true);
 								}
 								else if(chance > 8)//miss
@@ -1846,7 +1908,7 @@ int main()
 				}
 			}
 
-			if (testEnemy->GetHealth() <= 0)
+			if (enemies.at(currentEnemy)->GetHealth() <= 0)
 			{
 				combatMenu->setCombatOver(true);
 				AudioManager::GetInstance()->PlaySoundEffectById(6, true);
@@ -1861,38 +1923,55 @@ int main()
 			if (combatMenu->IsCombatOver() == true)//if combat is over
 			{
 				combatMenu->setCombatOver(false);
-				testQuest->getCurrentStage()->setCompletionStatus(true);
-				testQuest->setCurrentStageIndex(3);
-				//sewerHatch->SetOpen(true);
-				if(p->getHealth() > 0)
-					popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
-				else
+				if (testQuest->getCurrentStageIndex() == 2)
 				{
-					popupMessageHandler.AddCustomMessage("You were beaten! Go to the sewers and get out of my sight.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
+					testQuest->getCurrentStage()->setCompletionStatus(true);
+					testQuest->setCurrentStageIndex(3);
+					areaManager->UnlockDoorInCurrentArea(1);
+					
+					if (p->getHealth() > 0)
+						popupMessageHandler.AddCustomMessage("Go to the sewers.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
+					else
+					{
+						popupMessageHandler.AddCustomMessage("You were beaten! Go to the sewers and get out of my sight.", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
+					}
+					p->setHealth(100);
+					AudioManager::GetInstance()->StopMusic(3);
+					AudioManager::GetInstance()->PlayMusicById(1);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					currentEnemy = 1;
+					combatMenu->ResetForNextCombat("Assets/Npcs/cultist/downAttack.png", "Necromancer");
 				}
-				//testQuest->getCurrentStage()->setCompletionStatus(true);
-				//testQuest->setCompletionStatus(true);
-				AudioManager::GetInstance()->StopMusic(3);
-				AudioManager::GetInstance()->PlayMusicById(1);
+				else if (testQuest->getCurrentStageIndex() == 5)
+				{
+					testQuest->getCurrentStage()->setCompletionStatus(true);
+					testQuest->setCompletionStatus(true);
+					if(p->getHealth() > 0)
+						popupMessageHandler.AddCustomMessage("You killed a necromancer!", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
+					else popupMessageHandler.AddCustomMessage("You injured a necromancer. Good enough I suppose", sf::Vector2f(screenW / 3, screenH / 4), 5, sf::Color::White);
+					p->setHealth(100);
+					AudioManager::GetInstance()->StopMusic(2);
+					AudioManager::GetInstance()->PlayMusicById(1);
+				}
+
 				prevState = gState;
 				p->IncreaseCombatsComplete(1);
 				p->Notify();
 				gState = GAME;//return to free roam
-				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
-				AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 			}
 
-			combatMenu->Update(p->getHealth(), testEnemy->GetHealth());
+			combatMenu->Update(p->getHealth(), enemies.at(currentEnemy)->GetHealth());
 			combatMenu->Draw(window);
 			achievementTracker->DisplayAchievement(window);
 
-			if (testEnemy->GetHealth() <= 75)
+			if (enemies.at(currentEnemy)->GetHealth() <= 75)
 				enemyMinorWoundEmitter->SetEmit(true);
 			else enemyMinorWoundEmitter->SetEmit(false);
-			if (testEnemy->GetHealth() <= 50)
+			if (enemies.at(currentEnemy)->GetHealth() <= 50)
 				enemyMajorWoundEmitter->SetEmit(true);
 			else enemyMajorWoundEmitter->SetEmit(false);
-			if (testEnemy->GetHealth() <= 25)
+			if (enemies.at(currentEnemy)->GetHealth() <= 25)
 				enemyFatalWoundEmitter->SetEmit(true);
 			else enemyFatalWoundEmitter->SetEmit(false);
 
@@ -2265,8 +2344,7 @@ int main()
 
 				if (saveManager->IsSaving())//if the game is currently being saved
 				{
-					saveManager->SaveGame(p->getRace(), p->getGender(), p->getHealth(), p->GetOpenedChests(), p->GetPotionsDrank(), p->HasPlayerGonePub(), 
-						p->HasPlayerGoneSewers(), p->GetNumberCompletedCombats(), p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
+					saveManager->SaveGame(p, p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
 
 					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
 					AudioManager::GetInstance()->PlaySoundEffectById(26, false);

@@ -586,7 +586,7 @@ int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerB
 
 		if (distanceToPlayer < 300)//so don't bother checking for a collision unless we are reasonably close to the door in the first place
 		{
-			if (doors.at(i)->IsPlayerInDoorway(playerPos))
+			if (doors.at(i)->IsPlayerInDoorway(playerPos) && doors.at(i)->IsOpen())
 			{
 				return doors.at(i)->GetArea();
 				break;
@@ -602,5 +602,15 @@ void Area::ResetStealingNpc()
 	for (int i = 0; i < npcs.size(); i++)
 	{
 		npcs.at(i)->SetHasStolenItem(false);
+	}
+}
+
+/*unlock a door based on its id. param: id of door to unlock*/
+void Area::UnlockDoorById(int doorId)
+{
+	for (int i = 0; i < doors.size(); i++)
+	{
+		if (doors.at(i)->GetId() == doorId)
+			doors.at(i)->SetOpen(true);
 	}
 }

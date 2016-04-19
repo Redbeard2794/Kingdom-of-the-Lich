@@ -51,3 +51,8 @@ int Door::GetArea()
 {
 	return area;
 }
+
+int Door::GetId()
+{
+	return id;
+}

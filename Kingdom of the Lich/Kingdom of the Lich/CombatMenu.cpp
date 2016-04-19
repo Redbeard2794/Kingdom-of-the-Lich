@@ -129,13 +129,15 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 
 	//enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
 	enemySprite.setScale(8, 8);
-	enemySprite.setPosition(screenW/ 1.2, screenH/4);
+	enemySprite.setPosition(screenW/ 1.2, screenH/4); 
 	
 	enemyHealthText.setFont(font);
 	enemyHealthText.setString("Stone Golem Health: ");
 	enemyHealthText.setColor(sf::Color::Red);
 	enemyHealthText.setCharacterSize(30);
 	enemyHealthText.setPosition(screenW/1.5, screenH/3);
+
+	enemyName = "Stone Golem";
 
 	currentOption = 0;
 	currentAction = 0;
@@ -353,7 +355,7 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	window.draw(turnText);
 
 	window.draw(enemySprite);
-	enemyHealthText.setString("Stone Golem Health: " + std::to_string(enemyCurrentHealth));
+	enemyHealthText.setString(enemyName + "Health: " + std::to_string(enemyCurrentHealth));
 	window.draw(enemyHealthText);
 	window.draw(playerRepSprite);
 	playerHealthText.setString("Player Health: " + std::to_string(playerCurrentHealth));
@@ -510,6 +512,36 @@ void CombatMenu::EnemyAttackAnimation()
 	}
 }
 
+void CombatMenu::ResetForNextCombat(std::string ePath, std::string eName)
+{
+	//reset enemy sprite and texture
+	enemyTexture.loadFromFile(ePath);
+	enemySprite.setTexture(enemyTexture);
+	enemyFramePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	enemyFrameSize.x = enemyTexture.getSize().x / numFrames;
+	enemyFrameSize.y = enemyTexture.getSize().y;
+	enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+	enemyAnimationTime = 0.2f;
+	enemySprite.setTextureRect(enemyFrame);
+	enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+	enemySprite.setScale(8, 8);
+	enemySprite.setPosition(screenW / 1.2, screenH / 4);
+	//reset text for enemy health
+	enemyHealthText.setString(eName+ "Health: ");
+
+	combatOver = false;
+	currentOption = 0;
+	currentAction = 0;
+	canMove = true;
+	canSelect = false;
+	finishedAttackAnim = false;
+	enemyFinishedAttackAnim = false;
+	playersTurn = true;
+	turnCount = 0;
+	enemyName = eName;
+}
+
 /*gets & sets start*/
 
 int CombatMenu::getCurrentAction()
@@ -585,6 +617,11 @@ int CombatMenu::GetTurnCount()
 void CombatMenu::IncrementTurnCount()
 {
 	turnCount += 1;
+}
+
+std::string CombatMenu::GetEnemyName()
+{
+	return enemyName;
 }
 
 /*gets & sets end*/
