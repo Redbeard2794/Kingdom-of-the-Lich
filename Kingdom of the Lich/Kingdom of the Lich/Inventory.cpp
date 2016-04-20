@@ -384,6 +384,8 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Now is not the time to write a novel." << std::endl;
 			}
 		}
+		ReorderSlots();
+		CalculateFilledSlots();
 	}
 }
 

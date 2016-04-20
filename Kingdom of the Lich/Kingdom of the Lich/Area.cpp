@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Area.h"
 
-/*Constructor. params: area file path, minimap file path, npc list file path and collidable objects file path*/
+/*Constructor. params: area file path, minimap file path, npc list file path, collidable objects file path, door file path, bed file path, camp fire file path*/
 Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp, std::string firePath)
 {
 	areaFilePath = afp;
@@ -211,6 +211,7 @@ void Area::LoadNpcs()
 	}
 }
 
+/*Load the collidable objects from an xml file*/
 void Area::LoadCollidableObjects()
 {
 	xml_document<> doc;
@@ -270,6 +271,7 @@ void Area::LoadCollidableObjects()
 	}
 }
 
+/*Load the door objects from an xml file*/
 void Area::LoadDoors()
 {
 	xml_document<> doc;
@@ -317,6 +319,7 @@ void Area::LoadDoors()
 	}
 }
 
+/*Load the camp files from an xml file*/
 void Area::LoadFires()
 {
 	if (campFirePath != "")
@@ -433,6 +436,7 @@ void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, 
 	HandleNpcCollidableObjectsCollisions();
 }
 
+/*check if the player and an npc collides. Params are: player pointer, inventory pointer, stolen goods chest poiner, whether a is pressed or not. return true/false and a number based on what the npc does*/
 std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed)
 {
 	for (int i = 0; i < npcs.size(); i++)
@@ -500,6 +504,7 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* player
 	return std::make_pair(false,5);
 }
 
+/*deal with npc and collidable objects collisions*/
 void Area::HandleNpcCollidableObjectsCollisions()
 {
 	for (int i = 0; i < npcs.size(); i++)
@@ -510,7 +515,7 @@ void Area::HandleNpcCollidableObjectsCollisions()
 			{
 				npcs.at(i)->setColliding(true);
 				//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
-				npcs.at(i)->setPosition(npcs.at(i)->GetPreCollisionPos());
+				npcs.at(i)->setPosition(npcs.at(i)->GetPreCollisionPos());//move the npc back to where it was before the collision
 				break;
 			}
 			else
@@ -523,6 +528,7 @@ void Area::HandleNpcCollidableObjectsCollisions()
 
 }
 
+/*Check if the player collides with a collidable object. param is the players bounding box*/
 bool Area::CheckPlayerCollidableObjectsCollision(sf::FloatRect playerBounds)
 {
 	for (int i = 0; i < collidableObjects.size(); i++)
@@ -535,6 +541,7 @@ bool Area::CheckPlayerCollidableObjectsCollision(sf::FloatRect playerBounds)
 	return false;
 }
 
+/*load beds from xml file*/
 void Area::LoadBeds()
 {
 	if (bedPath != "")
@@ -569,6 +576,7 @@ void Area::LoadBeds()
 	}
 }
 
+/*Load greetings for the npcs. params: players race, players gender*/
 void Area::LoadNpcGreetings(int pRace, int pGender)
 {
 	for (int i = 0; i < npcs.size(); i++)
@@ -621,6 +629,7 @@ void Area::MinimapDraw(sf::RenderTarget & window)
 	}
 }
 
+/*Check if the player collides with a door. Params: player position, player bounding box. returns area door leads to*/
 int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerBounds)
 {
 	//if within a certain distance of door check collision,

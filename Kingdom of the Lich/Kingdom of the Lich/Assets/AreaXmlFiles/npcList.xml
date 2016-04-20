@@ -67,12 +67,12 @@
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>
-    <behaviour2>stand</behaviour2>
-    <behaviour2TimeH>12</behaviour2TimeH>
+    <behaviour2>eating</behaviour2>
+    <behaviour2TimeH>10</behaviour2TimeH>
     <behaviour2TimeM>0</behaviour2TimeM>
     <behaviour2TimeS>0</behaviour2TimeS>
     <behaviour3>patrol</behaviour3>
-    <behaviour3TimeH>13</behaviour3TimeH>
+    <behaviour3TimeH>11</behaviour3TimeH>
     <behaviour3TimeM>0</behaviour3TimeM>
     <behaviour3TimeS>0</behaviour3TimeS>
     <behaviour4>eat</behaviour4>
@@ -80,7 +80,7 @@
     <behaviour4TimeM>0</behaviour4TimeM>
     <behaviour4TimeS>0</behaviour4TimeS>
     <bedId>1</bedId>
-    <bedtimeH>21</bedtimeH>
+    <bedtimeH>20</bedtimeH>
     <bedtimeM>30</bedtimeM>
     <bedtimeS>0</bedtimeS>
     <wakeTimeH>9</wakeTimeH>
@@ -278,7 +278,7 @@
 		<y>666</y>
 		<hasQuest>false</hasQuest>
 		<interact>true</interact>
-		<behaviour1>stand</behaviour1>
+		<behaviour1>wander</behaviour1>
     <behaviour1TimeH>9</behaviour1TimeH>
     <behaviour1TimeM>0</behaviour1TimeM>
     <behaviour1TimeS>0</behaviour1TimeS>

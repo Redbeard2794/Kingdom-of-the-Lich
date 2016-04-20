@@ -145,7 +145,8 @@ std::string Enemy::TakeTurn(Player* p, bool crit)
 	if (currentState == Healthy)
 	{
 		//attack the player with a random attack
-		int a = rand() % attacks.size();
+		int max = attacks.size() - 1;
+		int a = rand() % max;
 		if (crit)
 		{
 			p->setHealth(p->getHealth() - (attacks.at(a)->GetDamageValue() + (attacks.at(a)->GetDamageValue()*.25)));
@@ -169,7 +170,8 @@ std::string Enemy::TakeTurn(Player* p, bool crit)
 		else
 		{
 			//attack the player with a stronger attack
-			int a = rand() % attacks.size();
+			int max = attacks.size() - 1;
+			int a = rand() % max;
 
 			for (int i = 0; i < attacks.size(); i++)
 			{

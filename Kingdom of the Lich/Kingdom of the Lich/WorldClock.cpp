@@ -5,8 +5,8 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 {
 	secondClock.restart();
 	currentSeconds = 0;
-	currentMinutes = 0;
-	currentHours = 9;
+	currentMinutes = 27;
+	currentHours = 20;
 
 	timeMultiplier = 0.5;
 
@@ -67,7 +67,7 @@ void WorldClock::Update()
 	{
 		//std::cout << "Current Time: " << currentHours << "::" << currentMinutes << "::" << currentSeconds << std::endl;
 		std::string t = "Current Time: ";
-		if(currentHours > 10)
+		if(currentHours >= 10)
 			t += std::to_string(currentHours) + "::";
 		else t += "0" + std::to_string(currentHours) + "::";
 		if (currentMinutes < 10)

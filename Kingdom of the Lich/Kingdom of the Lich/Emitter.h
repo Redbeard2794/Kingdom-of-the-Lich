@@ -30,12 +30,6 @@ public:
 	/*Update. param is direction to move particles in*/
 	void Update();// int dir = -1);
 
-	///*Add a new footprint particle*/
-	//void AddFootprintParticle(int dir);
-
-	///*Add a new blood drop particle*/
-	//void AddBloodParticle();
-
 	virtual void AddParticle() {}
 
 	/*Remove any particles that are tagged as removable*/

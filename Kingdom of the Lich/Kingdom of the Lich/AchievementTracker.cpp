@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AchievementTracker.h"
 
+/*Constructor. params: player pointer, font, scren width, screen height, audiomanager pointer*/
 AchievementTracker::AchievementTracker(Player* p, sf::Font f, int sw, int sh, AudioManager* am) : player(p), font(f), screenW(sw), screenH(sh)
 {
 	player->addObserver(this);
@@ -19,10 +20,12 @@ AchievementTracker::AchievementTracker(Player* p, sf::Font f, int sw, int sh, Au
 	messageBackground.setFillColor(sf::Color::Black);
 }
 
+/*destructor*/
 AchievementTracker::~AchievementTracker()
 {
 }
 
+/*Load achievements from xml*/
 void AchievementTracker::LoadAchievements()
 {
 	xml_document<> doc;
@@ -38,10 +41,9 @@ void AchievementTracker::LoadAchievements()
 	xml_node<>* achievementList = doc.first_node("AchievementList");
 	xml_node<>* achievement = achievementList->first_node("Achievement");
 
-	//load in each npc's information and then create them
+	//load in each achievements's information and then create them
 	while (achievement != NULL)
 	{
-		//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour
 		std::string name = "";
 		int id = 0;
 		bool locked = true;
@@ -57,7 +59,7 @@ void AchievementTracker::LoadAchievements()
 
 		texturePath = achievement->first_node("iconTexturePath")->value();
 
-		/*Create the npc*/
+		/*Create the achievement*/
 		Achievement* n = new Achievement(name, id, locked, texturePath, screenW, screenH);
 		lockedAchievements.push_back(n);
 
@@ -67,6 +69,7 @@ void AchievementTracker::LoadAchievements()
 	std::cout << "Achievements loaded" << std::endl;
 }
 
+/*update the unlocked achievements list by checking if the player has the pre requisites to unlock them*/
 void AchievementTracker::Update()
 {
 	for (int i = 0; i < lockedAchievements.size(); i++)
@@ -183,6 +186,7 @@ void AchievementTracker::Update()
 	}
 }
 
+/*display a newly unlocked achievement*/
 void AchievementTracker::DisplayAchievement(sf::RenderTarget & window)
 {
 	for (int i = 0; i < unlockedAchievements.size(); i++)

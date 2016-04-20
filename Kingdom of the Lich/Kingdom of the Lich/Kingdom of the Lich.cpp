@@ -331,7 +331,7 @@ int main()
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
 
 	Enemy* stoneGolem = new Enemy("Assets/Enemy/golemDownAttack1.png", 100, 20, 0, sf::Vector2f(800, 1600));
-	Enemy* necromancer1 = new Enemy("Assets/Npcs/cultist/downAttack.png", 70, 40, 1, sf::Vector2f(1300, 1200));
+	Enemy* necromancer1 = new Enemy("Assets/Npcs/cultist/Idle/downIdle.png", 70, 40, 1, sf::Vector2f(1300, 1200));
 
 	std::vector<Enemy*> enemies;
 	enemies.push_back(stoneGolem);
@@ -1251,6 +1251,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1263,6 +1266,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 					showMinimap = false;
 				}
 
@@ -1275,6 +1281,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1286,6 +1295,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1302,6 +1314,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 					showMinimap = false;
 				}
 			}
@@ -1513,6 +1528,9 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(29);
+					AudioManager::GetInstance()->StopSfx(30);
+					AudioManager::GetInstance()->StopSfx(31);
 					AudioManager::GetInstance()->StopSfx(21);
 				}
 
@@ -1582,6 +1600,13 @@ int main()
 				window.draw(*stoneGolem);
 				if (debugMode)
 					stoneGolem->DrawBoundingBox(window);
+			}
+
+			if (necromancer1->GetHealth() > 0 && areaManager->GetCurrentArea() == SEWER)
+			{
+				window.draw(*necromancer1);
+				if (debugMode)
+					necromancer1->DrawBoundingBox(window);
 			}
 
 			if (gamepad->Start())//if the player presses start
@@ -1696,7 +1721,7 @@ int main()
 				}
 				else if (chance > 8)//miss
 				{
-					popupMessageHandler.AddCustomMessage("The " + combatMenu->GetEnemyName() + "missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+					popupMessageHandler.AddCustomMessage("The " + combatMenu->GetEnemyName() + " missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 				}
 
 				combatMenu->SetPlayersTurn(true);
@@ -1813,7 +1838,10 @@ int main()
 								int chance = rand() % 10;
 								if (chance < 8 && chance > 3)//hit
 								{
-									popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									if(currentEnemy == 0)
+										popupMessageHandler.AddCustomMessage("You stab the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									else if(currentEnemy == 1)
+										popupMessageHandler.AddCustomMessage("You stab the necromancer!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 15);
 									combatMenu->SetUpAttackAnimations(true);
 								}
@@ -1823,7 +1851,7 @@ int main()
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 18);
 									combatMenu->SetUpAttackAnimations(true);
 								}
-								else if (chance > 8)//miss
+								else if (chance >= 8)//miss
 								{
 									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 								}
@@ -1834,7 +1862,10 @@ int main()
 								int chance = rand() % 10;
 								if (chance < 8 && chance > 3)//hit
 								{
-									popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									if(currentEnemy == 0)
+										popupMessageHandler.AddCustomMessage("You chop at the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									else if(currentEnemy == 1)
+										popupMessageHandler.AddCustomMessage("You chop at the necromancer!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 20);
 									combatMenu->SetUpAttackAnimations(true);
 								}
@@ -1844,7 +1875,7 @@ int main()
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 25);
 									combatMenu->SetUpAttackAnimations(true);
 								}
-								else if (chance > 8)//miss
+								else if (chance >= 8)//miss
 								{
 									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 								}
@@ -1855,7 +1886,10 @@ int main()
 								int chance = rand() % 10;
 								if (chance < 8 && chance > 3)//hit
 								{
-									popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									if(currentEnemy == 0)
+										popupMessageHandler.AddCustomMessage("You slice the golem!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+									else if(currentEnemy == 1)
+										popupMessageHandler.AddCustomMessage("You slice the necromancer!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 25);
 									combatMenu->SetUpAttackAnimations(true);
 								}
@@ -1865,7 +1899,7 @@ int main()
 									enemies.at(currentEnemy)->setHealth(enemies.at(currentEnemy)->GetHealth() - 31);
 									combatMenu->SetUpAttackAnimations(true);
 								}
-								else if(chance > 8)//miss
+								else if(chance >= 8)//miss
 								{
 									popupMessageHandler.AddCustomMessage("You missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
 								}

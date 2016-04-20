@@ -611,6 +611,10 @@ bool CombatMenu::IsPlayersTurn()
 void CombatMenu::SetPlayersTurn(bool t)
 {
 	playersTurn = t;
+	if(playersTurn == true)
+		std::cout << "It is the players turn" << std::endl;
+	else if(playersTurn == false)
+		std::cout << "It is not the players turn" << std::endl;
 }
 
 int CombatMenu::GetTurnCount()

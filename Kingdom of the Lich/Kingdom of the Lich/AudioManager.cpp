@@ -130,9 +130,9 @@ void AudioManager::PlaySpatializedSoundEffect(bool loop, int soundId, bool relLi
 	soundEffects.at(soundId)->setLoop(loop);
 	if(soundEffects.at(soundId)->getStatus() != PLAYING)
 		soundEffects.at(soundId)->play();
-	std::cout << "Position: " << soundEffects.at(soundId)->getPosition().x << ", " << soundEffects.at(soundId)->getPosition().y << ", " << soundEffects.at(soundId)->getPosition().z << std::endl;
-	std::cout << "MinDistance: " << soundEffects.at(soundId)->getMinDistance() << std::endl;
-	std::cout << "Attenuation: " << soundEffects.at(soundId)->getAttenuation() << std::endl;
-	std::cout << "Volume: " << soundEffects.at(soundId)->getVolume() << std::endl;
-	std::cout << "Status: " << soundEffects.at(soundId)->getStatus() << std::endl;
+	//std::cout << "Position: " << soundEffects.at(soundId)->getPosition().x << ", " << soundEffects.at(soundId)->getPosition().y << ", " << soundEffects.at(soundId)->getPosition().z << std::endl;
+	//std::cout << "MinDistance: " << soundEffects.at(soundId)->getMinDistance() << std::endl;
+	//std::cout << "Attenuation: " << soundEffects.at(soundId)->getAttenuation() << std::endl;
+	//std::cout << "Volume: " << soundEffects.at(soundId)->getVolume() << std::endl;
+	//std::cout << "Status: " << soundEffects.at(soundId)->getStatus() << std::endl;
 }
