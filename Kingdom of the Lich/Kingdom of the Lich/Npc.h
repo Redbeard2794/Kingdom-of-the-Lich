@@ -146,6 +146,8 @@ private:
 
 	sf::Vector2f preCollisionPos;
 
+	int wanderCount;
+
 public: 
 
 	//fix these up later

@@ -873,7 +873,7 @@ int main()
 					{
 						if (raceAndGenderMenu->getCurrentState() == 0)//choosing race
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
 							{
 								p->setRace(raceAndGenderMenu->getCurrentlySelectedRace());
 								std::cout << "race: " << p->getRace() << std::endl;
@@ -881,7 +881,7 @@ int main()
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
 								AudioManager::GetInstance()->PlaySoundEffectById(2, true);
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
 							{
 								raceAndGenderMenu->setCurrentState(0);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
@@ -891,7 +891,7 @@ int main()
 
 						else if (raceAndGenderMenu->getCurrentState() == 1)//choosing gender
 						{
-							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)
+							if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 0)//yes
 							{
 								p->setGender(raceAndGenderMenu->getCurrentlySelectedGender());
 								raceAndGenderMenu->setCurrentState(2);
@@ -919,7 +919,7 @@ int main()
 								pauseMenu->SetPunchTexture(p->getRace(), p->getGender());
 								areaManager->LoadGreetings(p->getRace(), p->getGender());
 							}
-							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)
+							else if (ConfirmationDialogBox::GetInstance()->getCurrentOption() == 1)//no
 							{
 								raceAndGenderMenu->setCurrentState(1);
 								ConfirmationDialogBox::GetInstance()->setVisible(false);
@@ -1066,7 +1066,7 @@ int main()
 				else p->setCollidingStatus(false);
 
 
-				if (p->getGlobalBounds().intersects(stolenGoodsChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)
+				if (p->getGlobalBounds().intersects(stolenGoodsChest->getGlobalBounds()) && areaManager->GetCurrentArea() == TUTORIAL)//collide with stolengoods chest and in tutorial area
 				{
 					if (gamepad->A() == true)
 					{
@@ -1180,6 +1180,8 @@ int main()
 					p->setCollidingStatus(false);
 				}
 			}
+
+			//draw the correct background
 			if (areaManager->GetCurrentArea() == TUTORIAL)
 				window.draw(tutorialAreaMap);
 			else if (areaManager->GetCurrentArea() == SEWER)
@@ -1203,6 +1205,7 @@ int main()
 			//update the player
 			p->Update();
 
+			//show player footprints
 			playerFootprintEmitter->setPosition(sf::Vector2f(p->getPosition().x, p->getPosition().y));
 			playerFootprintEmitter->SetDirection(p->getCurrentDirection());
 			playerFootprintEmitter->Update();// p->getCurrentDirection());
@@ -1323,13 +1326,14 @@ int main()
 			else if (areaManager->GetCurrentArea() == SEWER)
 			{
 				//window.draw(*sewerExit);
-				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())
 				{
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(2);
 					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(1100+50, 1000);
+					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -1340,13 +1344,14 @@ int main()
 			}
 			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
 			{
-				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())
 				{
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(2);
 					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(500, 400);
+					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -1358,13 +1363,14 @@ int main()
 			}
 			else if (areaManager->GetCurrentArea() == House1)
 			{
-				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())
 				{
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(2);
 					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
+					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -1377,13 +1383,14 @@ int main()
 
 			else if (areaManager->GetCurrentArea() == House2)
 			{
-				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())
 				{
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(2);
 					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(600, 400);
+					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -1396,13 +1403,14 @@ int main()
 
 			else if (areaManager->GetCurrentArea() == TheDrunkenDragonInn)
 			{
-				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())// && sewerExit->IsOpen())
+				if (areaManager->GetAreaToChangeTo() == TUTORIAL && gamepad->A())
 				{
 					AudioManager::GetInstance()->PlaySoundEffectById(9, false);
 					AudioManager::GetInstance()->StopMusic(2);
 					AudioManager::GetInstance()->PlayMusicById(1);
 					areaManager->ChangeArea(TUTORIAL);
 					p->setPosition(530, 1200);
+					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -1446,7 +1454,7 @@ int main()
 				}
 				else p->setCollidingStatus(false);
 
-				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).first)
+				if (areaManager->CheckCollisionPlayerNpcs(p, testInv, stolenGoodsChest, gamepad->A()).first)//if npc has a quest
 				{
 					p->setCollidingStatus(true);
 					//npcVector.at(i)->setColliding(true);
@@ -2232,7 +2240,7 @@ int main()
 
 			
 
-			if (gamepad->A())
+			if (gamepad->A())//select an option
 			{
 				if (optionsMenu->GetCanSelect() == true)
 				{
@@ -2261,7 +2269,7 @@ int main()
 			}
 			else optionsMenu->SetCanSelect(true);
 
-			if (gamepad->B())
+			if (gamepad->B())//go back a state
 			{
 				if (optionsMenu->GetCanBackOut())
 				{
@@ -2319,7 +2327,7 @@ int main()
 				else areaShops[areaManager->GetCurrentArea()]->SetCanMove(true);
 
 
-				if (gamepad->A())
+				if (gamepad->A())//selecting the current option
 				{
 					if (areaShops[areaManager->GetCurrentArea()]->GetCanSelect() == true)
 					{
@@ -2344,7 +2352,7 @@ int main()
 				}
 				else areaShops[areaManager->GetCurrentArea()]->SetCanSelect(true);
 				
-				if (gamepad->B())
+				if (gamepad->B())//go back a state
 				{
 					if (areaShops[areaManager->GetCurrentArea()]->GetCanBackOut())
 					{
@@ -2413,9 +2421,9 @@ int main()
 
 				if (saveManager->IsSaving())//if the game is currently being saved
 				{
-					saveManager->SaveGame(p, p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);
+					saveManager->SaveGame(p, p->getPosition(), areaManager->GetCurrentArea(), testInv, testQuest, worldClock);//save the game
 
-					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");
+					screenShot.saveToFile("Saves/save" + std::to_string(saveManager->GetCurrentSelected()+1) + "ScreenShot.png");//save the screenshot so it can be displayed
 					AudioManager::GetInstance()->PlaySoundEffectById(26, false);
 				}
 
@@ -2473,6 +2481,7 @@ int main()
 
 							//popupMessageHandler.AddCustomMessage("Go and talk to Commander Iron-Arm. Use your compass to find him.", sf::Vector2f(screenW / 5, screenH / 3), 5, sf::Color::Black);
 							//popupMessageHandler.AddPreBuiltMessage(1, sf::Vector2f(screenW / 2, screenH / 4), 5);
+
 							if (saveManager->GetCurrentState() == 5)//if the player exits/finishes
 							{
 								prevState = LOAD;
@@ -2567,6 +2576,7 @@ int main()
 				{
 					if (prevState == CHOOSERACEGENDER)
 					{
+						//set up positional audio
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
@@ -2579,10 +2589,11 @@ int main()
 					gState = GAME;
 				}
 
-				if (gamepad->A())
+				if (gamepad->A())//if story was skipped
 				{
 					if (prevState == CHOOSERACEGENDER)
 					{
+						//set up positional audio
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);

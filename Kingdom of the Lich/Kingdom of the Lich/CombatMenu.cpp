@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CombatMenu.h"
 
-/*constructor*/
+/*constructor. params: font, path for enemy texture, screen width, screen height*/
 CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 {
 	playersTurn = false;
@@ -178,6 +178,7 @@ CombatMenu::~CombatMenu()
 
 }
 
+//set the correct texture for the player based on race and gender. params: player race, player gender
 void CombatMenu::SetPlayerRepSprite(int race, int gender)
 {
 	std::string filePath = "Assets/Player/";
@@ -200,6 +201,7 @@ void CombatMenu::SetPlayerRepSprite(int race, int gender)
 	playerRepTexture.loadFromFile(filePath);
 	playerRepSprite.setTexture(playerRepTexture);
 
+	//set up for animation
 	framePosition = sf::Vector2i(0, 0);
 	numFrames = 4;
 	frameSize.x = playerRepTexture.getSize().x / numFrames;
@@ -332,6 +334,7 @@ void CombatMenu::MoveSelectionDown()
 	}
 }
 
+//set the player and enemy health. params: player health, enemy health
 void CombatMenu::Update(int playerHealth, int enemyHealth)
 {
 	playerCurrentHealth = playerHealth;
@@ -433,6 +436,7 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	}
 }
 
+//move th eplayer sprite in front of the enemy so it can attack
 void CombatMenu::MovePlayerToAttack()
 {
 	if (playerRepSprite.getPosition().x < enemySprite.getPosition().x-100)
@@ -441,6 +445,7 @@ void CombatMenu::MovePlayerToAttack()
 		playerRepSprite.setPosition(playerRepSprite.getPosition().x, playerRepSprite.getPosition().y - 1);
 }
 
+//set up attack animation for player or enemy based on parameter passed in. true = player, false = enemy
 void CombatMenu::SetUpAttackAnimations(bool player)
 {
 	if (player)
@@ -457,9 +462,10 @@ void CombatMenu::SetUpAttackAnimations(bool player)
 	}
 }
 
+//animate the players attack
 void CombatMenu::PlayerAttackAnimation()
 {
-	if (!finishedAttackAnim)
+	if (!finishedAttackAnim)//if animation not finished
 	{
 		if (animationClock.getElapsedTime().asSeconds() > animationTime)
 		{
@@ -484,9 +490,10 @@ void CombatMenu::PlayerAttackAnimation()
 	}
 }
 
+//animate the enemies attack
 void CombatMenu::EnemyAttackAnimation()
 {
-	if (!enemyFinishedAttackAnim)
+	if (!enemyFinishedAttackAnim)//if animation not finished
 	{
 		if (enemyAnimationClock.getElapsedTime().asSeconds() > enemyAnimationTime)
 		{
@@ -512,6 +519,7 @@ void CombatMenu::EnemyAttackAnimation()
 	}
 }
 
+//reset textures and turn values etc to be ready for the next combat. params: path to enemy texture, enemy name
 void CombatMenu::ResetForNextCombat(std::string ePath, std::string eName)
 {
 	//reset enemy sprite and texture

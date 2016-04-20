@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Door.h"
 
+/*constructor. params: type, position, whether its open or not, area it leads to, id*/
 Door::Door(int t, sf::Vector2f pos, bool o, int a, int i) : type(t), open(o), area(a), id(i)
 {
 	if (type == TrapDoor)
@@ -25,11 +26,13 @@ Door::Door(int t, sf::Vector2f pos, bool o, int a, int i) : type(t), open(o), ar
 	setPosition(pos);
 }
 
+//destructor
 Door::~Door()
 {
 
 }
 
+//check if the player is standing in the doorway
 bool Door::IsPlayerInDoorway(sf::Vector2f playerPos)
 {
 	if (getGlobalBounds().contains(playerPos))
@@ -37,6 +40,7 @@ bool Door::IsPlayerInDoorway(sf::Vector2f playerPos)
 	else return false;
 }
 
+//is the door open
 bool Door::IsOpen()
 {
 	return open;

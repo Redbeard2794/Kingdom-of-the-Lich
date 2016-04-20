@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "CampFire.h"
 
+/*constructor. params: position and id*/
 CampFire::CampFire(sf::Vector2f pos, int i) : id(i)
 {
 	if (texture.loadFromFile("Assets/Tiles/sewerLevel/clutterObjects/fire/campFireSheet.png")) {}
 	else texture.loadFromFile("Assets/Debug.png");
 	setTexture(texture);
 
+	//set up the frame for the animation
 	framePosition = sf::Vector2i(0, 0);
 	numFrames = 3;
 	frameSize.x = texture.getSize().x / numFrames;
@@ -25,13 +27,15 @@ CampFire::CampFire(sf::Vector2f pos, int i) : id(i)
 	setPosition(pos);
 }
 
+//destructor
 CampFire::~CampFire()
 {
 }
 
+//animate the fire
 void CampFire::Update()
 {
-	if (animationClock.getElapsedTime().asSeconds() > animationTime)
+	if (animationClock.getElapsedTime().asSeconds() > animationTime)//time to move frame on
 	{
 		if (framePosition.x < texture.getSize().x - frameSize.x)
 			framePosition.x += frameSize.x;//move the frame forward

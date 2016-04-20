@@ -61,13 +61,14 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 
 	LoadInteractHintTexture(controller);
 
-	if (currentBehaviour == "wander" || currentBehaviour == "patrol")//if the npc is to wander
-	{
+	//if (currentBehaviour == "wander" || currentBehaviour == "patrol")//if the npc is to wander
+	//{
 		wanderPos = sf::Vector2f(getPosition().x + (rand() % 100 + 10), getPosition().y);
 		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 		timeBetweenWander = rand() % 7 + 2;
-	}
-	else if (currentBehaviour == "walkPattern")//if the npc is to walk around in a pattern
+		wanderCount = 0;
+	//}
+	if (currentBehaviour == "walkPattern")//if the npc is to walk around in a pattern
 	{
 		patternPoints.push_back(getPosition());
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(0).x, patternPoints.at(0).y + 400));
@@ -362,6 +363,8 @@ void Npc::Wander()
 				prevWanderPos = wanderPos;
 				//set the next position to wander to
 				wanderPos = sf::Vector2f(getPosition().x + xChange, getPosition().y + yChange);
+
+				
 			}
 
 			else wanderPos = prevPos;//go to the previous position
@@ -371,6 +374,8 @@ void Npc::Wander()
 
 			//restart the clock
 			wanderClock.restart();
+
+			wanderCount += 1;
 		}
 
 		//sort out orientation here

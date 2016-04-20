@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Bed.h"
 
+/*constructor. params are an id and a position*/
 Bed::Bed(int i, sf::Vector2f pos) : id(i)
 {
 	if (texture.loadFromFile("Assets/bedRoll.png")) {}
@@ -12,11 +13,13 @@ Bed::Bed(int i, sf::Vector2f pos) : id(i)
 	setColor(sf::Color::Cyan);
 }
 
+//destructor
 Bed::~Bed()
 {
 	texture.~Texture();
 }
 
+/*Retrieve this beds id*/
 int Bed::GetId()
 {
 	return id;

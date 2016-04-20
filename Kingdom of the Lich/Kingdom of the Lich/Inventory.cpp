@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Inventory.h"
 
-/*Constructor*/
+/*Constructor. params: font, whether using a controller or not, screen width, screen height*/
 Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), showControllerHints(controller)
 {
 	screenW = sw;
@@ -11,6 +11,7 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	canMove = true;
 	canSelect = true;
 
+	//load the item keys
 	std::vector<std::string> allKeys;
 	std::string line;
 	std::ifstream myfile("Assets/Inventory/itemKeys.txt");
@@ -24,6 +25,7 @@ Inventory::Inventory(sf::Font f, bool controller, int sw, int sh) : font(f), sho
 	}
 	else std::cout << "Unable to open itemKeys.txt file!" << std::endl;
 
+	//store the item keys in structs
 	i_healthPotion.key = allKeys.at(0);
 	allKeys.erase(allKeys.begin() + 0);
 	i_ale.key = allKeys.at(0);
@@ -191,7 +193,7 @@ void Inventory::PrintAllInventory()
 
 /*
 Checks the quantity of an item
-parameter is the item name
+parameter is the item name and whether you want to see cout statements
 */
 int Inventory::CheckQuantity(std::string itemToCheck, bool output)
 {
@@ -224,8 +226,9 @@ void Inventory::AddItemToInventory(std::string itemToAddTo, int quantityToAdd)
 	{
 		if (it->first == itemToAddTo)
 		{
-			if (it->second < 99)
+			if (it->second < 99)//rule of 99 system
 			{
+				//update the quantity in th emap
 				std::cout << "Adding " << quantityToAdd << " to " << itemToAddTo << std::endl;
 				inventoryItems[itemToAddTo] = it->second + quantityToAdd;
 
@@ -235,7 +238,7 @@ void Inventory::AddItemToInventory(std::string itemToAddTo, int quantityToAdd)
 					if (itemSlots.at(i)->GetCurrentItemKey() == itemToAddTo)
 						foundKey = true;
 				}
-				if(foundKey == false)
+				if(foundKey == false)//make an item slot for an item the player didn't already have
 					itemSlots.push_back(new ItemSlot(itemToAddTo, itemSlots.size() + 1, font));
 
 			}
@@ -282,7 +285,7 @@ void Inventory::RemoveItemFromInventory(std::string itemToRemoveFrom, int quanti
 
 /*
 Use an item from the inventory
-parameter is the itme to use
+parameter is a pointer to the player and audiomanager
 */
 void Inventory::UseItem(Player& p, AudioManager& audioManager)
 {
@@ -297,7 +300,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Using a health potion now" << std::endl;
 				RemoveItemFromInventory(i_healthPotion.key, 1);
 				std::cout << "Healing the player" << std::endl;
-				p.setHealth(p.getHealth() + 25);
+				p.setHealth(p.getHealth() + 25);//apply the items effect
 				p.IncreasePotionsDrank(1);
 				p.Notify();
 			}
@@ -311,7 +314,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Drinking a nice bottle of ale." << std::endl;
 				RemoveItemFromInventory(i_ale.key, 1);
 				std::cout << "Healed the player slightly. Add drunkness effect later...." << std::endl;
-				p.setHealth(p.getHealth() + 7);
+				p.setHealth(p.getHealth() + 7);//apply the items effect
 			}
 			else std::cout << "You do not have any ale :(" << std::endl;
 		}
@@ -323,7 +326,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Eating some bread now." << std::endl;
 				RemoveItemFromInventory(i_bread.key, 1);
 				std::cout << "Healing the player." << std::endl;
-				p.setHealth(p.getHealth() + 10);
+				p.setHealth(p.getHealth() + 10);//apply the items effect
 			}
 			else std::cout << "you do not have any Loaves of Bread" << std::endl;
 		}
@@ -335,7 +338,7 @@ void Inventory::UseItem(Player& p, AudioManager& audioManager)
 				std::cout << "Eating an apple now." << std::endl;
 				RemoveItemFromInventory(i_apple.key, 1);
 				std::cout << "Healing the player" << std::endl;
-				p.setHealth(p.getHealth() + 10);//get the healing value from a file in future?
+				p.setHealth(p.getHealth() + 10);//apply the items effect
 			}
 			else std::cout << "You do not have any apples." << std::endl;
 		}
@@ -482,6 +485,7 @@ void Inventory::Draw(sf::RenderTarget& window)
 				itemSlots.at(i)->Draw(window, inventoryItems[itemSlots.at(i)->GetCurrentItemKey()], sf::Color::Red, true);
 			else itemSlots.at(i)->Draw(window, inventoryItems[itemSlots.at(i)->GetCurrentItemKey()], sf::Color::White, false);
 
+			//set sprite positions
 			if (itemSlots.at(i)->GetCurrentItemKey() == i_healthPotion.key)
 			{
 				healthPotSprite.setPosition(250, 75 * itemSlots.at(i)->GetSlotNumber());

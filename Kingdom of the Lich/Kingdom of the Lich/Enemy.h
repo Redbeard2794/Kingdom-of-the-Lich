@@ -45,13 +45,14 @@ private:
 	int numHealingItems;
 
 public:
-	/*Constructor, params are assetPath, health, how rare the enemy is, the enemy type*/
+	/*Constructor, params are assetPath, health, how rare the enemy is, the enemy type and postion*/
 	Enemy(std::string assetPath, float h, float r, int t, sf::Vector2f pos);
 
 	~Enemy();
 
 	void Update();
 
+	//take the turn. params: player pointer and whether it is a critical hit or not
 	std::string TakeTurn(Player* p, bool crit);
 
 	void DrawBoundingBox(sf::RenderTarget& window);

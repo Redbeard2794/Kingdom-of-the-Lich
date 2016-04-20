@@ -23,19 +23,23 @@ private:
 	sf::RectangleShape hourHand;
 
 	sf::Texture backgroundTexture;
-	//sf::Sprite backgroundSprite;
 
 public:
+	//constructor. params: font, screen width and screen height
 	WorldClock(sf::Font f, int screenW, int screenH);
+
+	//destructor
 	~WorldClock();
 
+	//update the time text and call updateSeconds()
 	void Update();
 
+	//update the second hand
 	void UpdateSeconds();
+	//update the minute hand
 	void UpdateMinutes();
+	//update the hour hand
 	void UpdateHours();
-
-	
 
 	int GetCurrentHours();
 	int GetCurrentMinutes();
@@ -47,8 +51,6 @@ public:
 	void SetCurrentSecs(int s);
 
 	void DrawClockText(sf::RenderTarget& window);
-
-	void DrawBackground(sf::RenderTarget& window);
 };
 
 #endif

@@ -60,10 +60,13 @@ public:
 	//destructor
 	~SaveManager();
 
-	//save game
+	//save game. params: player pointer, player psotiion, current area, inventory pointer, quest pointer, clock pointer
 	void SaveGame(Player* p, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock);
 
-	//load a game. return true if the save is not empty. if it is then load a new game
+	/*
+	load a game. return true if the save is not empty. if it is then load a new game. 
+	params: player pointer, achievement tracker pointer, areamanager pointer, inventory pointer, quest pointer, clock pointer
+	*/
 	bool LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1, WorldClock* clock);
 
 	//clear all save slots of save data

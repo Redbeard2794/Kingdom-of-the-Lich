@@ -78,7 +78,7 @@ public:
 		std::string key;
 	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
 
-	/*Constructor*/
+	/*Constructor. params: font, whether using a controller or not, screen width, screen height*/
 	Inventory(sf::Font f, bool controller, int sw, int sh);
 
 	/*Destructor*/
@@ -95,7 +95,7 @@ public:
 
 	/*
 	Checks the quantity of an item
-	parameter is the item name
+	parameter is the item name and whether you want to see cout statements
 	*/
 	int CheckQuantity(std::string itemToCheck, bool output);
 
@@ -115,7 +115,7 @@ public:
 
 	/*
 	Use an item from the inventory
-	parameter is a pointer to the player
+	parameter is a pointer to the player and audiomanager
 	*/
 	void UseItem(Player& p, AudioManager& audioManager);
 

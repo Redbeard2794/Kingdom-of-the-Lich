@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "WorldClock.h"
 
+//constructor. params: font, screen width and screen height
 WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 {
 	secondClock.restart();
 	currentSeconds = 0;
-	currentMinutes = 27;
-	currentHours = 20;
+	currentMinutes = 0;
+	currentHours = 9;
 
 	timeMultiplier = 0.5;
 
@@ -49,15 +50,14 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 	if (backgroundTexture.loadFromFile("Assets/newClockBackground.png")) {}
 	else backgroundTexture.loadFromFile("Assets/Debug.png");
 	setTexture(&backgroundTexture);
-	//backgroundSprite.setTexture(backgroundTexture);
-	//backgroundSprite.setOrigin(backgroundTexture.getSize().x / 2, backgroundTexture.getSize().y / 2);
-	//backgroundSprite.setPosition(getPosition());
 }
 
+//destructor
 WorldClock::~WorldClock()
 {
 }
 
+//update the time text and call updateSeconds()
 void WorldClock::Update()
 {
 	int prevS = currentSeconds;
@@ -81,12 +81,13 @@ void WorldClock::Update()
 	}
 }
 
+//update the second hand
 void WorldClock::UpdateSeconds()
 {
 	if (secondClock.getElapsedTime().asSeconds() > timeMultiplier)
 	{
 		secondClock.restart();
-		if (currentSeconds < 58)
+		if (currentSeconds < 59)
 		{
 			currentSeconds += 1;
 			secondHand.rotate(6);
@@ -100,9 +101,10 @@ void WorldClock::UpdateSeconds()
 	}
 }
 
+//update the minute hand
 void WorldClock::UpdateMinutes()
 {
-	if (currentMinutes < 58)
+	if (currentMinutes < 59)
 	{
 		currentMinutes += 1;
 		minuteHand.rotate(6);
@@ -115,9 +117,10 @@ void WorldClock::UpdateMinutes()
 	}
 }
 
+//update the hour hand
 void WorldClock::UpdateHours()
 {
-	if (currentHours < 23)
+	if (currentHours < 23)//24 hour clock
 	{
 		currentHours += 1;
 		hourHand.rotate(30);
@@ -166,9 +169,4 @@ void WorldClock::DrawClockText(sf::RenderTarget & window)
 	window.draw(hourHand);
 	window.draw(clockTextBackground);
 	window.draw(timeText);
-}
-
-void WorldClock::DrawBackground(sf::RenderTarget & window)
-{
-	//window.draw(backgroundSprite);
 }

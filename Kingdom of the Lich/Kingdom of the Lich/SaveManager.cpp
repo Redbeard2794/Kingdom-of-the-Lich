@@ -73,11 +73,13 @@ SaveManager::SaveManager(sf::Font f, int sw, int sh) :font(f), screenW(sw), scre
 	saving = false;
 }
 
+//destructor
 SaveManager::~SaveManager()
 {
 	savePath.clear();
 }
 
+// save game.params: player pointer, player psotiion, current area, inventory pointer, quest pointer, clock pointer
 void SaveManager::SaveGame(Player* p, sf::Vector2f pos, int areaVal, Inventory* playerInv, Quest* q1, WorldClock* clock)
 {
 	xml_document<> doc;
@@ -307,7 +309,10 @@ void SaveManager::SaveGame(Player* p, sf::Vector2f pos, int areaVal, Inventory* 
 	saving = false;
 }
 
-//load a game. return true if the save is not empty. if it is then load a new game
+/*
+load a game. return true if the save is not empty. if it is then load a new game.
+params: player pointer, achievement tracker pointer, areamanager pointer, inventory pointer, quest pointer, clock pointer
+*/
 bool SaveManager::LoadGame(Player* player, AchievementTracker* achievementTracker, AreaManager* areaManager, Inventory* playerInv, Quest* q1, WorldClock* clock)
 {
 	savePath = "Saves/save" + std::to_string(currentSelected + 1) + ".xml";
@@ -634,7 +639,7 @@ void SaveManager::ClearAllSaveSlots()
 
 void SaveManager::UpdateState()
 {
-	if (currentState == SAVE && currentSelected == 0)
+	if (currentState == SAVE && currentSelected == 0)//set textures for save slot images
 	{
 		currentState = ChooseSaveSlot;
 		saveHeading.setString("Choose a save slot");
@@ -648,11 +653,11 @@ void SaveManager::UpdateState()
 		else slotThreeTexture.loadFromFile("Saves/EmptySlotImage.png");
 		slotImages[2].setTexture(&slotThreeTexture);
 	}
-	else if (currentState == SAVE && currentSelected == 1)
+	else if (currentState == SAVE && currentSelected == 1)//time to exit
 	{
 		currentState = EXIT;
 	}
-	else if (currentState == ChooseSaveSlot)
+	else if (currentState == ChooseSaveSlot)//time to select a save slot
 	{
 		saving = true;
 		savePath = "Saves/save" + std::to_string(currentSelected + 1) + ".xml";
@@ -722,6 +727,7 @@ void SaveManager::NavDown()
 	}
 }
 
+//draw. param: render target
 void SaveManager::Draw(sf::RenderTarget & window)
 {
 	if (currentState == SAVE)

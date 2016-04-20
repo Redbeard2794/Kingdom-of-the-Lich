@@ -48,6 +48,7 @@ private:
 	//player health
 	sf::Text playerHealthText;
 
+	//enemies representation
 	sf::Texture enemyTexture;
 	sf::Sprite enemySprite;
 	sf::Vector2i enemyFramePosition;
@@ -94,7 +95,7 @@ private:
 	int screenW;
 	int screenH;
 
-	bool playersTurn;
+	bool playersTurn;//is it the players turn
 
 	int turnCount;
 	sf::Text turnText;
@@ -102,12 +103,13 @@ private:
 	std::string enemyName;
 
 public:
-	/*constructor*/
+	/*constructor. params: font, path for enemy texture, screen width, screen height*/
 	CombatMenu(sf::Font f, std::string ePath, int sw, int sh);
 
 	/*destructor*/
 	~CombatMenu();
 
+	//set the correct texture for the player based on race and gender. params: player race, player gender
 	void SetPlayerRepSprite(int race, int gender);
 
 	//move right through the menu(for choosing action)
@@ -122,19 +124,25 @@ public:
 	//move down through the menu(for choosing attack/item)
 	void MoveSelectionDown();
 
+	//set the player and enemy health. params: player health, enemy health
 	void Update(int playerHealth, int enemyHealth);
 
 	/*Draw all elements of the menu*/
 	void Draw(sf::RenderTarget& window);
 
+	//move th eplayer sprite in front of the enemy so it can attack
 	void MovePlayerToAttack();
 
+	//set up attack animation for player or enemy based on parameter passed in. true = player, false = enemy
 	void SetUpAttackAnimations(bool player);
 
+	//animate the players attack
 	void PlayerAttackAnimation();
 
+	//animate the enemies attack
 	void EnemyAttackAnimation();
 
+	//reset textures and turn values etc to be ready for the next combat. params: path to enemy texture, enemy name
 	void ResetForNextCombat(std::string ePath, std::string eName);
 
 	/*gets & sets start*/

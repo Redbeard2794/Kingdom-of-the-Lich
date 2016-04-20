@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AreaManager.h"
 
+/*constructor. params: font, screen width, screen height*/
 AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), screenH(sh)
 {
 	Area* tutorialArea = new Area("Assets/tutorialArea.tmx", "Assets/lowPolyTutorialArea.tmx", "Assets/AreaXmlFiles/npcList.xml", "Assets/AreaXmlFiles/TutorialAreaCollidableObjects.xml", "Assets/AreaXmlFiles/TutorialAreaDoors.xml", "Assets/AreaXmlFiles/tutorialAreaBeds.xml", "Assets/AreaXmlFiles/TutorialAreaFires.xml");
@@ -30,11 +31,13 @@ AreaManager::AreaManager(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	currentAreaText.setPosition(screenW/8, screenH - 125);
 }
 
+/*destructor*/
 AreaManager::~AreaManager()
 {
 
 }
 
+/*Update the current area and the current area text. params: player position, current time in hours, minutes and seconds*/
 void AreaManager::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds)
 {
 	areas.at(currentArea)->Update(playerPos, currentHours, currentMinutes, currentSeconds);
@@ -52,27 +55,32 @@ void AreaManager::Update(sf::Vector2f playerPos, int currentHours, int currentMi
 		currentAreaText.setString("Current Area: The Drunken Dragon Inn");
 }
 
+/*change the current area. param: index of area to change to*/
 void AreaManager::ChangeArea(int areaToChangeTo)
 {
 	if(currentArea!=areaToChangeTo)
 		currentArea = areaToChangeTo;
 }
 
+/*check if the player and an npc collides. Params are: player pointer, inventory pointer, stolen goods chest poiner, whether a is pressed or not. return true/false and a number based on what the npc does*/
 std::pair<bool, int> AreaManager::CheckCollisionPlayerNpcs(Player * p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed)
 {
 	return areas.at(currentArea)->CheckNpcPlayerCollisions(p, playerInv, stolenGoodsChest, aPressed);
 }
 
+/*deal with npc and collidable objects collisions*/
 bool AreaManager::CheckPlayerCollidableObjectsCollisions(sf::FloatRect playerBounds)
 {
 	return areas.at(currentArea)->CheckPlayerCollidableObjectsCollision(playerBounds);
 }
 
+/*Draw the current area. params area a render target and whether to draw debug mde stuff*/
 void AreaManager::Draw(sf::RenderTarget & window, bool debugMode)
 {
 	areas.at(currentArea)->Draw(window, debugMode);
 }
 
+//draw the name of the current area
 void AreaManager::DrawCurrentAreaText(sf::RenderTarget & window)
 {
 	window.draw(currentAreaText);
@@ -88,6 +96,7 @@ void AreaManager::ResetAreaStealingNpcs()
 	areas.at(currentArea)->ResetStealingNpc();
 }
 
+//unlock a door in the current area. param: id of door to unlock
 void AreaManager::UnlockDoorInCurrentArea(int id)
 {
 	areas.at(currentArea)->UnlockDoorById(id);
@@ -103,6 +112,7 @@ void AreaManager::SetCurrentArea(int a)
 	currentArea = a;
 }
 
+/*check for a collision with a door and get ready to change area*/
 void AreaManager::CheckDoors(sf::Vector2f playerPos, sf::FloatRect playerBounds)
 {
 	int a = areas.at(currentArea)->CheckDoorPlayerCollision(playerPos, playerBounds);
