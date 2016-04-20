@@ -160,6 +160,7 @@
     <ClInclude Include="Bed.h" />
     <ClInclude Include="BloodEmitter.h" />
     <ClInclude Include="BloodParticle.h" />
+    <ClInclude Include="CampFire.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="CollidableObject.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Bed.cpp" />
     <ClCompile Include="BloodEmitter.cpp" />
     <ClCompile Include="BloodParticle.cpp" />
+    <ClCompile Include="CampFire.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="CollidableObject.cpp" />

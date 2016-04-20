@@ -101,6 +101,12 @@ private:
 	sf::SoundBuffer laughSoundBuffer;
 	sf::Sound laughSound;
 
+	sf::SoundBuffer campFireSoundBuffer;
+	sf::Sound campFireSound;
+	sf::Sound campFireSound2;
+	sf::Sound campFireSound3;
+	sf::Sound campFireSound4;
+
 	//vector of sound effects
 	std::vector<sf::Sound*> soundEffects;
 
@@ -256,6 +262,13 @@ private:
 		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/evilLaugh.wav'" << std::endl;
 		laughSound.setBuffer(laughSoundBuffer);
 
+		if (campFireSoundBuffer.loadFromFile("Assets/Audio/SoundEffects/campFireSound.wav")) {}
+		else std::cout << "Failed to load 'Assets/Audio/SoundEffects/campFireSound.wav'" << std::endl;
+		campFireSound.setBuffer(campFireSoundBuffer);
+		campFireSound2.setBuffer(campFireSoundBuffer);
+		campFireSound3.setBuffer(campFireSoundBuffer);
+		campFireSound4.setBuffer(campFireSoundBuffer);
+
 		//vector of sound effects
 		soundEffects.push_back(&charCreationOpeningSound);//0
 		soundEffects.push_back(&menuNavSound);//1
@@ -285,6 +298,10 @@ private:
 		soundEffects.push_back(&pickAppleSound);//25
 		soundEffects.push_back(&saveSound);//26
 		soundEffects.push_back(&laughSound);//27
+		soundEffects.push_back(&campFireSound);//28
+		soundEffects.push_back(&campFireSound2);//29
+		soundEffects.push_back(&campFireSound3);//30
+		soundEffects.push_back(&campFireSound4);//31
 	}
 
 public:

@@ -540,6 +540,10 @@ void CombatMenu::ResetForNextCombat(std::string ePath, std::string eName)
 	playersTurn = true;
 	turnCount = 0;
 	enemyName = eName;
+
+	if (combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/brick/brickBack" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")) {}
+	else combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/grass/grass_template2.jpg");
+	combatBackgroundSprite.setTexture(combatBackgroundTexture);
 }
 
 /*gets & sets start*/

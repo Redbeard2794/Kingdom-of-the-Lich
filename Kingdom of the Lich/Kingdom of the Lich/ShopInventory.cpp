@@ -45,7 +45,10 @@ ShopInventory::ShopInventory(int niStock, std::string oName, int availGems, std:
 
 	shopGreetText.setFont(font);
 	shopGreetText.setColor(sf::Color::White);
-	shopGreetText.setString("Hello, I am " + ownersName + ". Welcome to my shop.\n How can I help you?");
+	if(oName == "Norbert Lelles")
+		shopGreetText.setString("Hello, I am " + ownersName + ". Welcome to my shop.\n How can I help you?");
+	else if(oName == "Andreas Draconis")
+		shopGreetText.setString("Hello, I am " + ownersName + ". Welcome to my inn.\n Can I get you something?");
 	shopGreetText.setPosition(screenW / 10, screenH / 5);
 	shopGreetText.setCharacterSize(50);
 

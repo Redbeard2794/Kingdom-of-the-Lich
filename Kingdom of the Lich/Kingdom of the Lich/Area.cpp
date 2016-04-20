@@ -2,7 +2,7 @@
 #include "Area.h"
 
 /*Constructor. params: area file path, minimap file path, npc list file path and collidable objects file path*/
-Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp)
+Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp, std::string firePath)
 {
 	areaFilePath = afp;
 	areaMinimapFilePath = amfp;
@@ -10,12 +10,14 @@ Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cof
 	areaDoorListFilePath = doorPath;
 	collidableObjectsFilePath = cofp;
 	bedPath = bedsp;
+	campFirePath = firePath;
 
 	LoadNpcs();
 	LoadCollidableObjects();
 
 	LoadDoors();
 	LoadBeds();
+	LoadFires();
 }
 
 /*Destructor*/
@@ -315,9 +317,48 @@ void Area::LoadDoors()
 	}
 }
 
+void Area::LoadFires()
+{
+	if (campFirePath != "")
+	{
+		xml_document<> doc;
+		std::ifstream file(campFirePath);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<>* fireList = doc.first_node("FireList");
+		xml_node<>* fireObject = fireList->first_node("fire");
+
+		//load in each fires information and then create them
+		while (fireObject != NULL)
+		{
+			int id = std::atoi(fireObject->first_node("id")->value());
+
+			int x = std::atoi(fireObject->first_node("x")->value());
+
+			int y = std::atoi(fireObject->first_node("y")->value());
+
+			/*Create the camp fire*/
+			CampFire * f = new CampFire(sf::Vector2f(x, y), id);
+			campFires.push_back(f);
+
+			/*Move onto the next bed object tag*/
+			fireObject = fireObject->next_sibling("fire");
+		}
+	}
+}
+
 /*Update the map, minimap and npcs*/
 void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds)
 {
+	for (int i = 0; i < campFires.size(); i++)
+	{
+		campFires.at(i)->Update();
+	}
+
 	for (int i = 0; i < npcs.size(); i++)
 	{
 
@@ -544,10 +585,14 @@ void Area::Draw(sf::RenderTarget & window, bool debugMode)
 		window.draw(*doors.at(i));
 	}
 
-	//draw beds after npcs when sleeping
 	for (int i = 0; i < beds.size(); i++)
 	{
 		window.draw(*beds.at(i));
+	}
+
+	for (int i = 0; i < campFires.size(); i++)
+	{
+		window.draw(*campFires.at(i));
 	}
 
 	for (int i = 0; i < npcs.size(); i++)

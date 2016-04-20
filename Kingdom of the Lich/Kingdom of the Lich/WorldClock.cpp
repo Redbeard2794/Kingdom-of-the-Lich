@@ -8,7 +8,7 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 	currentMinutes = 0;
 	currentHours = 9;
 
-	timeMultiplier = 0.2;
+	timeMultiplier = 0.5;
 
 	timeText.setFont(font);
 	timeText.setCharacterSize(20);
@@ -24,27 +24,34 @@ WorldClock::WorldClock(sf::Font f, int screenW, int screenH) : font(f)
 
 	setPosition(screenW - 150, 80);
 	setRadius(60);
-	setFillColor(sf::Color(sf::Color(192, 192, 192, 255)));
-	setOutlineColor(sf::Color::Black);
-	setOutlineThickness(2);
-	setPointCount(60);
+	setFillColor(sf::Color(sf::Color(212, 175, 55, 255)));
+	setOutlineColor(sf::Color(30,144,255,255));
+	setOutlineThickness(3);
+	setPointCount(120);
 	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 
-	secondHand.setSize(sf::Vector2f(3, 60));
+	secondHand.setSize(sf::Vector2f(2, 60));
 	secondHand.setOrigin(secondHand.getSize().x / 2, secondHand.getSize().y);
 	secondHand.setFillColor(sf::Color::Red);
 	secondHand.setPosition(getPosition());
 
-	minuteHand.setSize(sf::Vector2f(5, 60));
+	minuteHand.setSize(sf::Vector2f(4, 60));
 	minuteHand.setOrigin(minuteHand.getSize().x / 2, minuteHand.getSize().y);
 	minuteHand.setFillColor(sf::Color::Black);
 	minuteHand.setPosition(getPosition());
 
-	hourHand.setSize(sf::Vector2f(8, 60));
+	hourHand.setSize(sf::Vector2f(6, 60));
 	hourHand.setOrigin(hourHand.getSize().x / 2, hourHand.getSize().y);
 	hourHand.setFillColor(sf::Color::Black);
 	hourHand.setPosition(getPosition());
 	hourHand.setRotation(270);
+
+	if (backgroundTexture.loadFromFile("Assets/newClockBackground.png")) {}
+	else backgroundTexture.loadFromFile("Assets/Debug.png");
+	setTexture(&backgroundTexture);
+	//backgroundSprite.setTexture(backgroundTexture);
+	//backgroundSprite.setOrigin(backgroundTexture.getSize().x / 2, backgroundTexture.getSize().y / 2);
+	//backgroundSprite.setPosition(getPosition());
 }
 
 WorldClock::~WorldClock()
@@ -79,13 +86,14 @@ void WorldClock::UpdateSeconds()
 	if (secondClock.getElapsedTime().asSeconds() > timeMultiplier)
 	{
 		secondClock.restart();
-		if (currentSeconds < 59)
+		if (currentSeconds < 58)
 		{
 			currentSeconds += 1;
 			secondHand.rotate(6);
 		}
 		else
 		{
+			secondHand.setRotation(0);
 			currentSeconds = 0;
 			UpdateMinutes();
 		}
@@ -94,13 +102,14 @@ void WorldClock::UpdateSeconds()
 
 void WorldClock::UpdateMinutes()
 {
-	if (currentMinutes < 59)
+	if (currentMinutes < 58)
 	{
 		currentMinutes += 1;
 		minuteHand.rotate(6);
 	}
 	else
 	{
+		secondHand.setRotation(0);
 		currentMinutes = 0;
 		UpdateHours();
 	}
@@ -151,9 +160,15 @@ void WorldClock::SetCurrentSecs(int s)
 
 void WorldClock::DrawClockText(sf::RenderTarget & window)
 {
+	//window.draw(backgroundSprite);
 	window.draw(secondHand);
 	window.draw(minuteHand);
 	window.draw(hourHand);
 	window.draw(clockTextBackground);
 	window.draw(timeText);
+}
+
+void WorldClock::DrawBackground(sf::RenderTarget & window)
+{
+	//window.draw(backgroundSprite);
 }

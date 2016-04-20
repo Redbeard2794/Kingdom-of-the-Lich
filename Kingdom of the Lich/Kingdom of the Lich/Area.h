@@ -9,6 +9,7 @@ using namespace rapidxml;
 #include "Door.h"
 #include "Bed.h"
 #include "Inventory.h"
+#include "CampFire.h"
 
 class Area
 {
@@ -33,10 +34,13 @@ private:
 	std::string bedPath;
 	std::vector<Bed*> beds;
 
+	std::string campFirePath;
+	std::vector<CampFire*> campFires;
+
 public:
 
 	/*Constructor. params: area file path, minimap file path, npc list file path and collidable objects file path*/
-	Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp);
+	Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp, std::string firePath);
 
 	/*Destructor*/
 	~Area();
@@ -47,6 +51,8 @@ public:
 	void LoadCollidableObjects();
 
 	void LoadDoors();
+
+	void LoadFires();
 
 	/*Update the map, minimap and npcs*/
 	void Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds);

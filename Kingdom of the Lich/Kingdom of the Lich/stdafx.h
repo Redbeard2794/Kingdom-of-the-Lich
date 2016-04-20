@@ -81,5 +81,6 @@
 #include "PathFinder.h"
 #include "Bed.h"
 #include "StoryPopup.h"
+#include "CampFire.h"
 
 #endif

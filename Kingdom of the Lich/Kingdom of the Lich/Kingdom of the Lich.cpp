@@ -500,6 +500,7 @@ int main()
 						gState = CHOOSERACEGENDER;
 						testInv->AddItemToInventory(testInv->i_gems.key, 5);
 						testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
+						testInv->AddItemToInventory(testInv->i_apple.key, 1);
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
 					{
@@ -572,6 +573,7 @@ int main()
 						gState = CHOOSERACEGENDER;
 						testInv->AddItemToInventory(testInv->i_gems.key, 5);
 						testInv->AddItemToInventory(testInv->i_baracksKey.key, 1);
+						testInv->AddItemToInventory(testInv->i_apple.key, 1);
 					}
 					else if (mainMenu->getSelectedOption() == 1)//continue game
 					{
@@ -1248,6 +1250,7 @@ int main()
 					}
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 				}
 
 				else if (areaManager->GetAreaToChangeTo() == LellesQualityMerchandise && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1259,6 +1262,7 @@ int main()
 					//AudioManager::GetInstance()->SetListenersPosition(screenW / 2, screenH / 2);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 					showMinimap = false;
 				}
 
@@ -1270,6 +1274,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == House2 && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1280,6 +1285,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 					showMinimap = false;
 				}
 				else if (areaManager->GetAreaToChangeTo() == TheDrunkenDragonInn && gamepad->A())// && generalStoreDoor->IsOpen())
@@ -1295,6 +1301,7 @@ int main()
 					}
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 					showMinimap = false;
 				}
 			}
@@ -1310,6 +1317,10 @@ int main()
 					p->setPosition(1100+50, 1000);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 1625, 325);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
@@ -1323,6 +1334,10 @@ int main()
 					p->setPosition(500, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1337,6 +1352,10 @@ int main()
 					p->setPosition(600, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1352,6 +1371,10 @@ int main()
 					p->setPosition(600, 400);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1367,6 +1390,10 @@ int main()
 					p->setPosition(530, 1200);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1485,6 +1512,7 @@ int main()
 					gState = COMBAT;
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(21);
 				}
 
@@ -1587,6 +1615,7 @@ int main()
 
 			achievementTracker->DisplayAchievement(window);
 
+			//worldClock->DrawBackground(window);
 			window.draw(*worldClock);
 			worldClock->DrawClockText(window);
 
@@ -1942,6 +1971,10 @@ int main()
 					AudioManager::GetInstance()->PlayMusicById(1);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 					currentEnemy = 1;
 					combatMenu->ResetForNextCombat("Assets/Npcs/cultist/downAttack.png", "Necromancer");
 				}
@@ -2502,6 +2535,10 @@ int main()
 					{
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 						AudioManager::GetInstance()->PlayMusicById(1);
 					}
 					prevState = STORY;
@@ -2514,6 +2551,10 @@ int main()
 					{
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
 						AudioManager::GetInstance()->PlayMusicById(1);
 					}
 					prevState = STORY;

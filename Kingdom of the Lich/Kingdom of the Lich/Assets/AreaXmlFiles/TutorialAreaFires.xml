@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FireList>
+
+  <fire>
+    <id>1</id>
+    <x>275</x>
+    <y>425</y>
+  </fire>
+
+  <fire>
+    <id>2</id>
+    <x>675</x>
+    <y>475</y>
+  </fire>
+
+  <fire>
+    <id>3</id>
+    <x>825</x>
+    <y>475</y>
+  </fire>
+
+  <fire>
+    <id>4</id>
+    <x>1625</x>
+    <y>325</y>
+  </fire>
+
+</FireList>

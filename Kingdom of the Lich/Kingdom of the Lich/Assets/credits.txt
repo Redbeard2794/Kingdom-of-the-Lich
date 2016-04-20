@@ -114,3 +114,7 @@ apple tree: http://opengameart.org/content/forest-tiles
 capitalism achievement icon: http://opengameart.org/content/gold-treasure-icons
 
 sewer combat background: http://opengameart.org/node/45590
+
+clock face background: https://www.pinterest.com/pin/351280839656555616/?from_navigate=true
+
+camp fire sound: http://opengameart.org/content/fire-crackling

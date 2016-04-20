@@ -22,6 +22,9 @@ private:
 	sf::RectangleShape minuteHand;
 	sf::RectangleShape hourHand;
 
+	sf::Texture backgroundTexture;
+	//sf::Sprite backgroundSprite;
+
 public:
 	WorldClock(sf::Font f, int screenW, int screenH);
 	~WorldClock();
@@ -44,6 +47,8 @@ public:
 	void SetCurrentSecs(int s);
 
 	void DrawClockText(sf::RenderTarget& window);
+
+	void DrawBackground(sf::RenderTarget& window);
 };
 
 #endif
