@@ -1253,6 +1253,7 @@ int main()
 					}
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
@@ -1268,6 +1269,7 @@ int main()
 					//AudioManager::GetInstance()->SetListenersPosition(screenW / 2, screenH / 2);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
@@ -1283,6 +1285,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
@@ -1297,6 +1300,7 @@ int main()
 					p->setPosition(80, 300);
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
@@ -1316,6 +1320,7 @@ int main()
 					}
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(28);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
@@ -1336,10 +1341,10 @@ int main()
 					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 1625, 325);
 				}
 			}
 			else if (areaManager->GetCurrentArea() == LellesQualityMerchandise)
@@ -1354,10 +1359,10 @@ int main()
 					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1373,10 +1378,10 @@ int main()
 					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1393,10 +1398,10 @@ int main()
 					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1413,10 +1418,10 @@ int main()
 					//play positional audio
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 					showMinimap = true;
 				}
 			}
@@ -1536,6 +1541,7 @@ int main()
 					AudioManager::GetInstance()->StopSfx(17);
 					AudioManager::GetInstance()->StopSfx(18);
 					AudioManager::GetInstance()->StopSfx(28);
+					AudioManager::GetInstance()->StopSfx(27);
 					AudioManager::GetInstance()->StopSfx(29);
 					AudioManager::GetInstance()->StopSfx(30);
 					AudioManager::GetInstance()->StopSfx(31);
@@ -2013,10 +2019,10 @@ int main()
 					AudioManager::GetInstance()->PlayMusicById(1);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+					AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 					currentEnemy = 1;
 					combatMenu->ResetForNextCombat("Assets/Npcs/cultist/downAttack.png", "Necromancer");
 				}
@@ -2579,10 +2585,10 @@ int main()
 						//set up positional audio
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 						AudioManager::GetInstance()->PlayMusicById(1);
 					}
 					prevState = STORY;
@@ -2596,10 +2602,10 @@ int main()
 						//set up positional audio
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 17, false, 15, 1, 400, 920);
 						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 18, false, 10, 1, 400, 1000);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 10, 1, 275, 425);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 10, 1, 675, 475);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 10, 1, 825, 475);
-						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 10, 1, 1625, 325);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 28, false, 5, 1, 275, 425);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 29, false, 5, 1, 675, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 30, false, 5, 1, 825, 475);
+						AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 31, false, 5, 1, 1625, 325);
 						AudioManager::GetInstance()->PlayMusicById(1);
 					}
 					prevState = STORY;
