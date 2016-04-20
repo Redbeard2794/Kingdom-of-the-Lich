@@ -46,7 +46,7 @@ int main()
 	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
 
 	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich");// , sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height, 32), "Kingdom of the Lich" , sf::Style::Fullscreen);
 	std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
 	sf::RenderWindow *pWindow = &window;
 
@@ -325,7 +325,7 @@ int main()
 	//play the first song
 	AudioManager::GetInstance()->PlayMusicById(0);
 
-	bool debugMode = true;
+	bool debugMode = false;
 
 	//testing quest
 	Quest* testQuest = new Quest(2, "Learn how chests work", "Commander Iron-Arm", sf::Vector2f(1000,1000), 1, 5, 5);
@@ -1736,6 +1736,16 @@ int main()
 				else if (chance > 8)//miss
 				{
 					popupMessageHandler.AddCustomMessage("The " + combatMenu->GetEnemyName() + " missed!", sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Blue);
+				}
+				else
+				{
+					popupMessageHandler.AddCustomMessage(enemies.at(currentEnemy)->TakeTurn(p, false), sf::Vector2f(screenW / 2.5, screenH / 2.5), 0.7, sf::Color::Red);
+					combatMenu->SetUpAttackAnimations(false);
+					int soundCoin = rand() % 2;
+					if (soundCoin == 0)
+						AudioManager::GetInstance()->PlaySoundEffectById(14, false);
+					else AudioManager::GetInstance()->PlaySoundEffectById(15, false);
+					gamepad->Rumble(800, 300);
 				}
 
 				combatMenu->SetPlayersTurn(true);
