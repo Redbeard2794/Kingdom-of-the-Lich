@@ -16,10 +16,75 @@
     <walkRightPath>Assets/Npcs/oldMan/Moving/rightSheet.png</walkRightPath>
     <mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
     <x>275</x>
-    <y>75</y>
-    <hasQuest>true</hasQuest>
+    <y>150</y>
+    <hasQuest>false</hasQuest>
     <interact>true</interact>
-    <behaviour>stand</behaviour>
+    <behaviour1>shopkeeper</behaviour1>
+    <behaviour1TimeH>8</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>shopkeeper</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>shopkeeper</behaviour3>
+    <behaviour3TimeH>18</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>shopkeeper</behaviour4>
+    <behaviour4TimeH>8</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
+  </npc>
+
+  <npc name='customer 1'>
+    <id>1</id>
+    <race>Human</race>
+    <gender>Male</gender>
+    <idleUpPath>Assets/Npcs/maleTownFolk1/Idle/upIdle.png</idleUpPath>
+    <idleDownPath>Assets/Npcs/maleTownFolk1/Idle/downIdle.png</idleDownPath>
+    <idleLeftPath>Assets/Npcs/maleTownFolk1/Idle/leftIdle.png</idleLeftPath>
+    <idleRightPath>Assets/Npcs/maleTownFolk1/Idle/rightIdle.png</idleRightPath>
+    <numberOfFrames>3</numberOfFrames>
+    <walkUpPath>Assets/Npcs/maleTownFolk1/Moving/upSheet.png</walkUpPath>
+    <walkDownPath>Assets/Npcs/maleTownFolk1/Moving/downSheet.png</walkDownPath>
+    <walkLeftPath>Assets/Npcs/maleTownFolk1/Moving/leftSheet.png</walkLeftPath>
+    <walkRightPath>Assets/Npcs/maleTownFolk1/Moving/rightSheet.png</walkRightPath>
+    <mapIconTexturePath>Assets/npcMinimapIcon.png</mapIconTexturePath>
+    <x>200</x>
+    <y>250</y>
+    <hasQuest>false</hasQuest>
+    <interact>true</interact>
+    <behaviour1>wander</behaviour1>
+    <behaviour1TimeH>8</behaviour1TimeH>
+    <behaviour1TimeM>0</behaviour1TimeM>
+    <behaviour1TimeS>0</behaviour1TimeS>
+    <behaviour2>wander</behaviour2>
+    <behaviour2TimeH>12</behaviour2TimeH>
+    <behaviour2TimeM>0</behaviour2TimeM>
+    <behaviour2TimeS>0</behaviour2TimeS>
+    <behaviour3>wander</behaviour3>
+    <behaviour3TimeH>18</behaviour3TimeH>
+    <behaviour3TimeM>0</behaviour3TimeM>
+    <behaviour3TimeS>0</behaviour3TimeS>
+    <behaviour4>wander</behaviour4>
+    <behaviour4TimeH>8</behaviour4TimeH>
+    <behaviour4TimeM>0</behaviour4TimeM>
+    <behaviour4TimeS>0</behaviour4TimeS>
+    <bedId>0</bedId>
+    <bedtimeH>0</bedtimeH>
+    <bedtimeM>0</bedtimeM>
+    <bedtimeS>0</bedtimeS>
+    <wakeTimeH>0</wakeTimeH>
+    <wakeTimeM>0</wakeTimeM>
+    <wakeTimeS>0</wakeTimeS>
   </npc>
 
 </npcList>

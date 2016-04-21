@@ -1,6 +1,9 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include "Emitter.h"
+#include "FootprintEmitter.h"
+
 class Npc : public sf::Sprite
 {
 private:
@@ -16,7 +19,8 @@ private:
 
 	bool hasQuest;
 
-	std::string behaviour;
+	std::string currentBehaviour;
+
 
 
 	sf::Sprite interactHintSprite;
@@ -76,7 +80,95 @@ private:
 
 	bool interactable;
 
+	FootprintEmitter* footprintEmitter;
+
+	int bedId;
+	int bedtimeH;
+	int bedtimeM;
+	int bedtimeS;
+
+	int wakeTimeH;
+	int wakeTimeM;
+	int wakeTimeS;
+
+	bool timeForBed;
+	sf::Vector2f bedPos;
+
+	bool inBed;
+
+	sf::Texture bedTexture;
+	sf::Sprite bedSprite;
+
+	sf::Vector2f patrolPoint1;
+	sf::Vector2f patrolPoint2;
+	sf::Vector2f patrolPoint3;
+	sf::Vector2f patrolPoint4;
+	bool patrolPointsPicked;
+	sf::Clock patrolWanderClock;
+	bool patrolPointReached;
+	int currentPatrolPoint;
+
+	std::string greetingFilePath;
+	std::vector<std::string> greetings;
+	sf::Font font;
+	sf::Text greetingText;
+
+	bool displayGreeting;
+	sf::Clock greetingClock;
+
+	sf::Texture speechBubbleTexture;
+	sf::Sprite speechBubbleSprite;
+
+	bool atAnvil;
+	bool atForge;
+	float anvilAnimTime;
+	float forgeAnimTime;
+	int workPoint;
+	sf::Texture workAnimTexture;
+	sf::Clock workClock;
+
+	bool itemStolen;
+
+	bool reachedAppleStart;
+	sf::Vector2f appleStartPoint;
+	sf::Vector2f appleEndPoint;
+
+	std::vector<sf::Vector2f> applePoints;
+	int currentApplePoint;
+	bool spotPicked;
+
+	sf::Clock wanderClock;
+
+	sf::Clock eatClock;
+	sf::Texture foodTexture;
+	sf::Sprite foodSprite;
+	bool eating;
+
+	sf::Vector2f preCollisionPos;
+
+	int wanderCount;
+
 public: 
+
+	//fix these up later
+	int behvaiour1H;
+	int behvaiour1M;
+	int behvaiour1S;
+	int behvaiour2H;
+	int behvaiour2M;
+	int behvaiour2S;
+	int behvaiour3H;
+	int behvaiour3M;
+	int behvaiour3S;
+	int behvaiour4H;
+	int behvaiour4M;
+	int behvaiour4S;
+
+	std::string behaviour1;
+	std::string behaviour2;
+	std::string behaviour3;
+	std::string behaviour4;
+
 	//name, id, race, gender, texturePath, mapIconTexturePath, x, y, hasQuest, behaviour, show keyboard or controller hint
 	Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath, int numFrames, 
 		std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath
@@ -98,15 +190,46 @@ public:
 
 	/*Follow the position that is passed in. This is a modified Seek algorithm
 	(it can only move up, down, left orright but not at the same time). Only allows 4 directions of movement*/
-	void Follow(sf::Vector2f positionToFollow);
+	void Follow(sf::Vector2f positionToFollow, bool follow);
+
+	void SetBehaviour(int behaviourNum);
+
+	void GoToBed(sf::Vector2f bedPos);
+
+	void WakeUp();
+
+	//npcs with the forge behaviour will work at the blacksmiths forge and anvil
+	void Forge();
+
+	void Patrol();
+
+	/*walk between apple trees*/
+	void PickApples();
+
+	void Eat();
+
+	//actively avoid the player if they are close enough
+	void AvoidPlayer(sf::Vector2f playerPos);
+
+	//load greetings based on player race and gender
+	void LoadGreetings(int pRace, int pGender);
 
 	/*Draw the interaction hint sprite*/
 	void draw(sf::RenderTarget& window);
 	
+	//choose a greeting to display
+	void ChooseMessage();
+	//draw a greeting if the npc is interacted with
+	void DrawMessage(sf::RenderTarget& window);
+
+	void DrawBedCovers(sf::RenderTarget& window);
+
 	/*Draw the npc on the minimap as an icon*/
 	void MinimapDraw(sf::RenderTarget& window);
 
 	void DrawBoundingBox(sf::RenderTarget& window);
+
+	void DrawFood(sf::RenderTarget& window);
 
 	//gets
 
@@ -117,7 +240,7 @@ public:
 	//hasQuest
 	bool doesNpcHaveQuest();
 	//behaviour
-	std::string getBehaviour();
+	std::string getCurrentBehaviour();
 
 	bool IsColliding();
 
@@ -126,6 +249,41 @@ public:
 	float CheckDistanceToPlayer();
 
 	void setShowHint(bool s);
+
+	void SetBedId(int id);
+	int GetBedId();
+
+	void SetBedtimeH(int h);
+	int GetBedtimeH();
+
+	void SetBedtimeM(int m);
+	int GetBedtimeM();
+
+	void SetBedtimeS(int s);
+	int GetBedtimeS();
+
+	bool IsTimeForBed();
+	void SetIsTimeForBed(bool b);
+
+	void SetBedPos(sf::Vector2f bpos);
+
+	bool IsInBed();
+	void SetInBed(bool b);
+
+	int GetWakeTH();
+	void SetWakeTH(int h);
+	void SetWakeTM(int m);
+	int GetWakeTM();
+	void SetWakeTS(int s);
+	int GetWakeTS();
+
+	bool IsInteractable();
+
+	bool HasStolenItem();
+	void SetHasStolenItem(bool h);
+
+	void SetPreCollisionPos(sf::Vector2f p);
+	sf::Vector2f GetPreCollisionPos();
 };
 
 #endif

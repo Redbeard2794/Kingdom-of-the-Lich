@@ -1,0 +1,33 @@
+<Save>
+	<race>human</race>
+	<gender>male</gender>
+	<health>75.000000</health>
+	<numChests>0</numChests>
+	<numPotionsUsed>0</numPotionsUsed>
+	<pubFirst>0</pubFirst>
+	<sewerFirst>0</sewerFirst>
+	<numCombatsComplete>0</numCombatsComplete>
+	<stealFromAThief>0</stealFromAThief>
+	<capitalism>0</capitalism>
+	<chatterbox>0</chatterbox>
+	<weeksWages>5</weeksWages>
+	<x>716.000000</x>
+	<y>440.000000</y>
+	<area>0</area>
+	<healthPotionQuantity>0</healthPotionQuantity>
+	<aleQuantity>0</aleQuantity>
+	<breadQuantity>0</breadQuantity>
+	<appleQuantity>1</appleQuantity>
+	<gemQuantity>5</gemQuantity>
+	<baracksKeyQuantity>1</baracksKeyQuantity>
+	<parchmentQuantity>0</parchmentQuantity>
+	<inkBottleQuantity>0</inkBottleQuantity>
+	<quillQuantity>0</quillQuantity>
+	<quest1Complete>0</quest1Complete>
+	<quest1CurrentStage>0</quest1CurrentStage>
+	<currentQuest>0</currentQuest>
+	<clockHours>10</clockHours>
+	<clockMins>59</clockMins>
+	<clockSecs>20</clockSecs>
+</Save>
+

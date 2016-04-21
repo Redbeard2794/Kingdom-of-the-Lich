@@ -5,7 +5,7 @@
 Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath, std::string idleLeftPath, std::string idleRightPath,
 	int numFrames, std::string walkUpPath, std::string walkDownPath, std::string walkLeftPath, std::string walkRightPath, std::string mapIconTexturePath, 
 	sf::Vector2f pos, std::string quest, std::string interact, std::string beh, bool controller)
-	: name(n), id(i), behaviour(beh), numberOfFrames(numFrames)
+	: name(n), id(i), currentBehaviour(beh), numberOfFrames(numFrames)
 {
 	//load all idle textures
 	if (downIdleTexture.loadFromFile(idleDownPath)) { }
@@ -30,11 +30,18 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	idle = true;
 	
 
-	if (behaviour == "forge")
+	if (currentBehaviour == "forge")
 	{
 		setTexture(leftIdleTexture);
 		setOrigin(leftIdleTexture.getSize().x / 2, leftIdleTexture.getSize().y / 2);
 		currentDirection = LEFT;
+		atAnvil = true;
+		atForge = false;
+		behaviourClock.restart();
+		anvilAnimTime = 0.4;
+		forgeAnimTime = 1;
+		workPoint = 0;
+		workAnimTexture.loadFromFile("Assets/Npcs/blacksmith/hammerSheet.png");
 	}
 	else
 	{
@@ -54,13 +61,14 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 
 	LoadInteractHintTexture(controller);
 
-	if (behaviour == "wander")//if the npc is to wander
-	{
+	//if (currentBehaviour == "wander" || currentBehaviour == "patrol")//if the npc is to wander
+	//{
 		wanderPos = sf::Vector2f(getPosition().x + (rand() % 100 + 10), getPosition().y);
 		std::cout << name << " is wandering to " << wanderPos.x << ", " << wanderPos.y << std::endl;
 		timeBetweenWander = rand() % 7 + 2;
-	}
-	else if (behaviour == "walkPattern")//if the npc is to walk around in a pattern
+		wanderCount = 0;
+	//}
+	if (currentBehaviour == "walkPattern")//if the npc is to walk around in a pattern
 	{
 		patternPoints.push_back(getPosition());
 		patternPoints.push_back(sf::Vector2f(patternPoints.at(0).x, patternPoints.at(0).y + 400));
@@ -82,6 +90,63 @@ Npc::Npc(std::string n, int i, std::string idleUpPath, std::string idleDownPath,
 	if (quest == "true")
 		hasQuest = true;
 	else hasQuest = false;
+
+	footprintEmitter = new FootprintEmitter(sf::Vector2f(0, 0), 0.3f, 1);
+
+	timeForBed = false;
+	inBed = false;
+
+	bedTexture.loadFromFile("Assets/bedRoll.png");
+	bedSprite.setTexture(bedTexture);
+	bedSprite.setOrigin(bedTexture.getSize().x / 2, bedTexture.getSize().y / 2);
+	//bedSprite.scale(0.8, 0.8);
+
+	patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+	patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+	patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+	patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
+	patrolPointsPicked = true;
+	patrolWanderClock.restart();
+	currentPatrolPoint = 1;
+
+	
+	font.loadFromFile("Assets/Kelt Caps Freehand.TTF");
+	greetingText.setString("");
+	greetingText.setPosition(sf::Vector2f(getPosition().x + 20, getPosition().y - 60));
+	greetingText.setFont(font);
+	greetingText.setCharacterSize(12);
+	greetingText.setColor(sf::Color::Black);
+	displayGreeting = false;
+	greetingClock.restart();
+
+	speechBubbleTexture.loadFromFile("Assets/Greetings/speechBubble.png");
+	speechBubbleSprite.setTexture(speechBubbleTexture);
+	speechBubbleSprite.setOrigin(0, speechBubbleTexture.getSize().y / 2);
+	speechBubbleSprite.setPosition(sf::Vector2f(getPosition().x + 10, getPosition().y - 40));
+	speechBubbleSprite.scale(2, 1);
+
+	itemStolen = false;
+
+	appleStartPoint = sf::Vector2f(1160, 1500);
+	appleEndPoint = sf::Vector2f(1160, 1725);
+	spotPicked = false;
+	reachedAppleStart = false;
+	currentApplePoint = 0;
+	applePoints.push_back(appleStartPoint);
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 50));
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 100));
+	applePoints.push_back(sf::Vector2f(appleStartPoint.x, appleStartPoint.y + 150));
+	applePoints.push_back(appleEndPoint);
+
+	wanderClock.restart();
+
+	eatClock.restart();
+	eating = true;
+	foodTexture.loadFromFile("Assets/Icons/Items/apple.png");
+	foodSprite.setTexture(foodTexture);
+	foodSprite.setOrigin(foodTexture.getSize().x / 2, foodTexture.getSize().y / 2);
+	foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y - 10));
+	foodSprite.scale(.25, .25);
 }
 
 //Load the correct texture for the interact hint
@@ -155,37 +220,93 @@ void Npc::Update(sf::Vector2f playerPos)
 		setTextureRect(frame);
 	}
 
-	if (behaviour == "wander")
+	if (!timeForBed)
 	{
-		Wander();
-	}
-	else if (behaviour == "walkPattern")
-	{
-		walkPattern();
-	}
-	else if (behaviour == "follow")
-	{
-		if (distanceToPlayer < 300 && colliding == false)
+		if (currentBehaviour == "patrol")
 		{
-			Follow(playerPos);
+			Patrol();
 		}
-		else
+		else if (currentBehaviour == "forge")
 		{
-			idle = true;
-			if (colliding == true)
+			Forge();
+		}
+		else if (currentBehaviour == "steal")
+		{
+			if(itemStolen == false)
+				Follow(playerPos, true);
+			else
 			{
-				setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
+				//evade when player is in range
+				AvoidPlayer(playerPos);
+			}
+		}
+		else if (currentBehaviour == "pickApples")
+		{
+			if(reachedAppleStart == true)
+				PickApples();
+			else Follow(applePoints.at(currentApplePoint), true);
+		}
+		else if (currentBehaviour == "eating")
+		{
+			Eat();
+		}
+		else if (currentBehaviour == "wander")
+		{
+			Wander();
+		}
+		else if (currentBehaviour == "walkPattern")
+		{
+			walkPattern();
+		}
+		else if (currentBehaviour == "follow")
+		{
+			if (distanceToPlayer < 300 && colliding == false)
+			{
+				Follow(playerPos, true);
+			}
+			else
+			{
+				idle = true;
+				if (colliding == true)
+				{
+					setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y - direction.y));
+				}
 			}
 		}
 	}
+	else
+	{
+		if(!inBed)
+			GoToBed(bedPos);
+		else
+		{
+			setPosition(sf::Vector2f(bedPos.x + 5, bedPos.y - 10));
+			bedSprite.setPosition(sf::Vector2f(bedPos.x, bedPos.y + 15));
+			//currentDirection = DOWN;
+		}
+	}
 
+	footprintEmitter->setPosition(sf::Vector2f(getPosition().x, getPosition().y));
+	if (!idle)
+	{
+		if(currentDirection == RIGHT)
+			footprintEmitter->SetDirection(LEFT);
+		else if(currentDirection == LEFT)
+			footprintEmitter->SetDirection(RIGHT);
+		else footprintEmitter->SetDirection(currentDirection);
+	}
+	else
+	{
+		footprintEmitter->SetDirection(4);
+	}
+	footprintEmitter->Update();
 }
 
 /*Wander to random points within 100 pixels on either the x or y and then stand there for up to 7 seconds. 
 If we collide with something, move out of collision and choose a new place to wander to*/
 void Npc::Wander()
 {
-	if (behaviourClock.getElapsedTime().asSeconds() > timeBetweenWander)
+	if (wanderClock.getElapsedTime().asSeconds() > timeBetweenWander)
 	{
 		idle = false;
 
@@ -201,7 +322,7 @@ void Npc::Wander()
 			if(colliding)
 			{
 				std::cout << "Resetting wander pos due to collision." << std::endl;
-				behaviourClock.restart();
+				wanderClock.restart();
 
 				wanderPos = prevWanderPos;//go to the previous position
 
@@ -242,6 +363,8 @@ void Npc::Wander()
 				prevWanderPos = wanderPos;
 				//set the next position to wander to
 				wanderPos = sf::Vector2f(getPosition().x + xChange, getPosition().y + yChange);
+
+				
 			}
 
 			else wanderPos = prevPos;//go to the previous position
@@ -250,7 +373,9 @@ void Npc::Wander()
 			timeBetweenWander = rand() % 7 + 2;
 
 			//restart the clock
-			behaviourClock.restart();
+			wanderClock.restart();
+
+			wanderCount += 1;
 		}
 
 		//sort out orientation here
@@ -389,7 +514,7 @@ void Npc::walkPattern()
 
 /*Follow the position that is passed in. This is a modified Seek algorithm
 (it can only move up, down, left or right but can not move in more than one direction at a time). Only allows 4 directions of movement*/
-void Npc::Follow(sf::Vector2f positionToFollow)
+void Npc::Follow(sf::Vector2f positionToFollow, bool follow)
 {
 	//get the vector between the positionToFollow and our position
 	direction = sf::Vector2f(positionToFollow - getPosition());
@@ -404,7 +529,9 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	{
 		if (!colliding)
 		{
-			setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+			if(follow)
+				setPosition(sf::Vector2f(getPosition().x + direction.x, getPosition().y));
+			else setPosition(sf::Vector2f(getPosition().x - direction.x, getPosition().y));
 			direction.y = 0;
 		}
 	}
@@ -413,7 +540,9 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	{
 		if (!colliding)
 		{
-			setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+			if(follow)
+				setPosition(sf::Vector2f(getPosition().x, getPosition().y + direction.y));
+			else setPosition(sf::Vector2f(getPosition().x, getPosition().y - direction.y));
 			direction.x = 0;
 		}
 	}
@@ -426,8 +555,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	if (direction.x > 0)
 	{
 		idle = false;
-		currentDirection = RIGHT;
-		setTexture(rightWalkTexture);
+		if (follow)
+		{
+			currentDirection = RIGHT;
+			setTexture(rightWalkTexture);
+		}
+		else
+		{
+			currentDirection = LEFT;
+			setTexture(leftWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -437,8 +574,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	else if (direction.x < 0)
 	{
 		idle = false;
-		currentDirection = LEFT;
-		setTexture(leftWalkTexture);
+		if (follow)
+		{
+			currentDirection = LEFT;
+			setTexture(leftWalkTexture);
+		}
+		else
+		{
+			currentDirection = RIGHT;
+			setTexture(rightWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -448,8 +593,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	if (direction.y > 0)
 	{
 		idle = false;
-		currentDirection = DOWN;
-		setTexture(downWalkTexture);
+		if (follow)
+		{
+			currentDirection = DOWN;
+			setTexture(downWalkTexture);
+		}
+		else
+		{
+			currentDirection = UP;
+			setTexture(upWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -459,8 +612,16 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	else if (direction.y < 0)
 	{
 		idle = false;
-		currentDirection = UP;
-		setTexture(upWalkTexture);
+		if (follow)
+		{
+			currentDirection = UP;
+			setTexture(upWalkTexture);
+		}
+		else
+		{
+			currentDirection = DOWN;
+			setTexture(downWalkTexture);
+		}
 		if (prevDirection != currentDirection)
 		{
 			framePosition.x = 0;
@@ -471,6 +632,11 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 	frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
 	frame = sf::IntRect(framePosition, frameSize);
 	setTextureRect(frame);
+
+	if (direction.x > -0.5 && direction.x < 0.5)
+		direction.x = 0;
+	if (direction.y > -0.5 && direction.y < 0.5)
+		direction.y = 0;
 
 	//if we are no longer moving (i.e. we caught up to what we are following)
 	if (direction.x == 0 && direction.y == 0)
@@ -489,7 +655,339 @@ void Npc::Follow(sf::Vector2f positionToFollow)
 		frameSize = sf::Vector2i(getTexture()->getSize().x, getTexture()->getSize().y);
 		frame = sf::IntRect(framePosition, frameSize);
 		setTextureRect(frame);
+
+		if (currentBehaviour == "patrol")
+		{
+			patrolPointReached = true;
+			patrolWanderClock.restart();
+			//behaviourClock.restart();
+		}
+		else if (currentBehaviour == "forge")
+		{
+			
+			if (workPoint == 0)//anvil
+			{
+				workPoint = 1;
+				atAnvil = true;
+				//framePosition.x = 0;
+				//setTexture(workAnimTexture);
+				//numberOfFrames = 2;
+				//frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
+				//frame = sf::IntRect(framePosition, frameSize);
+				//setTextureRect(frame);
+				//workClock.restart();
+			}
+			else if (workPoint == 1)//forge
+			{
+				workPoint = 0;
+				atForge = true;
+				//framePosition.x = 0;
+				//setTexture(workAnimTexture);
+				//numberOfFrames = 2;
+				//frameSize = sf::Vector2i(getTexture()->getSize().x / numberOfFrames, getTexture()->getSize().y);
+				//frame = sf::IntRect(framePosition, frameSize);
+				//setTextureRect(frame);
+				//workClock.restart();
+			}
+		}
+
+		else if (currentBehaviour == "pickApples")
+		{
+			reachedAppleStart = true;
+			
+		}
 	}
+}
+
+void Npc::SetBehaviour(int behaviourNum)
+{
+	if (behaviourNum == 1)
+		currentBehaviour = behaviour1;
+	else if (behaviourNum == 2)
+		currentBehaviour = behaviour2;
+	else if (behaviourNum == 3)
+		currentBehaviour = behaviour3;
+	else if (behaviourNum == 4)
+		currentBehaviour = behaviour4;
+}
+
+void Npc::GoToBed(sf::Vector2f bedPos)
+{
+	Follow(bedPos, true);
+}
+
+//npcs with the forge behaviour will work at the blacksmiths forge and anvil
+void Npc::Forge()
+{
+	if (atAnvil)
+	{
+		if (behaviourClock.getElapsedTime().asSeconds() < 30)
+		{
+			//forge(play animation)
+			if (workClock.getElapsedTime().asSeconds() > anvilAnimTime)
+			{
+			//	if (framePosition.x < getTexture()->getSize().x - frameSize.x)
+			//		framePosition.x += frameSize.x;
+
+			//	else framePosition.x = 0;
+
+				animationClock.restart();
+			}
+			currentDirection = LEFT;
+		}
+		else
+		{
+			//go to forge
+			behaviourClock.restart();
+			atAnvil = false;
+		}
+	}
+	else if ((!atAnvil && !atForge))//not working at anvil or forge
+	{
+		if(workPoint == 0)
+			Follow(sf::Vector2f(425, 920), true);//go to anvil
+		else if(workPoint == 1)
+			Follow(sf::Vector2f(425, 980), true);//go to forge
+	}
+	else if (atForge)
+	{
+		if (workClock.getElapsedTime().asSeconds() < 30)
+		{
+			//work(play animation)
+			if (animationClock.getElapsedTime().asSeconds() > forgeAnimTime)
+			{
+				//if (framePosition.x < getTexture()->getSize().x - frameSize.x)
+				//	framePosition.x += frameSize.x;
+
+				//else framePosition.x = 0;
+
+				animationClock.restart();
+			}
+			currentDirection = DOWN;
+		}
+		else
+		{
+			//go back to anvil
+			behaviourClock.restart();
+			atForge = false;
+		}
+	}
+}
+
+void Npc::Patrol()
+{
+	if (patrolPointsPicked == true)
+	{
+		if (patrolPointReached == false)
+		{
+			if (currentPatrolPoint == 1)
+			{
+				//seek to point
+				Follow(patrolPoint1, true);
+			}
+			else if (currentPatrolPoint == 2)
+			{
+				//seek to point
+				Follow(patrolPoint2, true);
+			}
+			else if (currentPatrolPoint == 3)
+			{
+				//seek to point
+				Follow(patrolPoint3, true);
+			}
+			else if (currentPatrolPoint == 4)
+			{
+				//seek to point
+				Follow(patrolPoint4, true);
+			}
+		}
+		else
+		{
+			if (patrolWanderClock.getElapsedTime().asSeconds() < 10)//2 mins
+			{
+				//wander
+				//std::cout << "Patrol is wandering." << std::endl;
+
+				/*
+				Come back to this. Bugs out the wander behaviour for some reason.
+				Doesn't make it into the section of code that limits movement direction
+				*/
+				//Wander();
+			}
+			else
+			{
+				if (currentPatrolPoint < 4)
+				{
+					currentPatrolPoint += 1;
+					patrolPointReached = false;
+				}
+				else
+				{
+					//pick new patrol points
+					patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+					patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+					patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+					patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
+					patrolPointsPicked = true;
+					currentPatrolPoint = 1;
+					patrolWanderClock.restart();
+				}
+			}
+		}
+	}
+	else
+	{
+		//pick 4 patrol points
+		patrolPoint1 = sf::Vector2f(rand() % 1000 + 400, 400);
+		patrolPoint2 = sf::Vector2f(rand() % 1000 + 400, 400);
+		patrolPoint3 = sf::Vector2f(rand() % 1000 + 400, 800);
+		patrolPoint4 = sf::Vector2f(rand() % 1000 + 400, 800);
+		patrolPointsPicked = true;
+		currentPatrolPoint = 1;
+		patrolWanderClock.restart();
+	}
+
+
+}
+
+/*walk between apple trees*/
+void Npc::PickApples()
+{
+	if (behaviourClock.getElapsedTime().asSeconds() > 5 && spotPicked == false)
+	{
+		int flip = rand() % 1;
+		if (flip == 0)
+		{
+			prevDirection = currentDirection;
+			currentDirection = LEFT;
+		}
+		else if (flip == 1)
+		{
+			prevDirection = currentDirection;
+			currentDirection = RIGHT;
+		}
+		spotPicked = true;
+		behaviourClock.restart();
+		//play sound
+		
+	}
+	else if (behaviourClock.getElapsedTime().asSeconds() > 10 && spotPicked == true)
+	{
+		//Follow(sf::Vector2f(appleStartPoint.x, appleStartPoint.y+50), true);
+		if(currentApplePoint < 4)
+			currentApplePoint += 1;
+		else currentApplePoint = 0;
+		spotPicked = false;
+		reachedAppleStart = false;
+		behaviourClock.restart();
+	}
+}
+
+void Npc::Eat()
+{
+	if (eatClock.getElapsedTime().asSeconds() < 5)//eating/drinking
+	{
+		if (eatClock.getElapsedTime().asSeconds() > 1 && eatClock.getElapsedTime().asSeconds() < 1.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 227));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 1.5 && eatClock.getElapsedTime().asSeconds() < 2)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 199));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 2 && eatClock.getElapsedTime().asSeconds() < 2.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 171));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 2.5 && eatClock.getElapsedTime().asSeconds() < 3)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 143));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 3 && eatClock.getElapsedTime().asSeconds() < 3.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 115));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 3.5 && eatClock.getElapsedTime().asSeconds() < 4)
+		{
+			foodSprite.setRotation(-15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 87));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 4 && eatClock.getElapsedTime().asSeconds() < 4.5)
+		{
+			foodSprite.setRotation(15);
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 59));
+		}
+		else if (eatClock.getElapsedTime().asSeconds() > 4.5 && eatClock.getElapsedTime().asSeconds() < 5)
+		{
+			foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 31));
+			foodSprite.setRotation(0);
+		}
+	}
+	else if (eatClock.getElapsedTime().asSeconds() > 5 && eatClock.getElapsedTime().asSeconds() < 15)
+	{
+		foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y +5));
+	}
+	else
+	{
+		eatClock.restart();
+		foodSprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y -3));
+		foodSprite.setColor(sf::Color(foodSprite.getColor().r, foodSprite.getColor().g, foodSprite.getColor().b, 255));
+	}
+}
+
+//actively avoid the player if they are close enough
+void Npc::AvoidPlayer(sf::Vector2f playerPos)
+{
+	//get the euclidean distance between this npc and the player
+	float distance = sqrtf(((getPosition().x - playerPos.x) * (getPosition().x - playerPos.x)) + ((getPosition().y - playerPos.y) * (getPosition().y - playerPos.y)));
+
+	if (distance < 150)//if distance < 300 then evade
+	{
+		Follow(playerPos, false);
+	}
+	else
+	{
+		//do nothing
+		//AudioManager::GetInstance()->pla
+	}
+}
+
+//load greetings based on player race and gender
+void Npc::LoadGreetings(int pRace, int pGender)
+{
+	greetingFilePath = "Assets/Greetings/to";
+
+	if (pRace == 0)//human
+		greetingFilePath += "Human";
+	else if (pRace == 1)//elf
+		greetingFilePath += "Elf";
+	else if (pRace == 2)//dwarf
+		greetingFilePath += "Dwarf";
+
+	if (pGender == 0)//male
+		greetingFilePath += "Male";
+	else if (pGender == 1)//female
+		greetingFilePath += "Female";
+
+	greetingFilePath += ".txt";
+
+	//load in the correct greetings file
+	std::string line;
+	std::ifstream myfile(greetingFilePath);
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			greetings.push_back(line);
+		}
+		myfile.close();
+	}
+	else std::cout << "Unable to open greetings file: " << "'" << greetingFilePath << "'" << std::endl;;
 }
 
 /*Draw the interaction hint sprite*/
@@ -497,6 +995,46 @@ void Npc::draw(sf::RenderTarget& window)
 {
 	if(interactable)
 		window.draw(interactHintSprite);
+	footprintEmitter->DrawParticles(window);
+	if (currentBehaviour == "eating")
+	{
+		window.draw(foodSprite);
+	}
+}
+
+//choose a greeting to display
+void Npc::ChooseMessage()
+{
+	if (displayGreeting == false)//if not already showing a greeting
+	{
+		//int max = greetings.size() - 1;
+		int index = rand() % 3;
+		greetingText.setString(greetings.at(index));
+		displayGreeting = true;
+		greetingClock.restart();
+	}
+}
+
+//draw a greeting if the npc is interacted with
+void Npc::DrawMessage(sf::RenderTarget & window)
+{
+	if (displayGreeting == true)
+	{
+		if (greetingClock.getElapsedTime().asSeconds() < 2)
+		{
+			greetingText.setPosition(sf::Vector2f(getPosition().x + 20, getPosition().y - 50));
+			speechBubbleSprite.setPosition(sf::Vector2f(getPosition().x + 10, getPosition().y - 40));
+			window.draw(speechBubbleSprite);
+			window.draw(greetingText);
+		}
+		else displayGreeting = false;
+	}
+}
+
+void Npc::DrawBedCovers(sf::RenderTarget & window)
+{
+	if (inBed)
+		window.draw(bedSprite);
 }
 
 /*Draw the npc on the minimap as an icon*/
@@ -514,6 +1052,14 @@ void Npc::DrawBoundingBox(sf::RenderTarget& window)
 	window.draw(boundingBox);
 }
 
+void Npc::DrawFood(sf::RenderTarget & window)
+{
+	if (currentBehaviour == "eating")
+	{
+		window.draw(foodSprite);
+	}
+}
+
 std::string Npc::getNpcName()
 {
 	return name;
@@ -529,9 +1075,9 @@ bool Npc::doesNpcHaveQuest()
 	return hasQuest;
 }
 
-std::string Npc::getBehaviour()
+std::string Npc::getCurrentBehaviour()
 {
-	return behaviour;
+	return currentBehaviour;
 }
 
 bool Npc::IsColliding()
@@ -552,4 +1098,124 @@ float Npc::CheckDistanceToPlayer()
 void Npc::setShowHint(bool s)
 {
 	showHint = s;
+}
+
+void Npc::SetBedId(int id)
+{
+	bedId = id;
+}
+
+int Npc::GetBedId()
+{
+	return bedId;
+}
+
+void Npc::SetBedtimeH(int h)
+{
+	bedtimeH = h;
+}
+
+int Npc::GetBedtimeH()
+{
+	return bedtimeH;
+}
+
+void Npc::SetBedtimeM(int m)
+{
+	bedtimeM = m;
+}
+
+int Npc::GetBedtimeM()
+{
+	return bedtimeM;
+}
+
+void Npc::SetBedtimeS(int s)
+{
+	bedtimeS = s;
+}
+
+int Npc::GetBedtimeS()
+{
+	return bedtimeS;
+}
+
+bool Npc::IsTimeForBed()
+{
+	return timeForBed;
+}
+
+void Npc::SetIsTimeForBed(bool b)
+{
+	timeForBed = b;
+}
+
+void Npc::SetBedPos(sf::Vector2f bpos)
+{
+	bedPos = bpos;
+}
+
+bool Npc::IsInBed()
+{
+	return inBed;
+}
+
+void Npc::SetInBed(bool b)
+{
+	inBed = b;
+}
+
+int Npc::GetWakeTH()
+{
+	return wakeTimeH;
+}
+
+void Npc::SetWakeTH(int h)
+{
+	wakeTimeH = h;
+}
+
+void Npc::SetWakeTM(int m)
+{
+	wakeTimeM = m;
+}
+
+int Npc::GetWakeTM()
+{
+	return wakeTimeM;
+}
+
+void Npc::SetWakeTS(int s)
+{
+	wakeTimeS = s;
+}
+
+int Npc::GetWakeTS()
+{
+	return wakeTimeS;
+}
+
+bool Npc::IsInteractable()
+{
+	return interactable;
+}
+
+bool Npc::HasStolenItem()
+{
+	return itemStolen;
+}
+
+void Npc::SetHasStolenItem(bool h)
+{
+	itemStolen = h;
+}
+
+void Npc::SetPreCollisionPos(sf::Vector2f p)
+{
+	preCollisionPos = p;
+}
+
+sf::Vector2f Npc::GetPreCollisionPos()
+{
+	return preCollisionPos;
 }

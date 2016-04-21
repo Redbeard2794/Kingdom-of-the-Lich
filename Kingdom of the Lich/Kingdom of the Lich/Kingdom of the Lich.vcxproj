@@ -126,8 +126,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SFML_SDK)\lib;C:\STP-master\doc\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>STP-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SFML_SDK)\lib;C:\stp-release\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>STP.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,10 +151,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Achievement.h" />
+    <ClInclude Include="AchievementTracker.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="AreaManager.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Bed.h" />
+    <ClInclude Include="BloodEmitter.h" />
+    <ClInclude Include="BloodParticle.h" />
+    <ClInclude Include="CampFire.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChooseRaceAndGenderMenu.h" />
     <ClInclude Include="CollidableObject.h" />
@@ -164,15 +170,24 @@
     <ClInclude Include="Credits.h" />
     <ClInclude Include="DamageCalculator.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FootprintEmitter.h" />
+    <ClInclude Include="FootprintParticle.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="ItemSlot.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="Pnode.h" />
     <ClInclude Include="Npc.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopupMessage.h" />
     <ClInclude Include="PopupMessageController.h" />
@@ -183,15 +198,26 @@
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
+    <ClInclude Include="SaveManager.h" />
+    <ClInclude Include="ShopInventory.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoryPopup.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WorldClock.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Achievement.cpp" />
+    <ClCompile Include="AchievementTracker.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="AreaManager.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Bed.cpp" />
+    <ClCompile Include="BloodEmitter.cpp" />
+    <ClCompile Include="BloodParticle.cpp" />
+    <ClCompile Include="CampFire.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChooseRaceAndGenderMenu.cpp" />
     <ClCompile Include="CollidableObject.cpp" />
@@ -201,20 +227,31 @@
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="DamageCalculator.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FootprintEmitter.cpp" />
+    <ClCompile Include="FootprintParticle.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemSlot.cpp" />
     <ClCompile Include="Kingdom of the Lich.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="Pnode.cpp" />
     <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMessage.cpp" />
     <ClCompile Include="PopupMessageController.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestStage.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
+    <ClCompile Include="ShopInventory.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -222,6 +259,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StoryPopup.cpp" />
+    <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="WorldClock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

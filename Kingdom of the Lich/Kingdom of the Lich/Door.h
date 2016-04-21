@@ -11,7 +11,8 @@ private:
 		HouseDoorOne,
 		HouseExitDoor
 	};
-	int type;
+	int type;//deciding sprite
+
 	sf::Texture texture;
 	bool open;
 
@@ -29,17 +30,23 @@ private:
 	int id;
 
 public:
+	/*constructor. params: type, position, whether its open or not, area it leads to, id*/
 	Door(int t, sf::Vector2f pos, bool o, int a, int i);
 
+	//destructor
 	~Door();
 
+	//check if the player is standing in the doorway
 	bool IsPlayerInDoorway(sf::Vector2f playerPos);
 
+	//is the door open
 	bool IsOpen();
 
 	void SetOpen(bool o);
 
 	int GetArea();
+
+	int GetId();
 };
 
 #endif

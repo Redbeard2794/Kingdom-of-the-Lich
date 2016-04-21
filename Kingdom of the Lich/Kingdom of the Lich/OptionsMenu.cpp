@@ -29,14 +29,14 @@ OptionsMenu::OptionsMenu(sf::Font f, int sw, int sh) : font(f), screenW(sw), scr
 	canMove = true;
 	canBackOut = true;
 
-	musicBar.setSize(sf::Vector2f(10, 50));
+	musicBar.setSize(sf::Vector2f(150, 50));
 	musicBar.setFillColor(sf::Color::White);
 	musicBar.setOutlineColor(sf::Color::Red);
 	musicBar.setPosition(sf::Vector2f(screenW / 2.5, 150));
 	musicBar.setOutlineThickness(2);
 	musicBar.setTexture(&audioWaveTexture);
 
-	sfxBar.setSize(sf::Vector2f(10, 50));
+	sfxBar.setSize(sf::Vector2f(150, 50));
 	sfxBar.setFillColor(sf::Color::White);
 	sfxBar.setOutlineColor(sf::Color::Red);
 	sfxBar.setPosition(sf::Vector2f(screenW / 2.5, 400));
@@ -77,6 +77,9 @@ void OptionsMenu::Update(AudioManager * audioManager)
 			menuItems[i].setColor(sf::Color::White);
 		}
 	}
+
+	musicVol = musicBar.getSize().x;
+	sfxVol = sfxBar.getSize().x;
 }
 
 /*navigate up*/
@@ -219,4 +222,14 @@ bool OptionsMenu::GetCanBackOut()
 void OptionsMenu::SetCanBackOut(bool cbo)
 {
 	canBackOut = cbo;
+}
+
+int OptionsMenu::GetCurrentSfxVol()
+{
+	return sfxVol;
+}
+
+int OptionsMenu::GetCurrentMusicVol()
+{
+	return musicVol;
 }

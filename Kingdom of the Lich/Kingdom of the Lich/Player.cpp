@@ -17,6 +17,15 @@ Player::Player(sf::Font f) : font(f)
 	boundingBox.setFillColor(sf::Color::Transparent);
 
 	health = 75;
+	openedChests = 0;
+	potionsUsed = 0;
+	enteredPubFirstTime = false;
+	enteredSewerFirstTime = false;
+	combatsComplete = 0;
+	stoleStuffBack = false;
+	hasPlayerBoughtSomething = false;
+	hasPlayerSoldSomething = false;
+	numPeopleTalkedTo = 0;
 }
 
 //destructor

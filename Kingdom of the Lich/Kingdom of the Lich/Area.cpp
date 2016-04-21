@@ -1,19 +1,23 @@
 #include "stdafx.h"
 #include "Area.h"
 
-/*Constructor. params: area file path, minimap file path, npc list file path and collidable objects file path*/
-Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath)
+/*Constructor. params: area file path, minimap file path, npc list file path, collidable objects file path, door file path, bed file path, camp fire file path*/
+Area::Area(std::string afp, std::string amfp, std::string anlfp, std::string cofp, std::string doorPath, std::string bedsp, std::string firePath)
 {
 	areaFilePath = afp;
 	areaMinimapFilePath = amfp;
 	areaNpcListFilePath = anlfp;
 	areaDoorListFilePath = doorPath;
 	collidableObjectsFilePath = cofp;
+	bedPath = bedsp;
+	campFirePath = firePath;
 
 	LoadNpcs();
 	LoadCollidableObjects();
 
 	LoadDoors();
+	LoadBeds();
+	LoadFires();
 }
 
 /*Destructor*/
@@ -136,10 +140,68 @@ void Area::LoadNpcs()
 
 		/*What behaviour do they have? e.g: wander, stand etc*/
 		//std::cout << "Behaviour: " << npc->first_node("behaviour")->value() << std::endl;
-		behaviour = npc->first_node("behaviour")->value();
+		behaviour = npc->first_node("behaviour1")->value();
+
+		std::string behaviour2 = npc->first_node("behaviour2")->value();
+		std::string behaviour3 = npc->first_node("behaviour3")->value();
+		std::string behaviour4 = npc->first_node("behaviour4")->value();
+
+		int bedId = std::atoi(npc->first_node("bedId")->value());
+
+		int bedtimeH = std::atoi(npc->first_node("bedtimeH")->value());
+
+		int bedtimeM = std::atoi(npc->first_node("bedtimeM")->value());
+
+		int bedtimeS = std::atoi(npc->first_node("bedtimeS")->value());
+
+		int wakeTimeH = std::atoi(npc->first_node("wakeTimeH")->value());
+
+		int wakeTimeM = std::atoi(npc->first_node("wakeTimeM")->value());
+
+		int wakeTimeS = std::atoi(npc->first_node("wakeTimeS")->value());
+
+		int behaviour1H = std::atoi(npc->first_node("behaviour1TimeH")->value());
+		int behaviour1M = std::atoi(npc->first_node("behaviour1TimeM")->value());
+		int behaviour1S = std::atoi(npc->first_node("behaviour1TimeS")->value());
+		int behaviour2H = std::atoi(npc->first_node("behaviour2TimeH")->value());
+		int behaviour2M = std::atoi(npc->first_node("behaviour2TimeM")->value());
+		int behaviour2S = std::atoi(npc->first_node("behaviour2TimeS")->value());
+		int behaviour3H = std::atoi(npc->first_node("behaviour3TimeH")->value());
+		int behaviour3M = std::atoi(npc->first_node("behaviour3TimeM")->value());
+		int behaviour3S = std::atoi(npc->first_node("behaviour3TimeS")->value());
+		int behaviour4H = std::atoi(npc->first_node("behaviour4TimeH")->value());
+		int behaviour4M = std::atoi(npc->first_node("behaviour4TimeM")->value());
+		int behaviour4S = std::atoi(npc->first_node("behaviour4TimeS")->value());
 
 		/*Create the npc*/
 		Npc* n = new Npc(name, id, idleUpPath, idleDownPath, idleLeftPath, idleRightPath, numberOfFrames, walkUpPath, walkDownPath, walkLeftPath, walkRightPath, mapIconTexturePath, sf::Vector2f(x, y), hasQuest, interactable, behaviour, true);
+
+		n->SetBedId(bedId);
+		n->SetBedtimeH(bedtimeH);
+		n->SetBedtimeM(bedtimeM);
+		n->SetBedtimeS(bedtimeS);
+		n->SetWakeTH(wakeTimeH);
+		n->SetWakeTM(wakeTimeM);
+		n->SetWakeTS(wakeTimeS);
+
+		n->behvaiour1H = behaviour1H;
+		n->behvaiour1M = behaviour1M;
+		n->behvaiour1S = behaviour1S;
+		n->behvaiour2H = behaviour2H;
+		n->behvaiour2M = behaviour2M;
+		n->behvaiour2S = behaviour2S;
+		n->behvaiour3H = behaviour3H;
+		n->behvaiour3M = behaviour3M;
+		n->behvaiour3S = behaviour3S;
+		n->behvaiour4H = behaviour4H;
+		n->behvaiour4M = behaviour4M;
+		n->behvaiour4S = behaviour4S;
+
+		n->behaviour1 = behaviour;
+		n->behaviour2 = behaviour2;
+		n->behaviour3 = behaviour3;
+		n->behaviour4 = behaviour4;
+
 		npcs.push_back(n);
 		//std::cout << "Size of npcVector: " << npcs.size() << std::endl;
 
@@ -149,6 +211,7 @@ void Area::LoadNpcs()
 	}
 }
 
+/*Load the collidable objects from an xml file*/
 void Area::LoadCollidableObjects()
 {
 	xml_document<> doc;
@@ -208,6 +271,7 @@ void Area::LoadCollidableObjects()
 	}
 }
 
+/*Load the door objects from an xml file*/
 void Area::LoadDoors()
 {
 	xml_document<> doc;
@@ -255,11 +319,112 @@ void Area::LoadDoors()
 	}
 }
 
-/*Update the map, minimap and npcs*/
-void Area::Update(sf::Vector2f playerPos)
+/*Load the camp files from an xml file*/
+void Area::LoadFires()
 {
+	if (campFirePath != "")
+	{
+		xml_document<> doc;
+		std::ifstream file(campFirePath);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<>* fireList = doc.first_node("FireList");
+		xml_node<>* fireObject = fireList->first_node("fire");
+
+		//load in each fires information and then create them
+		while (fireObject != NULL)
+		{
+			int id = std::atoi(fireObject->first_node("id")->value());
+
+			int x = std::atoi(fireObject->first_node("x")->value());
+
+			int y = std::atoi(fireObject->first_node("y")->value());
+
+			/*Create the camp fire*/
+			CampFire * f = new CampFire(sf::Vector2f(x, y), id);
+			campFires.push_back(f);
+
+			/*Move onto the next bed object tag*/
+			fireObject = fireObject->next_sibling("fire");
+		}
+	}
+}
+
+/*Update the map, minimap and npcs*/
+void Area::Update(sf::Vector2f playerPos, int currentHours, int currentMinutes, int currentSeconds)
+{
+	for (int i = 0; i < campFires.size(); i++)
+	{
+		campFires.at(i)->Update();
+	}
+
 	for (int i = 0; i < npcs.size(); i++)
 	{
+
+
+		if (npcs.at(i)->GetBedtimeH() == currentHours && npcs.at(i)->GetBedtimeM() == currentMinutes && npcs.at(i)->GetBedtimeS() == currentSeconds)
+		{
+			
+			for (int j = 0; j < beds.size(); j++)
+			{
+				if (beds.at(j)->GetId() == npcs.at(i)->GetBedId())
+				{
+					if (npcs.at(i)->IsTimeForBed() == false)
+					{
+						npcs.at(i)->SetIsTimeForBed(true);
+						npcs.at(i)->SetBedPos(beds.at(j)->getPosition());
+					}
+
+
+
+				}
+			}
+		}
+
+		for (int j = 0; j < beds.size(); j++)
+		{
+			if (npcs.at(i)->getGlobalBounds().intersects(beds.at(j)->getGlobalBounds()) && npcs.at(i)->IsTimeForBed() && beds.at(j)->GetId() == npcs.at(i)->GetBedId())
+			{
+				npcs.at(i)->SetInBed(true);
+			}
+		}
+
+		if (npcs.at(i)->GetWakeTH() == currentHours && npcs.at(i)->GetWakeTM() == currentMinutes && npcs.at(i)->GetWakeTS() == currentSeconds)
+		{
+			//if (npcs.at(i)->IsInBed())
+			//	npcs.at(i)->setPosition(sf::Vector2f(npcs.at(i)->getPosition().x + 50, npcs.at(i)->getPosition().y));
+			npcs.at(i)->SetIsTimeForBed(false);
+			npcs.at(i)->SetInBed(false);
+		}
+
+		//sort out which behaviour to do based on the current time and time the bahaviours should be carried out at
+		if (currentHours >= npcs.at(i)->behvaiour1H && currentHours < npcs.at(i)->behvaiour2H)
+		{
+			npcs.at(i)->SetBehaviour(1);
+		}
+		else if (currentHours >= npcs.at(i)->behvaiour2H && currentHours < npcs.at(i)->behvaiour3H)
+		{
+			npcs.at(i)->SetBehaviour(2);
+		}
+		else if (currentHours >= npcs.at(i)->behvaiour3H && currentHours < npcs.at(i)->behvaiour4H)
+		{
+			npcs.at(i)->SetBehaviour(3);
+		}
+		else
+		{
+			npcs.at(i)->SetBehaviour(4);
+		}
+
+
+		if (npcs.at(i)->HasStolenItem())
+		{
+			AudioManager::GetInstance()->PlaySpatializedSoundEffect(true, 27, false, 10, 1, npcs.at(i)->getPosition().x, npcs.at(i)->getPosition().y);
+		}
+
 		npcs.at(i)->Update(playerPos);
 
 		if (npcs.at(i)->CheckDistanceToPlayer() < 50)
@@ -271,7 +436,8 @@ void Area::Update(sf::Vector2f playerPos)
 	HandleNpcCollidableObjectsCollisions();
 }
 
-std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
+/*check if the player and an npc collides. Params are: player pointer, inventory pointer, stolen goods chest poiner, whether a is pressed or not. return true/false and a number based on what the npc does*/
+std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p, Inventory* playerInv, Chest* stolenGoodsChest, bool aPressed)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
@@ -298,11 +464,37 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 			//}
 
 			npcs.at(i)->setColliding(false);
-			if (npcs.at(i)->getBehaviour() == "follow")
+			if (npcs.at(i)->getCurrentBehaviour() == "follow")
 				return std::make_pair(true, 2);
-			if (npcs.at(i)->doesNpcHaveQuest())
+			else if (npcs.at(i)->getCurrentBehaviour() == "steal")
+			{
+				if (npcs.at(i)->HasStolenItem() == false)
+				{
+					npcs.at(i)->SetHasStolenItem(true);
+					playerInv->SetItemToSteal();
+					playerInv->SetItemToStealQuantity(playerInv->CheckQuantity(playerInv->GetItemToSteal(), false));
+					playerInv->RemoveItemFromInventory(playerInv->GetItemToSteal(), playerInv->GetItemToStealQuantity());
+					stolenGoodsChest->SetKeyForStoredItem(playerInv->GetItemToSteal());
+					stolenGoodsChest->SetQuantityForStoredItem(playerInv->GetItemToStealQuantity());
+					stolenGoodsChest->SetOpened(false);
+					AudioManager::GetInstance()->PlaySoundEffectById(24, false);
+				}
+				return std::make_pair(true, 2);
+			}
+			else if (npcs.at(i)->doesNpcHaveQuest())
 			{
 				return std::make_pair(true, 0);
+			}
+
+			else if (npcs.at(i)->getCurrentBehaviour() == "shopkeeper")
+			{
+				return std::make_pair(true, 3);
+			}
+			else if (!npcs.at(i)->doesNpcHaveQuest() && npcs.at(i)->IsInteractable() 
+				&& npcs.at(i)->getCurrentBehaviour() != "shopkeeper" && aPressed)//if npcs doesn't have a quest, is interactable, is not a shopkeeper and 'A' was pressed
+			{
+				npcs.at(i)->ChooseMessage();
+				return std::make_pair(true, 1);
 			}
 			else return std::make_pair(true, 1);
 
@@ -312,6 +504,7 @@ std::pair<bool, int> Area::CheckNpcPlayerCollisions(Player* p)
 	return std::make_pair(false,5);
 }
 
+/*deal with npc and collidable objects collisions*/
 void Area::HandleNpcCollidableObjectsCollisions()
 {
 	for (int i = 0; i < npcs.size(); i++)
@@ -322,14 +515,20 @@ void Area::HandleNpcCollidableObjectsCollisions()
 			{
 				npcs.at(i)->setColliding(true);
 				//std::cout << npcVector.at(i)->getNpcName() << "Collided with object " << j << std::endl;
+				npcs.at(i)->setPosition(npcs.at(i)->GetPreCollisionPos());//move the npc back to where it was before the collision
 				break;
 			}
-			else npcs.at(i)->setColliding(false);
+			else
+			{
+				npcs.at(i)->setColliding(false);
+				npcs.at(i)->SetPreCollisionPos(npcs.at(i)->getPosition());
+			}
 		}
 	}
 
 }
 
+/*Check if the player collides with a collidable object. param is the players bounding box*/
 bool Area::CheckPlayerCollidableObjectsCollision(sf::FloatRect playerBounds)
 {
 	for (int i = 0; i < collidableObjects.size(); i++)
@@ -342,25 +541,83 @@ bool Area::CheckPlayerCollidableObjectsCollision(sf::FloatRect playerBounds)
 	return false;
 }
 
-/*Draw the npcs and collidable objects*/
-void Area::Draw(sf::RenderTarget & window, bool debugMode)
+/*load beds from xml file*/
+void Area::LoadBeds()
+{
+	if (bedPath != "")
+	{
+		xml_document<> doc;
+		std::ifstream file(bedPath);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		file.close();
+		std::string content(buffer.str());
+		doc.parse<0>(&content[0]);
+
+		xml_node<>* bedList = doc.first_node("BedList");
+		xml_node<>* bedObject = bedList->first_node("bed");
+
+		//load in each beds information and then create them
+		while (bedObject != NULL)
+		{
+			int id = std::atoi(bedObject->first_node("id")->value());
+
+			int x = std::atoi(bedObject->first_node("x")->value());
+
+			int y = std::atoi(bedObject->first_node("y")->value());
+
+			/*Create the bed*/
+			Bed * b = new Bed(id, sf::Vector2f(x, y));
+			beds.push_back(b);
+
+			/*Move onto the next bed object tag*/
+			bedObject = bedObject->next_sibling("bed");
+		}
+	}
+}
+
+/*Load greetings for the npcs. params: players race, players gender*/
+void Area::LoadNpcGreetings(int pRace, int pGender)
 {
 	for (int i = 0; i < npcs.size(); i++)
 	{
+		npcs.at(i)->LoadGreetings(pRace, pGender);
+	}
+}
+
+/*Draw the npcs and collidable objects*/
+void Area::Draw(sf::RenderTarget & window, bool debugMode)
+{
+	for (int i = 0; i < doors.size(); i++)
+	{
+		window.draw(*doors.at(i));
+	}
+
+	for (int i = 0; i < beds.size(); i++)
+	{
+		window.draw(*beds.at(i));
+	}
+
+	for (int i = 0; i < campFires.size(); i++)
+	{
+		window.draw(*campFires.at(i));
+	}
+
+	for (int i = 0; i < npcs.size(); i++)
+	{
+		npcs.at(i)->draw(window);
 		window.draw(*npcs.at(i));
 		if (debugMode)
 			npcs.at(i)->DrawBoundingBox(window);
+		npcs.at(i)->DrawBedCovers(window);
+		npcs.at(i)->DrawMessage(window);
+		npcs.at(i)->DrawFood(window);
 	}
 
 	for (int i = 0; i < collidableObjects.size(); i++)
 	{
 		if (debugMode)
 			window.draw(*collidableObjects.at(i));
-	}
-
-	for (int i = 0; i < doors.size(); i++)
-	{
-		window.draw(*doors.at(i));
 	}
 }
 
@@ -372,6 +629,7 @@ void Area::MinimapDraw(sf::RenderTarget & window)
 	}
 }
 
+/*Check if the player collides with a door. Params: player position, player bounding box. returns area door leads to*/
 int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerBounds)
 {
 	//if within a certain distance of door check collision,
@@ -382,7 +640,7 @@ int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerB
 
 		if (distanceToPlayer < 300)//so don't bother checking for a collision unless we are reasonably close to the door in the first place
 		{
-			if (doors.at(i)->IsPlayerInDoorway(playerPos))
+			if (doors.at(i)->IsPlayerInDoorway(playerPos) && doors.at(i)->IsOpen())
 			{
 				return doors.at(i)->GetArea();
 				break;
@@ -391,4 +649,22 @@ int Area::CheckDoorPlayerCollision(sf::Vector2f playerPos, sf::FloatRect playerB
 	}
 
 	return -100;
+}
+
+void Area::ResetStealingNpc()
+{
+	for (int i = 0; i < npcs.size(); i++)
+	{
+		npcs.at(i)->SetHasStolenItem(false);
+	}
+}
+
+/*unlock a door based on its id. param: id of door to unlock*/
+void Area::UnlockDoorById(int doorId)
+{
+	for (int i = 0; i < doors.size(); i++)
+	{
+		if (doors.at(i)->GetId() == doorId)
+			doors.at(i)->SetOpen(true);
+	}
 }

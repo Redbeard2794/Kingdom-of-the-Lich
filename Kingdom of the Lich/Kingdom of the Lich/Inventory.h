@@ -27,7 +27,7 @@ private:
 	//all the item keys
 	std::vector<std::string> itemKeys;
 
-	std::vector<ItemSlot*> itemSlots;
+
 
 	//item icon stuff
 	sf::Texture healthPotTexture;
@@ -67,14 +67,18 @@ private:
 
 	sf::Texture selectHintTexture;
 	sf::Sprite selectHintSprite;
+
+	std::string itemToStealKey;
+	int itemToStealQuantity;
 public:
+	std::vector<ItemSlot*> itemSlots;
 	//these need to be visible in other classes....Is there a better way of doing this?
 	struct items
 	{
 		std::string key;
 	}i_healthPotion, i_ale, i_bread, i_apple, i_gems, i_baracksKey, i_parchment, i_inkBottle, i_quill;
 
-	/*Constructor*/
+	/*Constructor. params: font, whether using a controller or not, screen width, screen height*/
 	Inventory(sf::Font f, bool controller, int sw, int sh);
 
 	/*Destructor*/
@@ -91,7 +95,7 @@ public:
 
 	/*
 	Checks the quantity of an item
-	parameter is the item name
+	parameter is the item name and whether you want to see cout statements
 	*/
 	int CheckQuantity(std::string itemToCheck, bool output);
 
@@ -111,7 +115,7 @@ public:
 
 	/*
 	Use an item from the inventory
-	parameter is a pointer to the player
+	parameter is a pointer to the player and audiomanager
 	*/
 	void UseItem(Player& p, AudioManager& audioManager);
 
@@ -121,6 +125,8 @@ public:
 	/*Re-order item slots after an item has been used up and its slot removed*/
 	void ReorderSlots();
 
+	/*Choose an item for a thief to steal*/
+	void SetItemToSteal();
 
 	void NavigateUp();
 
@@ -139,6 +145,10 @@ public:
 	int getCurrentlySelectedItem();
 
 	void setCurrentlySelectedItem(int i);
+
+	std::string GetItemToSteal();
+	int GetItemToStealQuantity();
+	void SetItemToStealQuantity(int q);
 };
 
 #endif

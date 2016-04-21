@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CombatMenu.h"
 
-/*constructor*/
+/*constructor. params: font, path for enemy texture, screen width, screen height*/
 CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 {
 	playersTurn = false;
@@ -114,16 +114,30 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 
 	enemyTexture.loadFromFile(ePath);
 	enemySprite.setTexture(enemyTexture);
-	enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
-	enemySprite.setScale(5, 5);
-	enemySprite.setPosition(screenW/ 1.2, screenH/4);
 
+	enemyFramePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	enemyFrameSize.x = enemyTexture.getSize().x / numFrames;
+	enemyFrameSize.y = enemyTexture.getSize().y;
+	enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+	enemyAnimationTime = 0.2f;
+	enemySprite.setTextureRect(enemyFrame);
+
+
+	enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+
+
+	//enemySprite.setOrigin(enemyTexture.getSize().x, enemyTexture.getSize().y);
+	enemySprite.setScale(8, 8);
+	enemySprite.setPosition(screenW/ 1.2, screenH/4); 
 	
 	enemyHealthText.setFont(font);
 	enemyHealthText.setString("Stone Golem Health: ");
 	enemyHealthText.setColor(sf::Color::Red);
 	enemyHealthText.setCharacterSize(30);
 	enemyHealthText.setPosition(screenW/1.5, screenH/3);
+
+	enemyName = "Stone Golem";
 
 	currentOption = 0;
 	currentAction = 0;
@@ -153,6 +167,9 @@ CombatMenu::CombatMenu(sf::Font f, std::string ePath, int sw, int sh) : font(f)
 	goBackHintSprite.setPosition(screenW / 1.4, screenH / 1.38);
 
 	canSelect = false;
+
+	finishedAttackAnim = false;
+	enemyFinishedAttackAnim = false;
 }
 
 /*destructor*/
@@ -161,6 +178,7 @@ CombatMenu::~CombatMenu()
 
 }
 
+//set the correct texture for the player based on race and gender. params: player race, player gender
 void CombatMenu::SetPlayerRepSprite(int race, int gender)
 {
 	std::string filePath = "Assets/Player/";
@@ -177,12 +195,25 @@ void CombatMenu::SetPlayerRepSprite(int race, int gender)
 	else if (gender == 1)//female
 		filePath += "Female/";
 
-	filePath += "Idle/upIdle.png";
+	filePath += "Combat/upAttackSheet.png";
+
 
 	playerRepTexture.loadFromFile(filePath);
 	playerRepSprite.setTexture(playerRepTexture);
-	playerRepSprite.setOrigin(playerRepTexture.getSize().x / 2, playerRepTexture.getSize().y / 2);
-	playerRepSprite.setScale(5, 5);
+
+	//set up for animation
+	framePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	frameSize.x = playerRepTexture.getSize().x / numFrames;
+	frameSize.y = playerRepTexture.getSize().y;
+	frame = sf::IntRect(framePosition, frameSize);
+	animationTime = 0.2f;
+
+	playerRepSprite.setTextureRect(frame);
+
+	
+	playerRepSprite.setOrigin(frameSize.x / 2, frameSize.y / 2);
+	playerRepSprite.setScale(8, 8);
 	playerRepSprite.setPosition(screenW / 6, screenH / 1.9);
 
 }
@@ -303,6 +334,7 @@ void CombatMenu::MoveSelectionDown()
 	}
 }
 
+//set the player and enemy health. params: player health, enemy health
 void CombatMenu::Update(int playerHealth, int enemyHealth)
 {
 	playerCurrentHealth = playerHealth;
@@ -325,12 +357,13 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	turnText.setString("Completed turns: " + std::to_string(turnCount));
 	window.draw(turnText);
 
+	window.draw(enemySprite);
+	enemyHealthText.setString(enemyName + "Health: " + std::to_string(enemyCurrentHealth));
+	window.draw(enemyHealthText);
 	window.draw(playerRepSprite);
 	playerHealthText.setString("Player Health: " + std::to_string(playerCurrentHealth));
 	window.draw(playerHealthText);
-	window.draw(enemySprite);
-	enemyHealthText.setString("Stone Golem Health: " + std::to_string(enemyCurrentHealth));
-	window.draw(enemyHealthText);
+
 
 	if (currentState == SelectAction)
 	{
@@ -403,12 +436,122 @@ void CombatMenu::Draw(sf::RenderTarget & window)
 	}
 }
 
+//move th eplayer sprite in front of the enemy so it can attack
 void CombatMenu::MovePlayerToAttack()
 {
 	if (playerRepSprite.getPosition().x < enemySprite.getPosition().x-100)
 		playerRepSprite.setPosition(playerRepSprite.getPosition().x + 1, playerRepSprite.getPosition().y);
 	if (playerRepSprite.getPosition().y > enemySprite.getPosition().y + 100)
 		playerRepSprite.setPosition(playerRepSprite.getPosition().x, playerRepSprite.getPosition().y - 1);
+}
+
+//set up attack animation for player or enemy based on parameter passed in. true = player, false = enemy
+void CombatMenu::SetUpAttackAnimations(bool player)
+{
+	if (player)
+	{
+		animationClock.restart();
+		finishedAttackAnim = false;
+		playerRepSprite.setPosition(screenW / 1.3, screenH / 4);
+	}
+	else
+	{
+		enemyAnimationClock.restart();
+		enemyFinishedAttackAnim = false;
+		enemySprite.setPosition(screenW / 6, screenH / 2.1);
+	}
+}
+
+//animate the players attack
+void CombatMenu::PlayerAttackAnimation()
+{
+	if (!finishedAttackAnim)//if animation not finished
+	{
+		if (animationClock.getElapsedTime().asSeconds() > animationTime)
+		{
+			if (framePosition.x < playerRepTexture.getSize().x - frameSize.x)
+				framePosition.x += frameSize.x;//move the frame forward
+
+			else
+			{
+				framePosition.x = 0;
+				finishedAttackAnim = true;
+				playerRepSprite.setPosition(screenW / 6, screenH / 1.9);
+			}
+
+			animationClock.restart();
+		}
+
+		//reset the texture rectangle
+		frameSize = sf::Vector2i(playerRepTexture.getSize().x / numFrames, playerRepTexture.getSize().y);
+		frame = sf::IntRect(framePosition, frameSize);
+		playerRepSprite.setTextureRect(frame);
+		playerRepSprite.setOrigin(frameSize.x / 2, frameSize.y / 2);
+	}
+}
+
+//animate the enemies attack
+void CombatMenu::EnemyAttackAnimation()
+{
+	if (!enemyFinishedAttackAnim)//if animation not finished
+	{
+		if (enemyAnimationClock.getElapsedTime().asSeconds() > enemyAnimationTime)
+		{
+			if (enemyFramePosition.x < enemyTexture.getSize().x - enemyFrameSize.x)
+				enemyFramePosition.x += enemyFrameSize.x;//move the frame forward
+
+			else
+			{
+				enemyFramePosition.x = 0;
+				enemyFinishedAttackAnim = true;
+				
+				enemySprite.setPosition(screenW / 1.2, screenH / 4);
+			}
+
+			enemyAnimationClock.restart();
+		}
+
+		//reset the texture rectangle
+		enemyFrameSize = sf::Vector2i(enemyTexture.getSize().x / numFrames, enemyTexture.getSize().y);
+		enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+		enemySprite.setTextureRect(enemyFrame);
+		enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+	}
+}
+
+//reset textures and turn values etc to be ready for the next combat. params: path to enemy texture, enemy name
+void CombatMenu::ResetForNextCombat(std::string ePath, std::string eName)
+{
+	//reset enemy sprite and texture
+	enemyTexture.loadFromFile(ePath);
+	enemySprite.setTexture(enemyTexture);
+	enemyFramePosition = sf::Vector2i(0, 0);
+	numFrames = 4;
+	enemyFrameSize.x = enemyTexture.getSize().x / numFrames;
+	enemyFrameSize.y = enemyTexture.getSize().y;
+	enemyFrame = sf::IntRect(enemyFramePosition, enemyFrameSize);
+	enemyAnimationTime = 0.2f;
+	enemySprite.setTextureRect(enemyFrame);
+	enemySprite.setOrigin(enemyFrameSize.x / 2, enemyFrameSize.y / 2);
+	enemySprite.setScale(8, 8);
+	enemySprite.setPosition(screenW / 1.2, screenH / 4);
+	//reset text for enemy health
+	enemyHealthText.setString(eName+ "Health: ");
+
+	combatOver = false;
+	currentOption = 0;
+	currentAction = 0;
+	canMove = true;
+	canSelect = false;
+	finishedAttackAnim = false;
+	enemyFinishedAttackAnim = false;
+	playersTurn = true;
+	turnCount = 0;
+	enemyName = eName;
+
+	if (combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/brick/brickBack" + std::to_string(screenW) + "x" + std::to_string(screenH) + ".png")) {}
+	else combatBackgroundTexture.loadFromFile("Assets/Combat/backgrounds/grass/grass_template2.jpg");
+	combatBackgroundSprite.setTexture(combatBackgroundTexture);
 }
 
 /*gets & sets start*/
@@ -476,6 +619,10 @@ bool CombatMenu::IsPlayersTurn()
 void CombatMenu::SetPlayersTurn(bool t)
 {
 	playersTurn = t;
+	if(playersTurn == true)
+		std::cout << "It is the players turn" << std::endl;
+	else if(playersTurn == false)
+		std::cout << "It is not the players turn" << std::endl;
 }
 
 int CombatMenu::GetTurnCount()
@@ -486,6 +633,11 @@ int CombatMenu::GetTurnCount()
 void CombatMenu::IncrementTurnCount()
 {
 	turnCount += 1;
+}
+
+std::string CombatMenu::GetEnemyName()
+{
+	return enemyName;
 }
 
 /*gets & sets end*/
