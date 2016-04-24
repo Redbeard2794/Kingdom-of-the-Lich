@@ -3,6 +3,7 @@
 #include "Compass.h"
 #include "Npc.h"
 #include "Subject.h"
+#include <assert.h>
 class Player : public sf::Sprite, public Subject
 {
 private:
@@ -112,6 +113,8 @@ public:
 
 	//Set the player's texture based on their chosen race
 	void setTextures();
+
+	void SetTexturesTesting(sf::Vector2i testCase);
 
 	/*Move the player in the direction they are travelling in
 	Don't allow them to move if that direction is locked due to collision with another object*/

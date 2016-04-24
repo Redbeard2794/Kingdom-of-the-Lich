@@ -158,6 +158,139 @@ void Player::setTextures()
 	minimapSprite.setOrigin(minimapTexture.getSize().x / 2, minimapTexture.getSize().y / 2);
 }
 
+void Player::SetTexturesTesting(sf::Vector2i testCase)
+{
+	race = testCase.x;
+	gender = testCase.y;
+
+	numFrames = 3;
+	animationClock.restart();
+	animationTime = 0.2;
+
+	if (race == HUMAN)//if the player is a human
+	{
+		if (gender == MALE)//if the player is male
+		{
+			std::cout << "Asserting race = human AND gender = male." << std::endl;
+			assert(race == HUMAN && gender == MALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Human/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Human/Male/Moving/rightSheet.png");
+		}
+		else// if (gender == FEMALE)//if the player is female
+		{
+			std::cout << "Asserting race = human AND gender = female." << std::endl;
+			assert(race == HUMAN && gender == FEMALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Human/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Human/Female/Moving/rightSheet.png");
+		}
+
+		scale(1.3, 1.3);
+	}
+	else if (race == ELF)//if the player is an elf
+	{
+		if (gender == MALE)//if the player is male
+		{
+			std::cout << "Asserting race = elf AND gender = male." << std::endl;
+			assert(race == ELF && gender == MALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Elf/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Elf/Male/Moving/rightSheet.png");
+		}
+		else// if (gender == FEMALE)//if the player is a female
+		{
+			std::cout << "Asserting race = elf AND gender = female." << std::endl;
+			assert(race == ELF && gender == FEMALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Elf/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Elf/Female/Moving/rightSheet.png");
+		}
+
+		scale(1.3, 1.4);
+	}
+	else if (race == Dwarf)//if the player is a dwarf
+	{
+		if (gender == MALE)//if the player is male
+		{
+			std::cout << "Asserting race = dwarf AND gender = male." << std::endl;
+			assert(race == Dwarf && gender == MALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Dwarf/Male/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Male/Moving/rightSheet.png");
+		}
+		else// if (gender == FEMALE)//if the player is female
+		{
+			std::cout << "Asserting race = dwarf AND gender = female." << std::endl;
+			assert(race == Dwarf && gender == FEMALE);
+			std::cout << "Assert successful." << std::endl;
+
+			upIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/upIdle.png");
+			downIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/downIdle.png");
+			leftIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/leftIdle.png");
+			rightIdleTexture.loadFromFile("Assets/Player/Dwarf/Female/Idle/rightIdle.png");
+
+			upWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/upSheet.png");
+			downWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/downSheet.png");
+			leftWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/leftSheet.png");
+			rightWalkTexture.loadFromFile("Assets/Player/Dwarf/Female/Moving/rightSheet.png");
+		}
+
+		scale(2, 2.1);
+	}
+
+	framePosition = sf::Vector2i(0, 0);
+
+	setTexture(downIdleTexture);
+	setOrigin(downIdleTexture.getSize().x / 2, downIdleTexture.getSize().y / 2);
+
+	//set up player's minimap icon
+	if (minimapTexture.loadFromFile("Assets/Player/minimapIcon/playerMinimapIcon2.png")) {}
+	else minimapTexture.loadFromFile("Assets/Debug.png");	//if it fails load placeholder
+	minimapSprite.setTexture(minimapTexture);
+	minimapSprite.setOrigin(minimapTexture.getSize().x / 2, minimapTexture.getSize().y / 2);
+}
+
 void Player::Move(int newDir)
 {
 	currentDirection = newDir;

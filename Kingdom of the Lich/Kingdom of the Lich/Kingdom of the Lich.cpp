@@ -134,6 +134,44 @@ int main()
 	areaShops[LellesQualityMerchandise] = LellesQualityMerchandiseStock;
 	areaShops[TheDrunkenDragonInn] = DrunkenDragonInnMerchandiseStock;
 
+	//Player is created here(race,gender and maybe class will be set later)
+	Player* p = new Player(font);
+
+	/*define test cases for unit testing lab*/
+	std::vector<sf::Vector2i> testCases;
+	int currentTestCase = 0;
+
+	sf::Vector2i testCase1 = sf::Vector2i(0, 0);//human, male
+	testCases.push_back(testCase1);
+
+	sf::Vector2i testCase2 = sf::Vector2i(0, 1);//human, female
+	testCases.push_back(testCase2);
+
+	sf::Vector2i testCase3 = sf::Vector2i(1, 0);//elf, male
+	testCases.push_back(testCase3);
+
+	sf::Vector2i testCase4 = sf::Vector2i(1, 1);//elf, female
+	testCases.push_back(testCase4);
+
+	sf::Vector2i testCase5 = sf::Vector2i(2, 0);//dwarf, male
+	testCases.push_back(testCase5);
+
+	sf::Vector2i testCase6 = sf::Vector2i(2, 1);//dwarf, female
+	testCases.push_back(testCase6);
+
+	std::cout << "**************************" << std::endl;
+
+	while (currentTestCase < 6)
+	{
+		std::cout << "Running test case " << (currentTestCase + 1) << std::endl;
+		p->SetTexturesTesting(testCases.at(currentTestCase));
+		currentTestCase += 1;
+	}
+
+	std::cout << "Successfully completed all test cases." << std::endl;
+
+	std::cout << "**************************" << std::endl;
+
 	//std::vector<Pnode*> testNodes;
 	//for (int i = 0; i < 40; i++)
 	//{
@@ -202,8 +240,7 @@ int main()
 	AudioManager::GetInstance()->SetMusicVolume(optionsMenu->GetCurrentMusicVol());
 	AudioManager::GetInstance()->SetSfxVolume(optionsMenu->GetCurrentSfxVol());
 
-	//Player is created here(race,gender and maybe class will be set later)
-	Player* p = new Player(font);
+
 	Hud* hud = new Hud(font, screenW, screenH, sf::Vector2f((0.12f - (1.f*minimap.getSize().x) / window.getSize().x - 0.002f)+17, (0.14f - (1.f*minimap.getSize().y) / window.getSize().y - 0.004f)+20), sf::Vector2f(minimap.getSize().x/2.7, minimap.getSize().y/2.55));
 
 	AchievementTracker* achievementTracker = new AchievementTracker(p, font, screenW, screenH, AudioManager::GetInstance());
