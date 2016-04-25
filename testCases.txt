@@ -1,0 +1,8 @@
+test case 1: (0,0)//human, male
+test case 2: (0,1)//human, female
+
+test case 3: (1,0)//elf, male
+test case 4: (1,1)//elf, female
+
+test case 5: (2,0)//dwarf, male
+test case 6: (2,1)//dwarf, female
